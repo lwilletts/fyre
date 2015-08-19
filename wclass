@@ -1,0 +1,18 @@
+#!/bin/sh
+# File        : /home/wildefyr/fyre/wclass
+# Maintainer  : Wildefyr | http://wildefyr.net
+# Copyright   : Wildefyr | Licensed under the WTFPL license.
+# Description : Find information about the current window
+
+source fyrerc
+
+case $1 in
+    c|class)
+        xprop -id $2 WM_CLASS | cut -f 2 -d \"
+        ;;
+    p|process)
+        ps -o command $(xprop -id $2 _NET_WM_PID | awk '{print $NF}') | sed '1d'
+        ;;
+    *)
+        cat $0
+esac

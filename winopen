@@ -1,0 +1,20 @@
+#!/bin/sh
+#
+# File        : /home/wildefyr/fyre/winopen
+# Maintainer  : Wildefyr | http://wildefyr.net
+# Copyright   : Wildefyr | Licensed under the WTFPL license.
+# Description : Do stuff when a new window is opened.
+
+source fyrerc
+
+# Check for specific instances of programs, if they exist, do stuff!
+if [ $(wclass c) = "urxvtc" ]; then
+    chwso -r $(pfw) # Order windows correctly
+    focus prev; tile # Jump to new window, then tile.
+fi
+
+special=$(wclass $(pfw) | awk '{print $NF}')
+echo $special
+#echo $special > file
+#if [[ $(wname $1 == *"mpv"*) ]]; then tile; fi
+#if [[ $(wname $1 == *"feh"*) ]]; then tile; fi

@@ -1,0 +1,50 @@
+#!/bin/sh
+#
+# File       : /home/wildefyr/fyre/detection
+# Maintainer : Wildefyr | http://wildefyr.net
+# Copyright  : Wildefyr | Licensed under the WTFPL license.
+
+source fyrerc
+
+#mpv
+for i in $(seq $windowsOnscreen); do
+    wid=$(lsw | head -n $i | tail -1)
+    if [[ $(wclass c $wid) == "vdpau" ]]; then
+        mpvWid=$wid
+    fi
+done
+
+#feh
+for i in $(seq $windowsOnscreen); do
+    wid=$(lsw | head -n $i | tail -1)
+    if [[ $(wclass c $wid) == "feh" ]]; then
+        printf '%s\n' $wid >> $DETECT
+    fi
+done
+
+#firefox
+for i in $(seq $windowsOnscreen); do
+    wid=$(lsw | head -n $i | tail -1)
+    if [[ $(wclass p $wid) == "firefox" ]]; then
+        printf '%s\n' $wid >> $DETECT
+    fi
+done
+
+#thingmenu
+for i in $(seq $windowsOnscreen); do
+    wid=$(lsw | head -n $i | tail -1)
+    if [[ $(wclass c $wid) == "thingmenu" ]]; then
+        printf '%s\n' $wid >> $DETECT
+    fi
+done
+
+#urxvt
+for i in $(seq $windowsOnscreen); do
+    wid=$(lsw | head -n $i | tail -1)
+    if [[ $(wclass c $wid) == "urxvt" ]]; then
+        # If wid is not in file, add it to the file
+        if [[ $(grep -Fx $wid $DETECT) != "$wid" ]]; then
+            printf '%s\n' $wid >> $DETECT
+        fi
+    fi
+done

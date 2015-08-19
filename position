@@ -1,0 +1,82 @@
+#!/bin/sh
+
+# File            : /home/wildefyr/fyre/position
+# Maintainer      : Wildefyr | http://wildefyr.net
+# Copyright       : Wildefyr | Licensed under the WTFPL license.
+# Depends On      : wmutils
+# Original Author : z3bra
+# Description     : Positions Windows
+
+source fyrerc
+
+case $1 in
+    rht)
+        SW=$((SW - 2*XGAP - BW))
+        W=$((SW/2 - IGAP/2))
+        H=$((SH - TGAP - BGAP - BW))
+        ;;
+    rhtext)
+        windows=$((maxHorizontalWindows - 1))
+        W=$((windows * TermW + (windows - 1) * IGAP))
+        H=$((SH - TGAP - BGAP - BW))
+        ;;
+    lft)
+        SW=$((SW - 2*XGAP - BW))
+        W=$((SW/2 - IGAP/2))
+        X=$((W + XGAP + IGAP))
+        H=$((SH - TGAP - BGAP - BW))
+        ;;
+    lftext)
+        windows=$((maxHorizontalWindows - 1))
+        X=$((TermW + XGAP + IGAP))
+        W=$((windows * TermW + (windows - 1) * IGAP))
+        H=$((SH - TGAP - BGAP - BW))
+        ;;
+    ext)
+        X=$(wattr x $PFW)
+        H=$((SH - TGAP - BGAP - BW))
+        ;;
+    res)
+        X=$(wattr x $PFW); Y=$(wattr y $PFW)
+        W=$TermW; H=$TermH
+        ;;
+    norm)
+        W=$TermW; H=$TermH
+        ;;
+    full)
+        SW=$((SW - 2*XGAP - 2*BW))
+        SH=$((SH - TGAP - BGAP - 2*BW))
+        W=$SW; H=$SH
+        ;;
+    tl)
+        #something happened.
+        ;;
+    tr)
+        X=$((SW - W - XGAP - BW*2))
+        ;;
+    bl)
+        Y=$((SH - H - BGAP))
+        ;;
+    br)
+        X=$((SW - W - XGAP - BW*2))
+        Y=$((SH - H - BGAP))
+        ;;
+    md)
+        X=$((SW/2 - W/2 - BW))
+        Y=$((SH/2 - H/2 - BW))
+        ;;
+    mid)
+        X=$((SW/2 - W/2 - BW))
+        Y=$((SH/2 - H/2 - BW))
+        W=$((2*TermW)); H=$((2*TermH))
+        ;;
+esac
+
+case $2 in
+    0x*)
+        CUR=$2
+        ;;
+esac
+
+focus $CUR
+wtp $X $Y $W $H $CUR

@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+# File        : /home/wildefyr/.fyre/scripts/winkill
+# Maintainer  : Wildefyr | http://wildefyr.net
+# Copyright   : Wildefyr | Licensed under the WTFPL license.
+# Description : Perform checks and tasks when killing a window.
+
+source fyrerc
+
+# Check if window is a urxvtc instance, else use killw normally.
+# TODO: Find way of killing urxvtc window without killing the daemon.
+
+if [ $(wclass c $(pfw)) = "urxvtc" ]; then
+    exit
+else
+    sed -i "/$(pfw)/d" $DETECT
+fi
+
+killw $(pfw); bgc

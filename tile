@@ -1,0 +1,167 @@
+#!/bin/sh
+#
+# File        : /home/wildefyr/fyre/tiling
+# Maintainer  : Wildefyr | http://wildefyr.net
+# Copyright   : Wildefyr | Licensed under the WTFPL license.
+# Depends on  : wmutils
+# Inspired by : tile by z3bra, grid by Greduan
+# Description : Tile windows horizontally until limit, then tile vertically.
+
+source fyrerc
+source detection
+
+usage() {
+    printf '%s\n' "Usage: $(basename $0)"
+    exit 1
+}
+
+ignore() {
+    cat $DETECT > $WLFILETEMP
+    lsw >> $WLFILETEMP
+}
+
+horizontalTile() {
+    ignore
+    sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
+    awk '{print $2}' > $WLFILE
+
+    COLS=$(cat $WLFILE | wc -l)
+    W=$(((SW - (COLS - 1)*IGAP)/COLS))
+    H=$SH
+
+    for c in $(seq $COLS); do
+        if [ $c -eq 3 ]; then X=$((X + 1)); fi
+        wtp $X $Y $W $H $(head -n $c $WLFILE | tail -1)
+        X=$((X + W + IGAP))
+    done
+}
+
+horiVerticalTile() {
+    ignore
+    sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
+    awk '{print $2}' > $WLFILE
+
+    cat $WLFILE | sed '3q' > $WLFILETEMP
+
+    # Calculate correct window size even with inside gap.
+    COLS=4
+    W=$(((SW - (COLS - 1)*IGAP)/COLS))
+    H=$SH
+
+    for c in $(seq $((COLS - 1))); do
+        wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
+        X=$((X + W + IGAP))
+    done
+
+    # Sort remaining windows vertically to the side.
+    sed -i '1,3d' $WLFILE
+    # Allow move to reorder vertical windows
+    cat $WLFILE | xargs wattr yi | sort -n | awk '{print $2}' > $WLFILETEMP
+
+    ROWS=$(cat $WLFILETEMP | wc -l)
+
+    # Calculate correct window size even with inside gap.
+    H=$(((SH - (ROWS - 1)*IGAP)/ROWS))
+
+    for c in $(seq $ROWS); do
+        wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
+        Y=$((Y + H + IGAP))
+    done
+}
+
+largeTile() {
+    if [ $windowsOnscreen -eq 2 ]; then
+        ignore
+        printf '%s\n' $mpvWid >> $WLFILETEMP
+
+        sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
+        awk '{print $2}' > $WLFILE
+
+        URXVTWIN=$(cat $WLFILE | grep -v $mpvWid)
+
+        W=$TermW; H=$SH
+
+        wtp $X $Y $W $H $URXVTWIN
+
+        windows=$((maxHorizontalWindows - 1))
+        X=$((TermW + XGAP + IGAP))
+        W=$((windows * TermW + (windows - 1) * IGAP))
+
+        wtp $X $Y $W $H $mpvWid
+
+    else
+        position full $mpvWid
+    fi
+}
+
+quadrantTile() {
+    ignore
+    printf '%s\n' $mpvWid >> $WLFILETEMP
+
+    sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
+    awk '{print $2}' > $WLFILE
+
+    if [ $windowsOnscreen -eq 3 ]; then
+        cat $WLFILE | sed '1q' > $WLFILETEMP
+        EXTRA=$IGAP
+    else
+        cat $WLFILE | sed '2q' > $WLFILETEMP
+    fi
+
+    COLS=$(cat $WLFILETEMP | wc -l)
+    W=$(((SW - IGAP)/(COLS*2) - IGAP/COLS + EXTRA))
+    H=$SH
+
+    for c in $(seq $COLS); do
+        wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
+        X=$((X + W + IGAP))
+    done
+
+    if [ $windowsOnscreen -eq 3 ]; then
+        cat $WLFILE | sed '1d' > $WLFILETEMP
+    else
+        cat $WLFILE | sed '1,2d' > $WLFILETEMP
+    fi
+
+    COLS=$(cat $WLFILETEMP | wc -l)
+    if [ $COLS -eq 1 ]; then EXTRA=$((IGAP)); else EXTRA=0; fi
+    Y=$(((SH + IGAP)/2 + TGAP + 2*BW))
+    W=$(((SW - IGAP)/(COLS*2) - IGAP/COLS + EXTRA))
+    H=$(((SH - IGAP)/2 - BW))
+
+    for c in $(seq $COLS); do
+        wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
+        X=$((X + W + IGAP))
+    done
+
+    # Make these perfect for 16:9 viewing at top left
+    X=$(((SW - IGAP)/2 + IGAP + XGAP))
+    Y=$TGAP
+#    Y=$(((SH - IGAP)/2 + TGAP - BW))
+    W=$(((SW - IGAP)/2 + 2*BW))
+    H=$(((SH - IGAP)/2 + 2*BW))
+
+    wtp $X $Y $W $H $mpvWid
+}
+
+main() {
+    # Calculate usable screen size (without borders and gaps)
+    SW=$((SW - 2*XGAP - BW))
+    SH=$((SH - TGAP - BGAP - BW))
+
+    if [ ! -z $mpvWid ]; then
+        if [ $windowsOnscreen -eq 2 ]; then
+            largeTile
+        else
+            quadrantTile
+        fi
+    else
+        if [ $windowsOnscreen -le $maxHorizontalWindows ]; then
+            horizontalTile
+        else
+            horiVerticalTile
+        fi
+    fi
+}
+
+main
