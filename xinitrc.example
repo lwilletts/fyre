@@ -1,1 +1,18 @@
-/home/wildefyr/wildconfig/visuals/xinitrc
+#!/bin/sh
+
+xSettings() {
+    xsetroot -name background # Set 'Root' Window.
+    xsetroot -cursor_name left_ptr # Name your pet cursor!
+
+    bgc # Set background
+    mainbar &! # Setup lemonbar
+    xrdb -load ~/.Xresources
+    compton -b --config ~/.compton.conf
+
+    ~/scripts/bindkeys poker
+    sxhkd -c ~/wildconfig/sxhkdc/sxhkdc &!
+    wew | yawee &
+    exec xwait
+}
+
+xSettings
