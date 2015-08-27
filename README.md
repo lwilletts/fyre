@@ -32,6 +32,20 @@ you need). Configuration for these can be found in my
 [dotfiles](https://github.com/Wildefyr/wildconfig) and
 [script](https://github.com/Wildefyr/scripts) repositories.
 
+Known Issues
+------------
+
+No piece of software is perfect:
+
+- Closing a program via it's inbuilt means (I.e. <C-d> in your terminal
+emulator) while in fullscreen mode, means that temp files are left undeleted. 
+Run 'fullscreen' once to delete the temporary files and again to place a new
+window in fullscreen.
+- Having two windows that are both in $DETECT somehow makes one of them
+(Probably the second one by order of what's in 'detection') to become tiled.
+- Having two instances of mpv causes the second one to be treated as a urxvtc
+window, becoming tiled.
+
 Shameless Plug
 --------------
 

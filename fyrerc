@@ -18,11 +18,11 @@ W=$(wattr w $CUR)
 H=$(wattr h $CUR)
 
 BW=${BW:-1}                    # border width
-ACTIVE=${ACTIVE:-0xB52E2F}     # active border color
-INACTIVE=${INACTIVE:-0x000000} # inactive border color
+ACTIVE=${ACTIVE:-0x2E8B57}     # active border color
+INACTIVE=${INACTIVE:-0x181818} # inactive border color
 
 X=20
-Y=30
+Y=20
 TermW=462
 TermH=260
 

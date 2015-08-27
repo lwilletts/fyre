@@ -13,24 +13,26 @@ while IFS=: read ev wid; do
     case $ev in
         # entering window
         7)
-            wattr o $wid || focus $wid
+            if ! wattr o $wid; then
+                focus $wid
+            fi
             ;;
         # window creation
         16)
             if ! wattr o $wid; then
-                if [ $windowsOnscreen -gt 4 ]; then
-                    position br $wid
-                else
-                    position norm $wid
+                position tl $wid
+                if [ ! -e $FULLSCRN ]; then
+                    tile
                 fi
-                if [ ! -e $FULLSCRN ]; then tile; fi
             fi
             ;;
         # window unmap
         18)
             if ! wattr o $wid; then
+
                 focus prev 2>/dev/null
-                # Tile only on window deletion and not window unfocus (i.e. groups)
+
+                # Don't tile when window is still in unmarked list.
                 for i in $(seq $(lsw -u | wc -l)); do
                     current=$(lsw -u | head -n $i | tail -1)
                     if [[ $wid == $current ]]; then
@@ -45,14 +47,19 @@ while IFS=: read ev wid; do
                         tileFlag=0
                     fi
                 done
+
                 if [ $tileFlag -eq 0 ]; then
                     tile
                 fi
+
             fi
             ;;
         # mapping requests
         19)
-            wattr o $wid && chwb -s 1 -c 0x000000 $wid || focus $wid
+            if ! wattr o $wid; then
+                chwb -s 1 -c $INACTIVE $wid
+                focus $wid
+            fi
             ;;
     esac
 done

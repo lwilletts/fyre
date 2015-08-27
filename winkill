@@ -16,4 +16,9 @@ else
     sed -i "/$(pfw)/d" $DETECT
 fi
 
+# Incase we close the fullscreen window while in fullscreen
+if [ -e $FSFILE ]; then
+    rm $FSFILE; rm $FULLSCRN
+fi
+
 killw $(pfw); bgc

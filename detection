@@ -1,50 +1,52 @@
 #!/bin/sh
 #
-# File       : /home/wildefyr/fyre/detection
-# Maintainer : Wildefyr | http://wildefyr.net
-# Copyright  : Wildefyr | Licensed under the WTFPL license.
+# File        : /home/wildefyr/fyre/detection
+# Maintainer  : Wildefyr | http://wildefyr.net
+# Copyright   : Wildefyr | Licensed under the WTFPL license.
+# Description : Find special windows and add them to an ignore list.
+
+# I recommend if you to have these windows in any other position / tile
+# automatically, you add the command specially under it's if statement, for
+# example, look at what I want it to do for teamspeak if it is visible.
 
 source fyrerc
 
-#mpv
 for i in $(seq $windowsOnscreen); do
     wid=$(lsw | head -n $i | tail -1)
+
+    #mpv
     if [[ $(wclass c $wid) == "vdpau" ]]; then
         mpvWid=$wid
     fi
-done
 
-#feh
-for i in $(seq $windowsOnscreen); do
-    wid=$(lsw | head -n $i | tail -1)
+    #feh
     if [[ $(wclass c $wid) == "feh" ]]; then
         printf '%s\n' $wid >> $DETECT
     fi
-done
 
-#firefox
-for i in $(seq $windowsOnscreen); do
-    wid=$(lsw | head -n $i | tail -1)
+    #firefox
     if [[ $(wclass p $wid) == "firefox" ]]; then
         printf '%s\n' $wid >> $DETECT
     fi
-done
 
-#thingmenu
-for i in $(seq $windowsOnscreen); do
-    wid=$(lsw | head -n $i | tail -1)
-    if [[ $(wclass c $wid) == "thingmenu" ]]; then
+    #teamspeak
+    if [[ $(wclass c $wid) == "ts3client_linux_amd64" ]]; then
         printf '%s\n' $wid >> $DETECT
     fi
-done
 
-#urxvt
-for i in $(seq $windowsOnscreen); do
-    wid=$(lsw | head -n $i | tail -1)
+    #urxvt
     if [[ $(wclass c $wid) == "urxvt" ]]; then
         # If wid is not in file, add it to the file
         if [[ $(grep -Fx $wid $DETECT) != "$wid" ]]; then
             printf '%s\n' $wid >> $DETECT
         fi
+    fi
+
+    #blizzard
+    if [[ $(wclass c $wid) == "Battle.net.exe" ]]; then
+        printf '%s\n' $wid >> $DETECT
+    fi
+    if [[ $(wclass c $wid) == "Hearthstone.exe" ]]; then
+        printf '%s\n' $wid >> $DETECT
     fi
 done

@@ -34,6 +34,8 @@ mod4 + shift + {a,s,w,d}
 # Automatic tiling for visible windows.
 mod1 + t
     tile
+mod4 + t
+    detection
 mod1 + p
     pretty
 
@@ -45,9 +47,9 @@ mod1 + shift + f
 
 # Window Stacking Order
 mod1 + u
-    chwso -i $(pfw); closest h
+    chwso -l $(pfw); closest h
 mod1 + i
-    chwso -i $(pfw); closest l
+    chwso -l $(pfw); closest l
 
 # Groups
 mod1 + {1,2,3,4,5}
@@ -65,8 +67,7 @@ mod1 + Return
 mod2 + Return
     urxvt -geometry 89x24 -name 'urxvt'
 mod1 + d
-    dmenu_run -x 20 -y 9 -w 1879 -l 0 -fn Lime -nf '#F92672' -nb '#000000'; focus prev
-    # yawee is glitchly so we have to add a focus prev to return to window.
+    dmenu_run
 
 # It's a killin' time!
 mod1 + shift + q
@@ -93,8 +94,12 @@ mod2 + n
     killall compton
 
 # Uniques
+mod2 + c
+    popup "$(wclass c $(pfw))"
+mod2 + v
+    popup "$(wclass p $(pfw))"
 Print
-    scrot ~/pictures/screenshots/screenshot-$(date +%Y-%m-%d-%H-%M-%S).png
+    scrot
 
 # MPC:
 mod2 + p

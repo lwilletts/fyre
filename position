@@ -40,16 +40,13 @@ case $1 in
         X=$(wattr x $PFW); Y=$(wattr y $PFW)
         W=$TermW; H=$TermH
         ;;
-    norm)
-        W=$TermW; H=$TermH
-        ;;
     full)
         SW=$((SW - 2*XGAP - 2*BW))
         SH=$((SH - TGAP - BGAP - 2*BW))
         W=$SW; H=$SH
         ;;
     tl)
-        #something happened.
+        X=19
         ;;
     tr)
         X=$((SW - W - XGAP - BW*2))
