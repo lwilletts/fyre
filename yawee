@@ -28,30 +28,25 @@ while IFS=: read ev wid; do
             ;;
         # window unmap
         18)
-            if ! wattr o $wid; then
+            wattr $(pfw) || focus prev 2>/dev/null
 
-                focus prev 2>/dev/null
-
-                # Don't tile when window is still in unmarked list.
-                for i in $(seq $(lsw -u | wc -l)); do
-                    current=$(lsw -u | head -n $i | tail -1)
-                    if [[ $wid == $current ]]; then
-                        # Add exceptions here.
-                        if [[ $(wclass c $wid) == "urxvtc" ]]; then
-                            tileFlag=0
-                            break
-                        fi
-                        tileFlag=1
-                        break
-                    else
+            # Don't tile when window is still in unmarked list.
+            for i in $(seq $(lsw -u | wc -l)); do
+                current=$(lsw -u | head -n $i | tail -1)
+                if [[ $wid == $current ]]; then
+                    if [[ $(wclass c $wid) == "urxvtc" ]]; then
                         tileFlag=0
+                        break
                     fi
-                done
-
-                if [ $tileFlag -eq 0 ]; then
-                    tile
+                    tileFlag=1
+                    break
+                else
+                    tileFlag=0
                 fi
+            done
 
+            if [ $tileFlag -eq 0 ]; then
+                tile
             fi
             ;;
         # mapping requests
