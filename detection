@@ -5,9 +5,8 @@
 # Copyright   : Wildefyr | Licensed under the WTFPL license.
 # Description : Find special windows and add them to an ignore list.
 
-# I recommend if you to have these windows in any other position / tile
-# automatically, you add the command specially under it's if statement, for
-# example, look at what I want it to do for teamspeak if it is visible.
+# I recommend if you want to have these windows in any other position or even
+# added to a new group, put it under where it checks it's wid.
 
 source fyrerc
 
@@ -20,26 +19,37 @@ for i in $(seq $windowsOnscreen); do
     fi
 
     #feh
-    if [[ $(wclass c $wid) == "feh" ]]; then
+    if [[ $(wclass c $wid) == *"feh"* ]]; then
         printf '%s\n' $wid >> $DETECT
     fi
 
     #firefox
-    if [[ $(wclass p $wid) == "firefox" ]]; then
+    if [[ $(wclass p $wid) == *"firefox"* ]]; then
         printf '%s\n' $wid >> $DETECT
+
+        if [ ! -e $GROUPSDIR/group.2 ]; then
+            wgroups -s $wid 2
+        fi
     fi
 
     #teamspeak
-    if [[ $(wclass c $wid) == "ts3client_linux_amd64" ]]; then
+    if [[ $(wclass c $wid) == *"ts3"* ]]; then
         printf '%s\n' $wid >> $DETECT
+        position ext $wid; position tr $wid
+
+        if [ ! -e $GROUPSDIR/group.3 ]; then
+            if [[ $(cat $GROUPSDIR/group.3) != $wid ]]; then
+                sed -i 'd' $GROUPSDIR/group.3
+                wgroups -s $wid 3
+                wgroups -u 3
+            fi
+        fi
+
     fi
 
     #urxvt
     if [[ $(wclass c $wid) == "urxvt" ]]; then
-        # If wid is not in file, add it to the file
-        if [[ $(grep -Fx $wid $DETECT) != "$wid" ]]; then
-            printf '%s\n' $wid >> $DETECT
-        fi
+        printf '%s\n' $wid >> $DETECT
     fi
 
     #blizzard

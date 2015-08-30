@@ -2,7 +2,10 @@
 #
 # Copyright (c) 2015 Greduan <me@greduan.com>, licensed under the WTFPL
 # Adds group-like capabilities, sorta like those you find in CWM and such WMs
+
 # With wildefyr's tweaks to make compatible with fyre
+
+source fyrerc
 
 usage() {
     cat << EOF
@@ -24,31 +27,25 @@ EOF
 # test for no arguments
 test $# -eq 0 && usage
 
-if [ ! -d /tmp/fyre/groups ]; then
-    mkdir -p /tmp/fyre/groups
-fi
-
-FSDIR=${FSDIR:-/tmp/fyre/groups}
-
 # define our functions
 
 # clean WID ($1) from group files
 clean_wid() {
     # TODO: make POSIX compatible, -i is a GNU-ism
-    sed -i "/$1/d" $FSDIR/group.*
+    sed -i "/$1/d" $GROUPSDIR/group.*
 }
 
 # cleans group ($1) from (in)active files
 clean_status() {
     # TODO: make POSIX compatible, -i is a GNU-ism
-    sed -i "/$1/d" $FSDIR/active
-    sed -i "/$1/d" $FSDIR/inactive
+    sed -i "/$1/d" $GROUPSDIR/active
+    sed -i "/$1/d" $GROUPSDIR/inactive
 }
 
 # shows all the windows in group ($1)
 map_group() {
     # safety
-    if ! grep -q $1 < $FSDIR/all; then
+    if ! grep -q $1 < $GROUPSDIR/all; then
         echo "Group doesn't exist"
         exit 1
     fi
@@ -56,19 +53,19 @@ map_group() {
     # clean statuses
     clean_status $1
     # add to active
-    echo $1 >> $FSDIR/active
+    echo $1 >> $GROUPSDIR/active
 
     # loop through group and map windows
     while read line; do
         mapw -m $line
-    done < $FSDIR/group.$1
+    done < $GROUPSDIR/group.$1
     tile
 }
 
 # hides all the windows in group ($1)
 unmap_group() {
     # safety
-    if ! grep -q $1 < $FSDIR/all; then
+    if ! grep -q $1 < $GROUPSDIR/all; then
         echo "Group doesn't exist"
         exit 1
     fi
@@ -76,12 +73,12 @@ unmap_group() {
     # clean statuses
     clean_status $1
     # add to inactive
-    echo $1 >> $FSDIR/inactive
+    echo $1 >> $GROUPSDIR/inactive
 
     # loop through group and unmap windows
     while read line; do
         mapw -u $line
-    done < $FSDIR/group.$1
+    done < $GROUPSDIR/group.$1
 }
 
 # assigns WID ($1) to the group ($2)
@@ -91,38 +88,38 @@ set_group() {
     clean_status $2
 
     # insert WID into new group if not already there
-    grep -q $1 < $FSDIR/group.$2 || \
-    echo $1 >> $FSDIR/group.$2
+    grep -q $1 < $GROUPSDIR/group.$2 || \
+    echo $1 >> $GROUPSDIR/group.$2
 
     # if we can't find the group add it to groups and make it active
-    grep -q $2 < $FSDIR/all || \
-    echo $2 >> $FSDIR/all && \
-    echo $2 >> $FSDIR/active
+    grep -q $2 < $GROUPSDIR/all || \
+    echo $2 >> $GROUPSDIR/all && \
+    echo $2 >> $GROUPSDIR/active
 
     # map WID if group is active
-    grep -q $2 < $FSDIR/active && \
+    grep -q $2 < $GROUPSDIR/active && \
     mapw -m $1
 
     # unmap WID if group is inactive
-    grep -q $2 < $FSDIR/inactive && \
+    grep -q $2 < $GROUPSDIR/inactive && \
     mapw -u $1
 }
 
 # toggles visibility state of all the windows in group ($1)
 toggle_group() {
     # safety
-    if ! grep -q $1 < $FSDIR/all; then
+    if ! grep -q $1 < $GROUPSDIR/all; then
         echo "Group doesn't exist"
         return
     fi
 
     # search through active groups first
-    grep -q $1 < $FSDIR/active && \
+    grep -q $1 < $GROUPSDIR/active && \
     unmap_group $1 && \
     return
 
     # search through inactive groups next
-    grep -q $1 < $FSDIR/inactive && \
+    grep -q $1 < $GROUPSDIR/inactive && \
     map_group $1 && \
     return
 }
@@ -133,13 +130,13 @@ toggle_group() {
 cleanup_everything() {
     # clean WIDs that don't exist
     # using `cat` instead of `<` because error suppression
-    cat $FSDIR/group.* 2>/dev/null | while read wid; do
+    cat $GROUPSDIR/group.* 2>/dev/null | while read wid; do
         wattr $wid || \
         clean_wid $wid
     done
 
     # clean group files that are empty
-    for file in $FSDIR/group.*; do
+    for file in $GROUPSDIR/group.*; do
         # is the group empty?
         if [ ! -s $file ]; then
             rm -f $file
@@ -148,23 +145,23 @@ cleanup_everything() {
 
     # remove groups that don't exist from 'all'
     while read line; do
-        if [ ! -f $FSDIR/group.$line ]; then
+        if [ ! -f $GROUPSDIR/group.$line ]; then
             # TODO: make POSIX compatible, -i is a GNU-ism
-            sed -i "/$line/d" $FSDIR/all
+            sed -i "/$line/d" $GROUPSDIR/all
             clean_status $line
         fi
-    done < $FSDIR/all
+    done < $GROUPSDIR/all
 }
 
 # actual run logic (including arguments and such)
 
-# check $FSDIR exists
-test -d $FSDIR || mkdir -p $FSDIR
+# check $GROUPSDIR exists
+test -d $GROUPSDIR || mkdir -p $GROUPSDIR
 
 # touch all the files
-test -f $FSDIR/active || :> $FSDIR/active
-test -f $FSDIR/inactive || :> $FSDIR/inactive
-test -f $FSDIR/all || :> $FSDIR/all
+test -f $GROUPSDIR/active || :> $GROUPSDIR/active
+test -f $GROUPSDIR/inactive || :> $GROUPSDIR/inactive
+test -f $GROUPSDIR/all || :> $GROUPSDIR/all
 
 cleanup_everything
 
@@ -196,7 +193,7 @@ while getopts "hc:Cs:t:m:M:u:U" opt; do
             break
             ;;
         M)
-            for file in $FSDIR/group.*; do
+            for file in $GROUPSDIR/group.*; do
                 group=${file##*.}
                 unmap_group $group
             done
@@ -208,7 +205,7 @@ while getopts "hc:Cs:t:m:M:u:U" opt; do
             break
             ;;
         U)
-            for file in $FSDIR/group.*; do
+            for file in $GROUPSDIR/group.*; do
                 group=${file##*.}
                 unmap_group $group
             done

@@ -5,7 +5,6 @@
 # Copyright   : Wildefyr | Licensed under the WTFPL license.
 # Depends on  : wmutils
 # Inspired by : tile by z3bra, grid by Greduan
-# Description : Tile windows horizontally until limit, then tile vertically.
 
 source fyrerc
 source detection
@@ -88,7 +87,6 @@ largeTile() {
         W=$((windows * TermW + (windows - 1) * IGAP))
 
         wtp $X $Y $W $H $mpvWid
-
     else
         position full $mpvWid
     fi
@@ -150,7 +148,7 @@ main() {
     SH=$((SH - TGAP - BGAP - BW))
 
     if [ ! -z $mpvWid ]; then
-        if [ $windowsOnscreen -eq 2 ]; then
+        if [ $windowsOnscreen -le 2 ]; then
             largeTile
         else
             quadrantTile

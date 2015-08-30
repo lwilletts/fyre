@@ -94,6 +94,8 @@ mod2 + n
     killall compton
 
 # Uniques
+mod2 + x
+    popup "$(echo $(pfw))"
 mod2 + c
     popup "$(wclass c $(pfw))"
 mod2 + v

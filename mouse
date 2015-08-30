@@ -4,8 +4,6 @@
 # Maintainer  : Wildefyr | http://wildefyr.net
 # Copyright   : Wildefyr | Licensed under the WTFPL license.
 # Depends on  : wmutils
-# Description : Disable or Enable the mouse.
-# See also    : focus, focus
 
 case $1 in
     e)

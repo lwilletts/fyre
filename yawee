@@ -11,12 +11,14 @@ source fyrerc
 
 while IFS=: read ev wid; do
     case $ev in
+
         # entering window
         7)
             if ! wattr o $wid; then
                 focus $wid
             fi
             ;;
+
         # window creation
         16)
             if ! wattr o $wid; then
@@ -26,29 +28,34 @@ while IFS=: read ev wid; do
                 fi
             fi
             ;;
+
         # window unmap
         18)
             wattr $(pfw) || focus prev 2>/dev/null
 
             # Don't tile when window is still in unmarked list.
+
+            tileFlag=0
+
             for i in $(seq $(lsw -u | wc -l)); do
                 current=$(lsw -u | head -n $i | tail -1)
                 if [[ $wid == $current ]]; then
                     if [[ $(wclass c $wid) == "urxvtc" ]]; then
-                        tileFlag=0
+                        tileFlag=1
                         break
+                    else
+                        tileFlag=0
                     fi
-                    tileFlag=1
-                    break
                 else
-                    tileFlag=0
+                    tileFlag=1
                 fi
             done
 
-            if [ $tileFlag -eq 0 ]; then
+            if [ $tileFlag = 1 ]; then
                 tile
             fi
             ;;
+
         # mapping requests
         19)
             if ! wattr o $wid; then
@@ -56,5 +63,6 @@ while IFS=: read ev wid; do
                 focus $wid
             fi
             ;;
+
     esac
 done

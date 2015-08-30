@@ -2,7 +2,6 @@
 # File        : /home/wildefyr/fyre/wclass
 # Maintainer  : Wildefyr | http://wildefyr.net
 # Copyright   : Wildefyr | Licensed under the WTFPL license.
-# Description : Find information about the current window
 
 source fyrerc
 

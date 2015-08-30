@@ -9,6 +9,7 @@ source fyrerc
 case $1 in
     h|left)
         X=$(wattr x $PFW)
+        Y=$(wattr y $PFW)
         X=$((X - W - IGAP - 2*BW))
         if [ $X -lt 0 ]; then
             X=$(wattr x $PFW)
@@ -29,6 +30,7 @@ case $1 in
         ;;
     l|right)
         X=$(wattr x $PFW)
+        Y=$(wattr y $PFW)
         X=$((X + W + IGAP + BW))
         if [ $X -gt $SW ]; then
             X=$(wattr x $PFW)

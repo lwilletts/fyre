@@ -3,11 +3,8 @@
 # File        : /home/wildefyr/.fyre/fyrerc
 # Maintainer  : Wildefyr | http://wildefyr.net
 # Copyright   : Wildefyr | Licensed under the WTFPL license.
-# Description : Use this file to set global variables for our script, meaning
-# we only have to modify them in this file only.
 
 # Global variables
-
 ROOT=$(lsw -r)
 SW=$(wattr w $ROOT)
 SH=$(wattr h $ROOT)
@@ -35,9 +32,11 @@ windowsOnscreen=$(lsw | wc -l)
 maxHorizontalWindows=4
 
 # Global Files
-if [ ! -d /tmp/fyre ]; then
-    mkdir /tmp/fyre/
+if [ ! -d /tmp/fyre/groups ]; then
+    mkdir -p /tmp/fyre/groups
 fi
+
+GROUPSDIR=${GROUPSDIR:-/tmp/fyre/groups}
 
 FSFILE=${FSFILE:-/tmp/fyre/fullinfo}
 FULLSCRN=${FULLSCRN:-/tmp/fyre/fullscrn}
