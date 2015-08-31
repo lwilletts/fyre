@@ -23,9 +23,9 @@ while IFS=: read ev wid; do
         16)
             if ! wattr o $wid; then
                 position tl $wid
-                if [ ! -e $FULLSCRN ]; then
-                    tile
-                fi
+                # if [ ! -e $FULLSCRN ]; then
+                #     tile
+                # fi
             fi
             ;;
 

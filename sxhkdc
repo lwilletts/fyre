@@ -63,9 +63,9 @@ mod4 + c
 
 # Programs:
 mod1 + Return
-    urxvtc -geometry 89x24 -name 'urxvtc'
+    urxvtc -geometry 89x24 -name 'urxvtc'; tile
 mod2 + Return
-    urxvt -geometry 89x24 -name 'urxvt'
+    urxvt -geometry 89x24 -name 'urxvt'; tile
 mod1 + d
     dmenu_run
 

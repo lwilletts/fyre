@@ -136,8 +136,8 @@ quadrantTile() {
     X=$(((SW - IGAP)/2 + IGAP + XGAP))
     Y=$TGAP
 #    Y=$(((SH - IGAP)/2 + TGAP - BW))
-    W=$(((SW - IGAP)/2 + 2*BW))
-    H=$(((SH - IGAP)/2 + 2*BW))
+    W=$(((SW - IGAP)/2 + BW))
+    H=$(((SH - IGAP)/2))
 
     wtp $X $Y $W $H $mpvWid
 }
