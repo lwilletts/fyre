@@ -36,23 +36,25 @@ case $1 in
         SH=$((SH - TGAP - BGAP - 2*BW))
         W=$SW; H=$SH
         ;;
-    rht)
-        SW=$((SW - 2*XGAP - BW))
-        W=$((SW/2 - IGAP/2))
-        H=$((SH - TGAP - BGAP - BW))
-        ;;
-    rhtext)
-        windows=$((maxHorizontalWindows - 1))
-        W=$((windows * TermW + (windows - 1) * IGAP))
-        H=$((SH - TGAP - BGAP - BW))
-        ;;
     lft)
+        X=19
+        SW=$((SW - 2*XGAP - BW))
+        W=$((SW/2 - IGAP/2 + BW))
+        H=$((SH - TGAP - BGAP - BW))
+        ;;
+    lftext)
+        X=19
+        windows=$((maxHorizontalWindows - 1))
+        W=$((windows * TermW + (windows - 1) * IGAP + BW))
+        H=$((SH - TGAP - BGAP - BW))
+        ;;
+    rht)
         SW=$((SW - 2*XGAP - BW))
         W=$((SW/2 - IGAP/2))
         X=$((W + XGAP + IGAP))
         H=$((SH - TGAP - BGAP - BW))
         ;;
-    lftext)
+    rhtext)
         windows=$((maxHorizontalWindows - 1))
         X=$((TermW + XGAP + IGAP))
         W=$((windows * TermW + (windows - 1) * IGAP))

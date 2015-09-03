@@ -99,7 +99,7 @@ quadrantTile() {
     sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
     awk '{print $2}' > $WLFILE
 
-    if [ $windowsOnscreen -eq 3 ]; then
+    if [ $windowsOnscreen -le 3 ]; then
         cat $WLFILE | sed '1q' > $WLFILETEMP
         EXTRA=$IGAP
     else
@@ -115,7 +115,7 @@ quadrantTile() {
         X=$((X + W + IGAP))
     done
 
-    if [ $windowsOnscreen -eq 3 ]; then
+    if [ $windowsOnscreen -le 3 ]; then
         cat $WLFILE | sed '1d' > $WLFILETEMP
     else
         cat $WLFILE | sed '1,2d' > $WLFILETEMP

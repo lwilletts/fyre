@@ -17,9 +17,9 @@ mod1 + shift + {h,j,k,l}
 
 # Manual Window Management
 mod1 + {q,w,e,r,a,s}
-    position {rht,rhtext,lftext,lft,ext,res} $(pfw)
-mod1 + {y,o,g,b,n}
-    position {tl,tr,md,bl,br} ${pfw}
+    position {lft,lftext,rht,rhtext,ext,res} $(pfw)
+mod1 + {y,o,g,b,n,m}
+    position {tl,tr,md,bl,br,mid} ${pfw}
 mod4 + {h,j,k,l}
     wmv {-40 0,0 +40, 0 -40, +40 0} $(pfw)
 mod4 + shift + {h,j,k,l}
@@ -68,6 +68,8 @@ mod2 + Return
     urxvt -geometry 89x24 -name 'urxvt'; tile
 mod1 + d
     dmenu_run
+mod2 + v
+    urxvt -geometry 89x24 -e zsh -c "vol"
 
 # It's a killin' time!
 mod1 + shift + q

@@ -23,8 +23,10 @@ while IFS=: read ev wid; do
         16)
             if ! wattr o $wid; then
                 position tl $wid
-                # if [ ! -e $FULLSCRN ]; then
-                #     tile
+
+                # detection
+                # if [ -z $mpvWid ]; then
+                #     if [ ! -e $FULLSCRN ]; then tile; fi
                 # fi
             fi
             ;;
@@ -33,10 +35,7 @@ while IFS=: read ev wid; do
         18)
             wattr $(pfw) || focus prev 2>/dev/null
 
-            # Don't tile when window is still in unmarked list.
-
-            tileFlag=0
-
+            # Don't tile when window is in unmarked list.
             for i in $(seq $(lsw -u | wc -l)); do
                 current=$(lsw -u | head -n $i | tail -1)
                 if [[ $wid == $current ]]; then

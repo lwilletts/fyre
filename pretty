@@ -1,0 +1,41 @@
+#!/bin/sh
+#
+# File        : /home/wildefyr/fyre/tiling
+# Maintainer  : Wildefyr | http://wildefyr.net
+# Copyright   : Wildefyr | Licensed under the WTFPL license.
+# Depends on  : wmutils
+# Inspired by : tile by z3bra, grid by Greduan
+
+source fyrerc
+
+usage() {
+    printf '%s\n' "Usage: $(basename $0)"
+    exit 1
+}
+
+ignore() {
+    cat $DETECT > $WLFILETEMP
+    lsw >> $WLFILETEMP
+}
+
+prettyTile() {
+    ignore
+
+    sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
+    awk '{print $2}' > $WLFILE
+
+    SW=$(())
+    SH=$(())
+
+}
+
+main() {
+    if [ ! -z $mpvWid ]; then
+        exit
+    else
+        detection
+        prettyTile
+    fi
+}
+
+main

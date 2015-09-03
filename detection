@@ -16,6 +16,8 @@ for i in $(seq $windowsOnscreen); do
     #mpv
     if [[ $(wclass c $wid) == "vdpau" ]]; then
         mpvWid=$wid
+    elif [[ $(wclass c $wid) == "xv" ]]; then
+        mpvWid=$wid
     fi
 
     #feh
@@ -35,7 +37,6 @@ for i in $(seq $windowsOnscreen); do
     #teamspeak
     if [[ $(wclass c $wid) == *"ts3"* ]]; then
         printf '%s\n' $wid >> $DETECT
-        position ext $wid; position tr $wid
 
         if [ ! -e $GROUPSDIR/group.3 ]; then
             if [[ $(cat $GROUPSDIR/group.3) != $wid ]]; then
@@ -45,6 +46,7 @@ for i in $(seq $windowsOnscreen); do
             fi
         fi
 
+        position ext $wid; position tr $wid
     fi
 
     #urxvt
