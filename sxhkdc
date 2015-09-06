@@ -65,7 +65,7 @@ mod4 + c
 mod1 + Return
     urxvtc -geometry 89x24 -name 'urxvtc'; tile
 mod2 + Return
-    urxvt -geometry 89x24 -name 'urxvt'; tile
+    urxvt -geometry 89x24 -name 'urxvt'
 mod1 + d
     dmenu_run
 mod2 + v

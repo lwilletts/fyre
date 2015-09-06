@@ -29,7 +29,6 @@ horizontalTile() {
     H=$SH
 
     for c in $(seq $COLS); do
-        if [ $c -eq 3 ]; then X=$((X + 1)); fi
         wtp $X $Y $W $H $(head -n $c $WLFILE | tail -1)
         X=$((X + W + IGAP))
     done
