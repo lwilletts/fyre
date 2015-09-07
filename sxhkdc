@@ -100,7 +100,7 @@ mod2 + x
     popup "$(echo $(pfw))"
 mod2 + c
     popup "$(wclass c $(pfw))"
-mod2 + v
+mod2 + b
     popup "$(wclass p $(pfw))"
 Print
     scrot

@@ -12,6 +12,16 @@ case $1 in
     p|process)
         ps -o command $(xprop -id $2 _NET_WM_PID | awk '{print $NF}') | sed '1d'
         ;;
+    ca|classAll)
+        for i in $(seq $(lsw | wc -l)); do
+            wclass c $(lsw | head -n $i | tail -1)
+        done
+        ;;
+    pa|processAll)
+        for i in $(seq $(lsw | wc -l)); do
+            wclass p $(lsw | head -n $i | tail -1)
+        done
+        ;;
     *)
         cat $0
 esac

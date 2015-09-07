@@ -10,24 +10,33 @@
 
 source fyrerc
 
+fehCounter=0
+ts3Counter=0
+steamCounter=0
+battlenetCounter=0
+
 for i in $(seq $windowsOnscreen); do
     wid=$(lsw | head -n $i | tail -1)
 
     #mpv
     if [[ $(wclass c $wid) == "vdpau" ]]; then
         mpvWid=$wid
+        mpvCounter=1
     elif [[ $(wclass c $wid) == "xv" ]]; then
         mpvWid=$wid
+        mpvCounter=1
     fi
 
     #feh
     if [[ $(wclass c $wid) == *"feh"* ]]; then
         printf '%s\n' $wid >> $DETECT
+        fehCounter=$((fehCounter + 1))
     fi
 
     #firefox
     if [[ $(wclass p $wid) == *"firefox"* ]]; then
         printf '%s\n' $wid >> $DETECT
+        firefoxCounter=1
 
         if [ ! -e $GROUPSDIR/group.2 ]; then
             wgroups -s $wid 2
@@ -37,6 +46,7 @@ for i in $(seq $windowsOnscreen); do
     #teamspeak
     if [[ $(wclass c $wid) == *"ts3"* ]]; then
         printf '%s\n' $wid >> $DETECT
+        ts3Counter=$((ts3Counter + 1))
 
         if [ ! -e $GROUPSDIR/group.3 ]; then
             if [[ $(cat $GROUPSDIR/group.3) != $wid ]]; then
@@ -45,20 +55,31 @@ for i in $(seq $windowsOnscreen); do
                 wgroups -u 3
             fi
         fi
+    fi
 
-        position ext $wid; position tr $wid
+    #steam
+    if [[ $(wclass c $wid) == "Steam" ]]; then
+        printf '%s\n' $wid >> $DETECT
+        steamCounter=$((steamCounter + 1))
+    fi
+
+    #blizzard
+    if [[ $(wclass c $wid) == "Battle.net.exe" ]]; then
+        printf '%s\n' $wid >> $DETECT
+        battlenetCounter=$((battlenetCounter + 1))
+    fi
+    if [[ $(wclass c $wid) == "Hearthstone.exe" ]]; then
+        printf '%s\n' $wid >> $DETECT
+        battlenetCounter=$((battlenetCounter + 1))
     fi
 
     #urxvt
     if [[ $(wclass c $wid) == "urxvt" ]]; then
         printf '%s\n' $wid >> $DETECT
     fi
-
-    #blizzard
-    if [[ $(wclass c $wid) == "Battle.net.exe" ]]; then
-        printf '%s\n' $wid >> $DETECT
-    fi
-    if [[ $(wclass c $wid) == "Hearthstone.exe" ]]; then
-        printf '%s\n' $wid >> $DETECT
-    fi
 done
+
+totalDetectList=$((fehCounter + mpvCounter + firefoxCounter + ts3Counter + \
+                   steamCounter + battlenetCounter))
+
+windowsOnscreen=$((windowsOnscreen - totalDetectList))
