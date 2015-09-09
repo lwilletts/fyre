@@ -43,7 +43,7 @@ case $1 in
     lft)
         X=19
         SW=$((SW - 2*XGAP - BW))
-        W=$((SW/2 - IGAP/2))
+        W=$((SW/2 - IGAP/2 + 1))
         H=$((SH - TGAP - BGAP - BW))
         ;;
     lftext)
