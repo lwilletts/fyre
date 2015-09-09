@@ -39,12 +39,9 @@ Known Issues
 
 No piece of software is perfect:
 
-- Closing a program via it's inbuilt means (I.e. <C-d> in your terminal
-emulator) while in fullscreen mode, means that temp files are left undeleted.
-Run 'fullscreen' once to delete the temporary files and again to place a new
-window in fullscreen.
 - Having two instances of mpv causes the second one to be treated as a urxvtc
 window, becoming tiled.
+- The 'detection' script is too slow and could do with being modularised.  
 
 Shameless Plug
 --------------

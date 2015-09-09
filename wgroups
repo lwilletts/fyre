@@ -59,7 +59,8 @@ map_group() {
     while read line; do
         mapw -m $line
     done < $GROUPSDIR/group.$1
-    tile
+
+    #tile
 }
 
 # hides all the windows in group ($1)

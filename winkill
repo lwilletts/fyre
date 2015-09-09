@@ -10,15 +10,14 @@ source fyrerc
 # Check if window is a urxvtc instance, else use killw normally.
 # TODO: Find way of killing urxvtc window without killing the daemon.
 
-if [ $(wclass c $(pfw)) = "urxvtc" ]; then
+if [[ $(cat $TOPWID) == $PFW ]]; then
+    rm $TOPWID
+fi
+
+if [[ $(wclass c $(pfw)) == "urxvtc" ]]; then
     exit
 else
     sed -i "/$(pfw)/d" $DETECT
-fi
-
-# Incase we close the fullscreen window while in fullscreen
-if [ -e $FSFILE ]; then
-    rm $FSFILE; rm $FULLSCRN
 fi
 
 killw $(pfw); bgc

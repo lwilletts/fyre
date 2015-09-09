@@ -13,10 +13,13 @@ source fyrerc
 fehCounter=0
 ts3Counter=0
 steamCounter=0
+urxvtCounter=0
 battlenetCounter=0
 
+lsw > $LSWFILE
+
 for i in $(seq $windowsOnscreen); do
-    wid=$(lsw | head -n $i | tail -1)
+    wid=$(cat $LSWFILE | head -n $i | tail -1)
 
     #mpv
     if [[ $(wclass c $wid) == "vdpau" ]]; then
@@ -76,10 +79,11 @@ for i in $(seq $windowsOnscreen); do
     #urxvt
     if [[ $(wclass c $wid) == "urxvt" ]]; then
         printf '%s\n' $wid >> $DETECT
+        urxvtCounter=$((urxvtCounter + 1))
     fi
 done
 
 totalDetectList=$((fehCounter + mpvCounter + firefoxCounter + ts3Counter + \
-                   steamCounter + battlenetCounter))
+                   steamCounter + battlenetCounter + urxvtCounter))
 
 windowsOnscreen=$((windowsOnscreen - totalDetectList))

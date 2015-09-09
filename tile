@@ -124,7 +124,7 @@ quadrantTile() {
     if [ $COLS -eq 1 ]; then EXTRA=$((IGAP)); else EXTRA=0; fi
     Y=$(((SH + IGAP)/2 + TGAP + 2*BW))
     W=$(((SW - IGAP)/(COLS*2) - IGAP/COLS + EXTRA))
-    H=$(((SH - IGAP)/2 - BW))
+    H=$(((SH - IGAP)/2 - BW*2))
 
     for c in $(seq $COLS); do
         wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
@@ -135,7 +135,7 @@ quadrantTile() {
     X=$(((SW - IGAP)/2 + IGAP + XGAP))
     Y=$TGAP
 #    Y=$(((SH - IGAP)/2 + TGAP - BW))
-    W=$(((SW - IGAP)/2 + BW))
+    W=$(((SW - IGAP)/2))
     H=$(((SH - IGAP)/2))
 
     wtp $X $Y $W $H $mpvWid
@@ -147,7 +147,7 @@ main() {
     SH=$((SH - TGAP - BGAP - BW))
 
     if [ ! -z $mpvWid ]; then
-        if [ $windowsOnscreen -le 2 ]; then
+        if [ $windowsOnscreen -lt 2 ]; then
             largeTile
         else
             quadrantTile

@@ -17,7 +17,7 @@ mod1 + shift + {h,j,k,l}
 
 # Manual Window Management
 mod1 + {q,w,e,r,a,s}
-    position {lft,lftext,rht,rhtext,ext,res} $(pfw)
+    position {lft,lftext,rhtext,rht,ext,res} $(pfw)
 mod1 + {y,o,g,b,n,m}
     position {tl,tr,md,bl,br,mid} ${pfw}
 mod4 + {h,j,k,l}
@@ -39,6 +39,9 @@ mod4 + t
 mod1 + p
     pretty
 
+mod1 + Tab
+    toggleStack
+
 # Fullscreen
 mod1 + f
     position full $(pfw)
@@ -52,10 +55,10 @@ mod1 + i
     chwso -l $(pfw); closest l
 
 # Groups
-mod1 + {1,2,3,4,5}
-    wgroups -t {1,2,3,4,5}
-mod1 + shift + {1,2,3,4,5}
-    wgroups -s $(pfw) {1,2,3,4,5}
+mod1 + {1,2,3,4,5,6,7,8,9,0}
+    wgroups -t {1,2,3,4,5,6,7,8,9,10}
+mod1 + shift + {1,2,3,4,5,6,7,8,9,0}
+    wgroups -s $(pfw) {1,2,3,4,5,6,7,8,9,10}
 mod1 + c
     wgroups -c $(pfw)
 mod4 + c
@@ -70,6 +73,8 @@ mod1 + d
     dmenu_run
 mod2 + v
     urxvt -geometry 89x24 -e zsh -c "vol"
+mod2 + b
+    urxvt -geometry 89x24 -e zsh -c "sshserver"
 
 # It's a killin' time!
 mod1 + shift + q
@@ -96,14 +101,14 @@ mod2 + n
     killall compton
 
 # Uniques
-mod2 + x
+mod2 + z
     popup "$(echo $(pfw))"
-mod2 + c
+mod2 + x
     popup "$(wclass c $(pfw))"
-mod2 + b
+mod2 + c
     popup "$(wclass p $(pfw))"
 Print
-    scrot
+    scrot -q 100
 
 # MPC:
 mod2 + p

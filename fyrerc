@@ -14,9 +14,9 @@ CUR=${2:-$(pfw)}
 W=$(wattr w $CUR)
 H=$(wattr h $CUR)
 
-BW=${BW:-1}                    # border width
+BW=${BW:-2}                    # border width
 ACTIVE=${ACTIVE:-0x2E8B57}     # active border color
-INACTIVE=${INACTIVE:-0x181818} # inactive border color
+INACTIVE=${INACTIVE:-0x000000} # inactive border color
 
 X=20
 Y=20
@@ -38,8 +38,10 @@ fi
 
 GROUPSDIR=${GROUPSDIR:-/tmp/fyre/groups}
 
+
+TOPWID=${TOPWID:-/tmp/fyre/topwid}
 FSFILE=${FSFILE:-/tmp/fyre/fullinfo}
-FULLSCRN=${FULLSCRN:-/tmp/fyre/fullscrn}
 DETECT=${DETECT:-/tmp/fyre/detectList}
 WLFILE=${WLFILE:-/tmp/fyre/windowList}
+LSWFILE=${LSWFILE:-/tmp/fyre/lswList}
 WLFILETEMP=${WLFILETEMP:-/tmp/fyre/windowTemp}
