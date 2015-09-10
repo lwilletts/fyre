@@ -38,7 +38,6 @@ fi
 
 GROUPSDIR=${GROUPSDIR:-/tmp/fyre/groups}
 
-
 TOPWID=${TOPWID:-/tmp/fyre/topwid}
 FSFILE=${FSFILE:-/tmp/fyre/fullinfo}
 DETECT=${DETECT:-/tmp/fyre/detectList}

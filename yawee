@@ -29,7 +29,7 @@ while IFS=: read ev wid; do
         16)
             if ! wattr o $wid; then
                 position tl $wid
-                setborder active $(pfw)
+                setborder active $wid
                 chwsoTop
             fi
             ;;
