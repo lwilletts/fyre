@@ -39,10 +39,10 @@ horiVerticalTile() {
     sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
     awk '{print $2}' > $WLFILE
 
-    cat $WLFILE | sed '3q' > $WLFILETEMP
+    cat $WLFILE | sed "/$maxHorizontalWindows/q" > $WLFILETEMP
 
     # Calculate correct window size even with inside gap.
-    COLS=4
+    COLS=$maxHorizontalWindows
     W=$(((SW - (COLS - 1)*IGAP)/COLS))
     H=$SH
 
@@ -52,7 +52,7 @@ horiVerticalTile() {
     done
 
     # Sort remaining windows vertically to the side.
-    sed -i '1,3d' $WLFILE
+    sed -i "1,/$maxHorizontalWindows/d" $WLFILE
     # Allow move to reorder vertical windows
     cat $WLFILE | xargs wattr yi | sort -n | awk '{print $2}' > $WLFILETEMP
 
