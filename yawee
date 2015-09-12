@@ -9,11 +9,6 @@
 
 source fyrerc
 
-chwsoTop() {
-    cur=$(cat $TOPWID)
-    chwso -r $cur
-}
-
 while IFS=: read ev wid; do
     case $ev in
 
@@ -21,22 +16,18 @@ while IFS=: read ev wid; do
         7)
             if ! wattr o $wid; then
                 focus $wid
-                chwsoTop
             fi
             ;;
 
         # window creation
         16)
             if ! wattr o $wid; then
-                position tl $wid
-                setborder active $wid
-                chwsoTop
+                position md $wid
             fi
             ;;
 
         # window unmap
         18)
-            chwsoTop
             wattr $(pfw) || focus prev 2>/dev/null
 
             # Don't tile when window is in unmarked list.
@@ -61,7 +52,6 @@ while IFS=: read ev wid; do
 
         # mapping requests
         19)
-            chwsoTop
             if ! wattr o $wid; then
                 setborder inactive $wid
                 focus $wid

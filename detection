@@ -15,20 +15,17 @@ lsw > $LSWFILE
 for i in $(seq $windowsOnscreen); do
     wid=$(cat $LSWFILE | head -n $i | tail -1)
 
-    #mpv
     if [[ $(wclass c $wid) == "vdpau" ]]; then
         mpvWid=$wid
     elif [[ $(wclass c $wid) == "xv" ]]; then
         mpvWid=$wid
     fi
 
-    #feh
-    if [[ $(wclass c $wid) == *"feh"* ]]; then
-        printf '%s\n' $wid >> $DETECT
-        detectionCounter=$((detectionCounter + 1))
-    fi
+    # if [[ $(wclass c $wid) == *"feh"* ]]; then
+    #     printf '%s\n' $wid >> $DETECT
+    #     detectionCounter=$((detectionCounter + 1))
+    # fi
 
-    #firefox
     if [[ $(wclass p $wid) == *"firefox"* ]]; then
         printf '%s\n' $wid >> $DETECT
         firefoxCounter=1
@@ -39,7 +36,6 @@ for i in $(seq $windowsOnscreen); do
         fi
     fi
 
-    #mupdf
     if [[ $(wclass c $wid) == "mupdf" ]]; then
         printf '%s\n' $wid >> $DETECT
         mupdfCounter=1
@@ -50,7 +46,6 @@ for i in $(seq $windowsOnscreen); do
         fi
     fi
 
-    #teamspeak
     if [[ $(wclass c $wid) == *"ts3"* ]]; then
         printf '%s\n' $wid >> $DETECT
         detectionCounter=$((detectionCounter + 1))
@@ -64,29 +59,28 @@ for i in $(seq $windowsOnscreen); do
         fi
     fi
 
-    #steam
     if [[ $(wclass c $wid) == "Steam" ]]; then
         printf '%s\n' $wid >> $DETECT
         steamCounter=$((steamCounter + 1))
         steamWid=$wid
     fi
 
-    #blizzard
     if [[ $(wclass c $wid) == "Battle.net.exe" ]]; then
         printf '%s\n' $wid >> $DETECT
         detectionCounter=$((detectionCounter + 1))
     fi
+
     if [[ $(wclass c $wid) == "Hearthstone.exe" ]]; then
         printf '%s\n' $wid >> $DETECT
         detectionCounter=$((detectionCounter + 1))
     fi
 
-    #urxvt
     if [[ $(wclass c $wid) == "urxvt" ]]; then
         printf '%s\n' $wid >> $DETECT
         urxvtCounter=1
         urxvtWid=$wid
     fi
+
 done
 
 for c in $steamWid $urxvtWid $mupdfWid $firefoxWid; do
