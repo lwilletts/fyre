@@ -9,6 +9,9 @@
 source fyrerc
 source detection
 
+# NOTE : SED q is buggy as hell, use !d instead.
+# NOTE : SED doesn't like the syntax 1,/$COLS/!d if $COLS -eq 1
+
 usage() {
     printf '%s\n' "Usage: $(basename $0)"
     exit 1
@@ -34,61 +37,95 @@ horizontalTile() {
     done
 }
 
-horiVerticalTile() {
+oneWindow() {
+    ignore 
+    sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
+    awk '{print $2}' > $WLFILE
+
+    cat $MAINWID >> $WLFILE
+
+    COLS=$(cat $WLFILE | wc -l)
+    W=$(((SW - (COLS - 1)*IGAP)/COLS))
+    H=$SH
+
+    for c in $(seq $COLS); do
+        wtp $X $Y $W $H $(head -n $c $WLFILE | tail -1)
+        X=$((X + W + IGAP))
+    done
+}
+
+mainTile() {
     ignore
     sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
     awk '{print $2}' > $WLFILE
 
-    cat $WLFILE | sed "/$maxHorizontalWindows/q" > $WLFILETEMP
-
-    # Calculate correct window size even with inside gap.
-    COLS=$maxHorizontalWindows
+    COLS=4
     W=$(((SW - (COLS - 1)*IGAP)/COLS))
     H=$SH
 
-    for c in $(seq $((COLS - 1))); do
+    COLSTEMP=$((COLS - 1))
+    cat $WLFILE | sed "1,/$COLSTEMP/!d" > $WLFILETEMP
+
+    for c in $(seq $((COLS))); do
         wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
-        X=$((X + W + IGAP))
+        X=$((X + H + IGAP))
     done
 
-    # Sort remaining windows vertically to the side.
-    sed -i "1,/$maxHorizontalWindows/d" $WLFILE
-    # Allow move to reorder vertical windows
-    cat $WLFILE | xargs wattr yi | sort -n | awk '{print $2}' > $WLFILETEMP
+    cat $WLFILE | sed "1d" > $WLFILETEMP
 
     ROWS=$(cat $WLFILETEMP | wc -l)
-
-    # Calculate correct window size even with inside gap.
     H=$(((SH - (ROWS - 1)*IGAP)/ROWS))
 
     for c in $(seq $ROWS); do
+        if [ $((ROWS % 2)) -eq 1 ]; then
+            if [ $((c % 2)) -eq 1 ] && [ $c -ne 1 ]; then
+                Y=$((Y + 1))
+            fi
+        fi
         wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
-        Y=$((Y + H + IGAP))
+        Y=$((Y + H + VIGAP))
     done
 }
 
-largeTile() {
-    if [ $windowsOnscreen -eq 2 ]; then
-        ignore
-        printf '%s\n' $mpvWid >> $WLFILETEMP
+sideTiling() {
+    ignore
+    sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
+    awk '{print $2}' > $WLFILE
 
-        sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
-        awk '{print $2}' > $WLFILE
+    COLS=4
+    W=$(((SW - (COLS - 1)*IGAP)/COLS))
+    H=$SH
 
-        URXVTWIN=$(cat $WLFILE | grep -v $mpvWid)
+    COLSTEMP=$((COLS - 1))
+    cat $WLFILE | sed "1,/$COLSTEMP/!d" > $WLFILETEMP
 
-        W=$TermW; H=$SH
+    for c in $(seq $((COLS))); do
+        wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
+        Y=$((Y + H + IGAP))
+    done
 
-        wtp $X $Y $W $H $URXVTWIN
+    Y=$originalY
+    X=$((X + W + IGAP))
+    W=$((2*W - IGAP))
 
-        windows=$((maxHorizontalWindows - 1))
-        X=$((TermW + XGAP + IGAP))
-        W=$((windows * TermW + (windows - 1) * IGAP))
+    wtp $X $Y $W $H $(cat $MAINWID)
+    X=$((W + X + IGAP))
 
-        wtp $X $Y $W $H $mpvWid
-    else
-        position full $mpvWid
-    fi
+    cat $WLFILE | sed "1d" > $WLFILETEMP
+
+    ROWS=$(cat $WLFILETEMP | wc -l)
+    H=$(((SH - (ROWS - 1)*VIGAP)/ROWS))
+    W=$(((SW - (COLS - 1)*IGAP)/COLS))
+
+    for c in $(seq $ROWS); do
+        if [ $((ROWS % 2)) -eq 1 ]; then
+            if [ $((c % 2)) -eq 1 ] && [ $c -ne 1 ]; then
+                Y=$((Y + 1))
+            fi
+        fi
+        wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
+        Y=$((Y + H + VIGAP))
+    done
 }
 
 quadrantTile() {
@@ -122,21 +159,27 @@ quadrantTile() {
 
     COLS=$(cat $WLFILETEMP | wc -l)
     if [ $COLS -eq 1 ]; then EXTRA=$((IGAP)); else EXTRA=0; fi
-    Y=$(((SH + IGAP)/2 + TGAP + 2*BW))
+    Y=$originalY
+    # Y=$(((SH + VIGAP)/2 + TGAP + 2*BW))
     W=$(((SW - IGAP)/(COLS*2) - IGAP/COLS + EXTRA))
-    H=$(((SH - IGAP)/2 - BW*2))
+    H=$(((SH - VIGAP)/2 - BW*2))
 
     for c in $(seq $COLS); do
+        if [ $((ROWS % 2)) -eq 1 ]; then
+            if [ $((c % 2)) -eq 1 ] && [ $c -ne 1 ]; then
+                X=$((X + 1))
+            fi
+        fi
         wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
         X=$((X + W + IGAP))
     done
 
     # Make these perfect for 16:9 viewing at top left
     X=$(((SW - IGAP)/2 + IGAP + XGAP))
-    Y=$TGAP
-#    Y=$(((SH - IGAP)/2 + TGAP - BW))
+    # Y=$TGAP
+    Y=$((Y + H ))
     W=$(((SW - IGAP)/2))
-    H=$(((SH - IGAP)/2))
+    H=$(((SH - VIGAP)/2))
 
     wtp $X $Y $W $H $mpvWid
 }
@@ -146,17 +189,25 @@ main() {
     SW=$((SW - 2*XGAP - BW))
     SH=$((SH - TGAP - BGAP - BW))
 
-    if [ ! -z $mpvWid ]; then
-        if [ $windowsOnscreen -lt 2 ]; then
-            largeTile
+    if [ -e $MAINWID ]; then
+        if [ $windowsOnscreen -eq 0 ]; then
+            position full $(cat $MAINWID)
+        elif [ $windowsOnscreen -eq 1 ]; then
+            oneWindow
+        else
+            sideTiling
+        fi
+    elif [ ! -z $mpvWid ]; then
+        if [ $windowsOnscreen -eq 1 ]; then
+            position full $mpvWid
         else
             quadrantTile
         fi
     else
-        if [ $windowsOnscreen -le $maxHorizontalWindows ]; then
-            horizontalTile
+        if [ $windowsOnscreen -eq 1 ]; then
+            position full
         else
-            horiVerticalTile
+            horizontalTile
         fi
     fi
 }

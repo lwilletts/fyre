@@ -10,12 +10,6 @@
 
 source fyrerc
 
-fehCounter=0
-ts3Counter=0
-steamCounter=0
-urxvtCounter=0
-battlenetCounter=0
-
 lsw > $LSWFILE
 
 for i in $(seq $windowsOnscreen); do
@@ -24,32 +18,42 @@ for i in $(seq $windowsOnscreen); do
     #mpv
     if [[ $(wclass c $wid) == "vdpau" ]]; then
         mpvWid=$wid
-        mpvCounter=1
     elif [[ $(wclass c $wid) == "xv" ]]; then
         mpvWid=$wid
-        mpvCounter=1
     fi
 
     #feh
     if [[ $(wclass c $wid) == *"feh"* ]]; then
         printf '%s\n' $wid >> $DETECT
-        fehCounter=$((fehCounter + 1))
+        detectionCounter=$((detectionCounter + 1))
     fi
 
     #firefox
     if [[ $(wclass p $wid) == *"firefox"* ]]; then
         printf '%s\n' $wid >> $DETECT
         firefoxCounter=1
+        firefoxWid=$wid
 
         if [ ! -e $GROUPSDIR/group.2 ]; then
             wgroups -s $wid 2
         fi
     fi
 
+    #mupdf
+    if [[ $(wclass c $wid) == "mupdf" ]]; then
+        printf '%s\n' $wid >> $DETECT
+        mupdfCounter=1
+        mupdfWid=$wid
+
+        if [ ! -e $GROUPSDIR/group.2 ]; then
+            wgroups -s $wid 1
+        fi
+    fi
+
     #teamspeak
     if [[ $(wclass c $wid) == *"ts3"* ]]; then
         printf '%s\n' $wid >> $DETECT
-        ts3Counter=$((ts3Counter + 1))
+        detectionCounter=$((detectionCounter + 1))
 
         if [ ! -e $GROUPSDIR/group.3 ]; then
             if [[ $(cat $GROUPSDIR/group.3) != $wid ]]; then
@@ -64,26 +68,35 @@ for i in $(seq $windowsOnscreen); do
     if [[ $(wclass c $wid) == "Steam" ]]; then
         printf '%s\n' $wid >> $DETECT
         steamCounter=$((steamCounter + 1))
+        steamWid=$wid
     fi
 
     #blizzard
     if [[ $(wclass c $wid) == "Battle.net.exe" ]]; then
         printf '%s\n' $wid >> $DETECT
-        battlenetCounter=$((battlenetCounter + 1))
+        detectionCounter=$((detectionCounter + 1))
     fi
     if [[ $(wclass c $wid) == "Hearthstone.exe" ]]; then
         printf '%s\n' $wid >> $DETECT
-        battlenetCounter=$((battlenetCounter + 1))
+        detectionCounter=$((detectionCounter + 1))
     fi
 
     #urxvt
     if [[ $(wclass c $wid) == "urxvt" ]]; then
         printf '%s\n' $wid >> $DETECT
-        urxvtCounter=$((urxvtCounter + 1))
+        urxvtCounter=1
+        urxvtWid=$wid
     fi
 done
 
-totalDetectList=$((fehCounter + mpvCounter + firefoxCounter + ts3Counter + \
-                   steamCounter + battlenetCounter + urxvtCounter))
+for c in $steamWid $urxvtWid $mupdfWid $firefoxWid; do
+    if [ ! -z $c ]; then
+        echo $c > $MAINWID
+    else
+        rm $MAINWID
+    fi
+done
 
+totalDetectList=$((detectionCounter + firefoxCounter + steamCounter + \
+                   urxvtCounter + mupdfCounter))
 windowsOnscreen=$((windowsOnscreen - totalDetectList))
