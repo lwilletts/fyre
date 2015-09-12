@@ -103,7 +103,7 @@ mod2 + x
 mod2 + c
     popup "$(wclass p $(pfw))"
 Print
-    scrot -q 100
+scrot -q 100
 
 # MPC:
 mod2 + p

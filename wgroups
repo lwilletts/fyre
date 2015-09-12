@@ -78,8 +78,6 @@ unmap_group() {
     while read line; do
         mapw -u $line
     done < $GROUPSDIR/group.$1
-
-    rm $MAINWID
 }
 
 # assigns WID ($1) to the group ($2)

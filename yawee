@@ -22,8 +22,10 @@ while IFS=: read ev wid; do
         # window creation
         16)
             if ! wattr o $wid; then
-                position md $wid
-                setborder active $wid
+                if [ ! -e $FSFILE ]; then
+                    setborder active $(pfw)
+                fi
+                position tl $wid
             fi
             ;;
 
@@ -46,7 +48,7 @@ while IFS=: read ev wid; do
                 fi
             done
 
-            if [ $tileFlag = 1 ]; then
+            if [ $tileFlag -eq 1 ]; then
                 tile
             fi
             ;;

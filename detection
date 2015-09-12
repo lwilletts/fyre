@@ -86,8 +86,6 @@ done
 for c in $steamWid $urxvtWid $mupdfWid $firefoxWid; do
     if [ ! -z $c ]; then
         echo $c > $MAINWID
-    else
-        rm $MAINWID
     fi
 done
 

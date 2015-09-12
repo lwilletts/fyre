@@ -23,7 +23,6 @@ ignore() {
 }
 
 horizontalTile() {
-    ignore
     sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
     awk '{print $2}' > $WLFILE
 
@@ -38,7 +37,6 @@ horizontalTile() {
 }
 
 oneWindow() {
-    ignore 
     sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
     awk '{print $2}' > $WLFILE
 
@@ -55,7 +53,6 @@ oneWindow() {
 }
 
 mainTile() {
-    ignore
     sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
     awk '{print $2}' > $WLFILE
 
@@ -88,7 +85,6 @@ mainTile() {
 }
 
 sideTiling() {
-    ignore
     sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
     awk '{print $2}' > $WLFILE
 
@@ -106,7 +102,7 @@ sideTiling() {
 
     Y=$originalY
     X=$((X + W + IGAP))
-    W=$((2*W - IGAP))
+    W=$((2*W + IGAP))
 
     wtp $X $Y $W $H $(cat $MAINWID)
     X=$((W + X + IGAP))
@@ -129,7 +125,6 @@ sideTiling() {
 }
 
 quadrantTile() {
-    ignore
     printf '%s\n' $mpvWid >> $WLFILETEMP
 
     sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
@@ -159,7 +154,6 @@ quadrantTile() {
 
     COLS=$(cat $WLFILETEMP | wc -l)
     if [ $COLS -eq 1 ]; then EXTRA=$((IGAP)); else EXTRA=0; fi
-    Y=$originalY
     # Y=$(((SH + VIGAP)/2 + TGAP + 2*BW))
     W=$(((SW - IGAP)/(COLS*2) - IGAP/COLS + EXTRA))
     H=$(((SH - VIGAP)/2 - BW*2))
@@ -175,11 +169,11 @@ quadrantTile() {
     done
 
     # Make these perfect for 16:9 viewing at top left
+    # TODO: Make this scale based on the video's resolution
     X=$(((SW - IGAP)/2 + IGAP + XGAP))
-    # Y=$TGAP
-    Y=$((Y + H ))
+    Y=$((Y + H + BW))
     W=$(((SW - IGAP)/2))
-    H=$(((SH - VIGAP)/2))
+    H=$(((SH - VIGAP)/2 + BW))
 
     wtp $X $Y $W $H $mpvWid
 }
@@ -188,6 +182,8 @@ main() {
     # Calculate usable screen size (without borders and gaps)
     SW=$((SW - 2*XGAP - BW))
     SH=$((SH - TGAP - BGAP - BW))
+
+    ignore
 
     if [ -e $MAINWID ]; then
         if [ $windowsOnscreen -eq 0 ]; then
@@ -210,6 +206,8 @@ main() {
             horizontalTile
         fi
     fi
+    
+    rm $MAINWID 3>&1 > /dev/null
 }
 
 main

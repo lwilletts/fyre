@@ -7,15 +7,9 @@
 
 source fyrerc
 
-# Check if window is a urxvtc instance, else use killw normally.
-# TODO: Find way of killing urxvtc window without killing the daemon.
-
-if [[ $(cat $TOPWID) == $PFW ]]; then
-    rm $TOPWID
-fi
-
 if [[ $(wclass c $(pfw)) == "urxvtc" ]]; then
-    exit
+    killwa $(pfw)
+    tile
 else
     sed -i "/$(pfw)/d" $DETECT
 fi
