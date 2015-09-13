@@ -26,7 +26,7 @@ TermW=462
 TermH=260
 
 XGAP=${XGAP:-$X}
-IGAP=${IGAP:-10}
+IGAP=${IGAP:-0}
 VIGAP=${VIGAP:-0}
 BGAP=${BGAP:-10}
 TGAP=${TGAP:-$Y}
