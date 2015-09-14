@@ -83,7 +83,7 @@ for i in $(seq $windowsOnscreen); do
 
 done
 
-for c in $steamWid $urxvtWid $mupdfWid $firefoxWid; do
+for c in $urxvtWid $mupdfWid $firefoxWid; do
     if [ ! -z $c ]; then
         echo $c > $MAINWID
     fi

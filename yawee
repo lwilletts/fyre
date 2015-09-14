@@ -12,14 +12,12 @@ source fyrerc
 while IFS=: read ev wid; do
     case $ev in
 
-        # entering window
-        7)
+        4)
             if ! wattr o $wid; then
                 focus $wid
             fi
             ;;
 
-        # window creation
         16)
             if ! wattr o $wid; then
                 if [ ! -e $FSFILE ]; then
@@ -29,7 +27,6 @@ while IFS=: read ev wid; do
             fi
             ;;
 
-        # window unmap
         18)
             wattr $(pfw) || focus prev 2>/dev/null
 
@@ -53,7 +50,6 @@ while IFS=: read ev wid; do
             fi
             ;;
 
-        # mapping requests
         19)
             if ! wattr o $wid; then
                 setborder inactive $wid
