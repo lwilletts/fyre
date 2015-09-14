@@ -15,7 +15,12 @@ This repo relies on the installation of [wmutils
 core](https://github.com/wmutils/core) and [wmutils
 opt](https://github.com/wmutils/opt). You must then compile xwait.c using c
 compiler or execute xwait.c using tcc. Have a look at xinitrc.example for what
-you need for when loading Xorg.
+you need for when loading Xorg. Also, to use your middle mouse button as a
+window focus, apply middleMouseSwitch.patch to wmutils/opt/wew.c, for example:
+
+    $ cd ~/builds/wmutils/opt
+    $ git apply ~/builds/fyre/middleMouseSwitch.patch
+    $ make; sudo make install
 
 To execute the scripts, you'll need them somewhere on your path, you can either
 move it to a directory that is already in the path, or you can add the git repo
