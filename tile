@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/mksh
 #
 # File        : /home/wildefyr/fyre/tiling
 # Maintainer  : Wildefyr | http://wildefyr.net
@@ -182,15 +182,7 @@ main() {
 
     ignore
 
-    if [ -e $MAINWID ]; then
-        if [ $windowsOnscreen -eq 0 ]; then
-            position full $(cat $MAINWID)
-        elif [ $windowsOnscreen -eq 1 ]; then
-            oneWindow
-        else
-            sideTiling
-        fi
-    elif [ ! -z $mpvWid ]; then
+    if [ ! -z $mpvWid ]; then
         if [ $windowsOnscreen -eq 1 ]; then
             position full $mpvWid
         else

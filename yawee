@@ -22,6 +22,7 @@ while IFS=: read ev wid; do
             if ! wattr o $wid; then
                 if [[ $(lsw | tail -1) == $wid ]]; then
                     position tl $wid
+                    tile
                 fi
             fi
             ;;
