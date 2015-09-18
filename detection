@@ -50,21 +50,21 @@ for wid in $(lsw); do
         fi
     fi
 
-    # if [[ $(wclass c $wid) == "Steam" ]]; then
-    #     printf '%s\n' $wid >> $DETECT
-    #     steamCounter=$((steamCounter + 1))
-    #     steamWid=$wid
-    # fi
+    if [[ $(wclass c $wid) == "Steam" ]]; then
+        printf '%s\n' $wid >> $DETECT
+        steamCounter=$((steamCounter + 1))
+        steamWid=$wid
+    fi
 
-    # if [[ $(wclass c $wid) == "Battle.net.exe" ]]; then
-    #     printf '%s\n' $wid >> $DETECT
-    #     detectionCounter=$((detectionCounter + 1))
-    # fi
+    if [[ $(wclass c $wid) == "Battle.net.exe" ]]; then
+        printf '%s\n' $wid >> $DETECT
+        detectionCounter=$((detectionCounter + 1))
+    fi
 
-    # if [[ $(wclass c $wid) == "Hearthstone.exe" ]]; then
-    #     printf '%s\n' $wid >> $DETECT
-    #     detectionCounter=$((detectionCounter + 1))
-    # fi
+    if [[ $(wclass c $wid) == "Hearthstone.exe" ]]; then
+        printf '%s\n' $wid >> $DETECT
+        detectionCounter=$((detectionCounter + 1))
+    fi
 
     if [[ $(wclass c $wid) == "urxvt" ]]; then
         printf '%s\n' $wid >> $DETECT
