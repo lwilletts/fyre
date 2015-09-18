@@ -9,9 +9,6 @@
 source fyrerc
 source detection
 
-# NOTE : SED q is buggy as hell, use !d instead.
-# NOTE : SED doesn't like the syntax 1,/$COLS/!d if $COLS -eq 1
-
 usage() {
     printf '%s\n' "Usage: $(basename $0)"
     exit 1
@@ -20,20 +17,6 @@ usage() {
 ignore() {
     cat $DETECT > $WLFILETEMP
     lsw >> $WLFILETEMP
-}
-
-horizontalTile() {
-    sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
-    awk '{print $2}' > $WLFILE
-
-    COLS=$(cat $WLFILE | wc -l)
-    W=$(((SW - (COLS - 1)*IGAP)/COLS))
-    H=$SH
-
-    for c in $(seq $COLS); do
-        wtp $X $Y $W $H $(head -n $c $WLFILE | tail -1)
-        X=$((X + W + IGAP))
-    done
 }
 
 oneWindow() {
@@ -52,23 +35,37 @@ oneWindow() {
     done
 }
 
+horizontalTile() {
+    sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
+    awk '{print $2}' > $WLFILE
+
+    COLS=$(cat $WLFILE | wc -l)
+    W=$(((SW - (COLS - 1)*IGAP)/COLS))
+    H=$SH
+
+    for c in $(seq $COLS); do
+        wtp $X $Y $W $H $(head -n $c $WLFILE | tail -1)
+        X=$((X + W + IGAP))
+    done
+}
+
 mainTile() {
     sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
     awk '{print $2}' > $WLFILE
 
-    COLS=4
+    COLS=$maxHorizontalWindows
     W=$(((SW - (COLS - 1)*IGAP)/COLS))
     H=$SH
 
     COLSTEMP=$((COLS - 1))
-    cat $WLFILE | sed "1,/$COLSTEMP/!d" > $WLFILETEMP
+    cat $WLFILE | head -n $COLSTEMP > $WLFILETEMP
 
-    for c in $(seq $((COLS))); do
+    for c in $(seq $COLSTEMP); do
         wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
-        X=$((X + H + IGAP))
+        X=$((X + W + IGAP))
     done
 
-    cat $WLFILE | sed "1d" > $WLFILETEMP
+    cat $WLFILE | tail -n $((windowsOnscreen - COLSTEMP)) > $WLFILETEMP
 
     ROWS=$(cat $WLFILETEMP | wc -l)
     H=$(((SH - (ROWS - 1)*IGAP)/ROWS))
@@ -200,10 +197,10 @@ main() {
             quadrantTile
         fi
     else
-        if [ $windowsOnscreen -eq 1 ]; then
-            position full
-        else
+        if [ $windowsOnscreen -le $maxHorizontalWindows ]; then
             horizontalTile
+        else
+            mainTile
         fi
     fi
     
