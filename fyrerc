@@ -18,21 +18,21 @@ BW=${BW:-2}                    # border width
 ACTIVE=${ACTIVE:-0x2E8B57}     # active border color
 INACTIVE=${INACTIVE:-0x000000} # inactive border color
 
-originalX=20
-originalY=20
+originalX=0
+originalY=$((10 + BW))
 X=$originalX
 Y=$originalY
 TermW=462
 TermH=260
 
 XGAP=${XGAP:-$X}
-IGAP=${IGAP:-10}
-VIGAP=${VIGAP:-0}
-BGAP=${BGAP:-10}
+IGAP=${IGAP:-$BW}
+VIGAP=${VIGAP:-$BW}
+BGAP=${BGAP:-$BW}
 TGAP=${TGAP:-$Y}
 
 windowsOnscreen=$(lsw | wc -l)
-maxHorizontalWindows=4
+maxHorizontalWindows=3
 
 # Global Files
 if [ ! -d /tmp/fyre/groups ]; then

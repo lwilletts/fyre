@@ -60,11 +60,7 @@ mainTile() {
     COLSTEMP=$((COLS - 1))
     cat $WLFILE | head -n $COLSTEMP > $WLFILETEMP
 
-<<<<<<< HEAD
     for c in $(seq $COLSTEMP); do
-=======
-    for c in $(seq $COLS); do
->>>>>>> master
         wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
         X=$((X + W + IGAP))
     done
