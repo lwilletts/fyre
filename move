@@ -10,33 +10,24 @@ case $1 in
     h|left)
         X=$(wattr x $PFW)
         Y=$(wattr y $PFW)
-        X=$((X - W - IGAP - 2*BW))
-        if [ $X -lt 0 ]; then
-            X=$(wattr x $PFW)
-        fi
+        X=$((X - W - IGAP - BW))
         ;;
     j|down)
         X=$(wattr x $PFW)
         Y=$(wattr y $PFW)
-        Y=$((Y + H + IGAP + 2*BW))
+        Y=$((Y + H + IGAP + BW))
         ;;
     k|up)
         X=$(wattr x $PFW)
         Y=$(wattr y $PFW)
-        Y=$((Y - H - IGAP - 2*BW))
-        if [ $Y -lt 0 ]; then
-            Y=$(wattr y $PFW)
-        fi
+        Y=$((Y - H - IGAP - BW))
         ;;
     l|right)
         X=$(wattr x $PFW)
         Y=$(wattr y $PFW)
         X=$((X + W + IGAP + BW))
-        if [ $X -gt $SW ]; then
-            X=$(wattr x $PFW)
-        fi
         ;;
 esac
 
-wtp $X $Y $W $H $CUR
+wtp $X $Y $W $H $PFW
 tile

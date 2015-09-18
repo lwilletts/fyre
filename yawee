@@ -20,19 +20,17 @@ while IFS=: read ev wid; do
 
         16)
             if ! wattr o $wid; then
-                if [ ! -e $FSFILE ]; then
-                    setborder active $(pfw)
+                if [[ $(lsw | tail -1) == $wid ]]; then
+                    position tl $wid
                 fi
-                position tl $wid
             fi
             ;;
 
         18)
             wattr $(pfw) || focus prev 2>/dev/null
 
-            # Don't tile when window is in unmarked list.
-            for i in $(seq $(lsw -u | wc -l)); do
-                current=$(lsw -u | head -n $i | tail -1)
+            # To avoid using wew event 17
+            for current in $(lsw -u); do
                 if [[ $wid == $current ]]; then
                     if [[ $(wclass c $wid) == "urxvtc" ]]; then
                         tileFlag=1

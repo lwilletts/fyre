@@ -65,9 +65,9 @@ esac
 
 case $2 in
     0x*)
-        CUR=$2
+        PFW=$2
         ;;
 esac
 
-focus $CUR
-wtp $X $Y $W $H $CUR
+focus $PFW
+wtp $X $Y $W $H $PFW

@@ -10,10 +10,7 @@
 
 source fyrerc
 
-lsw > $LSWFILE
-
-for i in $(seq $windowsOnscreen); do
-    wid=$(cat $LSWFILE | head -n $i | tail -1)
+for wid in $(lsw); do
 
     if [[ $(wclass c $wid) == "vdpau" ]]; then
         mpvWid=$wid
@@ -21,16 +18,10 @@ for i in $(seq $windowsOnscreen); do
         mpvWid=$wid
     fi
 
-    # if [[ $(wclass c $wid) == *"feh"* ]]; then
-    #     printf '%s\n' $wid >> $DETECT
-    #     detectionCounter=$((detectionCounter + 1))
-    # fi
-
     if [[ $(wclass p $wid) == *"firefox"* ]]; then
         printf '%s\n' $wid >> $DETECT
         firefoxCounter=1
         firefoxWid=$wid
-
         if [ ! -e $GROUPSDIR/group.2 ]; then
             wgroups -s $wid 2
         fi
@@ -59,21 +50,21 @@ for i in $(seq $windowsOnscreen); do
         fi
     fi
 
-    if [[ $(wclass c $wid) == "Steam" ]]; then
-        printf '%s\n' $wid >> $DETECT
-        steamCounter=$((steamCounter + 1))
-        steamWid=$wid
-    fi
+    # if [[ $(wclass c $wid) == "Steam" ]]; then
+    #     printf '%s\n' $wid >> $DETECT
+    #     steamCounter=$((steamCounter + 1))
+    #     steamWid=$wid
+    # fi
 
-    if [[ $(wclass c $wid) == "Battle.net.exe" ]]; then
-        printf '%s\n' $wid >> $DETECT
-        detectionCounter=$((detectionCounter + 1))
-    fi
+    # if [[ $(wclass c $wid) == "Battle.net.exe" ]]; then
+    #     printf '%s\n' $wid >> $DETECT
+    #     detectionCounter=$((detectionCounter + 1))
+    # fi
 
-    if [[ $(wclass c $wid) == "Hearthstone.exe" ]]; then
-        printf '%s\n' $wid >> $DETECT
-        detectionCounter=$((detectionCounter + 1))
-    fi
+    # if [[ $(wclass c $wid) == "Hearthstone.exe" ]]; then
+    #     printf '%s\n' $wid >> $DETECT
+    #     detectionCounter=$((detectionCounter + 1))
+    # fi
 
     if [[ $(wclass c $wid) == "urxvt" ]]; then
         printf '%s\n' $wid >> $DETECT

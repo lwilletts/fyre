@@ -65,7 +65,7 @@ mod1 + Return
 mod2 + Return
     urxvt -geometry 89x24 -name 'urxvt'
 mod1 + d
-    dmenu_run
+    dmenu-run
 mod2 + v
     urxvt -geometry 89x24 -e zsh -c "vol"
 mod2 + b
