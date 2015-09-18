@@ -10,7 +10,7 @@ source fyrerc
 
 case $1 in
     tl)
-        # something happened.
+        X=$((X - 1))
         ;;
     tr)
         X=$((SW - W - XGAP - BW*2))

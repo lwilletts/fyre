@@ -16,8 +16,8 @@ mod1 + shift + {h,j,k,l}
     move {left,down,up,right}
 
 # Manual Window Management
-mod1 + {q,w,e,a,s}
-    position {lft,mid,rht,ext,res} $(pfw)
+mod1 + {q,w,e,a,s,r}
+    position {lft,mid,rht,ext,res,full} $(pfw)
 mod1 + {y,o,g,b,n,m}
     position {tl,tr,md,bl,br} ${pfw}
 mod4 + {h,j,k,l}
