@@ -26,7 +26,6 @@ for wid in $(lsw); do
     if [[ $windowP == *"firefox"* ]]; then
         printf '%s\n' $wid >> $DETECT
         firefoxCounter=1
-        firefoxWid=$wid
         if [ ! -e $GROUPSDIR/group.2 ]; then
             wgroups -s $wid 2
         fi
@@ -34,24 +33,17 @@ for wid in $(lsw); do
 
     if [[ $windowC == "mupdf" ]]; then
         printf '%s\n' $wid >> $DETECT
-        mupdfCounter=1
-        mupdfWid=$wid
-
-        if [ ! -e $GROUPSDIR/group.2 ]; then
-            wgroups -s $wid 1
-        fi
+        mupdfCounter=$((mupdfCounter + 1))
     fi
 
     if [[ $windowC == "Steam" ]]; then
         printf '%s\n' $wid >> $DETECT
         steamCounter=$((steamCounter + 1))
-        steamWid=$wid
     fi
 
     if [[ $windowC == "urxvt" ]]; then
         printf '%s\n' $wid >> $DETECT
-        urxvtCounter=1
-        urxvtWid=$wid
+        urxvtCounter=$((urxvtCounter + 1))
     fi
 
 done

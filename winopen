@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# File       : /home/wildefyr/fyre/winopen
+# Maintainer : Wildefyr | http://wildefyr.net
+# Copyright  : Wildefyr | Licensed under the WTFPL license.
+
+wid=$1
+windowC=$(wclass c $wid)
+windowP=$(wclass p $wid)
+
+if [[ $windowP == *"vol"* ]]; then
+    position md $wid
+elif [[ $windowP == *"sshserver"* ]]; then
+    position mid $wid
+    wgroups -s $wid 3
+else
+    position tl $wid
+fi

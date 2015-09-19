@@ -20,14 +20,7 @@ while IFS=: read ev wid; do
 
         16)
             if ! wattr o $wid; then
-                if [[ $(wclass p $wid) == *"vol"* ]]; then
-                    position md $wid
-                elif [[ $(wclass p $wid) == *"sshserver"* ]]; then
-                    position mid $wid
-                    wgroups -s 3
-                else
-                    position tl $wid
-                fi
+                winopen $wid
                 tile
             fi
             ;;
