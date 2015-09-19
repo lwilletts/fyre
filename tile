@@ -183,8 +183,8 @@ main() {
     ignore
 
     if [ ! -z $mpvWid ]; then
-        if [ $windowsOnscreen -eq 1 ]; then
-            position full $mpvWid
+        if [ $windowsOnscreen -le 2 ]; then
+            horizontalTile
         else
             quadrantTile
         fi
@@ -195,8 +195,6 @@ main() {
             mainTile
         fi
     fi
-    
-    rm $MAINWID 3>&1 > /dev/null
 }
 
 main

@@ -184,8 +184,8 @@ while getopts "hc:Cs:t:m:M:u:U" opt; do
             break
             ;;
         t)
-            toggle_group $OPTARG
             tile
+            toggle_group $OPTARG
             break
             ;;
         m)
