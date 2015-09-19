@@ -20,7 +20,7 @@ INACTIVE=${INACTIVE:-0x000000} # inactive border color
 
 originalX=0
 originalY=$((10 + BW))
-X=$((originalX + 1))
+X=$originalX
 Y=$originalY
 TermW=462
 TermH=260
