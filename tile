@@ -35,7 +35,9 @@ horizontalTile() {
     H=$SH
 
     for c in $(seq $COLS); do
-        if [ $((COLS % 2)) -eq 1 ]; then
+        if [ $c -eq 3 ]; then
+            W=$((W + 2))
+        elif [ $((COLS % 2)) -eq 1 ]; then
             if [ $((c % 2)) -eq 1 ] && [ $c -ne 1 ]; then
                 W=$((W + 1))
             fi
@@ -65,7 +67,9 @@ mainTile() {
 
     ROWS=$(cat $WLFILETEMP | wc -l)
     H=$(((SH - (ROWS - 1)*IGAP)/ROWS))
-    W=$((W + maxHorizontalWindows - 1))
+    if [ $COLS -eq 3 ]; then
+        W=$((W + maxHorizontalWindows - 1))
+    fi
 
     for c in $(seq $ROWS); do
         if [ $c -ne 1 ]; then
