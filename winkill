@@ -5,7 +5,9 @@
 # Copyright   : Wildefyr | Licensed under the WTFPL license.
 # Description : Perform checks and tasks when killing a window.
 
-source fyrerc
+wid=$1
+windowC=$(wclass c $wid)
+windowP=$(wclass p $wid)
 
 if [[ $(wclass c $(pfw)) == "urxvtc" ]]; then
     killwa $(pfw)

@@ -204,6 +204,8 @@ main() {
             mainTile
         fi
     fi
+
+    rm $MAINWID
 }
 
 main
