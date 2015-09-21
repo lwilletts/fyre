@@ -25,17 +25,10 @@ Y=$originalY
 TermW=462
 TermH=260
 
-<<<<<<< HEAD
 XGAP=${XGAP:-$X}
 IGAP=${IGAP:-$((BW))}
 VGAP=${VGAP:-$((BW))}
 BGAP=${BGAP:-$((BW))}
-=======
-XGAP=${XGAP:-$BW}
-IGAP=${IGAP:-0}
-VIGAP=${VIGAP:-0}
-BGAP=${BGAP:-10}
->>>>>>> 	modified:   fyrerc
 TGAP=${TGAP:-$Y}
 
 windowsOnscreen=$(lsw | wc -l)
