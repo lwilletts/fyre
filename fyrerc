@@ -1,0 +1,49 @@
+#!/bin/sh
+#
+# File        : /home/wildefyr/.fyre/fyrerc
+# Maintainer  : Wildefyr | http://wildefyr.net
+# Copyright   : Wildefyr | Licensed under the WTFPL license.
+
+# Global variables
+ROOT=$(lsw -r)
+SW=$(wattr w $ROOT)
+SH=$(wattr h $ROOT)
+
+PFW=$(pfw)
+CUR=${2:-$(pfw)}
+W=$(wattr w $CUR)
+H=$(wattr h $CUR)
+
+BW=${BW:-2}                    # border width
+ACTIVE=${ACTIVE:-0x2E8B57}     # active border color
+INACTIVE=${INACTIVE:-0x000000} # inactive border color
+
+originalX=$((20 + BW))
+originalY=$((20 + BW))
+X=$originalX
+Y=$originalY
+TermW=462
+TermH=260
+
+XGAP=${XGAP:-$((X + BW))}
+IGAP=${IGAP:-$((10 + BW))}
+VIGAP=${VIGAP:-$BW}
+BGAP=${BGAP:-$((10 + BW))}
+TGAP=${TGAP:-$Y}
+
+windowsOnscreen=$(lsw | wc -l)
+maxHorizontalWindows=4
+
+# Global Files
+if [ ! -d /tmp/fyre/groups ]; then
+    mkdir -p /tmp/fyre/groups
+fi
+
+GROUPSDIR=${GROUPSDIR:-/tmp/fyre/groups}
+
+TOPWID=${TOPWID:-/tmp/fyre/topwid}
+FSFILE=${FSFILE:-/tmp/fyre/fullinfo}
+DETECT=${DETECT:-/tmp/fyre/detectList}
+WLFILE=${WLFILE:-/tmp/fyre/windowList}
+MAINWID=${MAINWID:-/tmp/fyre/mainWid}
+WLFILETEMP=${WLFILETEMP:-/tmp/fyre/windowTemp}
