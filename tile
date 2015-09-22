@@ -93,7 +93,7 @@ sideTiling() {
     COLSTEMP=$((COLS - 1))
     cat $WLFILE | sed "1,/$COLSTEMP/!d" > $WLFILETEMP
 
-    for c in $(seq $COLS); do
+    for c in $(seq $((COLS))); do
         wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
         Y=$((Y + H + IGAP))
     done
