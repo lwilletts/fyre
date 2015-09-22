@@ -10,7 +10,7 @@ source fyrerc
 
 case $1 in
     tl)
-        # something happened.
+        X=$((X - 1))
         ;;
     tr)
         X=$((SW - W - XGAP - BW*2))
@@ -36,19 +36,18 @@ case $1 in
         fi
         ;;
     full)
-        SW=$((SW - 2*XGAP - 2*BW))
-        SH=$((SH - TGAP - BGAP - 2*BW))
+        SW=$((SW - 2*XGAP))
+        SH=$((SH - TGAP - BGAP - BW))
         W=$SW; H=$SH
         ;;
     lft)
-        X=19
         SW=$((SW - 2*XGAP - BW))
         W=$((SW/2 - IGAP/2 + 1))
         H=$((SH - TGAP - BGAP - BW))
         ;;
     rht)
-        SW=$((SW - 2*XGAP - BW))
-        W=$((SW/2 - IGAP/2))
+        SW=$((SW - 2*XGAP))
+        W=$((SW/2 - IGAP/2 - 2))
         X=$((W + XGAP + IGAP))
         H=$((SH - TGAP - BGAP - BW))
         ;;
@@ -69,5 +68,4 @@ case $2 in
         ;;
 esac
 
-focus $PFW
 wtp $X $Y $W $H $PFW

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/mksh
 #
 # File        : /home/wildefyr/fyre/tiling
 # Maintainer  : Wildefyr | http://wildefyr.net
@@ -23,16 +23,7 @@ oneWindow() {
     sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
     awk '{print $2}' > $WLFILE
 
-    cat $MAINWID >> $WLFILE
-
-    COLS=$(cat $WLFILE | wc -l)
-    W=$(((SW - (COLS - 1)*IGAP)/COLS))
-    H=$SH
-
-    for c in $(seq $COLS); do
-        wtp $X $Y $W $H $(head -n $c $WLFILE | tail -1)
-        X=$((X + W + IGAP))
-    done
+    position full $(cat $WLFILE)
 }
 
 horizontalTile() {
@@ -44,6 +35,13 @@ horizontalTile() {
     H=$SH
 
     for c in $(seq $COLS); do
+        if [ $c -eq 3 ]; then
+            W=$((W + 2))
+        elif [ $((COLS % 2)) -eq 1 ]; then
+            if [ $((c % 2)) -eq 1 ] && [ $c -ne 1 ]; then
+                W=$((W + 1))
+            fi
+        fi
         wtp $X $Y $W $H $(head -n $c $WLFILE | tail -1)
         X=$((X + W + IGAP))
     done
@@ -69,11 +67,14 @@ mainTile() {
 
     ROWS=$(cat $WLFILETEMP | wc -l)
     H=$(((SH - (ROWS - 1)*IGAP)/ROWS))
+    if [ $COLS -eq 3 ]; then
+        W=$((W + maxHorizontalWindows - 1))
+    fi
 
     for c in $(seq $ROWS); do
-        if [ $((ROWS % 2)) -eq 1 ]; then
-            if [ $((c % 2)) -eq 1 ] && [ $c -ne 1 ]; then
-                Y=$((Y + 1))
+        if [ $c -ne 1 ]; then
+            if [ $((c % 2)) -eq 1 ]; then
+                H=$((H + 1))
             fi
         fi
         wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
@@ -113,7 +114,7 @@ sideTiling() {
     for c in $(seq $ROWS); do
         if [ $((ROWS % 2)) -eq 1 ]; then
             if [ $((c % 2)) -eq 1 ] && [ $c -ne 1 ]; then
-                Y=$((Y + 1))
+                H=$((H + 1))
             fi
         fi
         wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
@@ -167,7 +168,7 @@ quadrantTile() {
 
     # Make these perfect for 16:9 viewing at top left
     # TODO: Make this scale based on the video's resolution
-    X=$(((SW - IGAP)/2 + IGAP + XGAP))
+    X=$(((SW - IGAP)/2 + IGAP + XGAP - BW))
     Y=$((Y + H + BW))
     W=$(((SW - IGAP)/2))
     H=$(((SH - VIGAP)/2 + BW))
@@ -177,22 +178,14 @@ quadrantTile() {
 
 main() {
     # Calculate usable screen size (without borders and gaps)
-    SW=$((SW - 2*XGAP - BW))
+    SW=$((SW - 2*XGAP))
     SH=$((SH - TGAP - BGAP - BW))
 
     ignore
 
-    if [ -e $MAINWID ]; then
-        if [ $windowsOnscreen -eq 0 ]; then
-            position full $(cat $MAINWID)
-        elif [ $windowsOnscreen -eq 1 ]; then
-            oneWindow
-        else
-            sideTiling
-        fi
-    elif [ ! -z $mpvWid ]; then
-        if [ $windowsOnscreen -eq 1 ]; then
-            position full $mpvWid
+    if [ ! -z $mpvWid ]; then
+        if [ $windowsOnscreen -le 2 ]; then
+            horizontalTile
         else
             quadrantTile
         fi
@@ -203,8 +196,6 @@ main() {
             mainTile
         fi
     fi
-    
-    rm $MAINWID 3>&1 > /dev/null
 }
 
 main

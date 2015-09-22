@@ -20,32 +20,16 @@ while IFS=: read ev wid; do
 
         16)
             if ! wattr o $wid; then
-                if [[ $(lsw | tail -1) == $wid ]]; then
-                    position tl $wid
-                fi
+                winopen $wid
+                tile
             fi
             ;;
 
+        17)
+            tile
+            ;;
         18)
-            wattr $(pfw) || focus prev 2>/dev/null
-
-            # To avoid using wew event 17
-            for current in $(lsw -u); do
-                if [[ $wid == $current ]]; then
-                    if [[ $(wclass c $wid) == "urxvtc" ]]; then
-                        tileFlag=1
-                        break
-                    else
-                        tileFlag=0
-                    fi
-                else
-                    tileFlag=1
-                fi
-            done
-
-            if [ $tileFlag -eq 1 ]; then
-                tile
-            fi
+            wattr $(pfw) || vroum prev 2>/dev/null
             ;;
 
         19)

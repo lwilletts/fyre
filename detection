@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/mksh
 #
 # File        : /home/wildefyr/fyre/detection
 # Maintainer  : Wildefyr | http://wildefyr.net
@@ -12,72 +12,40 @@ source fyrerc
 
 for wid in $(lsw); do
 
-    if [[ $(wclass c $wid) == "vdpau" ]]; then
+    windowC=$(wclass c $wid)
+    windowP=$(wclass p $wid)
+
+    if [[ $windowC == "vdpau" ]]; then
         mpvWid=$wid
-    elif [[ $(wclass c $wid) == "xv" ]]; then
+    elif [[ $windowC == "xv" ]]; then
+        mpvWid=$wid
+    elif [[ $windowC == "gl" ]]; then
         mpvWid=$wid
     fi
 
-    if [[ $(wclass p $wid) == *"firefox"* ]]; then
+    if [[ $windowP == *"firefox"* ]]; then
         printf '%s\n' $wid >> $DETECT
         firefoxCounter=1
-        firefoxWid=$wid
         if [ ! -e $GROUPSDIR/group.2 ]; then
             wgroups -s $wid 2
         fi
     fi
 
-    if [[ $(wclass c $wid) == "mupdf" ]]; then
+    if [[ $windowC == "mupdf" ]]; then
         printf '%s\n' $wid >> $DETECT
-        mupdfCounter=1
-        mupdfWid=$wid
-
-        if [ ! -e $GROUPSDIR/group.2 ]; then
-            wgroups -s $wid 1
-        fi
+        mupdfCounter=$((mupdfCounter + 1))
     fi
 
-    if [[ $(wclass c $wid) == *"ts3"* ]]; then
-        printf '%s\n' $wid >> $DETECT
-        detectionCounter=$((detectionCounter + 1))
-
-        if [ ! -e $GROUPSDIR/group.3 ]; then
-            if [[ $(cat $GROUPSDIR/group.3) != $wid ]]; then
-                sed -i 'd' $GROUPSDIR/group.3
-                wgroups -s $wid 3
-                wgroups -u 3
-            fi
-        fi
-    fi
-
-    if [[ $(wclass c $wid) == "Steam" ]]; then
+    if [[ $windowC == "Steam" ]]; then
         printf '%s\n' $wid >> $DETECT
         steamCounter=$((steamCounter + 1))
-        steamWid=$wid
     fi
 
-    if [[ $(wclass c $wid) == "Battle.net.exe" ]]; then
+    if [[ $windowC == "urxvt" ]]; then
         printf '%s\n' $wid >> $DETECT
-        detectionCounter=$((detectionCounter + 1))
+        urxvtCounter=$((urxvtCounter + 1))
     fi
 
-    if [[ $(wclass c $wid) == "Hearthstone.exe" ]]; then
-        printf '%s\n' $wid >> $DETECT
-        detectionCounter=$((detectionCounter + 1))
-    fi
-
-    if [[ $(wclass c $wid) == "urxvt" ]]; then
-        printf '%s\n' $wid >> $DETECT
-        urxvtCounter=1
-        urxvtWid=$wid
-    fi
-
-done
-
-for c in $urxvtWid $mupdfWid $firefoxWid; do
-    if [ ! -z $c ]; then
-        echo $c > $MAINWID
-    fi
 done
 
 totalDetectList=$((detectionCounter + firefoxCounter + steamCounter + \
