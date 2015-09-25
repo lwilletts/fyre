@@ -46,8 +46,8 @@ case $1 in
         H=$((SH - TGAP - BGAP - BW))
         ;;
     rht)
-        SW=$((SW - 2*XGAP - BW))
-        W=$((SW/2 - IGAP/2))
+        SW=$((SW - 2*XGAP))
+        W=$((SW/2 - IGAP/2 - BW - 1))
         X=$((W + XGAP + IGAP))
         H=$((SH - TGAP - BGAP - BW))
         ;;

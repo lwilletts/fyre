@@ -168,7 +168,7 @@ quadrantTile() {
 
     # Make these perfect for 16:9 viewing at top left
     # TODO: Make this scale based on the video's resolution
-    X=$(((SW - IGAP)/2 + IGAP + XGAP))
+    X=$(((SW - IGAP)/2 + IGAP + XGAP - BW))
     Y=$((Y + H + BW))
     W=$(((SW - IGAP)/2))
     H=$(((SH - VIGAP)/2 + BW))
