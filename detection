@@ -26,7 +26,6 @@ for wid in $(lsw); do
     if [[ $(wclass p $wid) == *"firefox"* ]]; then
         printf '%s\n' $wid >> $DETECT
         firefoxCounter=1
-        firefoxWid=$wid
 
         if [ ! -e $GROUPSDIR/group.2 ]; then
             wgroups -s $wid 2
@@ -36,7 +35,6 @@ for wid in $(lsw); do
     if [[ $(wclass c $wid) == "mupdf" ]]; then
         printf '%s\n' $wid >> $DETECT
         mupdfCounter=1
-        mupdfWid=$wid
 
         if [ ! -e $GROUPSDIR/group.2 ]; then
             wgroups -s $wid 1
@@ -59,7 +57,6 @@ for wid in $(lsw); do
     if [[ $(wclass c $wid) == "Steam" ]]; then
         printf '%s\n' $wid >> $DETECT
         steamCounter=$((steamCounter + 1))
-        steamWid=$wid
     fi
 
     if [[ $(wclass c $wid) == "Battle.net.exe" ]]; then
@@ -75,18 +72,9 @@ for wid in $(lsw); do
     if [[ $(wclass c $wid) == "urxvt" ]]; then
         printf '%s\n' $wid >> $DETECT
         urxvtCounter=1
-        urxvtWid=$wid
     fi
 
 done
-
-for c in $steamWid $mupdfWid $firefoxWid; do
-    if [ ! -z $c ]; then
-        echo $c > $MAINWID
-    fi
-done
-
-
 
 totalDetectList=$((detectionCounter + firefoxCounter + steamCounter + \
                    urxvtCounter + mupdfCounter))
