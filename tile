@@ -31,7 +31,7 @@ horizontalTile() {
     awk '{print $2}' > $WLFILE
 
     COLS=$(cat $WLFILE | wc -l)
-    W=$(((SW - (COLS - 1)*IGAP)/COLS))
+    W=$(((SW - (COLS - 1)*IGAP)/COLS - BW))
     H=$SH
 
     for c in $(seq $COLS); do
@@ -52,7 +52,7 @@ mainTile() {
     awk '{print $2}' > $WLFILE
 
     COLS=$maxHorizontalWindows
-    W=$(((SW - (COLS - 1)*IGAP)/COLS))
+    W=$(((SW - (COLS - 1)*IGAP)/COLS - BW))
     H=$SH
 
     COLSTEMP=$((COLS - 1))
