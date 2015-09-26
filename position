@@ -49,7 +49,7 @@ case $1 in
         ;;
     rht)
         SW=$((SW - 2*XGAP))
-        W=$((SW/2 - IGAP/2 - BW))
+        W=$((SW/2 - IGAP/2 - BW - 1))
         X=$((W + XGAP + IGAP + 2))
         H=$((SH - TGAP - BGAP - BW))
         ;;
