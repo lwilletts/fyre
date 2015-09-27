@@ -38,7 +38,7 @@ case $1 in
         fi
         ;;
     full)
-        SW=$((SW - 2*XGAP))
+        SW=$((SW - 2*XGAP - BW))
         SH=$((SH - TGAP - BGAP - BW))
         W=$SW; H=$SH
         ;;

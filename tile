@@ -31,7 +31,7 @@ horizontalTile() {
     awk '{print $2}' > $WLFILE
 
     COLS=$(cat $WLFILE | wc -l)
-    W=$(((SW - (COLS - 1)*IGAP)/COLS - BW))
+    W=$(((SW - (COLS - 1)*IGAP)/COLS))
     H=$SH
 
     for c in $(seq $COLS); do
@@ -45,7 +45,7 @@ mainTile() {
     awk '{print $2}' > $WLFILE
 
     COLS=$maxHorizontalWindows
-    W=$(((SW - (COLS - 1)*IGAP)/COLS - BW))
+    W=$(((SW - (COLS - 1)*IGAP)/COLS))
     H=$SH
 
     COLSTEMP=$((COLS - 1))
@@ -67,46 +67,6 @@ mainTile() {
     for c in $(seq $ROWS); do
         if [ $c -ne 1 ]; then
             if [ $((c % 2)) -eq 1 ]; then
-                H=$((H + 1))
-            fi
-        fi
-        wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
-        Y=$((Y + H + VIGAP))
-    done
-}
-
-sideTiling() {
-    sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
-    awk '{print $2}' > $WLFILE
-
-    COLS=4
-    W=$(((SW - (COLS - 1)*IGAP)/COLS))
-    H=$SH
-
-    COLSTEMP=$((COLS - 1))
-    cat $WLFILE | sed "1,/$COLSTEMP/!d" > $WLFILETEMP
-
-    for c in $(seq $((COLS))); do
-        wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
-        Y=$((Y + H + IGAP))
-    done
-
-    Y=$originalY
-    X=$((X + W + IGAP))
-    W=$((2*W + IGAP))
-
-    wtp $X $Y $W $H $(cat $MAINWID)
-    X=$((W + X + IGAP))
-
-    cat $WLFILE | sed "1d" > $WLFILETEMP
-
-    ROWS=$(cat $WLFILETEMP | wc -l)
-    H=$(((SH - (ROWS - 1)*VIGAP)/ROWS))
-    W=$(((SW - (COLS - 1)*IGAP)/COLS))
-
-    for c in $(seq $ROWS); do
-        if [ $((ROWS % 2)) -eq 1 ]; then
-            if [ $((c % 2)) -eq 1 ] && [ $c -ne 1 ]; then
                 H=$((H + 1))
             fi
         fi
@@ -171,7 +131,7 @@ quadrantTile() {
 
 main() {
     # Calculate usable screen size (without borders and gaps)
-    SW=$((SW - 2*XGAP))
+    SW=$((SW - 2*XGAP - BW))
     SH=$((SH - TGAP - BGAP - BW))
 
     ignore
