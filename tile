@@ -31,7 +31,7 @@ horizontalTile() {
     awk '{print $2}' > $WLFILE
 
     COLS=$(cat $WLFILE | wc -l)
-    W=$(((SW - (COLS - 1)*IGAP)/COLS - BW))
+    W=$(((SW - (COLS - 1)*IGAP)/COLS))
     H=$SH
 
     for c in $(seq $COLS); do
@@ -52,7 +52,7 @@ mainTile() {
     awk '{print $2}' > $WLFILE
 
     COLS=$maxHorizontalWindows
-    W=$(((SW - (COLS - 1)*IGAP)/COLS - BW))
+    W=$(((SW - (COLS - 1)*IGAP)/COLS))
     H=$SH
 
     COLSTEMP=$((COLS - 1))
@@ -178,7 +178,7 @@ quadrantTile() {
 
 main() {
     # Calculate usable screen size (without borders and gaps)
-    SW=$((SW - 2*XGAP))
+    SW=$((SW - 2*XGAP - 2*BW))
     SH=$((SH - TGAP - BGAP - BW))
 
     ignore
