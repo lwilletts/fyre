@@ -47,6 +47,7 @@ No piece of software is perfect:
 - Having two instances of mpv causes the second one to be treated as a urxvtc
 window, becoming tiled.
 - The 'detection' script is too slow and could do with being modularised.  
+- Middle mouse is glitchy on touchpads, especially if using my own wew.c
 
 Shameless Plug
 --------------

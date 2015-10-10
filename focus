@@ -30,3 +30,4 @@ setborder inactive $PFW
 
 chwso -r $wid
 wtf $wid
+# vim: set ft=sh :

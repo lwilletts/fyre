@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/mksh
 #
 # z3bra - 2014 (c) wtfpl
 # window focus wrapper that sets borders and can focus next/previous window
@@ -29,3 +29,4 @@ else
 fi
 
 wtf $wid
+# vim: set ft=sh :

@@ -7,11 +7,20 @@
 
 source fyrerc
 
+checkFullscreen() {
+    if [[ -e $FSFILE ]]; then
+        if [[ $(cat $FSFILE | cut -d\  -f 5) == $PFW ]]; then
+            rm $FSFILE
+        fi
+    fi
+}
+
 if [[ $(wclass c $(pfw)) == "urxvtc" ]]; then
-    killwa $(pfw)
+    killwa $PFW
     tile
 else
-    sed -i "/$(pfw)/d" $DETECT
+    sed -i "/$PFW/d" $DETECT
+    checkFullscreen
 fi
 
 killw $(pfw); bgc

@@ -46,8 +46,17 @@ for wid in $(lsw); do
         urxvtCounter=$((urxvtCounter + 1))
     fi
 
+    if [[ $windowC == "stalonetray" ]]; then
+        printf '%s\n' $wid >> $DETECT
+        urxvtCounter=$((urxvtCounter + 1))
+        X=1000; Y=0; W=100; H=12
+        wtp $X $Y $W $H $wid
+        source fyrerc
+    fi
+
 done
 
 totalDetectList=$((detectionCounter + firefoxCounter + steamCounter + \
                    urxvtCounter + mupdfCounter))
 windowsOnscreen=$((windowsOnscreen - totalDetectList))
+# vim: set ft=sh :
