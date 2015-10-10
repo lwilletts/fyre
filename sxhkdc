@@ -50,9 +50,9 @@ mod1 + i
     chwso -l $(pfw); closest l
 
 # Groups
-mod1 + {1,2,3,4,5,6,7,8,9,0}
+mod1 + {1,2,3,4,5,z,x,c,v,b}
     wgroups -t {1,2,3,4,5,6,7,8,9,10}
-mod1 + shift + {1,2,3,4,5,6,7,8,9,0}
+mod1 + shift + {1,2,3,4,5,z,x,c,v,b}
     wgroups -s $(pfw) {1,2,3,4,5,6,7,8,9,10}
 mod1 + c
     wgroups -c $(pfw)

@@ -8,10 +8,13 @@
 
 source fyrerc
 
-case $1 in
-    tl)
-        X=$((X - 1))
+case $2 in
+    0x*)
+        PFW=$2
         ;;
+esac
+
+case $1 in
     tr)
         X=$((SW - W - XGAP - BW*2))
         ;;
@@ -30,25 +33,24 @@ case $1 in
         W=$((2*TermW)); H=$((2*TermH))
         X=$((SW/2 - W/2 - BW))
         Y=$((SH/2 - H/2 - BW))
-
         if [ $X -eq $(wattr x $PFW) ]; then
             exit
         fi
         ;;
     full)
-        SW=$((SW - 2*XGAP - 2*BW))
+        SW=$((SW - 2*XGAP - BW))
         SH=$((SH - TGAP - BGAP - BW))
         W=$SW; H=$SH
         ;;
     lft)
         SW=$((SW - 2*XGAP - BW))
-        W=$((SW/2 - IGAP/2 + 1))
+        W=$((SW/2 - IGAP/2 - 1))
         H=$((SH - TGAP - BGAP - BW))
         ;;
     rht)
         SW=$((SW - 2*XGAP))
         W=$((SW/2 - IGAP/2 - BW - 1))
-        X=$((W + XGAP + IGAP))
+        X=$((W + XGAP + IGAP + 2))
         H=$((SH - TGAP - BGAP - BW))
         ;;
     ext)
@@ -59,12 +61,6 @@ case $1 in
     res)
         X=$(wattr x $PFW); Y=$(wattr y $PFW)
         W=$TermW; H=$TermH
-        ;;
-esac
-
-case $2 in
-    0x*)
-        PFW=$2
         ;;
 esac
 

@@ -25,11 +25,11 @@ Y=$originalY
 TermW=462
 TermH=260
 
-XGAP=${XGAP:-$X}
+XGAP=${XGAP:-$((X))}
 IGAP=${IGAP:-$((BW))}
 VGAP=${VGAP:-$((BW))}
 BGAP=${BGAP:-$((BW))}
-TGAP=${TGAP:-$Y}
+TGAP=${TGAP:-$((Y))}
 
 windowsOnscreen=$(lsw | wc -l)
 maxHorizontalWindows=4

@@ -13,6 +13,12 @@ if [[ $windowP == *"vol"* ]]; then
 elif [[ $windowP == *"sshserver"* ]]; then
     position mid $wid
     wgroups -s $wid 3
+elif [[ $windowC == "vdpau" ]]; then
+    tile
+elif [[ $windowC == "xv" ]]; then
+    tile
+elif [[ $windowC == "gl" ]]; then
+    tile
 else
     position tl $wid
 fi
