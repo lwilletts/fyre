@@ -18,17 +18,17 @@ BW=${BW:-2}                    # border width
 ACTIVE=${ACTIVE:-0x2E8B57}     # active border color
 INACTIVE=${INACTIVE:-0x000000} # inactive border color
 
-originalX=$((0))
-originalY=$((10 + BW))
+originalX=$((10))
+originalY=$((15))
 X=$originalX
-Y=$originalY
+Y=$((10 + $originalY))
 TermW=462
 TermH=260
 
 XGAP=${XGAP:-$((X))}
-IGAP=${IGAP:-$((BW))}
+IGAP=${IGAP:-$((15 + BW))}
 VGAP=${VGAP:-$((BW))}
-BGAP=${BGAP:-$((BW))}
+BGAP=${BGAP:-$((10 + BW))}
 TGAP=${TGAP:-$((Y))}
 
 windowsOnscreen=$(lsw | wc -l)

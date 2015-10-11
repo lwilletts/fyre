@@ -59,7 +59,7 @@ mainTile() {
     cat $WLFILE | tail -n $((windowsOnscreen - COLSTEMP)) > $WLFILETEMP
 
     ROWS=$(cat $WLFILETEMP | wc -l)
-    H=$(((SH - (ROWS - 1)*IGAP)/ROWS))
+    H=$(((SH - (ROWS - 1)*VGAP)/ROWS))
     if [ $COLS -eq 3 ]; then
         W=$((W + maxHorizontalWindows - 1))
     fi
@@ -140,7 +140,9 @@ main() {
             quadrantTile
         fi
     else
-        if [ $windowsOnscreen -le $maxHorizontalWindows ]; then
+        if [ $windowsOnscreen -eq 1 ]; then
+            oneWindow
+        elif [ $windowsOnscreen -le $maxHorizontalWindows ]; then
             horizontalTile
         else
             mainTile
