@@ -21,6 +21,8 @@ for wid in $(lsw); do
         mpvWid=$wid
     elif [[ $windowC == "gl" ]]; then
         mpvWid=$wid
+    elif [[ $windowP == *"mpv"* ]]; then
+        mpvWid=$wid
     fi
 
     if [[ $(wclass p $wid) == *"firefox"* ]]; then
@@ -48,10 +50,15 @@ for wid in $(lsw); do
         if [ ! -e $GROUPSDIR/group.3 ]; then
             if [[ $(cat $GROUPSDIR/group.3) != $wid ]]; then
                 sed -i 'd' $GROUPSDIR/group.3
-                wgroups -s $wid 3
-                wgroups -u 3
+                wgroups -s $wid 4
+                wgroups -u 4
             fi
         fi
+    fi
+
+    if [[ $(wclass c $wid) == "gimp" ]]; then
+        printf '%s\n' $wid >> $DETECT
+        detectionCounter=$((detectionCounter + 1))
     fi
 
     if [[ $(wclass c $wid) == "Steam" ]]; then
@@ -80,6 +87,11 @@ for wid in $(lsw); do
         X=1000; Y=0; W=100; H=12
         wtp $X $Y $W $H $wid
         source fyrerc
+    fi
+
+    if [[ $(wclass c $wid) == *"WM_CLASS"* ]]; then
+        printf '%s\n' $wid >> $DETECT
+        detectionCounter=$((detectionCounter + 1))
     fi
 
 done

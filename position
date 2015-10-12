@@ -15,6 +15,12 @@ case $2 in
 esac
 
 case $1 in
+    tl)
+        # something happened.
+        ;;
+    tll)
+        X=0
+        ;;
     tr)
         X=$((SW - W - XGAP - BW*2))
         ;;
@@ -43,6 +49,7 @@ case $1 in
         W=$SW; H=$SH
         ;;
     lft)
+        X=$((X - 1))
         SW=$((SW - 2*XGAP - BW))
         W=$((SW/2 - IGAP/2 - 1))
         H=$((SH - TGAP - BGAP - BW))
@@ -50,7 +57,7 @@ case $1 in
     rht)
         SW=$((SW - 2*XGAP))
         W=$((SW/2 - IGAP/2 - BW - 1))
-        X=$((W + XGAP + IGAP + 2))
+        X=$((W + XGAP + IGAP - 2*BW ))
         H=$((SH - TGAP - BGAP - BW))
         ;;
     ext)

@@ -20,5 +20,5 @@ elif [[ $windowC == "xv" ]]; then
 elif [[ $windowC == "gl" ]]; then
     tile
 else
-    position tl $wid
+    position tll $wid
 fi
