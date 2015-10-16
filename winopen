@@ -8,10 +8,11 @@ wid=$1
 windowC=$(wclass c $wid)
 windowP=$(wclass p $wid)
 
-if [[ $windowP == *"vol"* ]]; then
+if [[ $windowC == "vol" ]]; then
     position md $wid
 elif [[ $windowP == *"sshserver"* ]]; then
     position mid $wid
+    transset-df -i $wid 0.75
     wgroups -s $wid 3
 elif [[ $windowC == "vdpau" ]]; then
     tile
@@ -21,4 +22,5 @@ elif [[ $windowC == "gl" ]]; then
     tile
 else
     position tll $wid
+    transset-df -i $wid 0.75
 fi
