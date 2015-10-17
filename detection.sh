@@ -30,10 +30,6 @@ for wid in $(lsw); do
     if [[ $windowC == "mupdf" ]]; then
         printf '%s\n' $wid >> $DETECT
         mupdfCounter=1
-
-        if [ ! -e $GROUPSDIR/group.2 ]; then
-            wgroups.sh -s $wid 1
-        fi
     fi
 
     if [[ $windowC == *"ts3"* ]]; then

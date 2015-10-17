@@ -24,10 +24,6 @@ elif [[ $windowC == "vdpau" ]] || [[ $windowC == "xv" ]] || \
     [[ $windowC == "gl" ]] || [[ $windowP == *"mpv"* ]]; then
     tile.sh
     wgroups.sh -s $wid 5
-elif [[ $windowP == *"firefox"* ]]; then
-    if [ ! -e /tmp/fyre/groups/group.2 ]; then
-        wgroups.sh -s $wid 2
-    fi
 elif [[ $windowC == "mupdf" ]]; then
     wgroups.sh -s $wid 1
 elif [[ $windowC == *"ts3"* ]]; then
