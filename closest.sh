@@ -6,7 +6,7 @@
 source fyrerc.sh
 
 usage() {
-    printf '%s\n' "usage: $(basename $0) <direction>" >&2:
+    printf '%s\n' "usage: $(basename $0) <direction>" >&2
     exit 1
 }
 
