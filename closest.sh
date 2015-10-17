@@ -1,10 +1,9 @@
-#!/bin/sh
+#!/bin/mksh
 #
 # z3bra - 2014 (c) wtfpl
-# find and focus the closest window in a specific direction
-# depends on: focus
+# Find and focus the closest window in a specific direction
 
-source fyrerc
+source fyrerc.sh
 
 usage() {
     printf '%s\n' "usage: $(basename $0) <direction>" >&2:
@@ -27,10 +26,10 @@ next_south() {
     lsw | xargs wattr yi | sort -n | sed "0,/$CUR/d" | sed "1s/^[0-9]* //p;d"
 }
 
-# Use the specification of your choice: HJKL, ←↑↓→, west/north/south/east
 case $1 in
-    h|east|left)  focus $(next_east)  2>/dev/null ;;
-    j|south|down) focus $(next_south) 2>/dev/null ;;
-    k|north|up)   focus $(next_north) 2>/dev/null ;;
-    l|west|right) focus $(next_west)  2>/dev/null ;;
+    h|east|left)  focus.sh $(next_east)  2>/dev/null ;;
+    j|south|down) focus.sh $(next_south) 2>/dev/null ;;
+    k|north|up)   focus.sh $(next_north) 2>/dev/null ;;
+    l|west|right) focus.sh $(next_west)  2>/dev/null ;;
+    *) usage ;;
 esac

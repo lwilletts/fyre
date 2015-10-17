@@ -1,9 +1,13 @@
-#!/bin/sh
-# File        : /home/wildefyr/fyre/wclass
-# Maintainer  : Wildefyr | http://wildefyr.net
-# Copyright   : Wildefyr | Licensed under the WTFPL license.
+#!/bin/mksh
+#
+# wildefyr - 2015 (c) wtfpl
 
-source fyrerc
+source fyrerc.sh
+
+usage() {
+    printf '%s\n' "usage: $(basename $0) <class|classAll|process|processAll> <wid>" >&2:
+    exit 1
+}
 
 case $1 in
     c|class)
@@ -14,14 +18,15 @@ case $1 in
         ;;
     ca|classAll)
         for i in $(seq $(lsw | wc -l)); do
-            wclass c $(lsw | head -n $i | tail -1)
+            wclass.sh c $(lsw | head -n $i | tail -1)
         done
         ;;
     pa|processAll)
         for i in $(seq $(lsw | wc -l)); do
-            wclass p $(lsw | head -n $i | tail -1)
+            wclass.sh p $(lsw | head -n $i | tail -1)
         done
         ;;
     *)
-        cat $0
+        usage
+        ;;
 esac

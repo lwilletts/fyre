@@ -1,12 +1,9 @@
-#!/bin/sh
+#!/bin/mksh
+#
+# wildefyr - 2015 (c) wtfpl
+# Move windows into all sorts of useful positions
 
-# File            : /home/wildefyr/fyre/position
-# Maintainer      : Wildefyr | http://wildefyr.net
-# Copyright       : Wildefyr | Licensed under the WTFPL license.
-# Depends On      : wmutils
-# Original Author : z3bra
-
-source fyrerc
+source fyrerc.sh
 
 case $2 in
     0x*)
@@ -19,7 +16,7 @@ case $1 in
         # something happened.
         ;;
     tll)
-        X=0
+        X=$((X - 1))
         ;;
     tr)
         X=$((SW - W - XGAP - BW*2))
@@ -48,6 +45,11 @@ case $1 in
         SH=$((SH - TGAP - BGAP - BW))
         W=$SW; H=$SH
         ;;
+    fuller)
+        SH=$((SH - TGAP))
+        W=$SW; H=$SH
+        setborder.sh none $2
+        ;;
     lft)
         X=$((X - 1))
         SW=$((SW - 2*XGAP - BW))
@@ -68,6 +70,9 @@ case $1 in
     res)
         X=$(wattr x $PFW); Y=$(wattr y $PFW)
         W=$TermW; H=$TermH
+        ;;
+    *)
+        cat $0
         ;;
 esac
 

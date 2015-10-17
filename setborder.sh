@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/bin/mksh
 #
-# File       : /home/wildefyr/fyre/setborder
-# Maintainer : Wildefyr | http://wildefyr.net
+# wildefyr - 2015 (c) wtfpl
+# Set a border around a window
 
-source fyrerc
+source fyrerc.sh
 
 # check if window exists
 wattr $2 || return
@@ -17,5 +17,8 @@ case $1 in
         ;;
     inactive)
         chwb -s $BW -c $INACTIVE $2
+        ;;
+    none)
+        chwb -s 0 $2
         ;;
 esac

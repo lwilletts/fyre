@@ -1,18 +1,10 @@
 #!/bin/mksh
 #
-# File        : /home/wildefyr/fyre/tiling
-# Maintainer  : Wildefyr | http://wildefyr.net
-# Copyright   : Wildefyr | Licensed under the WTFPL license.
-# Depends on  : wmutils
-# Inspired by : tile by z3bra, grid by Greduan
+# wildefyr - 2015 (c) wtfpl
+# Personal tiling script, optimised for vertical terminal usage
 
-source fyrerc
-source detection
-
-usage() {
-    printf '%s\n' "Usage: $(basename $0)"
-    exit 1
-}
+source fyrerc.sh
+source detection.sh
 
 ignore() {
     cat $DETECT > $WLFILETEMP
@@ -23,7 +15,7 @@ oneWindow() {
     sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
     awk '{print $2}' > $WLFILE
 
-    position full $(cat $WLFILE)
+    position.sh full $(cat $WLFILE)
 }
 
 horizontalTile() {
@@ -152,4 +144,3 @@ main() {
 }
 
 main
-# vim: set ft=sh :

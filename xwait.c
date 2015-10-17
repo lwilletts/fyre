@@ -26,5 +26,3 @@ main ( c, v, e )
 
     return 0;
     }
-
-/* vim: set ft=c: */

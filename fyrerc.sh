@@ -1,8 +1,7 @@
-#!/bin/sh
+#!/bin/mksh
 #
-# File        : /home/wildefyr/.fyre/fyrerc
-# Maintainer  : Wildefyr | http://wildefyr.net
-# Copyright   : Wildefyr | Licensed under the WTFPL license.
+# wildefyr - 2015 (c) wtfpl
+# Source file for global variables across the environment
 
 # Global variables
 ROOT=$(lsw -r)

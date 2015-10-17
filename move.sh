@@ -1,10 +1,9 @@
-#!/bin/sh
+#!/bin/mksh
 #
-# File       : /home/wildefyr/fyre/move
-# Maintainer : Wildefyr | http://wildefyr.net
-# Copyright  : Wildefyr | Licensed under the WTFPL license.
+# wildefyr - 2015 (c) wtfpl
+# Mimic i3 tiled windows swapping positions
 
-source fyrerc
+source fyrerc.sh
 
 case $1 in
     h|left)
@@ -30,4 +29,4 @@ case $1 in
 esac
 
 wtp $X $Y $W $H $PFW
-tile
+tile.sh

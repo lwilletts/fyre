@@ -4,34 +4,44 @@ Fyre
 Appearance:
 -----------
 
-#### Example Desktop
 ![Example Desktop](https://github.com/Wildefyr/wildconfig/blob/master/screenshots/fyre2015-08-27.png)
-#### [Workflow]()
+> #### [Workflow]()
 
 Installation
 ------------
 
-This repo relies on the installation of [wmutils
-core](https://github.com/wmutils/core) and [wmutils
-opt](https://github.com/wmutils/opt). You must then compile xwait.c using c
-compiler or execute xwait.c using tcc. Have a look at xinitrc.example for what
-you need for when loading Xorg. Also, to use your middle mouse button as a
-window focus, apply middleMouseSwitch.patch to wmutils/opt/wew.c, for example:
+You can install fyre with very little fuss by using these methods:
 
-    $ cd ~/builds/wmutils/opt
-    $ git apply ~/builds/fyre/middleMouseSwitch.patch
-    $ make; sudo make install
+- [Crux Port](https://github.com/wildefyr/wild-crux-ports)
+- [Archlinux Aur]()
 
-To execute the scripts, you'll need them somewhere on your path, you can either
-move it to a directory that is already in the path, or you can add the git repo
-to your path. See your shell's documentation on how to do this.
+#### Manual Installation:
+
+This repo relies on the installation of
+[wmutils/core](https://github.com/wmutils/core) and
+[wmutils/opt](https://github.com/wmutils/opt). I also have my own fork of
+[wmutils/opt](https://github.com/wildefyr/opt) which allows the use of middle
+mouse click to focus a window.
+
+To install, make xwait.c, and then add the directory to your path or move the
+executables a directory in your shells path.
+
+Some optional dependancies that you might find interesting:
+
+- mksh - The fastest shell I've tried and I recommend you install this so
+  detection.sh/tile.sh feel very responsive. All bangs are also #!/bin/mksh by
+  default.
+- xorg-xinput
+- transset-df
+
+#### Other considerations:
 
 As with things of this type, there are many optional components, for example:
 
-- Feh (Background Setting)
-- Dmenu
-- Compton
-- Lemonbar
+- dmenu
+- compton
+- lemonbar
+- hsetroot
 
 You'll have to install these separately depending on your distribution, but
 most of them can be grabbed from source (In dmenu's case, you apply the patches
@@ -45,13 +55,13 @@ Known Issues
 No piece of software is perfect:
 
 - Having two instances of mpv causes the second one to be treated as a urxvtc
-window, becoming tiled.
-- The 'detection' script is too slow and could do with being modularised.  
-- Middle mouse is glitchy on touchpads, especially if using my own wew.c
+  window, becoming tiled.
+- The 'detection' script is too slow and could do with being modularised.
+- Middle mouse is glitchy on touchpads, especially if using my fork of opt.
 
 Shameless Plug
 --------------
 
 If you want to contact me about anything, my website can be found
 [here](http://wildefyr.net) and I can also be found on the Freenode IRC under
-the nick 'Wildefyr' where I am often found in #archlinux and #neovim.
+the nick 'Wildefyr' where I am often found in #crux and #6c37.

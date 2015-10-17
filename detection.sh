@@ -1,19 +1,17 @@
 #!/bin/mksh
 #
-# File        : /home/wildefyr/fyre/detection
-# Maintainer  : Wildefyr | http://wildefyr.net
-# Copyright   : Wildefyr | Licensed under the WTFPL license.
-# Description : Find special windows and add them to an ignore list.
+# wildefyr - 2015 (c) wtfpl
+# Behavoiur if a window class matches a certain pattern
 
 # I recommend if you want to have these windows in any other position or even
 # added to a new group, put it under where it checks it's wid.
 
-source fyrerc
+source fyrerc.sh
 
 for wid in $(lsw); do
 
-    windowC=$(wclass c $wid)
-    windowP=$(wclass p $wid)
+    windowC=$(wclass.sh c $wid)
+    windowP=$(wclass.sh p $wid)
 
     if [[ $windowC == "vdpau" ]]; then
         mpvWid=$wid
@@ -30,7 +28,7 @@ for wid in $(lsw); do
         firefoxCounter=1
 
         if [ ! -e $GROUPSDIR/group.2 ]; then
-            wgroups -s $wid 2
+            wgroups.sh -s $wid 2
         fi
     fi
 
@@ -39,7 +37,7 @@ for wid in $(lsw); do
         mupdfCounter=1
 
         if [ ! -e $GROUPSDIR/group.2 ]; then
-            wgroups -s $wid 1
+            wgroups.sh -s $wid 1
         fi
     fi
 
@@ -49,9 +47,9 @@ for wid in $(lsw); do
 
         if [ ! -e $GROUPSDIR/group.3 ]; then
             if [[ $(cat $GROUPSDIR/group.3) != $wid ]]; then
-                sed -i 'd' $GROUPSDIR/group.3
-                wgroups -s $wid 4
-                wgroups -u 4
+                sed -i 'd' $GROUPSDIR/group.4
+                wgroups.sh -s $wid 4
+                wgroups.sh -u 4
             fi
         fi
     fi
@@ -86,7 +84,7 @@ for wid in $(lsw); do
         urxvtCounter=$((urxvtCounter + 1))
         X=1000; Y=0; W=100; H=12
         wtp $X $Y $W $H $wid
-        source fyrerc
+        source fyrerc.sh
     fi
 
     if [[ $windowC == *"WM_CLASS"* ]]; then
@@ -99,4 +97,3 @@ done
 totalDetectList=$((detectionCounter + firefoxCounter + steamCounter + \
                    urxvtCounter + mupdfCounter))
 windowsOnscreen=$((windowsOnscreen - totalDetectList))
-# vim: set ft=sh :

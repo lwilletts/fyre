@@ -1,11 +1,10 @@
-#!/bin/sh
+#!/bin/mksh
 #
 # Copyright (c) 2015 Greduan <me@greduan.com>, licensed under the WTFPL
 # Adds group-like capabilities, sorta like those you find in CWM and such WMs
-
 # With wildefyr's tweaks to make compatible with fyre
 
-source fyrerc
+source fyrerc.rc
 
 usage() {
     cat << EOF

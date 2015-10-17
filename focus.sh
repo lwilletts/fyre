@@ -1,9 +1,9 @@
 #!/bin/mksh
 #
 # z3bra - 2014 (c) wtfpl
-# window focus wrapper that sets borders and can focus next/previous window
+# Window focus wrapper that sets borders and can focus next/previous window
 
-source fyrerc
+source fyrerc.sh
 
 usage() {
     echo "usage: $(basename $0) <next|prev|wid>"
@@ -20,13 +20,13 @@ esac
 # exit if we can't find another window to focus
 test -z "$wid" && echo "$(basename $0): can't find a window to focus" >&2 && exit 1
 
-setborder inactive $PFW
-
 if [ ! -e $FSFILE ]; then
-    setborder active $wid
+    setborder.sh active $wid
 else
-    setborder inactive $wid
+    setborder.sh inactive $wid
 fi
 
+setborder.sh inactive $PFW
+
+chwso -r $wid
 wtf $wid
-# vim: set ft=sh :

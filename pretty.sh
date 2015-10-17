@@ -1,17 +1,9 @@
 #!/bin/sh
 #
-# File        : /home/wildefyr/fyre/tiling
-# Maintainer  : Wildefyr | http://wildefyr.net
-# Copyright   : Wildefyr | Licensed under the WTFPL license.
-# Depends on  : wmutils
-# Inspired by : tile by z3bra, grid by Greduan
+# wildefyr - 2015 (c) wtfpl
+# Arrange windows in a *nix photogeneric way
 
-source fyrerc
-
-usage() {
-    printf '%s\n' "Usage: $(basename $0)"
-    exit 1
-}
+source fyrerc.sh
 
 ignore() {
     cat $DETECT > $WLFILETEMP
@@ -40,8 +32,8 @@ main() {
     if [ ! -z $mpvWid ]; then
         exit
     else
-        detection
-        prettyTile
+        detection.sh
+        pretty.sh
     fi
 }
 
