@@ -19,11 +19,11 @@ if test -f $FSFILE && grep -q $1 $FSFILE; then
 elif [[ $(cat $FSFILE | cut -d' ' -f 5) != $1 ]]; then
     wattr xywhi $1 > $FSFILE
     wtp 0 0 $SW $SH $1
-    setborder none $1
+    setborder.sh none $1
 else
     wattr xywhi $1 > $FSFILE
     wtp 0 0 $SW $SH $1
-    setborder none $1
+    setborder.sh none $1
 fi
 
 vroum.sh $1
