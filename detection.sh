@@ -13,13 +13,8 @@ for wid in $(lsw); do
     windowC=$(wclass.sh c $wid)
     windowP=$(wclass.sh p $wid)
 
-    if [[ $windowC == "vdpau" ]]; then
-        mpvWid=$wid
-    elif [[ $windowC == "xv" ]]; then
-        mpvWid=$wid
-    elif [[ $windowC == "gl" ]]; then
-        mpvWid=$wid
-    elif [[ $windowP == *"mpv"* ]]; then
+    if [[ $windowC == "vdpau" ]] || [[ $windowC == "xv" ]] || \ 
+        [[ $windowC == "gl" ]] || [[ $windowP == *"mpv"* ]]; then
         mpvWid=$wid
     fi
 
@@ -44,14 +39,6 @@ for wid in $(lsw); do
     if [[ $windowC == *"ts3"* ]]; then
         printf '%s\n' $wid >> $DETECT
         detectionCounter=$((detectionCounter + 1))
-
-        if [ ! -e $GROUPSDIR/group.3 ]; then
-            if [[ $(cat $GROUPSDIR/group.3) != $wid ]]; then
-                sed -i 'd' $GROUPSDIR/group.4
-                wgroups.sh -s $wid 4
-                wgroups.sh -u 4
-            fi
-        fi
     fi
 
     if [[ $windowC == "gimp" ]]; then

@@ -46,6 +46,8 @@ case $1 in
         W=$SW; H=$SH
         ;;
     fuller)
+        X=0
+        Y=$TGAP
         SH=$((SH - TGAP))
         W=$SW; H=$SH
         setborder.sh none $2

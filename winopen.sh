@@ -7,20 +7,29 @@ wid=$1
 windowC=$(wclass.sh c $wid)
 windowP=$(wclass.sh p $wid)
 
-if [[ $windowC == "vol" ]]; then
-    position.sh md $wid
-elif [[ $windowP == *"mosh wildefyr.net"* ]]; then
+if [[ $windowC == "volume" ]]; then
+    position.sh mid $wid
+    transset-df -i $wid 0.75
+elif [[ $windowP == *"sshserver"* ]]; then
     position.sh mid $wid
     transset-df -i $wid 0.75
     wgroups.sh -s $wid 3
-elif [[ $windowC == "vdpau" ]]; then
-    tile.sh
-elif [[ $windowC == "xv" ]]; then
-    tile.sh
-elif [[ $windowC == "gl" ]]; then
-    tile.sh
-elif [[ $windowC == *"urxvt"* ]]; then
+elif [[ $windowC == "urxvt" ]]; then
+    position mid $wid
     transset-df -i $wid 0.75
+elif [[ $windowC == "urxvtc" ]]; then
+    position tll $wid
+    transset-df -i $wid 0.75
+elif [[ $windowC == "vdpau" ]] || [[ $windowC == "xv" ]] || \ 
+    [[ $windowC == "gl" ]] || [[ $windowP == *"mpv"* ]]; then
+    tile.sh
+    wgroups.sh -s $wid 5
+elif [[ $windowP == *"firefox"* ]]; then
+    wgroups.sh -s $wid 2
+elif [[ $windowC == "mupdf" ]]; then
+    wgroups.sh -s $wid 1
+elif [[ $windowC == *"ts3"* ]]; then
+    wgroups.sh -s $wid 4
 else
-    position.sh tll $wid
+    position md $wid
 fi
