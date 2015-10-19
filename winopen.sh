@@ -7,10 +7,10 @@ wid=$1
 windowC=$(wclass.sh c $wid)
 windowP=$(wclass.sh p $wid)
 
-if [[ $windowC == "volume" ]]; then
+if [[ $windowP == *"alsamixer"* ]]; then
     position.sh mid $wid
     transset-df -i $wid 0.75
-elif [[ $windowP == *"sshserver"* ]]; then
+elif [[ $windowP == *"wildefyr.net"* ]]; then
     position.sh mid $wid
     transset-df -i $wid 0.75
     wgroups.sh -s $wid 3
