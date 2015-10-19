@@ -20,4 +20,10 @@ esac
 # exit if we can't find another window to focus
 test -z "$wid" && echo "$(basename $0): can't find a window to focus" >&2 && exit 1
 
+if [ ! -e $FSFILE ]; then
+    setborder.sh active $wid
+else
+    setborder.sh inactive $wid
+fi
+
 wtf $wid
