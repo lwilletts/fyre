@@ -8,6 +8,9 @@
 
 source fyrerc.sh
 
+# Clean Detect List
+rm $DETECT
+
 for wid in $(lsw); do
 
     windowC=$(wclass.sh c $wid)
@@ -79,10 +82,10 @@ for wid in $(lsw); do
         detectionCounter=$((detectionCounter + 1))
     fi
 
-    if [[ $windowC == "urxvt" ]]; then
-        printf '%s\n' $wid >> $DETECT
-        detectionCounter=$((detectionCounter + 1))
-    fi
+    # if [[ $windowC == "urxvt" ]]; then
+    #     printf '%s\n' $wid >> $DETECT
+    #     detectionCounter=$((detectionCounter + 1))
+    # fi
 
 done
 
