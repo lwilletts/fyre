@@ -15,10 +15,10 @@ elif [[ $windowP == *"sshserver"* ]]; then
     transset-df -i $wid 0.75
     wgroups.sh -s $wid 3
 elif [[ $windowC == "urxvt" ]]; then
-    position mid $wid
+    position.sh mid $wid
     transset-df -i $wid 0.75
 elif [[ $windowC == "urxvtc" ]]; then
-    position tll $wid
+    position.sh tll $wid
     transset-df -i $wid 0.75
 elif [[ $windowC == "vdpau" ]] || [[ $windowC == "xv" ]] || \ 
     [[ $windowC == "gl" ]] || [[ $windowP == *"mpv"* ]]; then
@@ -29,5 +29,5 @@ elif [[ $windowC == "mupdf" ]]; then
 elif [[ $windowC == *"ts3"* ]]; then
     wgroups.sh -s $wid 4
 else
-    position md $wid
+    position.sh md $wid
 fi
