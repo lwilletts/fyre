@@ -50,7 +50,7 @@ case $1 in
         Y=$originalY
         SH=$((SH - Y))
         W=$SW; H=$SH
-        setborder.sh none $2
+        setborder.sh none $PFW
         chwso -l $PFW
         focus.sh prev
         ;;
