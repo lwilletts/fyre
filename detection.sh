@@ -57,7 +57,7 @@ for wid in $(lsw); do
         detectionCounter=$((detectionCounter + 1))
     fi
 
-    if [[ $windowP == *"urxvt"* ]]; then
+    if [[ $windowC == "urxvt" ]]; then
         printf '%s\n' $wid >> $DETECT
         urxvtCounter=1
     fi
