@@ -47,10 +47,12 @@ case $1 in
         ;;
     fuller)
         X=0
-        Y=$TGAP
+        Y=$originalY
         SH=$((SH - TGAP))
         W=$SW; H=$SH
         setborder.sh none $2
+        chwso -l $PFW
+        focus.sh prev
         ;;
     lft)
         X=$((X - 1))
