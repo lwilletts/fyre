@@ -48,7 +48,7 @@ case $1 in
     fuller)
         X=0
         Y=$originalY
-        SH=$((SH - TGAP))
+        SH=$((SH - Y))
         W=$SW; H=$SH
         setborder.sh none $2
         chwso -l $PFW
