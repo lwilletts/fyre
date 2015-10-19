@@ -9,8 +9,6 @@ windowP=$(wclass.sh p $wid)
 
 if [[ $windowC == "mupdf" ]]; then
     wgroups.sh -s $wid 1
-elif [[ $windowC == "Navigator" ]]; then
-    wgroups.sh -s $wid 2
 elif [[ $windowP == *"wildefyr.net"* ]]; then
     position.sh mid $wid
     transset-df -i $wid 0.75

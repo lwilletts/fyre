@@ -27,7 +27,11 @@ for wid in $(lsw); do
 
     if [[ $windowP == "firefox" ]]; then
         printf '%s\n' $wid >> $DETECT
-        firefoxCounter=$((firefoxCounter + 1))
+        firefoxCounter=1
+
+        if [ ! -e $GROUPSDIR/group.2 ]; then
+            wgroups.sh -s $wid 2
+        fi
     fi
 
     if [[ $windowC == "mupdf" ]]; then
