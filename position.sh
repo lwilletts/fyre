@@ -52,7 +52,7 @@ case $1 in
         W=$SW; H=$SH
         setborder.sh none $PFW
         chwso -l $PFW
-        focus.sh prev
+        focus2.sh prev
         ;;
     lft)
         X=$((X - 1))
