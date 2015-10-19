@@ -15,9 +15,9 @@ elif [[ $windowP == *"sshserver"* ]]; then
     transset-df -i $wid 0.75
     wgroups.sh -s $wid 3
 elif [[ $windowC == "urxvt" ]]; then
-    position.sh mid $wid
+    position.sh md $wid
     transset-df -i $wid 0.75
-elif [[ $windowC == "urxvtc" ]]; then
+elif [[ $windowP == *"urxvtd"* ]]; then
     position.sh tll $wid
     transset-df -i $wid 0.75
 elif [[ $windowC == "vdpau" ]] || [[ $windowC == "xv" ]] || \ 
