@@ -1,15 +1,14 @@
 #!/bin/mksh
 #
 # wildefyr - 2015 (c) wtfpl
-# Behavoiur if a window class matches a certain pattern
-
-# I recommend if you want to have these windows in any other position or even
-# added to a new group, put it under where it checks it's wid.
+# Check for current windows that are on the screen right now
 
 source fyrerc.sh
 
 # Clean Detect List
-rm $DETECT
+if [ -e $DETECT ]; then
+    rm $DETECT
+fi
 
 for wid in $(lsw); do
 
@@ -26,7 +25,7 @@ for wid in $(lsw); do
         mpvWid=$wid
     fi
 
-    if [[ $windowP == *"firefox"* ]]; then
+    if [[ $windowP == "firefox" ]]; then
         printf '%s\n' $wid >> $DETECT
         firefoxCounter=1
 
@@ -38,10 +37,6 @@ for wid in $(lsw); do
     if [[ $windowC == "mupdf" ]]; then
         printf '%s\n' $wid >> $DETECT
         mupdfCounter=1
-
-        if [ ! -e $GROUPSDIR/group.2 ]; then
-            wgroups.sh -s $wid 1
-        fi
     fi
 
     if [[ $windowC == *"ts3"* ]]; then
@@ -82,10 +77,10 @@ for wid in $(lsw); do
         detectionCounter=$((detectionCounter + 1))
     fi
 
-    # if [[ $windowC == "urxvt" ]]; then
-    #     printf '%s\n' $wid >> $DETECT
-    #     detectionCounter=$((detectionCounter + 1))
-    # fi
+    if [[ $windowC == "urxvt" ]]; then
+        printf '%s\n' $wid >> $DETECT
+        detectionCounter=$((detectionCounter + 1))
+    fi
 
 done
 

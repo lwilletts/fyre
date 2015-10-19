@@ -3,11 +3,10 @@
 # wildefyr - 2015 (c) wtfpl
 # Personal tiling script, optimised for vertical terminal usage
 
-source fyrerc.sh
-source detection.sh
-
 ignore() {
-    cat $DETECT > $WLFILETEMP
+    if [ -e $DETECT ]; then
+        cat $DETECT > $WLFILETEMP
+    fi
     lsw >> $WLFILETEMP
 }
 
@@ -35,6 +34,8 @@ horizontalTile() {
 mainTile() {
     sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
     awk '{print $2}' > $WLFILE
+
+    cat $WLFILE
 
     COLS=$maxHorizontalWindows
     W=$(((SW - (COLS - 1)*IGAP)/COLS))
@@ -119,6 +120,9 @@ quadrantTile() {
 }
 
 main() {
+    source fyrerc.sh
+    source detection.sh
+
     # Calculate usable screen size (without borders and gaps)
     SW=$((SW - 2*XGAP - BW))
     SH=$((SH - TGAP - BGAP - BW))
@@ -141,6 +145,9 @@ main() {
         fi
     fi
 
+    if [ -e $WLFILETEMP ]; then
+        rm $WLFILETEMP
+    fi
 }
 
 main
