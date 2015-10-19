@@ -62,15 +62,15 @@ mod4 + c
 
 # Programs:
 mod1 + Return
-    urxvtc -geometry 89x24 -name 'urxvtc'
+    urxvtc -geometry 89x24 -name 'terminal'
 mod2 + Return
     urxvt -geometry 89x24 -name 'urxvt'
 mod1 + d
     dmenu-run
 mod2 + v
-    urxvt -geometry 89x24 -e zsh -c "vol"
+    urxvt -geometry 89x24 -name 'volume' -e zsh -c "alsamixer"
 mod2 + b
-    urxvt -geometry 89x24 -e zsh -c "mosh wildefyr.net"
+    urxvt -geometry 89x24 -name 'sshserver' -e zsh -c "mosh wildefyr.net"
 
 # It's a killin' time!
 mod1 + shift + q
@@ -95,6 +95,14 @@ mod2 + m
     recomposite
 mod2 + n
     killall compton
+mod4 + y
+    trans $(pfw) 0.75
+mod4 + u
+    trans $(pfw) 0.05 d
+mod4 + i
+    trans $(pfw) 0.05 u
+mod4 + o
+    trans $(pfw) 1.0
 
 # Uniques
 mod2 + z
@@ -135,12 +143,6 @@ mod2 + r
     mpc repeat
 
 # Volume:
-mod1 + m
-    pamixer --toggle-mute
-mod1 + 9
-    pamixer --decrease 5
-mod1 + 0
-    pamixer --increase 5
 mod2 + 9
     mpc volume -5
 mod2 + 0
