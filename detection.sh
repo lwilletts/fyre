@@ -13,8 +13,13 @@ for wid in $(lsw); do
     windowC=$(wclass.sh c $wid)
     windowP=$(wclass.sh p $wid)
 
-    if [[ $windowC == "vdpau" ]] || [[ $windowC == "xv" ]] || \ 
-        [[ $windowC == "gl" ]] || [[ $windowP == *"mpv"* ]]; then
+    if [[ $windowC == "vdpau" ]]; then
+        mpvWid=$wid
+    elif [[ $windowC == "xv" ]]; then
+        mpvWid=$wid
+    elif [[ $windowC == "gl" ]]; then 
+        mpvWid=$wid
+    elif [[ $windowP == *"mpv"* ]]; then
         mpvWid=$wid
     fi
 
@@ -30,6 +35,10 @@ for wid in $(lsw); do
     if [[ $windowC == "mupdf" ]]; then
         printf '%s\n' $wid >> $DETECT
         mupdfCounter=1
+
+        if [ ! -e $GROUPSDIR/group.2 ]; then
+            wgroups.sh -s $wid 1
+        fi
     fi
 
     if [[ $windowC == *"ts3"* ]]; then
@@ -57,7 +66,7 @@ for wid in $(lsw); do
         detectionCounter=$((detectionCounter + 1))
     fi
 
-    if [[ $windowC == "urxvt" ]]; then
+    if [[ $windowC == *"urxvt"* ]]; then
         printf '%s\n' $wid >> $DETECT
         urxvtCounter=1
     fi
