@@ -79,6 +79,11 @@ for wid in $(lsw); do
         detectionCounter=$((detectionCounter + 1))
     fi
 
+    if [[ $windowC == "urxvt" ]]; then
+        printf '%s\n' $wid >> $DETECT
+        detectionCounter=$((detectionCounter + 1))
+    fi
+
 done
 
 totalDetectList=$((detectionCounter + firefoxCounter + steamCounter + \
