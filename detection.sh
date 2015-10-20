@@ -1,13 +1,17 @@
 #!/bin/mksh
 #
 # wildefyr - 2015 (c) wtfpl
-# Check for current windows that are on the screen right now
+# check for current windows that are on the screen right now
 
 source fyrerc.sh
 
 # Clean Detect List
 if [ -e $DETECT ]; then
     rm $DETECT
+fi
+
+if [ -e $FSFILE ]; then
+    cat $FSFILE | cut -d\  -f 5 > $DETECT
 fi
 
 for wid in $(lsw); do

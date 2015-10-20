@@ -29,5 +29,5 @@ elif [[ $windowP == *"urxvtd"* ]]; then
     position.sh tll $wid
     transset-df -i $wid 0.75
 else
-    position.sh md $wid
+    position.sh mid $wid
 fi

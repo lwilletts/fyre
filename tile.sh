@@ -1,7 +1,7 @@
 #!/bin/mksh
 #
 # wildefyr - 2015 (c) wtfpl
-# Personal tiling script, optimised for vertical terminal usage
+# personal tiling script, optimised for vertical terminal usage
 
 ignore() {
     if [ -e $DETECT ]; then
@@ -34,8 +34,6 @@ horizontalTile() {
 mainTile() {
     sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
     awk '{print $2}' > $WLFILE
-
-    cat $WLFILE
 
     COLS=$maxHorizontalWindows
     W=$(((SW - (COLS - 1)*IGAP)/COLS))

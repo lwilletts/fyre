@@ -8,9 +8,6 @@ source fyrerc.sh
 # check if window exists
 wattr $2 || return
 
-# Do not modify border of fullscreen windows
-test "$(wattr xywh $2)" = "$(wattr xywh $ROOT)" && return
-
 case $1 in
     active)
         chwb -s $BW -c $ACTIVE $2

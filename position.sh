@@ -45,25 +45,16 @@ case $1 in
         SH=$((SH - TGAP - BGAP - BW))
         W=$SW; H=$SH
         ;;
-    fuller)
-        X=0
-        Y=$originalY
-        SH=$((SH - Y))
-        W=$SW; H=$SH
-        setborder.sh none $PFW
-        chwso -l $PFW
-        focus2.sh prev
-        ;;
     lft)
-        X=$((X - 1))
+        X=$((X))
         SW=$((SW - 2*XGAP - BW))
-        W=$((SW/2 - IGAP/2 - 1))
+        W=$((SW/2 - IGAP/2 - 2*BW))
         H=$((SH - TGAP - BGAP - BW))
         ;;
     rht)
         SW=$((SW - 2*XGAP))
-        W=$((SW/2 - IGAP/2 - BW - 1))
-        X=$((W + XGAP + IGAP - 2*BW ))
+        W=$((SW/2 - IGAP/2 - 2*BW - 1))
+        X=$((W + XGAP + IGAP - BW))
         H=$((SH - TGAP - BGAP - BW))
         ;;
     ext)

@@ -11,22 +11,25 @@ usage() {
 }
 
 case $1 in
-    next) wid=$(lsw|grep -v $CUR|sed '1 p;d') ;;
-    prev) wid=$(lsw|grep -v $CUR|sed '$ p;d') ;;
+    next) wid=$(lsw | grep -v $CUR | sed '1 p;d') ;;
+    prev) wid=$(lsw | grep -v $CUR | sed '$ p;d') ;;
     0x*) wattr $1 && wid=$1 ;;
     *) usage ;;
 esac
 
-# exit if we can't find another window to focus
-test -z "$wid" && echo "$(basename $0): can't find a window to focus" >&2 && exit 1
-
-if [ ! -e $FSFILE ]; then
-    setborder.sh active $wid
+if [ -e $FSFILE ]; then
+    if [[ $(cat $FSFILE | cut -d\  -f 5) == $wid ]]; then
+        setborder.sh none $wid
+    elif [[ $(cat $FSFILE | cut -d\  -f 5) == $PFW ]]; then
+        setborder.sh active $wid
+    else
+        setborder.sh active $wid
+        setborder.sh inactive $PFW
+    fi
 else
-    setborder.sh inactive $wid
+    setborder.sh active $wid
+    setborder.sh inactive $PFW
 fi
-
-setborder.sh inactive $PFW
 
 chwso -r $wid
 wtf $wid
