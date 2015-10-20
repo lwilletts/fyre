@@ -16,8 +16,9 @@ elif [[ $windowP == *"wildefyr.net"* ]]; then
 elif [[ $windowC == *"ts3"* ]]; then
     wgroups.sh -s $wid 4
 elif [[ $windowC == "vdpau" ]] || [[ $windowC == "xv" ]] || \ 
-    [[ $windowC == "gl" ]] || [[ $windowP == *"mpv"* ]]; then
-    tile.sh
+    [[ $windowC == "gl" ]] || [[ $windowC == "x11" ]]; then
+    focus.sh $wid
+    position.sh md $wid
     wgroups.sh -s $wid 5
 elif [[ $windowP == *"alsamixer"* ]]; then
     position.sh mid $wid

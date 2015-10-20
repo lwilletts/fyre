@@ -66,56 +66,47 @@ mainTile() {
     done
 }
 
-quadrantTile() {
-    printf '%s\n' $mpvWid >> $WLFILETEMP
-
-    sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
-    awk '{print $2}' > $WLFILE
-
-    if [ $windowsOnscreen -le 3 ]; then
-        cat $WLFILE | sed '1q' > $WLFILETEMP
-    else
-        cat $WLFILE | sed '2q' > $WLFILETEMP
-    fi
-
-    COLS=$(cat $WLFILETEMP | wc -l)
-    W=$(((SW - IGAP)/(COLS*2) - IGAP/COLS + 1))
-    H=$SH
-
-    for c in $(seq $COLS); do
-        wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
-        X=$((X + W + IGAP - BW))
-    done
-
-    if [ $windowsOnscreen -le 3 ]; then
-        cat $WLFILE | sed '1d' > $WLFILETEMP
-    else
-        cat $WLFILE | sed '1,2d' > $WLFILETEMP
-    fi
-
-    COLS=$(cat $WLFILETEMP | wc -l)
-    if [ $COLS -eq 1 ]; then EXTRA=$((IGAP)); else EXTRA=0; fi
-    W=$(((SW - IGAP)/(COLS*2) - IGAP/COLS + 1))
-    H=$(((SH - VGAP)/2 - BW*2))
-
-    for c in $(seq $COLS); do
-        if [ $((ROWS % 2)) -eq 1 ]; then
-            if [ $((c % 2)) -eq 1 ] && [ $c -ne 1 ]; then
-                X=$((X + 1))
-            fi
-        fi
-        wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
-        X=$((X + W + IGAP - BW))
-    done
-
-    # TODO: Make this scale based on the video's resolution
-    X=$(((SW - IGAP)/2 + IGAP + XGAP - 1))
-    Y=$((Y + H + BW))
-    W=$(((SW - IGAP)/2 - 2*BW + 1))
-    H=$(((SH - VGAP)/2 + 2*BW))
-
-    wtp $X $Y $W $H $mpvWid
-}
+# quadrantTile() {
+#     printf '%s\n' $mpvWid >> $WLFILETEMP
+#     sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
+#     awk '{print $2}' > $WLFILE
+#     if [ $windowsOnscreen -le 3 ]; then
+#         cat $WLFILE | sed '1q' > $WLFILETEMP
+#     else
+#         cat $WLFILE | sed '2q' > $WLFILETEMP
+#     fi
+#     COLS=$(cat $WLFILETEMP | wc -l)
+#     W=$(((SW - IGAP)/(COLS*2) - IGAP/COLS + 1))
+#     H=$SH
+#     for c in $(seq $COLS); do
+#         wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
+#         X=$((X + W + IGAP - BW))
+#     done
+#     if [ $windowsOnscreen -le 3 ]; then
+#         cat $WLFILE | sed '1d' > $WLFILETEMP
+#     else
+#         cat $WLFILE | sed '1,2d' > $WLFILETEMP
+#     fi
+#     COLS=$(cat $WLFILETEMP | wc -l)
+#     if [ $COLS -eq 1 ]; then EXTRA=$((IGAP)); else EXTRA=0; fi
+#     W=$(((SW - IGAP)/(COLS*2) - IGAP/COLS + 1))
+#     H=$(((SH - VGAP)/2 - BW*2))
+#     for c in $(seq $COLS); do
+#         if [ $((ROWS % 2)) -eq 1 ]; then
+#             if [ $((c % 2)) -eq 1 ] && [ $c -ne 1 ]; then
+#                 X=$((X + 1))
+#             fi
+#         fi
+#         wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
+#         X=$((X + W + IGAP - BW))
+#     done
+#     # TODO: Make this scale based on the video's resolution
+#     X=$(((SW - IGAP)/2 + IGAP + XGAP - 1))
+#     Y=$((Y + H + BW))
+#     W=$(((SW - IGAP)/2 - 2*BW + 1))
+#     H=$(((SH - VGAP)/2 + 2*BW))
+#     wtp $X $Y $W $H $mpvWid
+# }
 
 main() {
     source fyrerc.sh
@@ -127,21 +118,12 @@ main() {
 
     ignore
 
-    if [ ! -z $mpvWid ]; then
-        if [ $windowsOnscreen -le 2 ]; then
-            horizontalTile
-        else
-            fullscreen.sh $mpvWid -f
-            maintile
-        fi
+    if [ $windowsOnscreen -eq 1 ]; then
+        oneWindow
+    elif [ $windowsOnscreen -le $maxHorizontalWindows ]; then
+        horizontalTile
     else
-        if [ $windowsOnscreen -eq 1 ]; then
-            oneWindow
-        elif [ $windowsOnscreen -le $maxHorizontalWindows ]; then
-            horizontalTile
-        else
-            mainTile
-        fi
+        mainTile
     fi
 
     if [ -e $WLFILETEMP ]; then

@@ -21,13 +21,17 @@ for wid in $(lsw); do
     windowP=$(wclass.sh p $wid)
 
     if [[ $windowC == "vdpau" ]]; then
-        mpvWid=$wid
+        printf '%s\n' $wid >> $DETECT
+        detectionCounter=$((detectionCounter + 1))
     elif [[ $windowC == "xv" ]]; then
-        mpvWid=$wid
+        printf '%s\n' $wid >> $DETECT
+        detectionCounter=$((detectionCounter + 1))
     elif [[ $windowC == "gl" ]]; then 
-        mpvWid=$wid
-    elif [[ $windowP == *"mpv"* ]]; then
-        mpvWid=$wid
+        printf '%s\n' $wid >> $DETECT
+        detectionCounter=$((detectionCounter + 1))
+    elif [[ $windowC == "x11" ]]; then
+        printf '%s\n' $wid >> $DETECT
+        detectionCounter=$((detectionCounter + 1))
     fi
 
     if [[ $windowP == "firefox" ]]; then
@@ -41,7 +45,7 @@ for wid in $(lsw); do
 
     if [[ $windowC == "mupdf" ]]; then
         printf '%s\n' $wid >> $DETECT
-        mupdfCounter=1
+        detectionCounter=$((detectionCounter + 1))
     fi
 
     if [[ $windowC == *"ts3"* ]]; then
@@ -71,7 +75,7 @@ for wid in $(lsw); do
 
     if [[ $windowC == "stalonetray" ]]; then
         printf '%s\n' $wid >> $DETECT
-        urxvtCounter=$((urxvtCounter + 1))
+        detectionCounter=$((detectionCounter + 1))
         X=1000; Y=0; W=100; H=12
         wtp $X $Y $W $H $wid
         source fyrerc.sh
@@ -89,6 +93,5 @@ for wid in $(lsw); do
 
 done
 
-totalDetectList=$((detectionCounter + firefoxCounter + steamCounter + \
-                   urxvtCounter + mupdfCounter))
+totalDetectList=$((detectionCounter + firefoxCounter + steamCounter))
 windowsOnscreen=$((windowsOnscreen - totalDetectList))
