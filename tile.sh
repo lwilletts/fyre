@@ -131,7 +131,8 @@ main() {
         if [ $windowsOnscreen -le 2 ]; then
             horizontalTile
         else
-            quadrantTile
+            fullscreen.sh $mpvWid
+            maintile
         fi
     else
         if [ $windowsOnscreen -eq 1 ]; then
