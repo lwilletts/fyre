@@ -19,6 +19,16 @@ if [ -z $1 ]; then
     esac
 fi
 
+if [ -z $2 ]; then
+    case $2 in
+        -f)
+            if [[ -e $FSFILE ]]; then
+                exit 
+            fi
+            ;;
+    esac
+fi
+
 windowC=$(wclass.sh c $PFW)
 
 if [[ -e $FSFILE ]] && [[ $(cat $FSFILE | cut -d\  -f 5) == $PFW ]]; then
