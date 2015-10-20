@@ -1,7 +1,7 @@
 #!/bin/mksh
 #
-# wildefyr - 2015 (c) wtfpl
-# Catch window events from wew
+# wildefyr & z3bra - 2015 (c) wtfpl
+# catch window events from wew
 
 source fyrerc.sh
 

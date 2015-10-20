@@ -5,11 +5,12 @@
 
 source fyrerc.sh
 
-# Clean Detect List
+# clean Detect List
 if [ -e $DETECT ]; then
     rm $DETECT
 fi
 
+# doesn't matter if mulitple as sort | uniq cleans later
 if [ -e $FSFILE ]; then
     cat $FSFILE | cut -d\  -f 5 > $DETECT
 fi

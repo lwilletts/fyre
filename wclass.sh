@@ -1,6 +1,7 @@
 #!/bin/mksh
 #
 # wildefyr - 2015 (c) wtfpl
+# checks a windows class
 
 source fyrerc.sh
 

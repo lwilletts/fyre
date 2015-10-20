@@ -1,7 +1,7 @@
 #!/bin/mksh
 #
 # z3bra - 2014 (c) wtfpl
-# Find and focus the closest window in a specific direction
+# find and focus the closest window in a specific direction
 
 source fyrerc.sh
 

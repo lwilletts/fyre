@@ -131,7 +131,7 @@ main() {
         if [ $windowsOnscreen -le 2 ]; then
             horizontalTile
         else
-            fullscreen.sh $mpvWid
+            fullscreen.sh $mpvWid -f
             maintile
         fi
     else

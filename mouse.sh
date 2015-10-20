@@ -1,7 +1,7 @@
 #!/bin/mksh
 #
 # wildefyr - 2015 (c) wtfpl
-# Enable/Disable mouse based on input
+# enable / disable mouse based on input
 
 source fyrerc.sh
 

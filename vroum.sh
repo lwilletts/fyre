@@ -1,7 +1,7 @@
 #!/bin/mksh
 #
 # wildefyr & z3bra - 2015 (c) wtfpl
-# window focus wrapper that sets borders and can focus next/previous window
+# focus wrapper with fullscreen checks
 
 source fyrerc.sh
 

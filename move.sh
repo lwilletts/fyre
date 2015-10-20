@@ -1,7 +1,7 @@
 #!/bin/mksh
 #
 # wildefyr - 2015 (c) wtfpl
-# Mimic i3 tiled windows swapping positions
+# mimic i3 tiled windows swapping positions
 
 source fyrerc.sh
 

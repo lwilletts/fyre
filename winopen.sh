@@ -1,7 +1,7 @@
 #!/bin/mksh
 #
 # wildefyr - 2015 (c) wtfpl
-# Test window classes when being opened
+# test window classes when being opened
 
 wid=$1
 windowC=$(wclass.sh c $wid)

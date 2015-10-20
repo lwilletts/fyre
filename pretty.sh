@@ -1,7 +1,7 @@
 #!/bin/mksh
 #
 # wildefyr - 2015 (c) wtfpl
-# A script to put windows into a *nix photogeneric order
+# script to put windows into a *nix photo generic order /INCOMPLETE/
 
 ignore() {
     if [ -e $DETECT ]; then

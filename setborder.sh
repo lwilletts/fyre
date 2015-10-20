@@ -1,7 +1,7 @@
 #!/bin/mksh
 #
 # wildefyr - 2015 (c) wtfpl
-# Set a border around a window
+# set or unset a border around a window
 
 source fyrerc.sh
 

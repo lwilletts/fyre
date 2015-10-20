@@ -1,7 +1,7 @@
 #!/bin/mksh
 #
 # wildefyr - 2015 (c) wtfpl
-# Move windows into all sorts of useful positions
+# move windows into all sorts of useful positions
 
 source fyrerc.sh
 

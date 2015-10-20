@@ -1,7 +1,7 @@
 #!/bin/mksh
 #
 # wildefyr - 2015 (c) wtfpl
-# Source file for global variables across the environment
+# source file for global variables across the environment
 
 # Global variables
 ROOT=$(lsw -r)
@@ -13,9 +13,9 @@ CUR=${2:-$(pfw)}
 W=$(wattr w $CUR)
 H=$(wattr h $CUR)
 
-BW=${BW:-2}                    # border width
-ACTIVE=${ACTIVE:-0x2E8B57}     # active border color
-INACTIVE=${INACTIVE:-0x000000} # inactive border color
+BW=${BW:-2}
+ACTIVE=${ACTIVE:-0x2E8B57}
+INACTIVE=${INACTIVE:-0x000000}
 
 originalX=$((10))
 originalY=$((15))
