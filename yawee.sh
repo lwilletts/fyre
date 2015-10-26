@@ -26,7 +26,6 @@ while IFS=: read ev wid; do
             ;;
 
         18)
-            tile.sh
             wattr $(pfw) || vroum.sh prev 2>/dev/null
             ;;
 
@@ -34,6 +33,7 @@ while IFS=: read ev wid; do
             if ! wattr o $wid; then
                 setborder.sh inactive $wid
                 focus.sh $wid
+                tile.sh
             fi
             ;;
 
