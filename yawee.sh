@@ -26,6 +26,7 @@ while IFS=: read ev wid; do
             ;;
 
         18)
+            tile.sh
             wattr $(pfw) || vroum.sh prev 2>/dev/null
             ;;
 
