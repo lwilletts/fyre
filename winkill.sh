@@ -3,11 +3,11 @@
 # wildefyr - 2015 (c) wtfpl
 # performs checks and tasks when window has been targetted for termination
 
-wid=$1
+wid=$(pfw)
 windowP=$(wclass.sh p $wid)
 
 if [[ $windowP == *"urxvtd"* ]]; then
     exit
 fi
 
-killw $(pfw)
+killw $wid
