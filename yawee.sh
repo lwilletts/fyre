@@ -33,7 +33,6 @@ while IFS=: read ev wid; do
             if ! wattr o $wid; then
                 setborder.sh inactive $wid
                 focus.sh $wid
-                tile.sh
             fi
             ;;
 
