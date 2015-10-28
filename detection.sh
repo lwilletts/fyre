@@ -19,17 +19,9 @@ for wid in $(lsw); do
 
     windowC=$(wclass.sh c $wid)
     windowP=$(wclass.sh p $wid)
+    windowM=$(wclass.sh m $wid)
 
-    if [[ $windowC == "vdpau" ]]; then
-        printf '%s\n' $wid >> $DETECT
-        detectionCounter=$((detectionCounter + 1))
-    elif [[ $windowC == "xv" ]]; then
-        printf '%s\n' $wid >> $DETECT
-        detectionCounter=$((detectionCounter + 1))
-    elif [[ $windowC == "gl" ]]; then 
-        printf '%s\n' $wid >> $DETECT
-        detectionCounter=$((detectionCounter + 1))
-    elif [[ $windowC == "x11" ]]; then
+    if [[ $windowM == "mpv" ]]; then
         printf '%s\n' $wid >> $DETECT
         detectionCounter=$((detectionCounter + 1))
     fi

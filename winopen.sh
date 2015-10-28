@@ -6,6 +6,7 @@
 wid=$1
 windowC=$(wclass.sh c $wid)
 windowP=$(wclass.sh p $wid)
+windowM=$(wclass.sh m $wid)
 
 if [[ $windowC == "mupdf" ]]; then
     wgroups.sh -s $wid 1
@@ -15,8 +16,7 @@ elif [[ $windowP == *"wildefyr.net"* ]]; then
     wgroups.sh -s $wid 3
 elif [[ $windowC == *"ts3"* ]]; then
     wgroups.sh -s $wid 4
-elif [[ $windowC == "vdpau" ]] || [[ $windowC == "xv" ]] || \ 
-    [[ $windowC == "gl" ]] || [[ $windowC == "x11" ]]; then
+elif [[ $windowM == "mpv" ]]; then
     focus.sh $wid
     position.sh md $wid
     wgroups.sh -s $wid 5
