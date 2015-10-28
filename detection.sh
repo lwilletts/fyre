@@ -34,7 +34,7 @@ for wid in $(lsw); do
         detectionCounter=$((detectionCounter + 1))
     fi
 
-    if [[ $windowP == "firefox" ]]; then
+    if [[ $windowC == "Navigator" ]]; then:
         printf '%s\n' $wid >> $DETECT
         firefoxCounter=1
 
