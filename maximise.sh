@@ -15,8 +15,7 @@ fi
 wid=$1
 
 if [[ $(wclass.sh m $wid) == "mpv" ]]; then
-    wtp $(wattr xy $wid) $(xprop -id $wid WM_NORMAL_HINTS | \ 
-    awk '/maximum/ {print $NF}' | sed 's/\//\ /') $wid
+    wtp $(wattr xy $wid) $(xprop -id $wid WM_NORMAL_HINTS | awk '/maximum/ {print $NF}' | sed 's/\//\ /') $wid
 else
     usage
 fi
