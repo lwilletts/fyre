@@ -11,7 +11,7 @@ usage() {
     exit 1
 }
 
-if [ -z $1 ]; then
+if [ ! -z $1 ]; then
     case $1 in
         0x*)
             PFW=$1
@@ -29,13 +29,16 @@ if [[ -e $FSFILE ]] && [[ $(cat $FSFILE | cut -d\  -f 5) == $PFW ]]; then
     wtp $(cat $FSFILE)
 fi
 
-if [ -f $FSFILE ] && grep -q $PFW $FSFILE; then
-    rm $FSFILE
+if [[ -e $FSFILE ]] && [[ $(cat $FSFILE | cut -d\  -f 5) != $PFW ]]; then
     if [[ $windowC == "urxvt" ]] || [[ $windowC == "Terminal" ]]; then
         transset-df -i $PFW 0.75
     fi
     setborder.sh active $PFW
     wtp $(cat $FSFILE)
+    rm $FSFILE
+    fullscreen.sh $PFW
+elif [[ -e $FSFILE ]] && [[ $(cat $FSFILE | cut -d\  -f 5) == $PFW ]]; then
+    rm $FSFILE
 else
     setborder.sh none $PFW
     transset-df -i $PFW 1
