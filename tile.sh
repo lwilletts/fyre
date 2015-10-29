@@ -3,6 +3,11 @@
 # wildefyr - 2015 (c) wtfpl
 # personal tiling script, optimised for vertical terminal usage
 
+usage() {
+    printf '%s\n' "usage: $(basename $0)"
+    exit 1
+}
+
 ignore() {
     if [ -e $DETECT ]; then
         cat $DETECT > $WLFILETEMP
@@ -118,7 +123,9 @@ main() {
 
     ignore
 
-    if [ $windowsOnscreen -eq 1 ]; then
+    if [ $windowsOnscreen -eq 0 ]; then
+        oneWindow
+    elif [ $windowsOnscreen -eq 1 ]; then
         oneWindow
     elif [ $windowsOnscreen -le $maxHorizontalWindows ]; then
         horizontalTile

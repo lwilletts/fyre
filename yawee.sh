@@ -17,12 +17,16 @@ while IFS=: read ev wid; do
         16)
             if ! wattr o $wid; then
                 winopen.sh $wid
-                tile.sh
+                if [[ $previousWid != $wid ]]; then
+                    tile.sh
+                fi
             fi
             ;;
 
         17)
-            tile.sh
+            if [[ $previousWid != $wid ]]; then
+                tile.sh
+            fi
             ;;
 
         18)
@@ -37,4 +41,5 @@ while IFS=: read ev wid; do
             ;;
 
     esac
+    previousWid=$wid
 done
