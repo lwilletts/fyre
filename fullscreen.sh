@@ -31,6 +31,11 @@ fi
 
 if [ -f $FSFILE ] && grep -q $PFW $FSFILE; then
     rm $FSFILE
+    if [[ $windowC == "urxvt" ]] || [[ $windowC == "Terminal" ]]; then
+        transset-df -i $PFW 0.75
+    fi
+    setborder.sh active $PFW
+    wtp $(cat $FSFILE)
 else
     setborder.sh none $PFW
     transset-df -i $PFW 1
