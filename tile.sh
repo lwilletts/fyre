@@ -124,7 +124,7 @@ main() {
     ignore
 
     if [ $windowsOnscreen -eq 0 ]; then
-        oneWindow
+        exit
     elif [ $windowsOnscreen -eq 1 ]; then
         oneWindow
     elif [ $windowsOnscreen -le $maxHorizontalWindows ]; then
