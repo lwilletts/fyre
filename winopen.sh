@@ -5,8 +5,8 @@
 
 wid=$1
 windowC=$(wclass.sh c $wid)
-windowP=$(wclass.sh p $wid)
 windowM=$(wclass.sh m $wid)
+windowP=$(wclass.sh p $wid)
 
 if [[ $windowC == "mupdf" ]]; then
     wgroups.sh -s $wid 1

@@ -14,21 +14,26 @@ case $1 in
     c|class)
         xprop -id $2 WM_CLASS | cut -f 2 -d \"
         ;;
+    m|more)
+        xprop -id $2 WM_CLASS | cut -f 4 -d \"
+        ;;
     p|process)
         ps -o command $(xprop -id $2 _NET_WM_PID | awk '{print $NF}') | sed '1d'
         ;;
     ca|classAll)
         for i in $(seq $(lsw | wc -l)); do
-            wclass.sh c $(lsw | head -n $i | tail -1)
+            echo $(lsw | head -n $i  | tail -1) $(wclass.sh c $(lsw | head -n $i | tail -1)) 
+        done
+        ;;
+    ma|moreAll)
+        for i in $(seq $(lsw | wc -l)); do
+            echo $(lsw | head -n $i  | tail -1) $(wclass.sh cc $(lsw | head -n $i | tail -1)) 
         done
         ;;
     pa|processAll)
         for i in $(seq $(lsw | wc -l)); do
-            wclass.sh p $(lsw | head -n $i | tail -1)
+            echo $(lsw | head -n $i  | tail -1) $(wclass.sh p $(lsw | head -n $i | tail -1)) 
         done
-        ;;
-    m)
-        xprop -id $2 WM_CLASS | cut -f 4 -d \"
         ;;
     *)
         usage

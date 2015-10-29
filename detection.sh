@@ -18,8 +18,8 @@ fi
 for wid in $(lsw); do
 
     windowC=$(wclass.sh c $wid)
-    windowP=$(wclass.sh p $wid)
     windowM=$(wclass.sh m $wid)
+    windowP=$(wclass.sh p $wid)
 
     if [[ $windowM == "mpv" ]]; then
         printf '%s\n' $wid >> $DETECT
