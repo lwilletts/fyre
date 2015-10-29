@@ -18,6 +18,10 @@ elif [[ $windowC == *"ts3"* ]]; then
     wgroups.sh -s $wid 4
 elif [[ $windowM == "mpv" ]]; then
     wgroups.sh -s $wid 5
+elif [[ $windowP == *"mpsyt"* ]]; then
+    position.sh tl
+    position.sh ext
+    wgroups.sh -s $wid 6
 elif [[ $windowP == *"alsamixer"* ]]; then
     position.sh mid $wid
     transset-df -i $wid 0.75
