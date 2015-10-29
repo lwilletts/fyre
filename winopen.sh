@@ -17,8 +17,6 @@ elif [[ $windowP == *"wildefyr.net"* ]]; then
 elif [[ $windowC == *"ts3"* ]]; then
     wgroups.sh -s $wid 4
 elif [[ $windowM == "mpv" ]]; then
-    focus.sh $wid
-    position.sh md $wid
     wgroups.sh -s $wid 5
 elif [[ $windowP == *"alsamixer"* ]]; then
     position.sh mid $wid
@@ -32,3 +30,5 @@ elif [[ $windowP == *"urxvtd"* ]]; then
 else
     position.sh mid $wid
 fi
+
+focus.sh $wid
