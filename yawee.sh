@@ -9,9 +9,7 @@ while IFS=: read ev wid; do
     case $ev in
 
         4)
-            if ! wattr o $wid; then
-                focus.sh $wid
-            fi
+            focus.sh $wid
             ;;
 
         16)
@@ -37,5 +35,4 @@ while IFS=: read ev wid; do
             ;;
 
     esac
-    previousWid=$wid
 done

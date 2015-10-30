@@ -18,9 +18,9 @@ elif [[ $windowC == *"ts3"* ]]; then
     wgroups.sh -s $wid 4
 elif [[ $windowM == "mpv" ]]; then
     wgroups.sh -s $wid 5
-elif [[ $(wname $wid) == "mpsyt" ]]; then
-    position.sh tl
-    position.sh ext
+elif [[ $windowP == *"mpsyt"* ]]; then
+    position.sh tl $wid
+    position.sh ext $wid
     wgroups.sh -s $wid 6
 elif [[ $windowP == *"alsamixer"* ]]; then
     position.sh mid $wid
