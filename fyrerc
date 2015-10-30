@@ -10,12 +10,15 @@ SH=$(wattr h $ROOT)
 
 PFW=$(pfw)
 CUR=${2:-$(pfw)}
-W=$(wattr w $CUR)
-H=$(wattr h $CUR)
+windowsOnscreen=$(lsw | wc -l)
+maxHorizontalWindows=4
 
 BW=${BW:-2}
 ACTIVE=${ACTIVE:-0x2E8B57}
 INACTIVE=${INACTIVE:-0x000000}
+
+W=$(wattr w $CUR)
+H=$(wattr h $CUR)
 
 originalX=$((10))
 originalY=$((15))
@@ -30,9 +33,6 @@ VGAP=${VGAP:-$((BW))}
 BGAP=${BGAP:-$((10 + BW))}
 TGAP=${TGAP:-$((Y))}
 
-windowsOnscreen=$(lsw | wc -l)
-maxHorizontalWindows=4
-
 # Global Files
 if [ ! -d /tmp/fyre/groups ]; then
     mkdir -p /tmp/fyre/groups
@@ -46,3 +46,4 @@ DETECT=${DETECT:-/tmp/fyre/detectList}
 WLFILE=${WLFILE:-/tmp/fyre/windowList}
 MAINWID=${MAINWID:-/tmp/fyre/mainWid}
 WLFILETEMP=${WLFILETEMP:-/tmp/fyre/windowTemp}
+# vim: set ft=sh :
