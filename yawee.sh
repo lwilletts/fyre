@@ -22,7 +22,9 @@ while IFS=: read ev wid; do
             ;;
 
         17)
-            tile.sh
+            if [[ $previousWid != $wid ]]; then
+                tile.sh
+            fi
             ;;
 
         18)
