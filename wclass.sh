@@ -3,7 +3,7 @@
 # wildefyr - 2015 (c) wtfpl
 # checks a windows class
 
-source fyrerc.sh
+source ~/.fyrerc
 
 usage() {
     printf '%s\n' "usage: $(basename $0) <class|classAll|process|processAll> <wid>" >&2

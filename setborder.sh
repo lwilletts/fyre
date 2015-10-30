@@ -3,7 +3,7 @@
 # wildefyr & z3bra - 2015 (c) wtfpl
 # set or unset a border around a window
 
-source fyrerc.sh
+source ~/.fyrerc
 
 # check if window exists
 wattr $2 || return

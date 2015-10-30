@@ -3,8 +3,7 @@
 # wildefyr & z3bra - 2015 (c) wtfpl
 # fullscreen without borders, remembers previous window geometry
 
-source fyrerc.sh
-
+source ~/.fyrerc
 
 usage() { 
     echo "usage: $(basename $0) <wid>"

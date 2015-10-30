@@ -3,7 +3,7 @@
 # wildefyr - 2015 (c) wtfpl
 # mimic i3 tiled windows swapping positions
 
-source fyrerc.sh
+source ~/.fyrerc
 
 case $1 in
     h|left)

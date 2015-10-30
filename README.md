@@ -24,7 +24,9 @@ This repo relies on the installation of
 mouse click to focus a window.
 
 To install, make xwait.c, and then add the directory to your path or move the
-executables a directory in your shells path.
+executables a directory in your shells path. The config file is read from
+~/.fyrerc. I've included an example fyrerc in the repository. Without this,
+most of the scripts will not work.
 
 Some optional dependancies that you might find interesting:
 

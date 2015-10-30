@@ -4,7 +4,7 @@
 # Adds group-like capabilities, sorta like those you find in CWM and such WMs
 # With wildefyr's tweaks to work well with fyre
 
-source fyrerc.sh
+source ~/.fyrerc
 
 usage() {
     cat << EOF

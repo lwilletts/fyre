@@ -3,7 +3,7 @@
 # wildefyr & z3bra - 2015 (c) wtfpl
 # catch window events from wew
 
-source fyrerc.sh
+source ~/.fyrerc
 
 while IFS=: read ev wid; do
     case $ev in
@@ -17,16 +17,12 @@ while IFS=: read ev wid; do
         16)
             if ! wattr o $wid; then
                 winopen.sh $wid
-                if [[ $previousWid != $wid ]]; then
-                    tile.sh
-                fi
+                tile.sh
             fi
             ;;
 
         17)
-            if [[ $previousWid != $wid ]]; then
-                tile.sh
-            fi
+            tile.sh
             ;;
 
         18)
