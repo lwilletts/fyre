@@ -4,7 +4,7 @@
 # personal tiling script, optimised for vertical terminal usage
 
 usage() {
-    printf '%s\n' "usage: $(basename $0)"
+    printf '%s\n' "usage: $(basename $0) <mpv|rxvt>"
     exit 1
 }
 
@@ -55,10 +55,9 @@ mainTile() {
     done
 }
 
-# mpdTile() {
+mpdTile() {
+    echo hahaha
 #     printf '%s\n' $mpvWid >> $WLFILETEMP
-#     sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
-#     awk '{print $2}' > $WLFILE
 #     if [ $windowsOnscreen -le 3 ]; then
 #         cat $WLFILE | sed '1q' > $WLFILETEMP
 #     else
@@ -95,7 +94,7 @@ mainTile() {
 #     W=$(((SW - IGAP)/2 - 2*BW + 1))
 #     H=$(((SH - VGAP)/2 + 2*BW))
 #     wtp $X $Y $W $H $mpvWid
-# }
+}
 
 main() {
     source ~/.fyrerc
@@ -105,20 +104,30 @@ main() {
     SW=$((SW - 2*XGAP - BW))
     SH=$((SH - TGAP - BGAP - BW))
 
-    if [ -z $mpvWid ]; then
-        mpdTile
-        exit
+    if [ -z $1 ]; then
+        usage
     fi
 
-    if [ $windowsToTile -eq 0 ]; then
-        exit
-    elif [ $windowsToTile -eq 1 ]; then
-        oneWindow
-    elif [ $windowsToTile -le $maxHorizontalWindows ]; then
-        horizontalTile
-    else
-        mainTile
-    fi
+    case $1 in
+        m|mpv)
+            if [ -z $mpvWid ]; then
+                printf '%s\n' "no mpv window found, defaulting to rxvt tile"
+                tile.sh rxvt
+            fi
+            mpdTile
+            ;;
+        r|rxvt)
+            if [ $windowsToTile -eq 0 ]; then
+                exit
+            elif [ $windowsToTile -eq 1 ]; then
+                oneWindow
+            elif [ $windowsToTile -le $maxHorizontalWindows ]; then
+                horizontalTile
+            else
+                mainTile
+            fi
+            ;;
+    esac
 
 }
 

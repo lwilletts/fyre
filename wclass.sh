@@ -6,7 +6,7 @@
 source ~/.fyrerc
 
 usage() {
-    printf '%s\n' "usage: $(basename $0) <class|classAll|process|processAll> <wid>" >&2
+    printf '%s\n' "usage: $(basename $0) <command> <wid>" >&2
     exit 1
 }
 
@@ -27,12 +27,17 @@ case $1 in
         ;;
     ma|moreAll)
         for i in $(seq $(lsw | wc -l)); do
-            echo $(lsw | head -n $i  | tail -1) $(wclass.sh cc $(lsw | head -n $i | tail -1)) 
+            echo $(lsw | head -n $i  | tail -1) $(wclass.sh m $(lsw | head -n $i | tail -1)) 
         done
         ;;
     pa|processAll)
         for i in $(seq $(lsw | wc -l)); do
             echo $(lsw | head -n $i  | tail -1) $(wclass.sh p $(lsw | head -n $i | tail -1)) 
+        done
+        ;;
+    name)
+        for i in $(seq $(lsw | wc -l)); do
+            echo $(lsw | head -n $i  | tail -1) $(wname $(lsw | head -n $i | tail -1)) 
         done
         ;;
     *)
