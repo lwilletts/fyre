@@ -53,20 +53,22 @@ case $1 in
         H=$((SH - TGAP - BGAP - BW))
         ;;
     rht)
-        X=$((W + XGAP + IGAP - BW))
         Y=$TGAP
         SW=$((SW - 2*XGAP))
-        W=$((SW/2 - IGAP/2 - 2*BW - 1))
+        X=$((W + XGAP + IGAP - BW))
         H=$((SH - TGAP - BGAP - BW))
+        W=$((SW/2 - IGAP/2 - 2*BW - 1))
         ;;
     ext)
-        X=$(wattr x $PFW)
+        Y=$TGAP
         W=$TermW
+        X=$(wattr x $PFW)
         H=$((SH - TGAP - BGAP - BW))
         ;;
     res)
-        X=$(wattr x $PFW); Y=$(wattr y $PFW)
+        Y=$TGAP
         W=$TermW; H=$TermH
+        X=$(wattr x $PFW); Y=$(wattr y $PFW)
         ;;
     *)
         cat $0
