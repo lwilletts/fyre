@@ -56,13 +56,18 @@ mainTile() {
 }
 
 mpdTile() {
-    echo hahaha
-#     printf '%s\n' $mpvWid >> $WLFILETEMP
-#     if [ $windowsOnscreen -le 3 ]; then
-#         cat $WLFILE | sed '1q' > $WLFILETEMP
-#     else
-#         cat $WLFILE | sed '2q' > $WLFILETEMP
-#     fi
+    case $(resolution.sh $mpvWid | cut -d\  -f 2) in
+        360)
+            ;;
+        480)
+            ;;
+        720)
+            echo hahaha
+            ;;
+
+    esac
+
+
 #     COLS=$(cat $WLFILETEMP | wc -l)
 #     W=$(((SW - IGAP)/(COLS*2) - IGAP/COLS + 1))
 #     H=$SH
@@ -96,39 +101,38 @@ mpdTile() {
 #     wtp $X $Y $W $H $mpvWid
 }
 
-main() {
-    source ~/.fyrerc
-    source detection.sh
+source ~/.fyrerc
+source detection.sh
 
-    # calculate usable screen size (root minus border gaps)
-    SW=$((SW - 2*XGAP - BW))
-    SH=$((SH - TGAP - BGAP - BW))
+# calculate usable screen size (root minus border gaps)
+SW=$((SW - 2*XGAP - BW))
+SH=$((SH - TGAP - BGAP - BW))
 
-    if [ -z $1 ]; then
-        usage
-    fi
+if [ -z $1 ]; then
+    usage
+fi
 
-    case $1 in
-        m|mpv)
-            if [ -z $mpvWid ]; then
-                printf '%s\n' "no mpv window found, defaulting to rxvt tile"
-                tile.sh rxvt
-            fi
+windowsToTile=$(cat $WLFILE | wc -l)
+
+case $1 in
+    m|mpv)
+        if [ -z $mpvWid ]; then
+            printf '%s\n' "no mpv windows found, defaulting to rxvt ..."
+            tile.sh rxvt
+        else
             mpdTile
-            ;;
-        r|rxvt)
-            if [ $windowsToTile -eq 0 ]; then
-                exit
-            elif [ $windowsToTile -eq 1 ]; then
-                oneWindow
-            elif [ $windowsToTile -le $maxHorizontalWindows ]; then
-                horizontalTile
-            else
-                mainTile
-            fi
-            ;;
-    esac
-
-}
-
-main
+        fi
+        ;;
+    r|rxvt)
+        if [ ! -e $WLFILE ]; then
+            printf '%s\n' "no windows found, exiting ..."
+            exit
+        elif [ $windowsToTile -eq 1 ]; then
+            oneWindow
+        elif [ $windowsToTile -le $maxHorizontalWindows ]; then
+            horizontalTile
+        else
+            mainTile
+        fi
+        ;;
+esac

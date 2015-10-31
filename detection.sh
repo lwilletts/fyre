@@ -26,5 +26,3 @@ for wid in $(lsw); do
     fi
 
 done
-
-windowsToTile=$(cat $WLFILE | wc -l)

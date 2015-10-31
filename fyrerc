@@ -20,7 +20,7 @@ WARNING=${INACTIVE:-0xC64552}
 W=$(wattr w $CUR 2&> /dev/null)
 H=$(wattr h $CUR 2&> /dev/null)
 
-originalX=$((20))
+originalX=$((10))
 originalY=$((20))
 X=$originalX
 Y=$originalY
@@ -28,7 +28,7 @@ TermW=462
 TermH=260
 
 XGAP=${XGAP:-$((X))}
-IGAP=${IGAP:-$((20 + BW))}
+IGAP=${IGAP:-$((10 + BW))}
 VGAP=${VGAP:-$((BW))}
 TGAP=${TGAP:-$((Y + 20))}
 BGAP=${BGAP:-$((Y + BW))}
