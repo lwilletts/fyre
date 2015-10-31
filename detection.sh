@@ -6,26 +6,24 @@
 source ~/.fyrerc
 
 # clean Detect List
-if [ -e $DETECT ]; then
-    rm $DETECT
+if [ -e $WLFILE ]; then
+    rm $WLFILE
 fi
 
 for wid in $(lsw); do
 
     windowC=$(wclass.sh c $wid)
-    windowM=$(wclass.sh m $wid)
 
     if [[ $windowC == "Terminal" ]]; then
-        printf '%s\n' $wid >> $DETECT
+        printf '%s\n' $wid >> $WLFILE
     fi
 
     if [[ $windowM == "mpv" ]]; then
         if [ -z $mpvwid ]; then
-            printf '%s\n' $wid >> $DETECT
             mpvWid=$wid
         fi
     fi
 
 done
 
-windowsToTile=$(cat $DETECT | wc -l)
+windowsToTile=$(cat $WLFILE | wc -l)

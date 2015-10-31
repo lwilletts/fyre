@@ -5,8 +5,14 @@
 
 source ~/.fyrerc
 
-# check if window exists
-wattr $2 || return
+usage() { 
+    printf '%s\n' "usage: $(basename $0) <state> <wid>"
+    exit 1
+}
+
+# check arguments
+if [ -z $1 ]; then usage; fi
+wattr $2 || usage
 
 case $1 in
     active)
@@ -15,7 +21,13 @@ case $1 in
     inactive)
         chwb -s $BW -c $INACTIVE $2
         ;;
+    warning)
+        chwb -s $BW -c $WARNING $2
+        ;;
     none)
         chwb -s 0 $2
+        ;;
+    *)
+        usage
         ;;
 esac

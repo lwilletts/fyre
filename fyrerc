@@ -15,21 +15,22 @@ maxHorizontalWindows=4
 BW=${BW:-2}
 ACTIVE=${ACTIVE:-0x2E8B57}
 INACTIVE=${INACTIVE:-0x000000}
+WARNING=${INACTIVE:-0xC64552}
 
-W=$(wattr w $CUR)
-H=$(wattr h $CUR)
+W=$(wattr w $CUR 2&> /dev/null)
+H=$(wattr h $CUR 2&> /dev/null)
 
-originalX=$((10))
-originalY=$((10))
+originalX=$((20))
+originalY=$((20))
 X=$originalX
 Y=$originalY
 TermW=462
 TermH=260
 
 XGAP=${XGAP:-$((X))}
-IGAP=${IGAP:-$((15 + BW))}
+IGAP=${IGAP:-$((20 + BW))}
 VGAP=${VGAP:-$((BW))}
-TGAP=${TGAP:-$((Y + 15))}
+TGAP=${TGAP:-$((Y + 20))}
 BGAP=${BGAP:-$((Y + BW))}
 
 # Global Files
@@ -39,11 +40,8 @@ fi
 
 GROUPSDIR=${GROUPSDIR:-/tmp/fyre/groups}
 
-TOPWID=${TOPWID:-/tmp/fyre/topwid}
 FSFILE=${FSFILE:-/tmp/fyre/fullinfo}
 WLFILE=${WLFILE:-/tmp/fyre/windowList}
 WLFILETEMP=${WLFILETEMP:-/tmp/fyre/windowTemp}
-DETECT=${DETECT:-/tmp/fyre/detectList}
-DETECT2=${DETECT2:-/tmp/fyre/detectList2}
 
 # vim: set ft=sh :

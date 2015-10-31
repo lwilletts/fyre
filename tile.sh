@@ -8,24 +8,11 @@ usage() {
     exit 1
 }
 
-ignore() {
-    if [ -e $DETECT ]; then
-        cat $DETECT > $WLFILETEMP
-    fi
-    lsw >> $WLFILETEMP
-}
-
 oneWindow() {
-    sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
-    awk '{print $2}' > $WLFILE
-
     position.sh full $(cat $WLFILE)
 }
 
 horizontalTile() {
-    sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
-    awk '{print $2}' > $WLFILE
-
     COLS=$(cat $WLFILE | wc -l)
     W=$(((SW - (COLS - 1)*IGAP)/COLS))
     H=$SH
@@ -37,9 +24,6 @@ horizontalTile() {
 }
 
 mainTile() {
-    sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
-    awk '{print $2}' > $WLFILE
-
     COLS=$maxHorizontalWindows
     W=$(((SW - (COLS - 1)*IGAP)/COLS))
     H=$SH
@@ -71,7 +55,7 @@ mainTile() {
     done
 }
 
-# quadrantTile() {
+# mpdTile() {
 #     printf '%s\n' $mpvWid >> $WLFILETEMP
 #     sort $WLFILETEMP | uniq -u | xargs wattr xi | sort -n | \
 #     awk '{print $2}' > $WLFILE
@@ -117,11 +101,14 @@ main() {
     source ~/.fyrerc
     source detection.sh
 
-    # Calculate usable screen size (without borders and gaps)
+    # calculate usable screen size (root minus border gaps)
     SW=$((SW - 2*XGAP - BW))
     SH=$((SH - TGAP - BGAP - BW))
 
-    ignore
+    if [ -z $mpvWid ]; then
+        mpdTile
+        exit
+    fi
 
     if [ $windowsToTile -eq 0 ]; then
         exit
@@ -133,9 +120,6 @@ main() {
         mainTile
     fi
 
-    if [ -e $WLFILETEMP ]; then
-        rm $WLFILETEMP
-    fi
 }
 
 main

@@ -11,16 +11,16 @@ case $2 in
         ;;
 esac
 
-Y=$TGAP
-
 case $1 in
     tl)
-        # something happened.
+        Y=$TGAP
         ;;
     tll)
+        Y=$TGAP
         X=$((X - 1))
         ;;
     tr)
+        Y=$TGAP
         X=$((SW - W - XGAP - BW*2))
         ;;
     bl)
@@ -43,23 +43,27 @@ case $1 in
         fi
         ;;
     full)
+        Y=$TGAP
         SW=$((SW - 2*XGAP - 2*BW))
         SH=$((SH - TGAP - BGAP - BW))
         W=$SW; H=$SH
         ;;
     lft)
+        Y=$TGAP
         X=$((X + BW))
         SW=$((SW - 2*XGAP - BW))
         W=$((SW/2 - IGAP/2 - 2*BW))
         H=$((SH - TGAP - BGAP - BW))
         ;;
     rht)
+        Y=$TGAP
         SW=$((SW - 2*XGAP))
         X=$((W + XGAP + IGAP - BW))
         H=$((SH - TGAP - BGAP - BW))
         W=$((SW/2 - IGAP/2 - 2*BW - 1))
         ;;
     ext)
+        Y=$TGAP
         W=$TermW
         X=$(wattr x $PFW)
         H=$((SH - TGAP - BGAP - BW))

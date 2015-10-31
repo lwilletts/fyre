@@ -19,7 +19,7 @@ elif [[ $windowC == *"ts3"* ]]; then
 elif [[ $windowM == "mpv" ]]; then
     wgroups.sh -s $wid 5
 elif [[ $windowP == *"mpsyt"* ]]; then
-    position.sh tl $wid
+    position.sh tr $wid
     position.sh ext $wid
     wgroups.sh -s $wid 6
 elif [[ $windowP == *"alsamixer"* ]]; then
@@ -29,9 +29,8 @@ elif [[ $windowC == "urxvt" ]]; then
     position.sh md $wid
     transset-df -i $wid 0.75
 elif [[ $windowP == *"urxvtd"* ]]; then
-    position.sh tll $wid
-    transset-df -i $wid 0.75
     tile.sh
+    transset-df -i $wid 0.75
 else
     position.sh mid $wid
 fi
