@@ -123,11 +123,11 @@ main() {
 
     ignore
 
-    if [ $windowsOnscreen -eq 0 ]; then
+    if [ $windowsToTile -eq 0 ]; then
         exit
-    elif [ $windowsOnscreen -eq 1 ]; then
+    elif [ $windowsToTile -eq 1 ]; then
         oneWindow
-    elif [ $windowsOnscreen -le $maxHorizontalWindows ]; then
+    elif [ $windowsToTile -le $maxHorizontalWindows ]; then
         horizontalTile
     else
         mainTile

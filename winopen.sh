@@ -31,6 +31,7 @@ elif [[ $windowC == "urxvt" ]]; then
 elif [[ $windowP == *"urxvtd"* ]]; then
     position.sh tll $wid
     transset-df -i $wid 0.75
+    tile.sh
 else
     position.sh mid $wid
 fi

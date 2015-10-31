@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # wildefyr - 2015 (c) wtfpl
-# maximise mpv to the current video's resoluton
+# find resoluton of mpv video based on window id
 
 usage() {
     printf '%s\n' "usage: $(basename $0) <mpvwid>"
@@ -15,7 +15,7 @@ fi
 wid=$1
 
 if [[ $(wclass.sh m $wid) == "mpv" ]]; then
-    wtp $(wattr xy $wid) $(resolution.sh $wid) $wid
+    printf '%s\n' "$(xprop -id $wid WM_NORMAL_HINTS | awk '/maximum/ {print $NF}' | sed 's/\//\ /')"
 else
     usage
 fi

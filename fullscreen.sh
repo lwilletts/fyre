@@ -29,10 +29,6 @@ if [[ -e $FSFILE ]] && [[ $(cat $FSFILE | cut -d\  -f 5) == $PFW ]]; then
 fi
 
 if [[ -e $FSFILE ]] && [[ $(cat $FSFILE | cut -d\  -f 5) != $PFW ]]; then
-    windowC=$(cat $FSFILE | cut -d\  -f 5)
-    if [[ $windowC == "urxvt" ]] || [[ $windowC == "Terminal" ]]; then
-        transset-df -i $PFW 0.75
-    fi
     setborder.sh active $PFW
     wtp $(cat $FSFILE)
     rm $FSFILE

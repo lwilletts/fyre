@@ -9,13 +9,14 @@ while IFS=: read ev wid; do
     case $ev in
 
         4)
-            focus.sh $wid
+            if ! wattr o $wid; then
+                focus.sh $wid
+            fi
             ;;
 
         16)
             if ! wattr o $wid; then
                 winopen.sh $wid
-                tile.sh
             fi
             ;;
 

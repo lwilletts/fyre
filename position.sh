@@ -46,15 +46,17 @@ case $1 in
         W=$SW; H=$SH
         ;;
     lft)
-        X=$((X))
+        X=$X
+        Y=$TGAP
         SW=$((SW - 2*XGAP - BW))
         W=$((SW/2 - IGAP/2 - 2*BW))
         H=$((SH - TGAP - BGAP - BW))
         ;;
     rht)
+        X=$((W + XGAP + IGAP - BW))
+        Y=$TGAP
         SW=$((SW - 2*XGAP))
         W=$((SW/2 - IGAP/2 - 2*BW - 1))
-        X=$((W + XGAP + IGAP - BW))
         H=$((SH - TGAP - BGAP - BW))
         ;;
     ext)
