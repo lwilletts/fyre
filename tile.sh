@@ -61,6 +61,9 @@ mpvTile() {
 
         mpvW=$(resolution.sh $mpvWid | cut -d\  -f 1)
         mpvH=$(resolution.sh $mpvWid | cut -d\  -f 2)
+        if [ $mpvH -gt 720 ]; then
+            mpvH=720
+        fi
 
         case $mpvH in
             360)

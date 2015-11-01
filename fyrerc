@@ -33,7 +33,7 @@ VGAP=${VGAP:-$((BW))}
 TGAP=${TGAP:-$((Y + 20))}
 BGAP=${BGAP:-$((Y + BW))}
 
-FYREDIR=${FYREDIR:-/home/wildefyr/.config/fyre}
+FYREDIR=${FYREDIR:-~/.config/fyre}
 
 if [ ! -d $FYREDIR/groups ]; then
     mkdir -p $FYREDIR/groups
