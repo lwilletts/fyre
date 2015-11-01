@@ -28,5 +28,3 @@ for wid in $(lsw); do
     fi
 
 done
-
-$MPVFILE
