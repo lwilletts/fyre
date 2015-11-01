@@ -81,7 +81,7 @@ mpvTile() {
 
 }
 
-source ~/.fyrerc
+source ~/.config/fyre/fyrerc
 source detection.sh
 
 # calculate usable screen size (root minus border gaps)

@@ -3,7 +3,7 @@
 # wildefyr & z3bra - 2015 (c) wtfpl
 # focus wrapper with fullscreen checks
 
-source ~/.fyrerc
+source ~/.config/fyre/fyrerc
 
 usage() {
     echo "usage: $(basename $0) <next|prev|wid>"

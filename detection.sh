@@ -3,7 +3,7 @@
 # wildefyr - 2015 (c) wtfpl
 # check for current windows that are on the screen right now
 
-source ~/.fyrerc
+source ~/.config/fyre/fyrerc
 
 # clean Detect List
 if [ -e $WLFILE ]; then

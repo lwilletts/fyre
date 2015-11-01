@@ -49,7 +49,7 @@ prettytile() {
 }
 
 main() {
-    source ~/.fyrerc
+    source ~/.config/fyre/fyrerc
     source detection.sh
 
     # Calculate usable screen size (without borders and gaps)

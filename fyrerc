@@ -34,16 +34,15 @@ TGAP=${TGAP:-$((Y + 20))}
 BGAP=${BGAP:-$((Y + BW))}
 
 # Global Files
-if [ ! -d /tmp/fyre/groups ]; then
-    mkdir -p /tmp/fyre/groups
+if [ ! -d /.config/fyre/groups ]; then
+    mkdir -p /.config/fyre/groups
 fi
 
-GROUPSDIR=${GROUPSDIR:-/tmp/fyre/groups}
+GROUPSDIR=${GROUPSDIR:-/.config/fyre/groups}
 
-FSFILE=${FSFILE:-/tmp/fyre/fullinfo}
-WLFILE=${WLFILE:-/tmp/fyre/windowList}
-WLFILETEMP=${WLFILETEMP:-/tmp/fyre/windowTemp}
-
-MPVFILE=${MPVFILE:-/tmp/fyre/mpvFile}
+FSFILE=${FSFILE:-/.config/fyre/fullinfo}
+WLFILE=${WLFILE:-/.config/fyre/windowList}
+MPVFILE=${MPVFILE:-/.config/fyre/mpvFile}
+WLFILETEMP=${WLFILETEMP:-/.config/fyre/windowTemp}
 
 # vim: set ft=sh :

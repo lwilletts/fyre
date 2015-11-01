@@ -3,7 +3,7 @@
 # z3bra - 2014 (c) wtfpl
 # find and focus the closest window in a specific direction
 
-source ~/.fyrerc
+source ~/.config/fyre/fyrerc
 
 usage() {
     printf '%s\n' "usage: $(basename $0) <direction>" >&2

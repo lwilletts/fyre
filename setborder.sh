@@ -3,7 +3,7 @@
 # wildefyr & z3bra - 2015 (c) wtfpl
 # set or unset a border around a window
 
-source ~/.fyrerc
+source ~/.config/fyre/fyrerc
 
 usage() { 
     printf '%s\n' "usage: $(basename $0) <state> <wid>"

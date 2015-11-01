@@ -3,7 +3,7 @@
 # wildefyr - 2015 (c) wtfpl
 # enable / disable mouse based on input
 
-source ~/.fyrerc
+source ~/.config/fyre/fyrerc
 
 usage() {
     echo "usage: $(basename $0) <enable|disable>"
