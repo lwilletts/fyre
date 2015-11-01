@@ -33,11 +33,6 @@ VGAP=${VGAP:-$((BW))}
 TGAP=${TGAP:-$((Y + 20))}
 BGAP=${BGAP:-$((Y + BW))}
 
-# Global Files
-if [ ! -d /.config/fyre/groups ]; then
-    mkdir -p /.config/fyre/groups
-fi
-
 GROUPSDIR=${GROUPSDIR:-/.config/fyre/groups}
 
 FSFILE=${FSFILE:-/.config/fyre/fullinfo}
