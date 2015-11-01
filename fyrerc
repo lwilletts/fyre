@@ -39,11 +39,11 @@ if [ ! -d $FYREDIR/groups ]; then
     mkdir -p $FYREDIR/groups
 fi
 
-GROUPSDIR=${GROUPSDIR:-$FYREDIR/fyre/groups}
+GROUPSDIR=${GROUPSDIR:-$FYREDIR/groups}
 
-FSFILE=${FSFILE:-$FYREDIR/fyre/fullinfo}
-WLFILE=${WLFILE:-$FYREDIR/fyre/windowList}
-MPVFILE=${MPVFILE:-$FYREDIR/fyre/mpvFile}
-WLFILETEMP=${WLFILETEMP:-$FYREDIR/fyre/windowTemp}
+FSFILE=${FSFILE:-$FYREDIR/fullinfo}
+WLFILE=${WLFILE:-$FYREDIR/windowList}
+MPVFILE=${MPVFILE:-$FYREDIR/mpvFile}
+WLFILETEMP=${WLFILETEMP:-$FYREDIR/windowTemp}
 
 # vim: set ft=sh :
