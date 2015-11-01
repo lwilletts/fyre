@@ -33,11 +33,17 @@ VGAP=${VGAP:-$((BW))}
 TGAP=${TGAP:-$((Y + 20))}
 BGAP=${BGAP:-$((Y + BW))}
 
-GROUPSDIR=${GROUPSDIR:-/.config/fyre/groups}
+FYREDIR=${FYREDIR:-/home/wildefyr/.config/fyre}
 
-FSFILE=${FSFILE:-/.config/fyre/fullinfo}
-WLFILE=${WLFILE:-/.config/fyre/windowList}
-MPVFILE=${MPVFILE:-/.config/fyre/mpvFile}
-WLFILETEMP=${WLFILETEMP:-/.config/fyre/windowTemp}
+if [ ! -d $FYREDIR/groups ]; then
+    mkdir -p $FYREDIR/groups
+fi
+
+GROUPSDIR=${GROUPSDIR:-$FYREDIR/fyre/groups}
+
+FSFILE=${FSFILE:-$FYREDIR/fyre/fullinfo}
+WLFILE=${WLFILE:-$FYREDIR/fyre/windowList}
+MPVFILE=${MPVFILE:-$FYREDIR/fyre/mpvFile}
+WLFILETEMP=${WLFILETEMP:-$FYREDIR/fyre/windowTemp}
 
 # vim: set ft=sh :
