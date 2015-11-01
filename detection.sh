@@ -5,9 +5,13 @@
 
 source ~/.config/fyre/fyrerc
 
-# clean Detect List
+# clean detection lists
 if [ -e $WLFILE ]; then
     rm $WLFILE
+fi
+
+if [ -e $MPVFILE ]; then
+    rm $MPVFILE
 fi
 
 for wid in $(lsw); do
@@ -24,3 +28,5 @@ for wid in $(lsw); do
     fi
 
 done
+
+$MPVFILE

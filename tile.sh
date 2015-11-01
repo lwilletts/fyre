@@ -13,6 +13,7 @@ oneWindow() {
 }
 
 horizontalTile() {
+    Y=$TGAP
     COLS=$(cat $WLFILE | wc -l)
     W=$(((SW - (COLS - 1)*IGAP)/COLS))
     H=$SH
@@ -24,6 +25,7 @@ horizontalTile() {
 }
 
 mainTile() {
+    Y=$TGAP
     COLS=$maxHorizontalWindows
     W=$(((SW - (COLS - 1)*IGAP)/COLS))
     H=$SH
@@ -59,11 +61,11 @@ mpvTile() {
     
     if [ $mpvWindowsToTile -eq 1 ]; then
 
+        mpvWid=$(cat $MPVFILE)
         mpvW=$(resolution.sh $mpvWid | cut -d\  -f 1)
         mpvH=$(resolution.sh $mpvWid | cut -d\  -f 2)
-        if [ $mpvH -gt 720 ]; then
-            mpvH=720
-        fi
+
+        position.sh br $mpvWid
 
         case $mpvH in
             360)
@@ -71,6 +73,8 @@ mpvTile() {
             480)
                 ;;
             720)
+                ;;
+            *)
                 ;;
         esac
     else
@@ -92,25 +96,24 @@ if [ -z $1 ]; then
     usage
 fi
 
-if [ -e $WLFILE ]; then
-    windowsToTile=$(cat $WLFILE | wc -l)
-    echo $windowsToTile
-else
-    printf '%s\n' "no windows found, exiting ..."
-    exit
-fi
-
 case $1 in
     m|mpv)
         if [ -e $MPVFILE ]; then
-            printf '%s\n' "no mpv windows found, defaulting to rxvt ..."
-            tile.sh rxvt
-        else
             mpvWindowsToTile=$(cat $MPVFILE | wc -l)
             mpvTile
+        else
+            printf '%s\n' "no mpv windows found, defaulting to rxvt ..."
+            tile.sh rxvt
         fi
         ;;
     r|rxvt)
+        if [ -e $WLFILE ]; then
+            windowsToTile=$(cat $WLFILE | wc -l)
+        else
+            printf '%s\n' "no windows found, exiting ..."
+            exit 1
+        fi
+
         if [ $windowsToTile -eq 1 ]; then
             oneWindow
         elif [ $windowsToTile -le $maxHorizontalWindows ]; then
