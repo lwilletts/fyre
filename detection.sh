@@ -20,9 +20,7 @@ for wid in $(lsw); do
     fi
 
     if [[ $windowM == "mpv" ]]; then
-        if [ -z $mpvwid ]; then
-            mpvWid=$wid
-        fi
+        printf '%s\n' $wid >> $MPVFILE
     fi
 
 done

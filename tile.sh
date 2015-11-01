@@ -55,50 +55,30 @@ mainTile() {
     done
 }
 
-mpdTile() {
-    case $(resolution.sh $mpvWid | cut -d\  -f 2) in
-        360)
-            ;;
-        480)
-            ;;
-        720)
-            echo hahaha
-            ;;
+mpvTile() {
+    
+    if [ $mpvWindowsToTile -eq 1 ]; then
 
-    esac
+        mpvW=$(resolution.sh $mpvWid | cut -d\  -f 1)
+        mpvH=$(resolution.sh $mpvWid | cut -d\  -f 2)
 
+        case $mpvH in
+            360)
+                ;;
+            480)
+                ;;
+            720)
+                ;;
+            *)
+                tile.sh rxvt
+                ;;
+        esac
+    else
+        # Assume to take up a 720p space
+        mpvW=1280
+        mpvH=720
+    fi
 
-#     COLS=$(cat $WLFILETEMP | wc -l)
-#     W=$(((SW - IGAP)/(COLS*2) - IGAP/COLS + 1))
-#     H=$SH
-#     for c in $(seq $COLS); do
-#         wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
-#         X=$((X + W + IGAP - BW))
-#     done
-#     if [ $windowsOnscreen -le 3 ]; then
-#         cat $WLFILE | sed '1d' > $WLFILETEMP
-#     else
-#         cat $WLFILE | sed '1,2d' > $WLFILETEMP
-#     fi
-#     COLS=$(cat $WLFILETEMP | wc -l)
-#     if [ $COLS -eq 1 ]; then EXTRA=$((IGAP)); else EXTRA=0; fi
-#     W=$(((SW - IGAP)/(COLS*2) - IGAP/COLS + 1))
-#     H=$(((SH - VGAP)/2 - BW*2))
-#     for c in $(seq $COLS); do
-#         if [ $((ROWS % 2)) -eq 1 ]; then
-#             if [ $((c % 2)) -eq 1 ] && [ $c -ne 1 ]; then
-#                 X=$((X + 1))
-#             fi
-#         fi
-#         wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
-#         X=$((X + W + IGAP - BW))
-#     done
-#     # TODO: Make this scale based on the video's resolution
-#     X=$(((SW - IGAP)/2 + IGAP + XGAP - 1))
-#     Y=$((Y + H + BW))
-#     W=$(((SW - IGAP)/2 - 2*BW + 1))
-#     H=$(((SH - VGAP)/2 + 2*BW))
-#     wtp $X $Y $W $H $mpvWid
 }
 
 source ~/.fyrerc
@@ -112,22 +92,26 @@ if [ -z $1 ]; then
     usage
 fi
 
-windowsToTile=$(cat $WLFILE | wc -l)
+if [ -e $WLFILE ]; then
+    windowsToTile=$(cat $WLFILE | wc -l)
+    echo $windowsToTile
+else
+    printf '%s\n' "no windows found, exiting ..."
+    exit
+fi
 
 case $1 in
     m|mpv)
-        if [ -z $mpvWid ]; then
+        if [ -e $MPVFILE ]; then
             printf '%s\n' "no mpv windows found, defaulting to rxvt ..."
             tile.sh rxvt
         else
-            mpdTile
+            mpvWindowsToTile=$(cat $MPVFILE | wc -l)
+            mpvTile
         fi
         ;;
     r|rxvt)
-        if [ ! -e $WLFILE ]; then
-            printf '%s\n' "no windows found, exiting ..."
-            exit
-        elif [ $windowsToTile -eq 1 ]; then
+        if [ $windowsToTile -eq 1 ]; then
             oneWindow
         elif [ $windowsToTile -le $maxHorizontalWindows ]; then
             horizontalTile

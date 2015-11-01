@@ -28,11 +28,11 @@ if [ -e $FSFILE ]; then
         setborder.sh active $wid
     else
         setborder.sh active $wid
-        setborder.sh inactive $PFW
+        setborder.sh inactive $CUR
     fi
 else
     setborder.sh active $wid
-    setborder.sh inactive $PFW
+    setborder.sh inactive $CUR
 fi
 
 chwso -r $wid

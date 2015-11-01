@@ -18,7 +18,8 @@ case $1 in
         xprop -id $2 WM_CLASS | cut -f 4 -d \"
         ;;
     p|process)
-        ps -o command $(xprop -id $2 _NET_WM_PID | awk '{print $NF}') | sed '1d'
+        ps -o command $(xprop -id $2 _NET_WM_PID | awk '{print $NF}') | sed \
+        '1d' 2> /dev/null
         ;;
     ca|classAll)
         for i in $(seq $(lsw | wc -l)); do

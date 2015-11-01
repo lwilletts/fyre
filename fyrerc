@@ -20,7 +20,7 @@ WARNING=${INACTIVE:-0xC64552}
 W=$(wattr w $CUR 2&> /dev/null)
 H=$(wattr h $CUR 2&> /dev/null)
 
-originalX=$((10))
+originalX=$((20))
 originalY=$((20))
 X=$originalX
 Y=$originalY
@@ -43,5 +43,7 @@ GROUPSDIR=${GROUPSDIR:-/tmp/fyre/groups}
 FSFILE=${FSFILE:-/tmp/fyre/fullinfo}
 WLFILE=${WLFILE:-/tmp/fyre/windowList}
 WLFILETEMP=${WLFILETEMP:-/tmp/fyre/windowTemp}
+
+MPVFILE=${MPVFILE:-/tmp/fyre/mpvFile}
 
 # vim: set ft=sh :
