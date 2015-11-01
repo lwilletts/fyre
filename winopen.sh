@@ -10,6 +10,10 @@ windowP=$(wclass.sh p $wid)
 
 if [[ $windowC == "mupdf" ]]; then
     wgroups.sh -s $wid 1
+elif [[ $windowM == "Firefox" ]]; then
+    wgroups.sh -s $wid 1
+elif [[ $windowC == "Dialog" ]]; then
+    position.sh md $wid
 elif [[ $windowP == *"wildefyr.net"* ]]; then
     position.sh mid $wid
     transset-df -i $wid 0.75

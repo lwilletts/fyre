@@ -72,9 +72,6 @@ mpvTile() {
                 ;;
             720)
                 ;;
-            *)
-                tile.sh rxvt
-                ;;
         esac
     else
         # Assume to take up a 720p space
