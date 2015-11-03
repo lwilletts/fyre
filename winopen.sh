@@ -10,7 +10,7 @@ windowP=$(wclass.sh p $wid)
 
 if [[ $windowC == "mupdf" ]]; then
     wgroups.sh -s $wid 1
-elif [[ $windowC == "Navigator" ]]; then
+elif [[ $windowM == "Navigator" ]]; then
     wgroups.sh -s $wid 2
 elif [[ $windowC == "Dialog" ]]; then
     position.sh md $wid
