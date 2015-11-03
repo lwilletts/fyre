@@ -21,13 +21,13 @@ case $1 in
         ;;
     tr)
         Y=$TGAP
-        X=$((SW - W - XGAP - BW*2))
+        X=$((SW - W - XGAP - BW))
         ;;
     bl)
         Y=$((SH - H - BGAP))
         ;;
     br)
-        X=$((SW - W - XGAP - BW*2))
+        X=$((SW - W - XGAP - BW))
         Y=$((SH - H - BGAP))
         ;;
     md)
@@ -52,7 +52,7 @@ case $1 in
         Y=$TGAP
         X=$((X))
         SW=$((SW - 2*XGAP - BW))
-        W=$((SW/2 - IGAP/2 - BW))
+        W=$((SW/2 - IGAP/2 + BW))
         H=$((SH - TGAP - BGAP - BW))
         ;;
     rht)
