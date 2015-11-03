@@ -13,7 +13,7 @@ Installation
 You can install fyre with very little fuss by using these methods:
 
 - [Crux Port](https://github.com/wildefyr/wild-crux-ports)
-- [Archlinux Aur]()
+- Archlinux Aur - Coming soon!
 
 #### Manual Installation:
 
@@ -23,15 +23,15 @@ This repo relies on the installation of
 [wmutils/opt](https://github.com/wildefyr/opt) which allows the use of middle
 mouse click to focus a window.
 
-To install, make xwait.c, and then add the directory to your path or move the
+To install, compile xwait.c, and then add the directory to your path or move the
 executables a directory in your shells path. The config file is read from
-~/.fyrerc. I've included an example fyrerc in the repository. Without this,
-most of the scripts will not work.
+~/.config/fyre/fyrerc. I've included an example fyrerc in the repository. Without this,
+most of the scripts will not work, but are still free to be adapted. 
 
 Some optional dependancies that you might find interesting:
 
 - mksh - The fastest shell I've tried and I recommend you install this so
-  detection.sh/tile.sh feel very responsive. All bangs are also #!/bin/mksh by
+  winopen.sh/tile.sh feel very responsive. All bangs are also #!/bin/mksh by
   default.
 - xorg-xinput
 - transset-df
@@ -54,12 +54,7 @@ you need). Configuration for these can be found in my
 Known Issues
 ------------
 
-No piece of software is perfect:
-
-- Having two instances of mpv causes the second one to be treated as a urxvtc
-  window, becoming tiled.
-- The 'detection' script is too slow and could do with being modularised.
-- Middle mouse is glitchy on touchpads, especially if using my fork of opt.
+- None.
 
 Shameless Plug
 --------------

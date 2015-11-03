@@ -50,9 +50,9 @@ case $1 in
         ;;
     lft)
         Y=$TGAP
-        X=$((X + BW))
+        X=$((X))
         SW=$((SW - 2*XGAP - BW))
-        W=$((SW/2 - IGAP/2 - 2*BW))
+        W=$((SW/2 - IGAP/2 - BW))
         H=$((SH - TGAP - BGAP - BW))
         ;;
     rht)

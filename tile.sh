@@ -75,6 +75,8 @@ mpvTile() {
             720)
                 ;;
             *)
+                printf '%s\n' "no mpv standard resolutions found, defaulting to rxvt ..."
+                $(basename $0) rxvt
                 ;;
         esac
     else
@@ -103,7 +105,7 @@ case $1 in
             mpvTile
         else
             printf '%s\n' "no mpv windows found, defaulting to rxvt ..."
-            tile.sh rxvt
+            $(basename $0) rxvt
         fi
         ;;
     r|rxvt)
