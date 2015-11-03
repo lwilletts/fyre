@@ -1,18 +1,18 @@
 #!/bin/mksh
 #
 # wildefyr - 2015 (c) wtfpl
-# performs checks and tasks when window has been targetted for termination
+# performs checks when window has been targetted for termination
 
 wid=$(pfw)
 windowM=$(wclass.sh m $wid)
-windowP=$(wclass.sh p $wid)
+
+if [ $(deletelock.sh status $wid) -eq 1 ]; then
+    exit
+fi
 
 if [[ $windowM == "Firefox" ]]; then
     killwa $wid
 fi
 
-if [[ $windowP == *"urxvtd"* ]]; then
-    exit
-fi
-
+printf '%s\n' "you're terminated fucker."
 killw $wid

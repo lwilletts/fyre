@@ -35,6 +35,7 @@ elif [[ $windowC == "urxvt" ]]; then
 elif [[ $windowP == *"urxvtd"* ]]; then
     tile.sh mpv 
     transset-df -i $wid 0.75
+    deletelock.sh lock $wid
 else
     position.sh mid $wid
 fi
