@@ -1,10 +1,11 @@
 #!/bin/sh
 #
 # wildefyr - 2015 (c) wtfpl
-# toggle delete lock to current window
+# toggle delete lock for current window
 
 usage() {
     printf '%s\n' "usage: $(basename $0) <lock|unlock|toggle|status> <wid>"
+    exit 1
 }
 
 wid=$(pfw)
@@ -12,6 +13,9 @@ wid=$(pfw)
 case $2 in
     0x*)
         wid=$2
+        ;;
+    *)
+        usage
         ;;
 esac
 
@@ -23,9 +27,9 @@ case $1 in
         xprop -id $wid -remove _WMUTILS_DELETELOCK
         ;;
     toggle)
-        lockStatus=$(xprop -id $wid _WMUTILS_DELETELOCK | grep -q '1'; echo $?)
+        lockStatus=$(xprop -id $wid _WMUTILS_DELETELOCK | cut -d\  -f 3)
         case $lockStatus in
-            0)
+            1)
                 $(basename $0) unlock $wid 
                 ;;
             *)
@@ -34,13 +38,13 @@ case $1 in
         esac
         ;;
     status)
-        lockStatus=$(xprop -id $wid _WMUTILS_DELETELOCK | grep -q '1'; echo $?)
+        lockStatus=$(xprop -id $wid _WMUTILS_DELETELOCK | cut -d\  -f 3)
         case $lockStatus in
-            0)
-                printf '%s\n' "1"
+            1)
+                return "1"
                 ;;
             *)
-                printf '%s\n' "0"
+                return "0"
                 ;;
         esac
         ;;
