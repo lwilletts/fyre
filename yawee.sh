@@ -25,6 +25,7 @@ while IFS=: read ev wid; do
             ;;
 
         18)
+            tile.sh mpv
             wattr $(pfw) || vroum.sh prev 2>/dev/null
             ;;
 
@@ -36,4 +37,11 @@ while IFS=: read ev wid; do
             ;;
 
     esac
+
+    case $1 in
+        d|debugging)
+            printf '%s\n' "$ev" 
+            ;;
+    esac
+
 done
