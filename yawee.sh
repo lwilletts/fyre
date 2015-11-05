@@ -20,10 +20,6 @@ while IFS=: read ev wid; do
             fi
             ;;
 
-        17)
-            tile.sh mpv
-            ;;
-
         18)
             tile.sh mpv
             wattr $(pfw) || vroum.sh prev 2>/dev/null
