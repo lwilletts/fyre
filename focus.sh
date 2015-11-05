@@ -24,6 +24,9 @@ fi
 if [ -e $FSFILE ]; then
     if [[ $(cat $FSFILE | cut -d\  -f 5) == $wid ]]; then
         setborder.sh none $wid
+    elif [[ $(cat $FSFILE | cut -d\  -f 5) == $CUR ]]; then
+        setborder.sh active $wid
+        setborder.sh none $CUR
     else
         setborder.sh active $wid
         setborder.sh inactive $CUR
