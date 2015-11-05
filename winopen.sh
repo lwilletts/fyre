@@ -25,6 +25,11 @@ elif [[ $windowM == "mpv" ]]; then
     wgroups.sh -s $wid 5
     transset-df -i $wid 1
     tile.sh mpv
+elif [[ $windowP == *"ncmpcpp"* ]]; then
+    position.sh tr $wid
+    position.sh ext $wid
+    wgroups.sh -s $wid 9
+    transset-df -i $wid 0.75
 elif [[ $windowP == *"mpsyt"* ]]; then
     position.sh tr $wid
     position.sh ext $wid
