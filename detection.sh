@@ -20,11 +20,15 @@ for wid in $(lsw); do
     windowM=$(wclass.sh m $wid)
 
     if [[ $windowC == "Terminal" ]]; then
-        printf '%s\n' $wid >> $WLFILE
+        printf '%s\n' $wid >> $WLFILETEMP
     fi
 
     if [[ $windowM == "mpv" ]]; then
-        printf '%s\n' $wid >> $MPVFILE
+        printf '%s\n' $wid >> $MPVFILETEMP
     fi
 
 done
+
+# sort detection lists based on window X values
+cat $WLFILETEMP | xargs wattr xi | sort -nr | sed "0,/$CUR/d" | sed \
+"1s/^[0-9]* //p;d" > $WLFILE

@@ -65,10 +65,24 @@ mpvTile() {
         mpvW=$(resolution.sh $mpvWid | cut -d\  -f 1)
         mpvH=$(resolution.sh $mpvWid | cut -d\  -f 2)
 
-        position.sh br $mpvWid
-
         case $mpvH in
             360)
+                case $windowsToTile in
+                    0)
+                        position.sh md $mpvWid
+                        ;;
+                    1)
+                        H=$((SH - TGAP - BGAP))
+                        
+                        position.sh br $mpvWid
+                        ;;
+                    2)
+                        ;;
+                    3)
+                        ;;
+                    *)
+                        ;;
+                esac
                 ;;
             480)
                 ;;
@@ -92,10 +106,16 @@ source detection.sh
 
 # calculate usable screen size (root minus border gaps)
 SW=$((SW - 2*XGAP - BW))
-SH=$((SH - TGAP - BGAP - BW))
+SH=$((SH - TGAP - BGAP))
 
 if [ -z $1 ]; then
     usage
+fi
+
+if [ -e $WLFILE ] || [ -e $MPVFILE ]; then
+    windowsToTile=$(cat $WLFILE | wc -l)
+else
+    windowsToTile=0
 fi
 
 case $1 in
@@ -109,14 +129,10 @@ case $1 in
         fi
         ;;
     r|rxvt)
-        if [ -e $WLFILE ]; then
-            windowsToTile=$(cat $WLFILE | wc -l)
-        else
-            printf '%s\n' "no windows found, exiting ..."
+        if [ $windowsToTile -eq 0 ]; then
+            printf '%s\n' "No windows found, exiting ..."
             exit 1
-        fi
-
-        if [ $windowsToTile -eq 1 ]; then
+        elif [ $windowsToTile -eq 1 ]; then
             oneWindow
         elif [ $windowsToTile -le $maxHorizontalWindows ]; then
             horizontalTile
