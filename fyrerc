@@ -31,7 +31,7 @@ XGAP=${XGAP:-$((X))}
 IGAP=${IGAP:-$((10 + BW))}
 VGAP=${VGAP:-$((BW))}
 TGAP=${TGAP:-$((Y + 20))}
-BGAP=${BGAP:-$((Y + BW))}
+BGAP=${BGAP:-$((Y))}
 
 FYREDIR=${FYREDIR:-~/.config/fyre}
 
