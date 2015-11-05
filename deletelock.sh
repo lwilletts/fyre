@@ -41,10 +41,10 @@ case $1 in
         lockStatus=$(xprop -id $wid _WMUTILS_DELETELOCK | cut -d\  -f 3)
         case $lockStatus in
             1)
-                return "1"
+                echo "1"
                 ;;
             *)
-                return "0"
+                echo "0"
                 ;;
         esac
         ;;
