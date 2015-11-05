@@ -121,7 +121,7 @@ case $1 in
         elif [ $windowsToTile -le $maxHorizontalWindows ]; then
             horizontalTile
         else
-            mainTile
+            echo 1
         fi
         ;;
 esac
