@@ -60,7 +60,7 @@ case $1 in
         SW=$((SW - 2*XGAP - BW))
         H=$((SH - TGAP - BGAP - BW))
         W=$((SW/2 - IGAP/2 - BW))
-        X=$((W + IGAP - BW))
+        X=$((W + XGAP + IGAP - BW))
         ;;
     ext)
         Y=$TGAP
