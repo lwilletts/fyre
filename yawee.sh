@@ -14,12 +14,6 @@ while IFS=: read ev wid; do
             fi
             ;;
 
-        7)
-            if ! wattr o $wid; then
-                focus.sh $wid
-            fi
-            ;;
-
         16)
             if ! wattr o $wid; then
                 winopen.sh $wid
