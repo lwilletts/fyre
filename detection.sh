@@ -8,10 +8,12 @@ source ~/.config/fyre/fyrerc
 # clean detection lists
 if [ -e $WLFILE ]; then
     rm $WLFILE
+    rm $WLFILETEMP
 fi
 
 if [ -e $MPVFILE ]; then
     rm $MPVFILE
+    rm $MPVFILETEMP
 fi
 
 for wid in $(lsw); do
