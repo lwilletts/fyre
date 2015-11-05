@@ -33,6 +33,7 @@ Some optional dependancies that you might find interesting:
 - mksh - The fastest shell I've tried and I recommend you install this so
   winopen.sh/tile.sh feel very responsive. All bangs are also #!/bin/mksh by
   default.
+- xorg-xprop
 - xorg-xinput
 - transset-df
 
