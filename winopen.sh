@@ -28,7 +28,7 @@ elif [[ $windowM == "mpv" ]]; then
 elif [[ $windowP == *"mpsyt"* ]]; then
     position.sh tr $wid
     position.sh ext $wid
-    wgroups.sh -s $wid 6
+    wgroups.sh -s $wid 0
     transset-df -i $wid 0.75
 elif [[ $windowP == *"alsamixer"* ]]; then
     position.sh mid $wid
