@@ -32,5 +32,5 @@ for wid in $(lsw); do
 done
 
 # sort detection lists based on window X values
-cat $WLFILETEMP | xargs wattr xi | sort -nr | sed "0,/$CUR/d" | sed \
-"1s/^[0-9]* //p;d" > $WLFILE
+cat $WLFILETEMP | xargs wattr xi | sort -n | sed "s/^[0-9]* //" > $WLFILE
+cat $MPVFILETEMP | xargs wattr xi | sort -n | sed "s/^[0-9]* //" > $MPVFILE
