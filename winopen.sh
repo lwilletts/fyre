@@ -20,6 +20,8 @@ elif [[ $windowP == *"wildefyr.net"* ]]; then
     transset-df -i $wid 0.75
     wgroups.sh -s $wid 3
 elif [[ $windowC == *"ts3"* ]]; then
+    position.sh tl $wid
+    position.sh ext $wid
     wgroups.sh -s $wid 4
 elif [[ $windowM == "mpv" ]]; then
     wgroups.sh -s $wid 5
