@@ -70,11 +70,13 @@ mpvTile() {
                     1)
                         H=$((SH - TGAP - BGAP))
                         
-                        position.sh br $mpvWid
+                        position.sh bl $mpvWid
                         ;;
                     2)
+                        position.sh bl $mpvWid
                         ;;
                     3)
+                        position.sh bl $mpvWid
                         ;;
                     *)
                         ;;
