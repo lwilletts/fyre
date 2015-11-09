@@ -40,6 +40,7 @@ while IFS=: read ev wid; do
 
         19)
             if ! wattr o $wid; then
+                tile.sh mpv
                 focus.sh $wid
                 if [ $(lsw | wc -l) -ne 0 ]; then
                     blur &
