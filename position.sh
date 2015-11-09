@@ -47,9 +47,8 @@ case $1 in
         ;;
     lft)
         Y=$TGAP
-        echo $Y
         SW=$((SW - 2*XGAP - BW))
-        W=$((SW/2 - IGAP/2 - BW + 1))
+        W=$((SW/2 - IGAP/2))
         H=$((SH - TGAP - BGAP))
         ;;
     rht)
