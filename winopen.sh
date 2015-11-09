@@ -30,12 +30,12 @@ elif [[ $windowM == "mpv" ]]; then
 elif [[ $windowP == *"ncmpcpp"* ]]; then
     position.sh tr $wid
     position.sh ext $wid
-    wgroups.sh -s $wid 9
+    wgroups.sh -s $wid 8
     transset-df -i $wid 0.75
 elif [[ $windowP == *"mpsyt"* ]]; then
     position.sh tr $wid
     position.sh ext $wid
-    wgroups.sh -s $wid 0
+    wgroups.sh -s $wid 9
     transset-df -i $wid 0.75
 elif [[ $windowP == *"alsamixer"* ]]; then
     position.sh mid $wid

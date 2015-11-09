@@ -5,13 +5,6 @@
 
 source ~/.config/fyre/fyrerc
 
-BLUR=20
-WALL=$HOME$(cat $(which bgc) | cut -d~ -f 2)
-
-blur() {
-    hsetroot -tile $WALL -blur ${1:-$BLUR}
-}
-
 while IFS=: read ev wid; do
     case $ev in
 
