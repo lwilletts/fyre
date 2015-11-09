@@ -12,7 +12,7 @@ usage() {
 
 # check arguments
 if [ -z $1 ]; then usage; fi
-wattr $2 || usage
+wattr $2 || exit 1
 
 case $1 in
     active)
