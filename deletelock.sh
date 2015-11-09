@@ -14,9 +14,6 @@ case $2 in
     0x*)
         wid=$2
         ;;
-    *)
-        usage
-        ;;
 esac
 
 case $1 in

@@ -38,9 +38,6 @@ case $1 in
         W=$((2*TermW)); H=$((2*TermH))
         X=$((SW/2 - W/2 - BW))
         Y=$((SH/2 - H/2 - BW))
-        if [ $X -eq $(wattr x $PFW) ]; then
-            exit
-        fi
         ;;
     full)
         Y=$TGAP
@@ -50,9 +47,9 @@ case $1 in
         ;;
     lft)
         Y=$TGAP
-        X=$((X))
+        echo $Y
         SW=$((SW - 2*XGAP - BW))
-        W=$((SW/2 - IGAP/2 - BW))
+        W=$((SW/2 - IGAP/2 - BW + 1))
         H=$((SH - TGAP - BGAP))
         ;;
     rht)
@@ -60,7 +57,7 @@ case $1 in
         SW=$((SW - 2*XGAP))
         X=$((W + XGAP + IGAP - BW))
         H=$((SH - TGAP - BGAP))
-        W=$((SW/2 - IGAP/2 - 2*BW - 1))
+        W=$((SW/2 - IGAP/2 - 1))
         ;;
     ext)
         Y=$TGAP

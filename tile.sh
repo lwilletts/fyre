@@ -130,7 +130,7 @@ case $1 in
         ;;
     r|rxvt)
         if [ $windowsToTile -eq 0 ]; then
-            printf '%s\n' "No windows found, exiting ..."
+            printf '%s\n' "no windows found, exiting ..."
             exit 1
         elif [ $windowsToTile -eq 1 ]; then
             oneWindow

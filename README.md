@@ -57,6 +57,13 @@ Known Issues
 
 - None.
 
+Authors
+-------
+
+Authors for specific scripts are listed in the files where they have
+contribulated ideas or code. Many thanks to the original wmutils authors: 
+dcat & z3bra
+
 Shameless Plug
 --------------
 

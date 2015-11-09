@@ -6,12 +6,12 @@
 source ~/.config/fyre/fyrerc
 
 # clean detection lists
-if [ -e $WLFILE ]; then
+if [ -e $WLFILETEMP ]; then
     rm $WLFILE
     rm $WLFILETEMP
 fi
 
-if [ -e $MPVFILE ]; then
+if [ -e $MPVFILETEMP ]; then
     rm $MPVFILE
     rm $MPVFILETEMP
 fi
@@ -32,5 +32,10 @@ for wid in $(lsw); do
 done
 
 # sort detection lists based on window X values
-cat $WLFILETEMP | xargs wattr xi | sort -n | sed "s/^[0-9]* //" > $WLFILE
-cat $MPVFILETEMP | xargs wattr xi | sort -n | sed "s/^[0-9]* //" > $MPVFILE
+if [ -e $WLFILETEMP ]; then
+    cat $WLFILETEMP | xargs wattr xi | sort -n | sed "s/^[0-9]* //" > $WLFILE
+fi
+
+if [ -e $MPVFILETEMP ]; then
+    cat $MPVFILETEMP | xargs wattr xi | sort -n | sed "s/^[0-9]* //" > $MPVFILE
+fi
