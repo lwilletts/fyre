@@ -8,10 +8,6 @@ usage() {
     exit 1
 }
 
-oneWindow() {
-    position.sh full $(cat $WLFILE)
-}
-
 horizontalTile() {
     Y=$TGAP
     COLS=$(cat $WLFILE | wc -l)
@@ -132,12 +128,8 @@ case $1 in
         if [ $windowsToTile -eq 0 ]; then
             printf '%s\n' "no windows found, exiting ..."
             exit 1
-        elif [ $windowsToTile -eq 1 ]; then
-            oneWindow
         elif [ $windowsToTile -le $maxHorizontalWindows ]; then
             horizontalTile
-        else
-            echo 1
         fi
         ;;
 esac

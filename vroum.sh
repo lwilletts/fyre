@@ -22,6 +22,7 @@ if [ -e $FSFILE ]; then
         setborder.sh none $wid
     elif [[ $(cat $FSFILE | cut -d\  -f 5) == $PFW ]]; then
         setborder.sh active $wid
+        setborder.sh none $CUR
     else
         setborder.sh active $wid
         setborder.sh inactive $CUR

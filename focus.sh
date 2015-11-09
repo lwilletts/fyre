@@ -17,10 +17,6 @@ case $1 in
     *) usage ;;
 esac
 
-if [[ $wid == $PFW ]]; then
-    usage
-fi 
-
 if [ -e $FSFILE ]; then
     if [[ $(cat $FSFILE | cut -d\  -f 5) == $wid ]]; then
         setborder.sh none $wid

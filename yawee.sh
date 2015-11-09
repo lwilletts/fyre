@@ -5,6 +5,11 @@
 
 source ~/.config/fyre/fyrerc
 
+blur() {
+    BLUR=3
+    $(cat $(which bgc) -blur ${1:-$BLUR}) 
+}
+
 while IFS=: read ev wid; do
     case $ev in
 
@@ -17,17 +22,18 @@ while IFS=: read ev wid; do
         16)
             if ! wattr o $wid; then
                 winopen.sh $wid
+                test "$(lsw)" = "$wid" && blur &
             fi
             ;;
 
         18)
             tile.sh mpv
             wattr $(pfw) || vroum.sh prev 2>/dev/null
+            test -z "$(lsw)" && blur 0 &
             ;;
 
         19)
             if ! wattr o $wid; then
-                setborder.sh inactive $wid
                 focus.sh $wid
             fi
             ;;
@@ -35,7 +41,7 @@ while IFS=: read ev wid; do
     esac
 
     case $1 in
-        d|debugging)
+        d|debug)
             printf '%s\n' "$ev" 
             ;;
     esac
