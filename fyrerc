@@ -33,13 +33,14 @@ VGAP=${VGAP:-$((BW))}
 TGAP=${TGAP:-$((Y + 20))}
 BGAP=${BGAP:-$((Y))}
 
+BLUR=${BLUR:-20}
+mainGroup=${mainGroup:-0}
+
 FYREDIR=${FYREDIR:-~/.config/fyre}
 
 if [ ! -d $FYREDIR/groups ]; then
     mkdir -p $FYREDIR/groups
 fi
-
-mainGroup=${mainGroup:-0}
 
 GROUPSDIR=${GROUPSDIR:-$FYREDIR/groups}
 
