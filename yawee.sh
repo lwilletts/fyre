@@ -5,9 +5,11 @@
 
 source ~/.config/fyre/fyrerc
 
+BLUR=20
+WALL=$HOME$(cat $(which bgc) | cut -d~ -f 2)
+
 blur() {
-    BLUR=3
-    $(cat $(which bgc) -blur ${1:-$BLUR}) 
+    hsetroot -tile $WALL -blur ${1:-$BLUR}
 }
 
 while IFS=: read ev wid; do
@@ -22,19 +24,26 @@ while IFS=: read ev wid; do
         16)
             if ! wattr o $wid; then
                 winopen.sh $wid
-                test "$(lsw)" = "$wid" && blur &
+                if [ $(lsw | wc -l) -eq 1 ]; then
+                    blur &
+                fi
             fi
             ;;
 
         18)
             tile.sh mpv
             wattr $(pfw) || vroum.sh prev 2>/dev/null
-            test -z "$(lsw)" && blur 0 &
+            if [ $(lsw | wc -l) -eq 0 ]; then
+                blur 0 &
+            fi
             ;;
 
         19)
             if ! wattr o $wid; then
                 focus.sh $wid
+                if [ $(lsw | wc -l) -ne 0 ]; then
+                    blur &
+                fi
             fi
             ;;
 
