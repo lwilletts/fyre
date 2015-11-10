@@ -48,7 +48,7 @@ elif [[ $windowP == *"urxvtd"* ]]; then
     transset-df -i $wid 0.75
     deletelock.sh lock $wid
 else
-    position.sh mid $wid
+    position.sh md $wid
 fi
 
 wgroups.sh -s $mainGroup
