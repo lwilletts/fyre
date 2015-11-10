@@ -24,10 +24,10 @@ case $1 in
         X=$((SW - W - XGAP - BW*2))
         ;;
     bl)
-        Y=$((SH - H - BGAP - BW))
+        Y=$((SH - H - BGAP))
         ;;
     br)
-        Y=$((SH - H - BGAP - BW))
+        Y=$((SH - H - BGAP))
         X=$((SW - W - XGAP - BW*2))
         ;;
     md)
@@ -42,7 +42,7 @@ case $1 in
     full)
         Y=$TGAP
         SW=$((SW - 2*XGAP - 2*BW))
-        SH=$((SH - TGAP - BGAP - BW))
+        SH=$((SH - TGAP - BGAP))
         W=$SW; H=$SH
         ;;
     lft)
