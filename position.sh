@@ -16,52 +16,52 @@ case $1 in
         Y=$TGAP
         ;;
     tll)
-        Y=$TGAP
         X=$((X - 1))
+        Y=$TGAP
         ;;
     tr)
-        Y=$TGAP
         X=$((SW - W - XGAP - BW*2))
+        Y=$TGAP
         ;;
     bl)
         Y=$((SH - H - BGAP))
         ;;
     br)
-        Y=$((SH - H - BGAP))
         X=$((SW - W - XGAP - BW*2))
+        Y=$((SH - H - BGAP))
         ;;
     md)
         X=$((SW/2 - W/2 - BW))
         Y=$((SH/2 - H/2 - BW))
         ;;
     mid)
-        W=$((2*TermW)); H=$((2*TermH))
         X=$((SW/2 - W/2 - BW))
         Y=$((SH/2 - H/2 - BW))
+        W=$((2*TermW)); H=$((2*TermH))
         ;;
     full)
-        Y=$TGAP
         SW=$((SW - 2*XGAP - 2*BW))
         SH=$((SH - TGAP - BGAP))
+        Y=$TGAP
         W=$SW; H=$SH
         ;;
     lft)
-        Y=$TGAP
         SW=$((SW - 2*XGAP - BW))
-        W=$((SW/2 - IGAP/2))
+        Y=$TGAP
+        W=$((SW/2 - IGAP/2 - BW))
         H=$((SH - TGAP - BGAP))
         ;;
     rht)
-        Y=$TGAP
         SW=$((SW - 2*XGAP))
         X=$((W + XGAP + IGAP - BW))
+        Y=$TGAP
+        W=$((SW/2 - IGAP/2 - BW))
         H=$((SH - TGAP - BGAP))
-        W=$((SW/2 - IGAP/2 - 1))
         ;;
     ext)
+        X=$(wattr x $PFW)
         Y=$TGAP
         W=$TermW
-        X=$(wattr x $PFW)
         H=$((SH - TGAP - BGAP))
         ;;
     res)
