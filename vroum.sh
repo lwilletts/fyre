@@ -17,6 +17,7 @@ case $1 in
     *) usage ;;
 esac
 
+# focus correctly even if there is a fullscreen window
 if [ -e $FSFILE ]; then
     if [[ $(cat $FSFILE | cut -d\  -f 5) == $wid ]]; then
         setborder.sh none $wid
