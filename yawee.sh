@@ -24,7 +24,7 @@ while IFS=: read ev wid; do
             ;;
 
         18)
-            tile.sh mpv
+            tile.sh
             wattr $(pfw) || vroum.sh prev 2>/dev/null
             if [ $(lsw | wc -l) -eq 0 ]; then
                 blur.sh 0 &
@@ -33,7 +33,7 @@ while IFS=: read ev wid; do
 
         19)
             if ! wattr o $wid; then
-                tile.sh mpv
+                tile.sh
                 focus.sh $wid
                 if [ $(lsw | wc -l) -ne 0 ]; then
                     blur.sh &
