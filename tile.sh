@@ -68,7 +68,7 @@ mpvTile() {
             mpvW=640
         fi
 
-        if [ $mpvH -ge 360 ] && [ $mpvH -lt 720 ]; then 
+        if [ $mpvH -ge 360 ] && [ $mpvH -lt 720 ]; then
             if [ $windowsToTile -eq 0 ]; then
                 position.sh md $mpvWid
             elif [ $windowsToTile -eq 1 ]; then
@@ -196,6 +196,8 @@ mpvTile() {
                     wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
                     Y=$((Y + H + VGAP))
                 done
+
+                position.sh bl $mpvWid
             fi
         fi
     else
