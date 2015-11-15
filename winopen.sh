@@ -44,7 +44,6 @@ elif [[ $windowC == "urxvt" ]]; then
     position.sh md $wid
     transset-df -i $wid 0.75
 elif [[ $windowP == *"urxvtd"* ]]; then
-    position.sh br $wid
     transset-df -i $wid 0.75
     deletelock.sh lock $wid
     tile.sh
