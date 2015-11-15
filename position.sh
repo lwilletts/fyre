@@ -61,7 +61,6 @@ case $1 in
     ext)
         X=$(wattr x $PFW)
         Y=$TGAP
-        W=$TermW
         H=$((SH - TGAP - BGAP))
         ;;
     res)
