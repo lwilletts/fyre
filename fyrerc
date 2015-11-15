@@ -28,7 +28,7 @@ TermW=462
 TermH=260
 
 XGAP=${XGAP:-$((X))}
-IGAP=${IGAP:-$((20))}
+IGAP=${IGAP:-$((BW))}
 VGAP=${VGAP:-$((BW))}
 TGAP=${TGAP:-$((Y + 20))}
 BGAP=${BGAP:-$((Y))}
