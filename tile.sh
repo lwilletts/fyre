@@ -60,7 +60,7 @@ mpvTile() {
         mpvW=$(resolution.sh $mpvWid | cut -d\  -f 1)
         mpvH=$(resolution.sh $mpvWid | cut -d\  -f 2)
 
-        if [ $(wattr w $mpvWid) -ne $mpvW ] || [ $(wattr h $mpvWid) -ne $mpvH ]; then
+        if [ $(wattr h $mpvWid) -ne $mpvH ]; then
             wtp $(wattr xy $mpvWid) $mpvW $mpvH $mpvWid
         fi
 
