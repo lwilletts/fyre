@@ -4,8 +4,7 @@ Fyre
 Appearance:
 -----------
 
-![Example Desktop](https://github.com/Wildefyr/wildconfig/blob/master/screenshots/fyre2015-08-27.png)
-> #### [Workflow]()
+![Example Desktop](https://github.com/Wildefyr/wildconfig/blob/master/screenshots/clean.png)
 
 Installation
 ------------
@@ -39,7 +38,8 @@ Some optional dependancies that you might find interesting:
 
 #### Other considerations:
 
-As with things of this type, there are many optional components, for example:
+With minimal setups of this kind, you'll need/want programs that fulfil other
+desires, such as:
 
 - dmenu
 - compton
@@ -47,22 +47,16 @@ As with things of this type, there are many optional components, for example:
 - hsetroot
 
 You'll have to install these separately depending on your distribution, but
-most of them can be grabbed from source (In dmenu's case, you apply the patches
-you need). Configuration for these can be found in my
-[dotfiles](https://github.com/Wildefyr/wildconfig) and
+all of them can be grabbed from source. My personal configuration for these
+can be found in my [dotfiles](https://github.com/Wildefyr/wildconfig) and
 [script](https://github.com/Wildefyr/scripts) repositories.
-
-Known Issues
-------------
-
-- None.
 
 Authors
 -------
 
 Authors for specific scripts are listed in the files where they have
-contribulated ideas or code. Many thanks to the original wmutils authors: 
-dcat & z3bra
+contributed ideas or code. Many thanks to the original wmutils authors: 
+dcat & z3bra.
 
 Shameless Plug
 --------------

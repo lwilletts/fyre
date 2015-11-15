@@ -33,7 +33,7 @@ VGAP=${VGAP:-$((BW))}
 TGAP=${TGAP:-$((Y + 20))}
 BGAP=${BGAP:-$((Y))}
 
-BLUR=${BLUR:-20}
+BLUR=${BLUR:-5}
 mainGroup=${mainGroup:-0}
 
 FYREDIR=${FYREDIR:-~/.config/fyre}
