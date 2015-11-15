@@ -54,14 +54,13 @@ mainTile() {
 }
 
 mpvTile() {
-
     if [ $mpvWindowsToTile -eq 1 ]; then
 
         mpvWid=$(cat $MPVFILE)
         mpvW=$(resolution.sh $mpvWid | cut -d\  -f 1)
         mpvH=$(resolution.sh $mpvWid | cut -d\  -f 2)
 
-        if [ $(wattr w $mpvWid) -ne $mpvW ]; then
+        if [ $(wattr w $mpvWid) -ne $mpvW ] || [ $(wattr h $mpvWid) -ne $mpvH ]; then
             wtp $(wattr xy $mpvWid) $mpvW $mpvH $mpvWid
         fi
 
@@ -77,14 +76,13 @@ mpvTile() {
                 W=$mpvW
                 H=$((SH - VGAP - mpvH))
                 wtp $X $Y $W $H $(cat $WLFILE | head -n 1)
+
                 position.sh bl $mpvWid
             elif [ $windowsToTile -gt 1 ] && [ $windowsToTile -lt 4 ]; then
                 Y=$TGAP
                 W=$mpvW
                 H=$((SH - VGAP - mpvH))
                 wtp $X $Y $W $H $(cat $WLFILE | head -n 1)
-
-                position.sh bl $mpvWid
 
                 cat $WLFILE | sed '1d' > $WLFILETEMP
                 COLS=$(cat $WLFILETEMP | wc -l)
@@ -98,13 +96,13 @@ mpvTile() {
                     wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
                     X=$((X + W + IGAP))
                 done
+
+                position.sh bl $mpvWid
             elif [ $windowsToTile -gt 3 ]; then
                 Y=$TGAP
                 W=$mpvW
                 H=$((SH - VGAP - mpvH))
                 wtp $X $Y $W $H $(cat $WLFILE | head -n 1)
-
-                position.sh bl $mpvWid
 
                 cat $WLFILE | sed '1d' > $WLFILETEMP
                 COLS=2
@@ -133,6 +131,8 @@ mpvTile() {
                     wtp $X $Y $W $H $(head -n $c $WLFILE | tail -1)
                     Y=$((Y + H + VGAP))
                 done
+
+                position.sh bl $mpvWid
             fi
         elif [ $mpvH -ge 720 ]; then
             if [ $windowsToTile -eq 0 ]; then
@@ -161,12 +161,12 @@ mpvTile() {
                     X=$((X + W + IGAP))
                 done
 
-                position.sh bl $mpvWid
-
                 X=$((X + IGAP - BW))
                 W=$((SW - mpvW - 2*BW))
                 H=$SH
                 wtp $X $Y $W $H $(cat $WLFILE | tail -n 1)
+
+                position.sh bl $mpvWid
             elif [ $windowsToTile -gt 3 ]; then
                 cat $WLFILE | sed '2q' > $WLFILETEMP
                 COLS=$(cat $WLFILETEMP | wc -l)
