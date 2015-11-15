@@ -11,7 +11,7 @@ usage() {
 horizontalTile() {
     Y=$TGAP
     COLS=$(cat $WLFILE | wc -l)
-    W=$(((SW - (COLS - 1)*IGAP)/COLS))
+    W=$(((SW - (COLS - 1)*IGAP - BW)/COLS))
     H=$SH
 
     for c in $(seq $COLS); do
@@ -23,7 +23,7 @@ horizontalTile() {
 mainTile() {
     Y=$TGAP
     COLS=$maxHorizontalWindows
-    W=$(((SW - (COLS - 1)*IGAP)/COLS))
+    W=$(((SW - (COLS - 1)*IGAP - BW)/COLS))
     H=$SH
 
     COLSTEMP=$((COLS - 1))
