@@ -66,6 +66,7 @@ mpvTile() {
 
         if [ $mpvW -lt 640 ]; then
             mpvW=640
+            wtp $(wattr xy $mpvWid) $mpvW $mpvH $mpvWid
         fi
 
         if [ $mpvH -ge 360 ] && [ $mpvH -lt 720 ]; then
