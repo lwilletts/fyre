@@ -35,9 +35,9 @@ case $1 in
         Y=$((SH/2 - H/2 - BW))
         ;;
     mid)
+        W=$((2*TermW)); H=$((2*TermH))
         X=$((SW/2 - W/2 - BW))
         Y=$((SH/2 - H/2 - BW))
-        W=$((2*TermW)); H=$((2*TermH))
         ;;
     full)
         SW=$((SW - 2*XGAP - 2*BW))
