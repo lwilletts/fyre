@@ -52,11 +52,11 @@ case $1 in
         H=$((SH - TGAP - BGAP))
         ;;
     rht)
-        SW=$((SW - 2*XGAP))
-        X=$((W + XGAP + IGAP - BW))
         Y=$TGAP
-        W=$((SW/2 - IGAP/2 - BW))
         H=$((SH - TGAP - BGAP))
+        SW=$((SW - 2*XGAP))
+        W=$((SW/2 - IGAP/2))
+        X=$((W + XGAP + IGAP - BW))
         ;;
     ext)
         X=$(wattr x $PFW)
