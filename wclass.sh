@@ -3,8 +3,6 @@
 # wildefyr - 2015 (c) wtfpl
 # checks a windows class
 
-source ~/.config/fyre/fyrerc
-
 usage() {
     printf '%s\n' "usage: $(basename $0) <command> <wid>" >&2
     exit 1
@@ -18,8 +16,7 @@ case $1 in
         xprop -id $2 WM_CLASS | cut -f 4 -d \"
         ;;
     p|process)
-        ps -o command $(xprop -id $2 _NET_WM_PID | awk '{print $NF}') | sed \
-        '1d' 2> /dev/null
+        ps -o command $(xprop -id $2 _NET_WM_PID | awk '{print $NF}') | sed '1d' 2> /dev/null
         ;;
     ca|classAll)
         for i in $(seq $(lsw | wc -l)); do
