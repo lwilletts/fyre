@@ -49,5 +49,3 @@ elif [[ $windowP == *"urxvtd"* ]]; then
 else
     position.sh md $wid
 fi
-
-wgroups.sh -s $wid $mainGroup
