@@ -6,7 +6,6 @@
 wid=$1
 windowC=$(wclass.sh c $wid)
 windowM=$(wclass.sh m $wid)
-windowP=$(wclass.sh p $wid)
 
 if [[ $windowC == "mupdf" ]]; then
     wgroups.sh -s $wid 1
@@ -15,7 +14,7 @@ elif [[ $windowC == "Navigator" ]]; then
     wgroups.sh -s $wid 2
 elif [[ $windowC == "Dialog" ]]; then
     position.sh md $wid
-elif [[ $windowP == *"wildefyr.net"* ]]; then
+elif [[ $windowC == "mosh" ]]; then
     position.sh mid $wid
     transset-df -i $wid 0.75
     wgroups.sh -s $wid 3
@@ -27,25 +26,25 @@ elif [[ $windowM == "mpv" ]]; then
     wgroups.sh -s $wid 5
     transset-df -i $wid 1
     tile.sh
-elif [[ $windowP == *"ncmpcpp"* ]]; then
+elif [[ $windowC == "ncmpcpp" ]]; then
     position.sh tr $wid
     position.sh ext $wid
     wgroups.sh -s $wid 8
     transset-df -i $wid 0.75
-elif [[ $windowP == *"mpsyt"* ]]; then
+elif [[ $windowC == "mpsyt" ]]; then
     position.sh tr $wid
     position.sh ext $wid
     wgroups.sh -s $wid 9
     transset-df -i $wid 0.75
-elif [[ $windowP == *"alsamixer"* ]]; then
+elif [[ $windowC == "alsamixer" ]]; then
     position.sh mid $wid
     transset-df -i $wid 0.75
+elif [[ $windowC == "Terminal" ]]; then
+    transset-df -i $wid 0.75
+    tile.sh
 elif [[ $windowC == "urxvt" ]]; then
     position.sh md $wid
     transset-df -i $wid 0.75
-elif [[ $windowP == *"urxvtd"* ]]; then
-    transset-df -i $wid 0.75
-    tile.sh
 else
     position.sh md $wid
 fi
