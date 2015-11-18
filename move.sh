@@ -1,9 +1,9 @@
-#!/bin/mksh
+#!/bin/sh
 #
 # wildefyr - 2015 (c) wtfpl
 # mimic i3 tiled windows swapping positions
 
-source ~/.config/fyre/fyrerc
+. ~/.config/fyre/fyrerc
 
 case $1 in
     h|left)

@@ -3,7 +3,7 @@
 # wildefyr - 2015 (c) wtfpl
 # move windows into all sorts of useful positions
 
-source ~/.config/fyre/fyrerc
+. ~/.config/fyre/fyrerc
 
 case $2 in
     0x*)

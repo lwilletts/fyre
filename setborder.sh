@@ -1,9 +1,9 @@
-#!/bin/mksh
+#!/bin/sh
 #
 # wildefyr & z3bra - 2015 (c) wtfpl
 # set or unset a border around a window
 
-source ~/.config/fyre/fyrerc
+. ~/.config/fyre/fyrerc
 
 usage() { 
     printf '%s\n' "usage: $(basename $0) <state> <wid>"

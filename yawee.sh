@@ -1,9 +1,9 @@
-#!/bin/mksh
+#!/bin/dash
 #
 # wildefyr & z3bra - 2015 (c) wtfpl
 # catch window events from wew
 
-source ~/.config/fyre/fyrerc
+. ~/.config/fyre/fyrerc
 
 while IFS=: read ev wid; do
     case $ev in

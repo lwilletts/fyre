@@ -1,4 +1,4 @@
-#!/bin/mksh
+#!/bin/dash
 #
 # wildefyr - 2015 (c) wtfpl
 # performs checks when window has been targetted for termination

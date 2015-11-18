@@ -1,9 +1,9 @@
-#!/bin/mksh
+#!/bin/sh
 #
 # wildefyr - 2015 (c) wtfpl
 # enable / disable mouse based on input
 
-source ~/.config/fyre/fyrerc
+. ~/.config/fyre/fyrerc
 
 usage() {
     echo "usage: $(basename $0) <enable|disable>"

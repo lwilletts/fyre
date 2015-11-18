@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 #
 # wildefyr - 2015 (c) wtfpl
 # wrapper for wclass.sh to find any wid's that match a string
