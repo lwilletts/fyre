@@ -29,4 +29,4 @@ case $1 in
 esac
 
 wtp $X $Y $W $H $PFW
-tile.sh mpv
+tile.sh
