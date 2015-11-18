@@ -11,7 +11,7 @@ usage() {
 }
 
 # check arguments
-if [ -z $1 ]; then usage; fi
+test -z $1 && usage
 wattr $2 || exit 1
 
 case $1 in
