@@ -24,14 +24,14 @@ mouse click to focus a window.
 
 To install, compile xwait.c, and then add the directory to your path or move the
 executables a directory in your shells path. The config file is read from
-~/.config/fyre/fyrerc. I've included an example fyrerc in the repository. Without this,
-most of the scripts will not work, but are still free to be adapted. 
+~/.config/fyre/fyrerc. I've included an example fyrerc in the repository.
+Without setting at least some of the things even the basic scripts require
+(i.e. focus.sh), these scripts will not work.
 
 Some optional dependancies that you might find interesting:
 
 - mksh - The fastest shell I've tried and I recommend you install this so
-  winopen.sh/tile.sh feel very responsive. All bangs are also #!/bin/mksh by
-  default.
+  winopen.sh/tile.sh feel very responsive.
 - xorg-xprop
 - xorg-xinput
 - transset-df
@@ -48,8 +48,8 @@ desires, such as:
 
 You'll have to install these separately depending on your distribution, but
 all of them can be grabbed from source. My personal configuration for these
-can be found in my [dotfiles](https://github.com/Wildefyr/wildconfig) and
-[script](https://github.com/Wildefyr/scripts) repositories.
+can be found in my [dotfiles](https://github.com/wildefyr/wildconfig) and
+[script](https://github.com/wildefyr/scripts) repositories.
 
 Authors
 -------
