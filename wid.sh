@@ -4,25 +4,11 @@
 # wrapper for wclass.sh to find any wid's that match a string
 
 usage() { 
-    printf '%s\n' "usage: $(basename $0) <type> <string>"
+    printf '%s\n' "usage: $(basename $0) <string>"
 }
 
-if [ -z $1 ] || [ -z $2 ]; then
+if [ -z $1 ]; then
     usage
 fi
 
-case $1 in
-    c|class)
-        wclass.sh ca | grep $2 | cut -d\  -f 1
-        ;;
-    m|more)
-        wclass.sh ma | grep $2 | cut -d\  -f 1
-        ;;
-    p|process)
-        wclass.sh pa | grep $2 | cut -d\  -f 1
-        ;;
-    *)
-        usage
-        ;;
-esac
-
+wclass.sh all | grep $1 | cut -d\  -f 1 | uniq
