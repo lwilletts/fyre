@@ -12,9 +12,6 @@ horizontalTile() {
     Y=$TGAP
     COLS=$windowsToTile
     W=$(((SW - COLS*IGAP - 2*BW)/COLS))
-    echo $COLS
-    echo $SW
-    echo $W
     H=$SH
 
     for c in $(seq $COLS); do
