@@ -30,6 +30,11 @@ case $1 in
             echo $(lsw | head -n $i  | tail -1) $(wname $(lsw | head -n $i | tail -1)) 
         done
         ;;
+    all)
+        $(basename $0) ca
+        $(basename $0) ma
+        $(basename $0) name
+        ;;
     *)
         usage
         ;;
