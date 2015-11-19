@@ -11,6 +11,9 @@ case $2 in
         ;;
 esac
 
+W=$TermW
+H=$TermH
+
 case $1 in
     tl)
         Y=$TGAP
@@ -44,8 +47,6 @@ case $1 in
         H=$((SH - TGAP - BGAP))
         SW=$((SW - 2*XGAP))
         W=$(((SW - 2*IGAP - 2*BW)/2))
-        echo $SW
-        echo $W
         ;;
     rht)
         Y=$TGAP
