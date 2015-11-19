@@ -11,4 +11,4 @@ if [ -z $1 ]; then
     usage
 fi
 
-wclass.sh all | grep $1 | cut -d\  -f 1 | uniq
+wclass.sh all | grep -i $1 | cut -d\  -f 1 | uniq
