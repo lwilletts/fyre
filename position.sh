@@ -11,9 +11,6 @@ case $2 in
         ;;
 esac
 
-W=$TermW
-H=$TermH
-
 case $1 in
     tl)
         Y=$TGAP

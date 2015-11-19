@@ -17,8 +17,8 @@ ACTIVE=${ACTIVE:-0x2E8B57}
 INACTIVE=${INACTIVE:-0x000000}
 WARNING=${INACTIVE:-0xC64552}
 
-W=$(wattr w $PFW 2> /dev/null)
-H=$(wattr h $PFW 2> /dev/null)
+W=$(wattr w $CUR)
+H=$(wattr h $CUR)
 
 originalX=$((20))
 originalY=$((20))
