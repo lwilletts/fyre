@@ -4,14 +4,14 @@
 # personal tiling script, optimised for vertical terminal usage
 
 usage() {
-    printf '%s\n' "usage: $(basename $0) <mpv|rxvt>"
+    printf '%s\n' "usage: $(basename $0)"
     exit 1
 }
 
 horizontalTile() {
     Y=$TGAP
-    COLS=$(cat $WLFILE | wc -l)
-    W=$(((SW - (COLS - 1)*IGAP - BW)/COLS))
+    COLS=$windowsToTile
+    W=$(((SW - (COLS - 1)*IGAP - 2*BW)/COLS))
     H=$SH
 
     for c in $(seq $COLS); do
@@ -23,7 +23,7 @@ horizontalTile() {
 mainTile() {
     Y=$TGAP
     COLS=$maxHorizontalWindows
-    W=$(((SW - (COLS - 1)*IGAP - BW)/COLS))
+    W=$(((SW - (COLS - 1)*IGAP - 2*BW)/COLS))
     H=$SH
 
     COLSTEMP=$((COLS - 1))
@@ -40,6 +40,7 @@ mainTile() {
     H=$(((SH - (ROWS - 1)*VGAP)/ROWS))
     if [ $COLS -eq 3 ]; then
         W=$((W + maxHorizontalWindows - 1))
+        echo $W
     fi
 
     for c in $(seq $ROWS); do
@@ -108,9 +109,9 @@ mpvTile() {
                 cat $WLFILE | sed '1d' > $WLFILETEMP
                 COLS=2
 
-                AW=$((SW - mpvW - 2*BW))
+                AW=$((SW - mpvW))
                 X=$((X + IGAP + mpvW))
-                W=$(((AW - (COLS - 1)*IGAP)/COLS))
+                W=$(((AW - (COLS - 1)*IGAP - 2*BW)/COLS))
                 H=$SH
 
                 for c in $(seq $COLS); do
@@ -272,7 +273,7 @@ mpvTile() {
 . detection.sh
 
 # calculate usable screen size (root minus border gaps)
-SW=$((SW - 2*XGAP - BW))
+SW=$((SW - 2*XGAP))
 SH=$((SH - TGAP - BGAP))
 
 if [ -e $WLFILE ] || [ -e $MPVFILE ]; then
