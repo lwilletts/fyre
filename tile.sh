@@ -11,7 +11,10 @@ usage() {
 horizontalTile() {
     Y=$TGAP
     COLS=$windowsToTile
-    W=$(((SW - (COLS - 1)*IGAP - 2*BW)/COLS))
+    W=$(((SW - 2*IGAP - 2*BW)/COLS))
+    echo $COLS
+    echo $SW
+    echo $W
     H=$SH
 
     for c in $(seq $COLS); do
@@ -23,7 +26,7 @@ horizontalTile() {
 mainTile() {
     Y=$TGAP
     COLS=$maxHorizontalWindows
-    W=$(((SW - (COLS - 1)*IGAP - 2*BW)/COLS))
+    W=$(((SW - 2*IGAP - 2*BW)/COLS))
     H=$SH
 
     COLSTEMP=$((COLS - 1))
@@ -89,9 +92,9 @@ mpvTile() {
                 cat $WLFILE | sed '1d' > $WLFILETEMP
                 COLS=$(cat $WLFILETEMP | wc -l)
 
-                AW=$((SW - mpvW - 2*BW))
+                AW=$((SW - mpvW))
                 X=$((X + IGAP + mpvW))
-                W=$(((AW - (COLS - 1)*IGAP)/COLS))
+                W=$(((AW - 2*IGAP - 2*BW)/COLS))
                 H=$SH
 
                 for c in $(seq $COLS); do
@@ -111,7 +114,7 @@ mpvTile() {
 
                 AW=$((SW - mpvW))
                 X=$((X + IGAP + mpvW))
-                W=$(((AW - (COLS - 1)*IGAP - 2*BW)/COLS))
+                W=$(((AW - 2*IGAP - 2*BW)/COLS))
                 H=$SH
 
                 for c in $(seq $COLS); do
@@ -155,7 +158,7 @@ mpvTile() {
 
                 Y=$TGAP
                 AW=$mpvW
-                W=$(((AW - (COLS - 1)*IGAP)/COLS))
+                W=$(((AW - 2*IGAP)/COLS))
                 H=$((SH - VGAP - mpvH))
 
                 for c in $(seq $COLS); do
@@ -175,7 +178,7 @@ mpvTile() {
 
                 Y=$TGAP
                 AW=$mpvW
-                W=$(((AW - (COLS - 1)*IGAP)/COLS))
+                W=$(((AW - 2*IGAP)/COLS))
                 H=$((SH - VGAP - mpvH))
 
                 for c in $(seq $COLS); do
@@ -203,13 +206,11 @@ mpvTile() {
             fi
         fi
     else
-        mpvOnlyTile() {
-            AW=$1
-            AH=$2
-        }
+        mpvW=1280
+        mpvH=720
 
         if [ $windowsToTile -eq 0 ]; then
-            mpvOnlyTile $SW $SH
+            position.sh md $mpvWid
         elif [ $windowsToTile -eq 1 ]; then
             Y=$TGAP
             X=$((X + IGAP + mpvW))
@@ -217,13 +218,16 @@ mpvTile() {
             H=$SH
 
             wtp $X $Y $W $H $(cat $WLFILE | head -n 1)
+
+            position.sh tl $mpvWid
+            position.sh ext $mpvWid
         elif [ $windowsToTile -gt 1 ] && [ $windowsToTile -lt 4 ]; then
             cat $WLFILE | sed '$ d' > $WLFILETEMP
             COLS=$(cat $WLFILETEMP | wc -l)
 
             Y=$TGAP
             AW=$mpvW
-            W=$(((AW - (COLS - 1)*IGAP)/COLS))
+            W=$(((AW - 2*IGAP)/COLS))
             H=$((SH - VGAP - mpvH))
 
             for c in $(seq $COLS); do
@@ -235,13 +239,15 @@ mpvTile() {
             W=$((SW - mpvW - 2*BW))
             H=$SH
             wtp $X $Y $W $H $(cat $WLFILE | tail -n 1)
+
+            position.sh bl $mpvWid
         elif [ $windowsToTile -gt 3 ]; then
             cat $WLFILE | sed '2q' > $WLFILETEMP
             COLS=$(cat $WLFILETEMP | wc -l)
 
             Y=$TGAP
             AW=$mpvW
-            W=$(((AW - (COLS - 1)*IGAP)/COLS))
+            W=$(((AW - 2*IGAP)/COLS))
             H=$((SH - VGAP - mpvH))
 
             for c in $(seq $COLS); do
@@ -264,6 +270,8 @@ mpvTile() {
                 wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
                 Y=$((Y + H + VGAP))
             done
+
+            position.sh bl $mpvWid
         fi
     fi
 
