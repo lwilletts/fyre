@@ -35,28 +35,28 @@ case $1 in
         Y=$((SH/2 - H/2 - BW))
         ;;
     mid)
-        W=$((2*TermW)); H=$((2*TermH))
         X=$((SW/2 - W/2 - BW))
         Y=$((SH/2 - H/2 - BW))
+        W=$((2*TermW)); H=$((2*TermH))
+        ;;
+    lft)
+        Y=$TGAP
+        H=$((SH - TGAP - BGAP))
+        SW=$((SW - 2*XGAP - BW))
+        W=$((SW/2 - IGAP/2 - BW))
+        ;;
+    rht)
+        Y=$TGAP
+        H=$((SH - TGAP - BGAP))
+        SW=$((SW - 2*XGAP - BW))
+        W=$((SW/2 - IGAP/2 - BW))
+        X=$((W + XGAP + IGAP))
         ;;
     full)
         SW=$((SW - 2*XGAP - 2*BW))
         SH=$((SH - TGAP - BGAP))
         Y=$TGAP
         W=$SW; H=$SH
-        ;;
-    lft)
-        SW=$((SW - 2*XGAP - BW))
-        Y=$TGAP
-        W=$((SW/2 - IGAP/2 - BW))
-        H=$((SH - TGAP - BGAP))
-        ;;
-    rht)
-        Y=$TGAP
-        H=$((SH - TGAP - BGAP))
-        SW=$((SW - 2*XGAP))
-        W=$((SW/2 - IGAP/2))
-        X=$((W + XGAP + IGAP - BW))
         ;;
     ext)
         X=$(wattr x $PFW)
