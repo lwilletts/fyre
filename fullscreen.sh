@@ -26,6 +26,7 @@ if [[ -e $FSFILE ]] && [[ $(cat $FSFILE | cut -d\  -f 5) == $PFW ]]; then
     fi
     setborder.sh active $PFW
     wtp $(cat $FSFILE)
+    tile.sh
 fi
 
 if [[ -e $FSFILE ]] && [[ $(cat $FSFILE | cut -d\  -f 5) != $PFW ]]; then
@@ -33,6 +34,7 @@ if [[ -e $FSFILE ]] && [[ $(cat $FSFILE | cut -d\  -f 5) != $PFW ]]; then
     wtp $(cat $FSFILE)
     rm $FSFILE
     fullscreen.sh $PFW
+    tile.sh
 elif [[ -e $FSFILE ]] && [[ $(cat $FSFILE | cut -d\  -f 5) == $PFW ]]; then
     rm $FSFILE
 else
@@ -40,4 +42,5 @@ else
     transset-df -i $PFW 1
     wattr xywhi $PFW > $FSFILE
     wtp 0 0 $SW $SH $PFW
+    tile.sh
 fi
