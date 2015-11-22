@@ -1,4 +1,4 @@
-#!/bin/mksh
+#!/bin/dash
 #
 # wildefyr - 2015 (c) wtfpl
 # checks a windows class

@@ -1,4 +1,4 @@
-#!/bin/mksh
+#!/bin/dash
 #
 # wildefyr - 2015 (c) wtfpl
 # personal tiling script, optimised for vertical terminal usage
@@ -204,7 +204,9 @@ mpvTile() {
             fi
 
             SH=$(wattr h $ROOT); H=$mpvH
-            wtp $originalX $((SH - H - BGAP)) $mpvW $mpvH $mpvWid
+            if [ "$(wattr wh $mpvWid)" != "1280 720" ]; then
+                wtp $originalX $((SH - H - BGAP)) $mpvW $mpvH $mpvWid
+            fi
 
         fi
     else
@@ -235,7 +237,7 @@ if [ -e $MPVFILE ]; then
         mpvWid=$(cat $MPVFILE)
     fi
     if [ ! -z $mpvWid ]; then
-        if [[ $(wattr xy $mpvWid) != "0 0" ]]; then
+        if [ "$(wattr xy $mpvWid)" != "0 0" ]; then
             mpvTile
         fi
     else

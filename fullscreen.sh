@@ -1,4 +1,4 @@
-#!/bin/mksh
+#!/bin/dash
 #
 # wildefyr & z3bra - 2015 (c) wtfpl
 # fullscreen without borders, remembers previous window geometry
@@ -20,27 +20,24 @@ fi
 
 windowC=$(wclass.sh c $PFW)
 
-if [[ -e $FSFILE ]] && [[ $(cat $FSFILE | cut -d\  -f 5) == $PFW ]]; then
-    if [[ $windowC == "urxvt" ]] || [[ $windowC == "Terminal" ]]; then
+if [ -e $FSFILE ] && [ $(cat $FSFILE | cut -d\  -f 5) = $PFW ]; then
+    if [ $windowC = "urxvt" ] || [ $windowC = "Terminal" ]; then
         transset-df -i $PFW 0.75
     fi
     setborder.sh active $PFW
     wtp $(cat $FSFILE)
-    tile.sh
 fi
 
-if [[ -e $FSFILE ]] && [[ $(cat $FSFILE | cut -d\  -f 5) != $PFW ]]; then
+if [ -e $FSFILE ] && [ $(cat $FSFILE | cut -d\  -f 5) != $PFW ]; then
     setborder.sh active $PFW
     wtp $(cat $FSFILE)
     rm $FSFILE
     fullscreen.sh $PFW
-    tile.sh
-elif [[ -e $FSFILE ]] && [[ $(cat $FSFILE | cut -d\  -f 5) == $PFW ]]; then
+elif [ -e $FSFILE ] && [ $(cat $FSFILE | cut -d\  -f 5) = $PFW ]; then
     rm $FSFILE
 else
     setborder.sh none $PFW
     transset-df -i $PFW 1
     wattr xywhi $PFW > $FSFILE
     wtp 0 0 $SW $SH $PFW
-    tile.sh
 fi

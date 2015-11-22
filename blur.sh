@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 #
 # wildefyr - 2015 (c) wtfpl
 # blur current background

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 #
 # wildefyr - 2015 (c) wtfpl
 # maximise mpv to the current video's resoluton
@@ -14,7 +14,7 @@ fi
 
 wid=$1
 
-if [[ $(wclass.sh m $wid) == "mpv" ]]; then
+if [ $(wclass.sh m $wid) = "mpv" ]; then
     wtp $(wattr xy $wid) $(resolution.sh $wid) $wid
 else
     usage

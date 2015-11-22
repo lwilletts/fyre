@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 #
 # wildefyr - 2015 (c) wtfpl
 # enable / disable mouse based on input

@@ -7,17 +7,12 @@ wid=$(pfw)
 windowC=$(wclass.sh c $wid)
 windowM=$(wclass.sh m $wid)
 
-if [[ $windowC == "Terminal" ]]; then
+if [ "$windowC" = "Terminal" ]; then
     killwa $wid
-fi
-
-if [[ $windowM == "Firefox" ]]; then
+elif [ "$windowM" = "Firefox" ]; then
     killwa $wid
+else
+    printf '%s\n' "you're terminated fucker."
+    killw $wid
 fi
 
-if [ $(deletelock.sh status $wid) -eq 1 ]; then
-    exit
-fi
-
-printf '%s\n' "you're terminated fucker."
-killw $wid

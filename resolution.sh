@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 #
 # wildefyr - 2015 (c) wtfpl
 # find resoluton of mpv video based on window id
@@ -14,7 +14,7 @@ fi
 
 wid=$1
 
-if [[ $(wclass.sh m $wid) == "mpv" ]]; then
+if [ $(wclass.sh m $wid) = "mpv" ]; then
     printf '%s\n' "$(xprop -id $(wid.sh mpv) WM_NORMAL_HINTS | sed '5s/[^0-9]*//p;d' | sed 's#/# #')"
 else
     usage

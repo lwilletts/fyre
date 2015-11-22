@@ -1,48 +1,55 @@
-#!/bin/mksh
+#!/bin/dash
 #
 # wildefyr - 2015 (c) wtfpl
 # test window classes when being opened
+
+usage() {
+    printf '%s\n' "usage: $(basename $0) <wid>"
+    exit 1
+}
+
+test -z $1 && usage
 
 wid=$1
 windowC=$(wclass.sh c $wid)
 windowM=$(wclass.sh m $wid)
 
-if [[ $windowC == "mupdf" ]]; then
+if [ "$windowC" = "mupdf" ]; then
     wgroups.sh -s $wid 1
-elif [[ $windowC == "Navigator" ]]; then
+elif [ "$windowC" = "Navigator" ]; then
     sleep 0.5
     wgroups.sh -s $wid 2
-elif [[ $windowC == "Dialog" ]]; then
+elif [ "$windowC" = "Dialog" ]; then
     position.sh md $wid
-elif [[ $windowC == "mosh" ]]; then
+elif [ "$windowC" = "mosh" ]; then
     position.sh mid $wid
     transset-df -i $wid 0.75
     wgroups.sh -s $wid 3
-elif [[ $windowC == *"ts3"* ]]; then
+elif [ "$windowC" = *"ts3"* ]; then
     position.sh tl $wid
     position.sh ext $wid
     wgroups.sh -s $wid 4
-elif [[ $windowM == "mpv" ]]; then
+elif [ "$windowM" = "mpv" ]; then
     wgroups.sh -s $wid 5
     transset-df -i $wid 1
     tile.sh
-elif [[ $windowC == "ncmpcpp" ]]; then
+elif [ "$windowC" = "ncmpcpp" ]; then
     position.sh tr $wid
     position.sh ext $wid
     wgroups.sh -s $wid 8
     transset-df -i $wid 0.75
-elif [[ $windowC == "mpsyt" ]]; then
+elif [ "$windowC" = "mpsyt" ]; then
     position.sh tr $wid
     position.sh ext $wid
     wgroups.sh -s $wid 9
     transset-df -i $wid 0.75
-elif [[ $windowC == "alsamixer" ]]; then
+elif [ "$windowC" = "alsamixer" ]; then
     position.sh mid $wid
     transset-df -i $wid 0.75
-elif [[ $windowC == "Terminal" ]]; then
+elif [ "$windowC" = "Terminal" ]; then
     transset-df -i $wid 0.75
     tile.sh
-elif [[ $windowC == "urxvt" ]]; then
+elif [ "$windowC" = "urxvt" ]; then
     position.sh md $wid
     transset-df -i $wid 0.75
 else

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 #
 # wildefyr & z3bra - 2015 (c) wtfpl
 # focus wrapper with fullscreen checks
@@ -19,9 +19,9 @@ esac
 
 # focus correctly even if there is a fullscreen window
 if [ -e $FSFILE ]; then
-    if [[ $(cat $FSFILE | cut -d\  -f 5) == $wid ]]; then
+    if [ $(cat $FSFILE | cut -d\  -f 5) = $wid ]; then
         setborder.sh none $wid
-    elif [[ $(cat $FSFILE | cut -d\  -f 5) == $CUR ]]; then
+    elif [ $(cat $FSFILE | cut -d\  -f 5) = $CUR ]; then
         setborder.sh active $wid
         setborder.sh none $CUR
     else

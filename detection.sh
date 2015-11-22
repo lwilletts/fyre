@@ -1,4 +1,4 @@
-#!/bin/mksh
+#!/bin/dash
 #
 # wildefyr - 2015 (c) wtfpl
 # check for current windows that are on the screen right now
@@ -21,11 +21,11 @@ for wid in $(lsw); do
     windowC=$(wclass.sh c $wid)
     windowM=$(wclass.sh m $wid)
 
-    if [[ $windowC == "Terminal" ]]; then
+    if [ $windowC = "Terminal" ]; then
         printf '%s\n' $wid >> $WLFILETEMP
     fi
 
-    if [[ $windowM == "mpv" ]]; then
+    if [ $windowM = "mpv" ]; then
         printf '%s\n' $wid >> $MPVFILETEMP
     fi
 
