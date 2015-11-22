@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 #
 # wildefyr - 2015 (c) wtfpl
 # maximise mpv to the current video's resoluton

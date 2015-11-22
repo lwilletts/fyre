@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 #
 # wildefyr & z3bra - 2015 (c) wtfpl
 # set or unset a border around a window

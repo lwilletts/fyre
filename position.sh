@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 #
 # wildefyr - 2015 (c) wtfpl
 # move windows into all sorts of useful positions

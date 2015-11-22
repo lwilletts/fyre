@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 #
 # wildefyr - 2015 (c) wtfpl
 # find resoluton of mpv video based on window id

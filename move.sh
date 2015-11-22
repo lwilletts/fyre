@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 #
 # wildefyr - 2015 (c) wtfpl
 # mimic i3 tiled windows swapping positions

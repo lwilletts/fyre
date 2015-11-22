@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 #
 # wildefyr - 2015 (c) wtfpl
 # personal tiling script, optimised for vertical terminal usage

@@ -30,7 +30,8 @@ Without setting at least some of the things even the basic scripts require
 
 Some optional dependancies that you might find interesting:
 
-- dash - The fastest shell posix compliant shell ever.
+- dash - The fastest shell posix compliant shell ever, syslink it to /bin/sh
+  instead of bash and watch everything work better.
 - xorg-xprop
 - xorg-xinput
 - transset-df

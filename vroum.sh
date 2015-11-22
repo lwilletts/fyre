@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 #
 # wildefyr & z3bra - 2015 (c) wtfpl
 # focus wrapper with fullscreen checks

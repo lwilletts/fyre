@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 #
 # z3bra - 2014 (c) wtfpl
 # find and focus the closest window in a specific direction
