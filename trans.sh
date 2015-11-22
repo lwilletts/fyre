@@ -22,8 +22,8 @@ esac
 
 # test for last argument
 case $3 in
-    u|inc) transset-df -i $wid --inc $opacity; exit ;;
-    d|dec) transset-df -i $wid --dec $opacity; exit ;;
-    *) transset-df -i $wid $opacity ;;
+    u|inc) transset-df -i $wid --inc $opacity > /dev/null; exit ;;
+    d|dec) transset-df -i $wid --dec $opacity > /dev/null; exit ;;
+    *) transset-df -i $wid $opacity > /dev/null;;
 esac
 
