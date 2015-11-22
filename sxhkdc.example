@@ -1,120 +1,118 @@
-
 # mod1 = Alt_L
 # mod2 = Alt_R
 # mod3 = Hyper_L
 # mod4 = Super_L
 
-# Reloading
+# reloading
 mod1 + shift + e
     killall yawee.sh; wew | yawee.sh &!
 mod1 + shift + r
     pkill -USR1 -x sxhkd
 
-# Shitty Movement Scripts
+# shitty movement scripts
 mod1 + {h,j,k,l}
     closest.sh {h,j,k,l}
 mod1 + shift + {h,j,k,l}
     move.sh {left,down,up,right}
+mod1 + Tab
+    focus.sh next
+mod1 + shift + Tab
+    focus.sh prev
 
-# Manual Window Management
-mod1 + {q,w,e,a,s,r}
-    position.sh {lft,mid,rht,ext,res,full} $(pfw)
-mod1 + {y,o,g,b,n,m}
+# manual window management
+mod1 + {y,o,g,n,m}
     position.sh {tl,tr,md,bl,br} ${pfw}
+mod1 + {q,w,e,r,z,a}
+    position.sh {lft,mid,rht,full,ext,res} $(pfw)
 mod4 + {h,j,k,l}
     wmv {-40 0,0 +40, 0 -40, +40 0} $(pfw)
 mod4 + shift + {h,j,k,l}
     wmv {-10 0,0 +10, 0 -10, +10 0} $(pfw)
+mod1 + s
+    maximise.sh $(pfw)
 
-# Resize Window
+# resize window
 mod4 + {a,s,w,d}
     wrs {-40 0,0 +40, 0 -40, +40 0} $(pfw)
 mod4 + shift + {a,s,w,d}
     wrs {-10 0,0 +10, 0 -10, +10 0} $(pfw)
 
-# Automatic tiling for visible windows.
+# automatic tiling for visible windows
 mod1 + t
     tile.sh
-mod4 + t
-    detection.sh
-mod1 + p
-    pretty.sh
-
-# Fullscreen
 mod1 + f
-    fullscreen $(pfw)
+    fullscreen.sh $(pfw)
 
-# Window Stacking Order
+# window stacking order
 mod1 + u
-    chwso -l $(pfw); closest h
+    chwso -l $(pfw); closest.sh h
 mod1 + i
-    chwso -l $(pfw); closest l
+    chwso -l $(pfw); closest.sh l
 
-# Groups
-mod1 + {1,2,3,4,5,z,x,c,v,b}
-    wgroups.sh -t {1,2,3,4,5,6,7,8,9,10}
-mod1 + shift + {1,2,3,4,5,z,x,c,v,b}
-    wgroups.sh -s $(pfw) {1,2,3,4,5,6,7,8,9,10}
+# groups
+mod1 + {1,2,3,4,5,6,7,8,9,0}
+    wgroups.sh -t {1,2,3,4,5,6,7,8,9,0}
+mod1 + shift + {1,2,3,4,5,6,7,8,9,0}
+    wgroups.sh -s $(pfw) {1,2,3,4,5,6,7,8,9,0}
 mod1 + c
     wgroups.sh -c $(pfw)
 mod4 + c
     wgroups.sh -C
 
-# Programs:
+# programs
 mod1 + Return
-    urxvtc -geometry 89x24 -name 'terminal'
+    urxvtc -geometry 89x24 -name 'Terminal'
 mod2 + Return
     urxvt -geometry 89x24 -name 'urxvt'
 mod1 + d
     dmenu-run
+mod2 + z
+    popup "$(wclass.sh c $(pfw))"
+mod2 + x
+    popup "$(wclass.sh m $(pfw))"
 mod2 + v
-    urxvt -geometry 89x24 -name 'volume' -e zsh -c "alsamixer"
+    urxvt -name "alsamixer" -geometry 89x24 -e zsh -c "alsamixer"
 mod2 + b
-    urxvt -geometry 89x24 -name 'sshserver' -e zsh -c "mosh wildefyr.net"
+    urxvt -name "mosh" -geometry 89x24 -e zsh -c "mosh wildefyr.net"
+mod2 + n
+    urxvt -name "ncmpcpp" -geometry 89x24 -e zsh -c "ncmpcpp"
+mod2 + m
+    urxvt -name "mpsyt" -geometry 89x24 -e zsh -c "/builds/mps-youtube/mpsyt"
 
-# It's a killin' time!
+Print
+    maim
+
+# it's a killin' time!
 mod1 + shift + q
     winkill.sh
-mod1 + shift + w
-    killall urxvtd; urxvtd -q -o -f
 
-# System
+# system
 mod4 + e
-    shutdown.sh -l
+    power -l
 mod4 + shift + {q,e,r}
-    shutdown.sh {-s,-e,-r}
+    power {-s,-e,-r}
 
-# Mouse
+# mouse
 mod2 + q
     mouse.sh e
 mod2 + w
     mouse.sh d
+mod1 + !button{1,3}
+    {wmv,wrs} -a %i %i $(pfw)
 
-# Compton / Visual
-mod2 + m
-    recomposite
-mod2 + n
-    killall compton
+# transset-df
+mod4 + t
+    trans.sh $(pfw) 0
 mod4 + y
-    trans $(pfw) 0.75
+    trans.sh $(pfw) 0.75
 mod4 + u
-    trans $(pfw) 0.05 d
+    trans.sh $(pfw) 0.05 dec
 mod4 + i
-    trans $(pfw) 0.05 u
+    trans.sh $(pfw) 0.05 inc 
 mod4 + o
-    trans $(pfw) 1.0
+    trans.sh $(pfw) 1.0
 
-# Uniques
-mod2 + z
-    popup "$(echo $(pfw))"
-mod2 + x
-    popup "$(wclass.sh c $(pfw))"
-mod2 + c
-    popup "$(wclass.sh p $(pfw))"
-Print
-    maim
-
-# MPC:
+# mpc
 mod2 + p
     mpc toggle
 mod2 + o
@@ -142,8 +140,14 @@ mod2 + g
 mod2 + r
     mpc repeat
 
-# Volume:
+# volume
 mod2 + 9
     mpc volume -5
 mod2 + 0
     mpc volume +5
+XF86AudioLowerVolume
+    amixer -c 0 set Master 2db-
+XF86AudioRaiseVolume
+    amixer -c 0 set Master 2db+
+XF86AudioMute
+    amixer -c 0 set Master togglemute
