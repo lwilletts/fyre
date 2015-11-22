@@ -138,10 +138,10 @@ mpvTile() {
                 position.sh bl $mpvWid
             fi
         elif [ $mpvH -ge 720 ]; then
+            mpvW=1280; mpvH=720
             if [ $windowsToTile -eq 0 ]; then
                 position.sh md $mpvWid
             elif [ $windowsToTile -eq 1 ]; then
-                mpvW=1280; mpvH=720
                 Y=$TGAP
                 X=$((X + IGAP + mpvW))
                 W=$((SW - mpvW - 2*BW))
@@ -152,7 +152,6 @@ mpvTile() {
                 position.sh tl $mpvWid
                 position.sh ext $mpvWid
             elif [ $windowsToTile -gt 1 ] && [ $windowsToTile -lt 4 ]; then
-                mpvW=1280; mpvH=720
                 cat $WLFILE | sed '$ d' > $WLFILETEMP
                 COLS=$(cat $WLFILETEMP | wc -l)
 
@@ -173,7 +172,6 @@ mpvTile() {
 
                 position.sh bl $mpvWid
             elif [ $windowsToTile -gt 3 ]; then
-                mpvW=1280; mpvH=720
                 cat $WLFILE | sed '2q' > $WLFILETEMP
                 COLS=$(cat $WLFILETEMP | wc -l)
 
@@ -203,8 +201,11 @@ mpvTile() {
                     Y=$((Y + H + VGAP))
                 done
 
-                position.sh bl $mpvWid
             fi
+
+            SH=$(wattr h $ROOT); H=$mpvH
+            wtp $originalX $((SH - H - BGAP)) $mpvW $mpvH $mpvWid
+
         fi
     else
         mpvW=1280
