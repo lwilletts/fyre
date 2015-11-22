@@ -25,12 +25,16 @@ if [ -e $FSFILE ]; then
         setborder.sh active $wid
         setborder.sh none $CUR
     else
+        if [ $wid != $CUR ]; then
+            setborder.sh active $wid
+            setborder.sh inactive $CUR
+        fi
+    fi
+else
+    if [ $wid != $CUR ]; then
         setborder.sh active $wid
         setborder.sh inactive $CUR
     fi
-else
-    setborder.sh active $wid
-    setborder.sh inactive $CUR
 fi
 
 chwso -r $wid
