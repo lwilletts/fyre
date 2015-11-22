@@ -11,7 +11,7 @@ usage() {
 horizontalTile() {
     Y=$TGAP
     COLS=$windowsToTile
-    W=$(((SW - COLS*IGAP - 2*BW)/COLS))
+    W=$(((SW - COLS*IGAP - (COLS - 2)*BW)/COLS))
     H=$SH
 
     for c in $(seq $COLS); do
@@ -24,7 +24,7 @@ horizontalTile() {
 mainTile() {
     Y=$TGAP
     COLS=$maxHorizontalWindows
-    W=$(((SW - COLS*IGAP - 2*BW)/COLS))
+    W=$(((SW - COLS*IGAP - (COLS - 2)*BW)/COLS))
     H=$SH
 
     COLSTEMP=$((COLS - 1))
@@ -156,7 +156,7 @@ mpvTile() {
                 COLS=$(cat $WLFILETEMP | wc -l)
 
                 Y=$TGAP
-                AW=$((mpvW + BW))
+                AW=$mpvW
                 W=$(((AW - COLS*IGAP)/COLS))
                 H=$((SH - VGAP - mpvH))
 
@@ -166,7 +166,7 @@ mpvTile() {
                 done
 
                 X=$((X + IGAP - BW))
-                W=$((SW - AW - 3*BW))
+                W=$((SW - AW - 2*BW))
                 H=$SH
                 wtp $X $Y $W $H $(cat $WLFILE | tail -n 1)
 
@@ -176,7 +176,7 @@ mpvTile() {
                 COLS=$(cat $WLFILETEMP | wc -l)
 
                 Y=$TGAP
-                AW=$((mpvW + BW))
+                AW=$mpvW
                 W=$(((AW - COLS*IGAP)/COLS))
                 H=$((SH - VGAP - mpvH))
 
@@ -188,7 +188,7 @@ mpvTile() {
                 cat $WLFILE | sed '1,2d' > $WLFILETEMP
                 ROWS=$(cat $WLFILETEMP | wc -l)
                 X=$((X + IGAP - BW))
-                W=$((SW - AW - 3*BW))
+                W=$((SW - AW - 2*BW))
                 H=$(((SH - (ROWS - 1)*VGAP)/ROWS))
 
                 for c in $(seq $ROWS); do
