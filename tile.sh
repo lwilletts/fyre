@@ -68,6 +68,10 @@ mpvTile() {
             wtp $(wattr xy $mpvWid) $mpvW $mpvH $mpvWid
         fi
 
+        if [ $mpvH -gt 720 ]; then
+            mpvW=1280; mpvH=720
+        fi
+
         if [ $mpvH -ge 360 ] && [ $mpvH -lt 720 ]; then
             if [ $windowsToTile -eq 0 ]; then
                 position.sh md $mpvWid
@@ -134,8 +138,7 @@ mpvTile() {
 
                 position.sh bl $mpvWid
             fi
-        elif [ $mpvH -ge 720 ]; then
-            mpvW=1280; mpvH=720
+        elif [ $mpvH -eq 720 ]; then
             if [ $windowsToTile -eq 0 ]; then
                 position.sh md $mpvWid
             elif [ $windowsToTile -eq 1 ]; then
@@ -145,10 +148,6 @@ mpvTile() {
                 H=$SH
 
                 wtp $X $Y $W $H $(cat $WLFILE | head -n 1)
-
-                if [ "$(wattr wh $mpvWid)" != "1280 1020" ]; then
-                    wtp $originalX $((SH - H - BGAP)) $mpvW $mpvH $mpvWid
-                fi
 
                 position.sh tl $mpvWid
                 position.sh ext $mpvWid
@@ -201,13 +200,11 @@ mpvTile() {
                     wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
                     Y=$((Y + H + VGAP))
                 done
-
-                SH=$(wattr h $ROOT); H=$mpvH
-                if [ "$(wattr wh $mpvWid)" != "1280 720" ]; then
-                    wtp $originalX $((SH - H - BGAP)) $mpvW $mpvH $mpvWid
-                fi
-
+            
             fi
+            
+            SH=$(wattr h $ROOT)
+            wtp $originalX $((SH - mpvH - BGAP)) $mpvW $mpvH $mpvWid
         fi
     else
         mpvW=1280
