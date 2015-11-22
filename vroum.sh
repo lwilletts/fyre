@@ -21,16 +21,20 @@ esac
 if [ -e $FSFILE ]; then
     if [[ $(cat $FSFILE | cut -d\  -f 5) == $wid ]]; then
         setborder.sh none $wid
-    elif [[ $(cat $FSFILE | cut -d\  -f 5) == $PFW ]]; then
+    elif [[ $(cat $FSFILE | cut -d\  -f 5) == $CUR ]]; then
         setborder.sh active $wid
         setborder.sh none $CUR
     else
+        if [ $wid != $CUR ]; then
+            setborder.sh active $wid
+            setborder.sh inactive $CUR
+        fi
+    fi
+else
+    if [ $wid != $CUR ]; then
         setborder.sh active $wid
         setborder.sh inactive $CUR
     fi
-else
-    setborder.sh active $wid
-    setborder.sh inactive $CUR
 fi
 
 wtf $wid
