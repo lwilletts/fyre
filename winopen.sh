@@ -14,6 +14,9 @@ wid=$1
 windowC=$(wclass.sh c $wid)
 windowM=$(wclass.sh m $wid)
 
+# for speed
+setborder.sh active $wid
+
 if [ "$windowC" = "mupdf" ]; then
     wgroups.sh -s $wid 1
 elif [ "$windowC" = "Navigator" ]; then
