@@ -16,16 +16,18 @@ case $1 in
 esac
 
 windowC=$(wclass.sh c $wid)
+test -e $FSFILE && CUR=$(cat $FSFILE | cut -d\  -f 5)
 
-if [ -e $FSFILE ] && [ $(cat $FSFILE | cut -d\  -f 5) = $wid ]; then
+if [ -e $FSFILE ] && [ "$CUR" = $wid ]; then
     setborder.sh active $wid
     wtp $(cat $FSFILE)
     rm $FSFILE
-elif [ -e $FSFILE ] && [ $(cat $FSFILE | cut -d\  -f 5) != $wid ]; then
+elif [ -e $FSFILE ] && [ "$CUR" != $wid ]; then
     setborder.sh active $wid
+    setborder.sh inactive $CUR
     wtp $(cat $FSFILE)
     rm $FSFILE
-    fullscreen.sh $CUR
+    fullscreen.sh $wid
 else
     setborder.sh none $wid
     wattr xywhi $wid > $FSFILE
