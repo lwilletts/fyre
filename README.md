@@ -1,6 +1,9 @@
 Fyre
 ====
 
+Strict POSIX compliant shell scripts using wmutils to form one lightweight and
+minimal X window environment.
+
 Appearance:
 -----------
 
@@ -16,46 +19,42 @@ You can install fyre with very little fuss by using these methods:
 
 #### Manual Installation:
 
-This repo relies on the installation of
-[wmutils/core](https://github.com/wmutils/core) and
-[wmutils/opt](https://github.com/wmutils/opt). I also have my own fork of
-[wmutils/opt](https://github.com/wildefyr/opt) which allows the use of middle
-mouse click to focus a window.
+This repo relies on the installation of:
 
-To install, compile xwait.c, and then add the directory to your path or move the
-executables a directory in your shells path. The config file is read from
-~/.config/fyre/fyrerc. I've included an example fyrerc in the repository.
-Without setting at least some of the things even the basic scripts require
-(i.e. focus.sh), these scripts will not work.
+- [wmutils/libwm](https://github.com/wmutils/libwm)
+- [wmutils/core](https://github.com/wmutils/core)
+- [wmutils/opt](https://github.com/wmutils/opt)
+
+I also have my own fork of [wmutils/opt](https://github.com/wildefyr/opt)
+which allows the use of middle mouse click to focus a window.
+
+The config file is read from ~/.config/fyre/fyrerc. I've included an example
+fyrerc in the repository. Without setting at least some of the things even
+the basic scripts require (i.e. focus.sh), nearly none of these scripts will
+not work.
 
 Some optional dependancies that you might find interesting:
 
-- dash - The fastest shell posix compliant shell ever, syslink it to /bin/sh
+- dash - The fastest shell POSIX compliant shell ever, syslink it to /bin/sh
   instead of bash and watch everything work better.
-- xorg-xprop
-- xorg-xinput
-- transset-df
-
-#### Other considerations:
-
-With minimal setups of this kind, you'll need/want programs that fulfil other
-desires, such as:
-
-- dmenu
-- compton
-- lemonbar
-- hsetroot
+- xorg-xprop - To grab information about the environment to manipulate it.
+- xorg-xinput - Controlling input devices.
+- hsetroot - Minimal background setter with clean options compared to feh.
+- dmenu - suckless menu for launching programs.
+- lemonbar - Excellent statusbar program with clickable support.
+- compton - Best X compositing manager out there.
+- transset-df - Manipulate window transparency interactively.
 
 You'll have to install these separately depending on your distribution, but
 all of them can be grabbed from source. My personal configuration for these
 can be found in my [dotfiles](https://github.com/wildefyr/wildconfig) and
-[script](https://github.com/wildefyr/scripts) repositories.
+[bin](https://github.com/wildefyr/bin) repositories.
 
 Authors
 -------
 
 Authors for specific scripts are listed in the files where they have
-contributed ideas or code. Many thanks to the original wmutils authors: 
+contributed ideas or code. Many thanks to the original wmutils authors:
 dcat & z3bra.
 
 Shameless Plug
