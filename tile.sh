@@ -204,6 +204,7 @@ mpvTile() {
             fi
 
             SH=$(wattr h $ROOT); H=$mpvH
+            echo $(wattr wh $mpvWid)
             if [ "$(wattr wh $mpvWid)" != "1280 720" ]; then
                 wtp $originalX $((SH - H - BGAP)) $mpvW $mpvH $mpvWid
             fi
@@ -230,25 +231,16 @@ else
     windowsToTile=0
 fi
 
-
 if [ -e $MPVFILE ]; then
     mpvWindowsToTile=$(cat $MPVFILE | wc -l)
-    if [ $mpvWindowsToTile -eq 1 ]; then
-        mpvWid=$(cat $MPVFILE)
-    fi
-    if [ ! -z $mpvWid ]; then
-        if [ "$(wattr xy $mpvWid)" != "0 0" ]; then
-            mpvTile
-        fi
+    mpvTile
+else
+    if [ $windowsToTile -eq 0 ]; then
+        exit 1
+    elif [ $windowsToTile -le $maxHorizontalWindows ]; then
+        horizontalTile
     else
-        mpvTile
+        mainTile
     fi
 fi
 
-if [ $windowsToTile -eq 0 ]; then
-    exit 1
-elif [ $windowsToTile -le $maxHorizontalWindows ]; then
-    horizontalTile
-else
-    mainTile
-fi
