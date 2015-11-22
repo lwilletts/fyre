@@ -30,8 +30,7 @@ Without setting at least some of the things even the basic scripts require
 
 Some optional dependancies that you might find interesting:
 
-- mksh - The fastest shell I've tried and I recommend you install this so
-  winopen.sh/tile.sh feel very responsive.
+- dash - The fastest shell posix compliant shell ever.
 - xorg-xprop
 - xorg-xinput
 - transset-df
