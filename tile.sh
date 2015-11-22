@@ -18,6 +18,7 @@ horizontalTile() {
         wtp $X $Y $W $H $(head -n $c $WLFILE | tail -1)
         X=$((X + W + IGAP))
     done
+    exit
 }
 
 mainTile() {
@@ -52,12 +53,12 @@ mainTile() {
         wtp $X $Y $W $H $(head -n $c $WLFILETEMP | tail -1)
         Y=$((Y + H + VGAP))
     done
+    exit
 }
 
 mpvTile() {
     if [ $mpvWindowsToTile -eq 1 ]; then
 
-        mpvWid=$(cat $MPVFILE)
         mpvW=$(resolution.sh $mpvWid | cut -d\  -f 1)
         mpvH=$(resolution.sh $mpvWid | cut -d\  -f 2)
 
@@ -154,7 +155,7 @@ mpvTile() {
                 COLS=$(cat $WLFILETEMP | wc -l)
 
                 Y=$TGAP
-                AW=$mpvW
+                AW=$((mpvW + BW))
                 W=$(((AW - COLS*IGAP)/COLS))
                 H=$((SH - VGAP - mpvH))
 
@@ -164,7 +165,7 @@ mpvTile() {
                 done
 
                 X=$((X + IGAP - BW))
-                W=$((SW - mpvW - 2*BW))
+                W=$((SW - AW - 3*BW))
                 H=$SH
                 wtp $X $Y $W $H $(cat $WLFILE | tail -n 1)
 
@@ -174,7 +175,7 @@ mpvTile() {
                 COLS=$(cat $WLFILETEMP | wc -l)
 
                 Y=$TGAP
-                AW=$mpvW
+                AW=$((mpvW + BW))
                 W=$(((AW - COLS*IGAP)/COLS))
                 H=$((SH - VGAP - mpvH))
 
@@ -186,7 +187,7 @@ mpvTile() {
                 cat $WLFILE | sed '1,2d' > $WLFILETEMP
                 ROWS=$(cat $WLFILETEMP | wc -l)
                 X=$((X + IGAP - BW))
-                W=$((SW - mpvW - 2*BW))
+                W=$((SW - AW - 3*BW))
                 H=$(((SH - (ROWS - 1)*VGAP)/ROWS))
 
                 for c in $(seq $ROWS); do
@@ -206,7 +207,8 @@ mpvTile() {
         mpvW=1280
         mpvH=720
     fi
-
+    
+    exit
 }
 
 . ~/.config/fyre/fyrerc
@@ -222,15 +224,25 @@ else
     windowsToTile=0
 fi
 
+
 if [ -e $MPVFILE ]; then
     mpvWindowsToTile=$(cat $MPVFILE | wc -l)
-    mpvTile
-else
-    if [ $windowsToTile -eq 0 ]; then
-        exit 1
-    elif [ $windowsToTile -le $maxHorizontalWindows ]; then
-        horizontalTile
-    else
-        mainTile
+    if [ $mpvWindowsToTile -eq 1 ]; then
+        mpvWid=$(cat $MPVFILE)
     fi
+    if [ ! -z $mpvWid ]; then
+        if [[ $(wattr xy $mpvWid) != "0 0" ]]; then
+            mpvTile
+        fi
+    else
+        mpvTile
+    fi
+fi
+
+if [ $windowsToTile -eq 0 ]; then
+    exit 1
+elif [ $windowsToTile -le $maxHorizontalWindows ]; then
+    horizontalTile
+else
+    mainTile
 fi
