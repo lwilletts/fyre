@@ -10,32 +10,26 @@ usage() {
     exit 1
 }
 
-if [ ! -z $1 ]; then
-    case $1 in
-        0x*)
-            PFW=$1
-            ;;
-    esac
-fi
+case $1 in 
+    0x*) wid=$1 ;;
+    *) usage ;;
+esac
 
-windowC=$(wclass.sh c $PFW)
+windowC=$(wclass.sh c $wid)
 
-if [ -e $FSFILE ] && [ $(cat $FSFILE | cut -d\  -f 5) = $PFW ]; then
-    setborder.sh active $PFW
-    wtp $(cat $FSFILE)
-fi
-
-if [ -e $FSFILE ] && [ $(cat $FSFILE | cut -d\  -f 5) != $PFW ]; then
-    setborder.sh active $PFW
+if [ -e $FSFILE ] && [ $(cat $FSFILE | cut -d\  -f 5) = $wid ]; then
+    setborder.sh active $wid
     wtp $(cat $FSFILE)
     rm $FSFILE
-    fullscreen.sh $PFW
-elif [ -e $FSFILE ] && [ $(cat $FSFILE | cut -d\  -f 5) = $PFW ]; then
+elif [ -e $FSFILE ] && [ $(cat $FSFILE | cut -d\  -f 5) != $wid ]; then
+    setborder.sh active $wid
+    wtp $(cat $FSFILE)
     rm $FSFILE
+    fullscreen.sh $CUR
 else
-    setborder.sh none $PFW
-    wattr xywhi $PFW > $FSFILE
-    wtp 0 0 $SW $SH $PFW
+    setborder.sh none $wid
+    wattr xywhi $wid > $FSFILE
+    wtp 0 0 $SW $SH $wid
 fi
 
 tile.sh
