@@ -21,9 +21,6 @@ fi
 windowC=$(wclass.sh c $PFW)
 
 if [ -e $FSFILE ] && [ $(cat $FSFILE | cut -d\  -f 5) = $PFW ]; then
-    if [ $windowC = "urxvt" ] || [ $windowC = "Terminal" ]; then
-        transset-df -i $PFW 0.75
-    fi
     setborder.sh active $PFW
     wtp $(cat $FSFILE)
 fi
@@ -37,7 +34,6 @@ elif [ -e $FSFILE ] && [ $(cat $FSFILE | cut -d\  -f 5) = $PFW ]; then
     rm $FSFILE
 else
     setborder.sh none $PFW
-    transset-df -i $PFW 1
     wattr xywhi $PFW > $FSFILE
     wtp 0 0 $SW $SH $PFW
 fi
