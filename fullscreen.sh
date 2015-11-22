@@ -41,3 +41,5 @@ else
     wattr xywhi $PFW > $FSFILE
     wtp 0 0 $SW $SH $PFW
 fi
+
+tile.sh
