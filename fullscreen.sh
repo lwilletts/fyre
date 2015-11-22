@@ -15,7 +15,6 @@ case $1 in
     *) usage ;;
 esac
 
-windowC=$(wclass.sh c $wid)
 test -e $FSFILE && CUR=$(cat $FSFILE | cut -d\  -f 5)
 
 if [ -e $FSFILE ] && [ "$CUR" = $wid ]; then
