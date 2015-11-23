@@ -8,6 +8,10 @@ usage() {
     exit 1
 }
 
+case $2 in
+    u|-u|unlisted) hidden="-u" ;;
+esac
+
 case $1 in
     c|class)
         xprop -id $2 WM_CLASS | cut -f 2 -d \"
@@ -17,17 +21,20 @@ case $1 in
         ;;
     ca|classAll)
         for i in $(seq $(lsw | wc -l)); do
-            echo $(lsw | head -n $i  | tail -1) $(wclass.sh c $(lsw | head -n $i | tail -1)) 
+            wid=$(lsw | sed "/$i/!d")
+            printf '%s\n' "$wid $(wclass.sh c $wid)"
         done
         ;;
     ma|moreAll)
         for i in $(seq $(lsw | wc -l)); do
-            echo $(lsw | head -n $i  | tail -1) $(wclass.sh m $(lsw | head -n $i | tail -1)) 
+            wid=$(lsw | sed "/$i/!d")
+            printf '%s\n' "$wid $(wclass.sh m $wid)"
         done
         ;;
     name)
         for i in $(seq $(lsw | wc -l)); do
-            echo $(lsw | head -n $i  | tail -1) $(wname $(lsw | head -n $i | tail -1)) 
+            wid=$(lsw | sed "/$i/!d")
+            printf '%s\n' "$wid $(wname $wid)"
         done
         ;;
     all)
