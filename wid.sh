@@ -13,10 +13,10 @@ if [ -z $1 ]; then
     usage
 fi
 
-case $1 in
+case $2 in
     u|-u|unlisted) lswArgs="-u" ;;
     o|-o|override) lswArgs="-o" ;;
     a|-a|all) lswArgs="-a" ;;
 esac
 
-wclass.sh all $lswArgs # | grep -i $1 | cut -d\  -f 1 | uniq
+wclass.sh all $lswArgs | grep -i $1 | cut -d\  -f 1 | uniq
