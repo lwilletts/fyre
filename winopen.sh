@@ -26,7 +26,6 @@ elif [ "$windowC" = "Dialog" ]; then
     position.sh md $wid
 elif [ "$windowC" = "mosh" ]; then
     position.sh mid $wid
-    transset-df -i $wid 0.75
     wgroups.sh -s $wid 3
 elif [ "$windowC" = *"ts3"* ]; then
     position.sh tl $wid
@@ -40,21 +39,16 @@ elif [ "$windowC" = "ncmpcpp" ]; then
     position.sh tr $wid
     position.sh ext $wid
     wgroups.sh -s $wid 8
-    transset-df -i $wid 0.75
 elif [ "$windowC" = "mpsyt" ]; then
     position.sh tr $wid
     position.sh ext $wid
     wgroups.sh -s $wid 9
-    transset-df -i $wid 0.75
 elif [ "$windowC" = "alsamixer" ]; then
     position.sh mid $wid
-    transset-df -i $wid 0.75
 elif [ "$windowC" = "Terminal" ]; then
-    transset-df -i $wid 0.75
     tile.sh
 elif [ "$windowC" = "urxvt" ]; then
     position.sh md $wid
-    transset-df -i $wid 0.75
 else
     position.sh md $wid
 fi
