@@ -20,20 +20,20 @@ case $1 in
         xprop -id $2 WM_CLASS | cut -f 4 -d \"
         ;;
     ca|classAll)
-        for i in $(seq $(lsw | wc -l)); do
-            wid=$(lsw | sed "/$i/!d")
+        for i in $(seq $(lsw $hidden | wc -l)); do
+            wid=$(lsw $hidden | head -n $i | tail -1)
             printf '%s\n' "$wid $(wclass.sh c $wid)"
         done
         ;;
     ma|moreAll)
-        for i in $(seq $(lsw | wc -l)); do
-            wid=$(lsw | sed "/$i/!d")
+        for i in $(seq $(lsw $hidden | wc -l)); do
+            wid=$(lsw $hidden | head -n $i | tail -1)
             printf '%s\n' "$wid $(wclass.sh m $wid)"
         done
         ;;
     name)
-        for i in $(seq $(lsw | wc -l)); do
-            wid=$(lsw | sed "/$i/!d")
+        for i in $(seq $(lsw $hidden | wc -l)); do
+            wid=$(lsw $hidden | head -n $i | tail -1)
             printf '%s\n' "$wid $(wname $wid)"
         done
         ;;
