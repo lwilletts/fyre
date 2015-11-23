@@ -11,7 +11,7 @@ usage() {
 horizontalTile() {
     Y=$TGAP
     COLS=$windowsToTile
-    W=$(((SW - COLS*IGAP - (COLS - 2)*BW)/COLS))
+    W=$(((SW - COLS*IGAP - 2*BW)/COLS))
     H=$SH
 
     for c in $(seq $COLS); do
@@ -24,7 +24,7 @@ horizontalTile() {
 mainTile() {
     Y=$TGAP
     COLS=$maxHorizontalWindows
-    W=$(((SW - COLS*IGAP - (COLS - 2)*BW)/COLS))
+    W=$(((SW - COLS*IGAP - 2*BW)/COLS))
     H=$SH
 
     COLSTEMP=$((COLS - 1))
