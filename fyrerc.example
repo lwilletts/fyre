@@ -33,8 +33,9 @@ VGAP=${VGAP:-$((BW))}
 TGAP=${TGAP:-$((Y + 20))}
 BGAP=${BGAP:-$((Y))}
 
-BLUR=${BLUR:-5}
+BLUR=5
 WALL=$HOME$(cat $(which bgc) | cut -d~ -f 2)
+TRANS="0.9"
 
 FYREDIR=${FYREDIR:-~/.config/fyre}
 
