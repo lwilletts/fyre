@@ -37,7 +37,7 @@ case $1 in
     mid)
         SW=$((SW - 2*XGAP))
         SH=$((SH - TGAP - BGAP))
-        W=$((SW/2 - BW))
+        W=$((SW/2 - 2*BW))
         H=$((SH/2 - BW))
         X=$((SW/2 - W/2 - BW))
         Y=$((SH/2 - H/2 - BW))
