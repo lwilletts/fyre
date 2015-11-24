@@ -35,9 +35,14 @@ case $1 in
         Y=$((SH/2 - H/2 - BW))
         ;;
     mid)
-        W=$((2*TermW)); H=$((2*TermH))
+        SW=$((SW - 2*XGAP))
+        SH=$((SH - TGAP - BGAP))
+        W=$((SW/2 - BW))
+        H=$((SH/2 - BW))
         X=$((SW/2 - W/2 - BW))
         Y=$((SH/2 - H/2 - BW))
+        ;;
+    qq|quater)
         ;;
     lft)
         Y=$TGAP
