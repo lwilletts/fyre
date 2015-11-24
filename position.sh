@@ -42,8 +42,6 @@ case $1 in
         X=$((SW/2 - W/2 - BW))
         Y=$((SH/2 - H/2 - BW))
         ;;
-    qq|quater)
-        ;;
     lft)
         Y=$TGAP
         H=$((SH - TGAP - BGAP))
@@ -69,7 +67,10 @@ case $1 in
         H=$((SH - TGAP - BGAP))
         ;;
     res)
-        W=$TermW; H=$TermH
+        SW=$((SW - 2*XGAP))
+        SH=$((SH - TGAP - BGAP))
+        W=$((SW/4 - BW))
+        H=$((SH/4 - BW))
         X=$(wattr x $PFW); Y=$(wattr y $PFW)
         ;;
     *)
