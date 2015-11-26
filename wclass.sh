@@ -16,10 +16,16 @@ esac
 
 case $1 in
     c|class)
-        xprop -id $2 WM_CLASS | cut -f 2 -d \"
+        case $2 in
+            0x*) xprop -id $2 WM_CLASS | cut -d\" -f 2 ;;
+            *) usage ;;
+        esac
         ;;
     m|more)
-        xprop -id $2 WM_CLASS | cut -f 4 -d \"
+        case $2 in
+            0x*) xprop -id $2 WM_CLASS | cut -d\" -f 4 ;;
+            *) usage ;;
+        esac
         ;;
     ca|classAll)
         for i in $(seq $(lsw $lswArgs | wc -l)); do
@@ -39,7 +45,7 @@ case $1 in
             printf '%s\n' "$wid $(wname $wid)"
         done
         ;;
-    all)
+    a|all)
         $(basename $0) ca $lswArgs
         $(basename $0) ma $lswArgs
         $(basename $0) name $lswArgs
