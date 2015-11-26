@@ -46,9 +46,10 @@ case $1 in
         ;;
     lft)
         Y=$TGAP
-        H=$((SH - TGAP - BGAP))
         SW=$((SW - 2*XGAP))
-        W=$(((SW - 2*IGAP - 2*BW)/2))
+        SH=$((SH - TGAP - BGAP))
+        W=$((SW/2 - 2*BW))
+        H=$SH
         ;;
     rht)
         Y=$TGAP
