@@ -221,7 +221,7 @@ mpvTile() {
 SW=$((SW - 2*XGAP))
 SH=$((SH - TGAP - BGAP))
 
-if [ -e $WLFILE ] || [ -e $MPVFILE ]; then
+if [ -e $WLFILE ]; then
     windowsToTile=$(cat $WLFILE | wc -l)
 else
     windowsToTile=0
