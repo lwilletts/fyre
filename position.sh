@@ -56,7 +56,7 @@ case $1 in
         H=$((SH - TGAP - BGAP))
         SW=$((SW - 2*XGAP))
         W=$(((SW - 2*IGAP - 2*BW)/2))
-        X=$((W + XGAP + IGAP))
+        X=$((W + XGAP + IGAP + BW))
         ;;
     full)
         SW=$((SW - 2*XGAP - 2*BW))
