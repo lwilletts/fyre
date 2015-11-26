@@ -19,10 +19,8 @@ windowM=$(wclass.sh m $wid)
 # for speed
 setborder.sh active $wid
 
-if [ "$windowC" = "mupdf" ]; then
-    wgroups.sh -s $wid 1
-elif [ "$windowC" = "Navigator" ]; then
-    sleep 0.5
+if [ "$windowC" = "Navigator" ]; then
+    sleep 1
     wgroups.sh -s $wid 2
 elif [ "$windowC" = "Dialog" ]; then
     position.sh md $wid
@@ -39,6 +37,8 @@ elif [ "$windowM" = "mpv" ]; then
     wgroups.sh -s $wid 5
     transset-df -i $wid 1
     tile.sh
+elif [ "$windowC" = "mupdf" ]; then
+    wgroups.sh -s $wid 6
 elif [ "$windowC" = "ncmpcpp" ]; then
     position.sh tr $wid
     position.sh res $wid
