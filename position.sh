@@ -7,7 +7,7 @@
 
 case $2 in
     0x*)
-        PFW=$2
+        wid=$2
         ;;
 esac
 
@@ -64,7 +64,7 @@ case $1 in
         W=$SW; H=$SH
         ;;
     ext)
-        X=$(wattr x $PFW)
+        X=$(wattr x $wid)
         Y=$TGAP
         H=$((SH - TGAP - BGAP))
         ;;
@@ -73,11 +73,17 @@ case $1 in
         SH=$((SH - TGAP - BGAP))
         W=$((SW/4 - BW))
         H=$((SH/4 - BW))
-        X=$(wattr x $PFW); Y=$(wattr y $PFW)
+        X=$(wattr x $wid); Y=$(wattr y $wid)
+        ;;
+    vid)
+        X=$(wattr x $wid)
+        Y=$(wattr y $wid)
+        W=$(resolution.sh $wid | cut -d\  -f 1)
+        H=$(resolution.sh $wid | cut -d\  -f 2)
         ;;
     *)
         cat $0
         ;;
 esac
 
-wtp $X $Y $W $H $PFW
+wtp $X $Y $W $H $wid
