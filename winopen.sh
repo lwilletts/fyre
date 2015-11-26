@@ -30,8 +30,9 @@ elif [ "$windowC" = "mosh" ]; then
     position.sh mid $wid
     transset-df -i $wid $TRANS
     wgroups.sh -s $wid 3
-elif [ "$windowC" = *"ts3"* ]; then
+elif [ "$windowM" = "TeamSpeak 3" ]; then
     position.sh tl $wid
+    position.sh res $wid
     position.sh ext $wid
     wgroups.sh -s $wid 4
 elif [ "$windowM" = "mpv" ]; then
@@ -40,11 +41,13 @@ elif [ "$windowM" = "mpv" ]; then
     tile.sh
 elif [ "$windowC" = "ncmpcpp" ]; then
     position.sh tr $wid
+    position.sh res $wid
     position.sh ext $wid
     wgroups.sh -s $wid 8
     transset-df -i $wid $TRANS
 elif [ "$windowC" = "mpsyt" ]; then
     position.sh tr $wid
+    position.sh res $wid
     position.sh ext $wid
     wgroups.sh -s $wid 9
     transset-df -i $wid $TRANS
@@ -56,6 +59,7 @@ elif [ "$windowC" = "Terminal" ]; then
     tile.sh
 elif [ "$windowC" = "urxvt" ]; then
     position.sh md $wid
+    position.sh res $wid
     transset-df -i $wid $TRANS
 else
     position.sh md $wid
