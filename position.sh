@@ -39,7 +39,10 @@ case $1 in
         SH=$((SH - TGAP - BGAP))
         W=$((SW/2 - 2*BW))
         H=$((SH/2 - BW))
-        $(basename $0) md
+        SW=$(wattr w $ROOT)
+        SH=$(wattr h $ROOT)
+        X=$((SW/2 - W/2 - BW))
+        Y=$((SH/2 - H/2 - BW))
         ;;
     lft)
         Y=$TGAP
