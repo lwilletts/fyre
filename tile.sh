@@ -225,15 +225,14 @@ if [ -e $WLFILE ] || [ -e $MPVFILE ]; then
     windowsToTile=$(cat $WLFILE | wc -l)
 else
     windowsToTile=0
+    exit
 fi
 
 if [ -e $MPVFILE ]; then
     mpvWindowsToTile=$(cat $MPVFILE | wc -l)
     mpvTile
 else
-    if [ $windowsToTile -eq 0 ]; then
-        exit 1
-    elif [ $windowsToTile -le $maxHorizontalWindows ]; then
+    if [ $windowsToTile -le $maxHorizontalWindows ]; then
         horizontalTile
     else
         mainTile
