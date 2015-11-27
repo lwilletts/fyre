@@ -19,4 +19,4 @@ case $2 in
     a|-a|all) lswArgs="-a" ;;
 esac
 
-wclass.sh all $lswArgs | grep -i $1 | cut -d\  -f 1 | uniq
+wclass.sh all $lswArgs | grep -i $1 | cut -d\  -f 1 | sort | uniq
