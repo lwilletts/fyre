@@ -176,7 +176,7 @@ mpvTile() {
                 COLS=$(cat $WLFILETEMP | wc -l)
 
                 Y=$TGAP
-                AW=$((mpvW - BW))
+                AW=$((mpvW + BW))
                 W=$(((AW - COLS*IGAP)/COLS))
                 H=$((SH - VGAP - mpvH))
 
