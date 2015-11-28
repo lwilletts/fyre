@@ -6,13 +6,14 @@
 . ~/.config/fyre/fyrerc
 
 usage() {
-    echo "usage: $(basename $0) <next|prev|wid>"
+    echo "usage: $(basename $0) <next|prev|full|wid>"
     exit 1
 }
 
 case $1 in
     next) wid=$(lsw | grep -v $CUR | sed '1 p;d') ;;
     prev) wid=$(lsw | grep -v $CUR | sed '$ p;d') ;;
+    full) if [ -e $FSFILE ]; then wid=$(cat $FSFILE | cut -d\  -f 5); else usage; fi ;;
     0x*) wattr $1 && wid=$1 ;;
     *) usage ;;
 esac
