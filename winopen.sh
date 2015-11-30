@@ -57,7 +57,7 @@ elif [ "$windowC" = "alsamixer" ]; then
 elif [ "$windowC" = "Terminal" ]; then
     transset-df -i $wid $TRANS
     tile.sh
-elif [ "$windowC" = "urxvt" ]; then
+elif [ "$windowC" = "URxvt" ]; then
     position.sh md $wid
     position.sh res $wid
     transset-df -i $wid $TRANS
