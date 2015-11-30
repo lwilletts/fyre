@@ -26,6 +26,7 @@ elif [ "$windowC" = "Dialog" ]; then
     position.sh md $wid
 elif [ "$windowC" = "mosh" ]; then
     position.sh mid $wid
+    position.sh md $wid
     transset-df -i $wid $TRANS
     wgroups.sh -s $wid 3
 elif [ "$windowM" = "TeamSpeak 3" ]; then
@@ -53,6 +54,7 @@ elif [ "$windowC" = "mpsyt" ]; then
     transset-df -i $wid $TRANS
 elif [ "$windowC" = "alsamixer" ]; then
     position.sh mid $wid
+    position.sh md $wid
     transset-df -i $wid $TRANS
 elif [ "$windowC" = "Terminal" ]; then
     transset-df -i $wid $TRANS
