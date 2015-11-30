@@ -28,6 +28,9 @@ case $1 in
         X=$(wattr x $PFW)
         Y=$(wattr y $PFW)
         X=$((X + W + IGAP + BW))
+        if [ $X -gt $SW ]; then
+            X=$(wattr x $PFW)
+        fi
         ;;
 esac
 
