@@ -39,6 +39,7 @@ case $1 in
         SH=$((SH - TGAP - BGAP))
         W=$((SW/2 - 2*BW))
         H=$((SH/2 - BW))
+        X=$(wattr x $PFW); Y=$(wattr y $PFW)
         ;;
     lft)
         Y=$TGAP
