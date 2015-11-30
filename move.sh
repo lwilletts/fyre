@@ -10,6 +10,9 @@ case $1 in
         X=$(wattr x $PFW)
         Y=$(wattr y $PFW)
         X=$((X - W - IGAP - BW))
+        if [ $X -lt 0 ]; then
+            X=$(wattr x $PFW)
+        fi
         ;;
     j|down)
         X=$(wattr x $PFW)
