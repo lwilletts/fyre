@@ -69,8 +69,8 @@ case $1 in
     res)
         SW=$((SW - 2*XGAP))
         SH=$((SH - TGAP - BGAP))
-        W=$((SW/4 - BW))
-        H=$((SH/4 - BW))
+        W=$((SW/4 - 2*BW))
+        H=$((SH/4 - 2*BW))
         X=$(wattr x $PFW); Y=$(wattr y $PFW)
         ;;
     vid)
