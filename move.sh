@@ -23,6 +23,9 @@ case $1 in
         X=$(wattr x $PFW)
         Y=$(wattr y $PFW)
         Y=$((Y - H - IGAP - BW))
+        if [ $Y -lt 0 ]; then
+            X=$(wattr x $PFW)
+        fi
         ;;
     l|right)
         X=$(wattr x $PFW)
