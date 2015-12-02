@@ -18,12 +18,14 @@ case $1 in
         X=$(wattr x $PFW)
         Y=$(wattr y $PFW)
         Y=$((Y + H + IGAP + BW))
+        if [ $((Y + H)) -gt $SH ]; then
+            Y=$(wattr Y $PFW)
+        fi
         ;;
     k|up)
         X=$(wattr x $PFW)
         Y=$(wattr y $PFW)
         Y=$((Y - H - IGAP - BW))
-        echo $Y
         if [ $Y -lt 0 ]; then
             Y=$(wattr Y $PFW)
         fi
@@ -32,7 +34,7 @@ case $1 in
         X=$(wattr x $PFW)
         Y=$(wattr y $PFW)
         X=$((X + W + IGAP + BW))
-        if [ $X -gt $SW ]; then
+        if [ $((X + W)) -gt $SW ]; then
             X=$(wattr x $PFW)
         fi
         ;;
