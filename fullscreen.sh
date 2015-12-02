@@ -26,7 +26,7 @@ elif [ -e $FSFILE ] && [ "$CUR" != $wid ]; then
     setborder.sh inactive $CUR
     wtp $(cat $FSFILE)
     rm $FSFILE
-    fullscreen.sh $wid
+    $(basename $0) $wid
 else
     setborder.sh none $wid
     wattr xywhi $wid > $FSFILE
