@@ -23,8 +23,9 @@ case $1 in
         X=$(wattr x $PFW)
         Y=$(wattr y $PFW)
         Y=$((Y - H - IGAP - BW))
+        echo $Y
         if [ $Y -lt 0 ]; then
-            X=$(wattr x $PFW)
+            Y=$(wattr Y $PFW)
         fi
         ;;
     l|right)
