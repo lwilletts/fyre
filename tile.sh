@@ -215,7 +215,7 @@ mpvTile() {
 }
 
 . ~/.config/fyre/fyrerc
-. detection.sh
+. $FYREDIR/detect
 
 # calculate usable screen size (root minus border gaps)
 SW=$((SW - 2*XGAP))
