@@ -9,7 +9,7 @@ mod1 + shift + e
 mod1 + shift + r
     pkill -USR1 -x sxhkd
 
-# shitty movement scripts
+# movement scripts
 mod1 + {h,j,k,l}
     closest.sh {h,j,k,l}
 mod1 + shift + {h,j,k,l}
@@ -20,26 +20,22 @@ mod1 + shift + Tab
     focus.sh prev
 
 # manual window management
-mod1 + {y,o,g,n,m}
-    position.sh {tl,tr,md,bl,br} ${pfw}
+mod1 + {y,o,g,b,n,m}
+    position.sh {tl,tr,md,bl,br,vid} ${pfw}
 mod1 + {q,w,e,r,a,s}
     position.sh {lft,mid,rht,full,res,ext} $(pfw)
 mod4 + {h,j,k,l}
     wmv {-40 0,0 +40, 0 -40, +40 0} $(pfw)
 mod4 + shift + {h,j,k,l}
     wmv {-10 0,0 +10, 0 -10, +10 0} $(pfw)
+mod1 + f
+    fullscreen.sh $(pfw)
 
 # resize window
 mod4 + {a,s,w,d}
     wrs {-40 0,0 +40, 0 -40, +40 0} $(pfw)
 mod4 + shift + {a,s,w,d}
     wrs {-10 0,0 +10, 0 -10, +10 0} $(pfw)
-
-# automatic tiling for visible windows
-mod1 + t
-    tile.sh
-mod1 + f
-    fullscreen.sh $(pfw)
 
 # window stacking order
 mod1 + u
@@ -50,6 +46,8 @@ mod1 + i
 # groups
 mod1 + {1,2,3,4,5,6,7,8,9,0}
     wgroups.sh -t {1,2,3,4,5,6,7,8,9,0}
+mod1 + mod3 + {1,2,3,4,5,6,7,8,9,0}
+    wgroups.sh -M {1,2,3,4,5,6,7,8,9,0}
 mod1 + shift + {1,2,3,4,5,6,7,8,9,0}
     wgroups.sh -s $(pfw) {1,2,3,4,5,6,7,8,9,0}
 mod1 + c
@@ -59,9 +57,9 @@ mod4 + c
 
 # programs
 mod1 + Return
-    urxvtc -geometry 89x24 -name 'Terminal'
+    urxvt -name 'URxvt' -geometry 89x24 
 mod2 + Return
-    urxvt -geometry 89x24 -name 'urxvt'
+    urxvtc -name 'URxvt' -geometry 89x24 
 mod1 + d
     dmenu-run
 mod2 + z
@@ -88,15 +86,17 @@ mod1 + shift + q
 mod4 + e
     power l
 mod4 + shift + {q,e,r}
-    power {s,e,r}
+    power {p,e,r}
 
 # mouse
 mod2 + q
     mouse.sh e
 mod2 + w
     mouse.sh d
-mod1 + !button{1,3}
-    {wmv,wrs} -a %i %i $(pfw)
+mod1 + @button1
+    xmmv $(pfw)
+mod1 + !button3
+    wrs -a %i %i $(pfw)
 mod1 + !button2
 
 # transset-df
