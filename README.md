@@ -28,10 +28,12 @@ This repo relies on the installation of:
 I also have my own fork of [wmutils/opt](https://github.com/wildefyr/opt)
 which allows the use of middle mouse click to focus a window.
 
-The config file is read from ~/.config/fyre/fyrerc. I've included an example
-fyrerc in the repository. Without setting at least some of the things even
-the basic scripts require (i.e. focus.sh), nearly none of these scripts will
-not work.
+There are two scripts I've kept separate from the main bunch so that you can
+copy them and modify them to your needs, they are:
+
+- fyrerc - The global variable source file which controls the many 'basic'
+  settings of fyre.
+- winopen - A script that takes window id's and decides what to do with them.
 
 Some optional dependancies that you might find interesting:
 
