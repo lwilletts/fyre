@@ -16,7 +16,7 @@ while IFS=: read ev wid; do
 
         16)
             if ! wattr o $wid; then
-                winopen.sh $wid
+                $FYREDIR/winopen $wid
                 if [ $(lsw | wc -l) -eq 1 ]; then
                     blur.sh &
                 fi
