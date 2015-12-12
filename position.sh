@@ -71,6 +71,10 @@ case $1 in
         SH=$((SH - TGAP - BGAP))
         W=$((SW/4 - 2*BW))
         H=$((SH/4 - BW - 1))
+        if [ $W -lt $minW ] || [ $H -lt $minH ]; then
+            W=$minW
+            H=$minH
+        fi
         X=$(wattr x $PFW); Y=$(wattr y $PFW)
         ;;
     vid)
