@@ -24,8 +24,8 @@ originalX=$((20))
 originalY=$((20))
 X=$originalX
 Y=$originalY
-TermW=462
-TermH=260
+minW=466
+minH=252
 
 XGAP=${XGAP:-$((X))}
 IGAP=${IGAP:-$((BW))}
