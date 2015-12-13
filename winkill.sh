@@ -5,11 +5,10 @@
 
 wid=$(pfw)
 windowC=$(wclass.sh c $wid)
-windowM=$(wclass.sh m $wid)
 
-if [ "$windowC" = "Terminal" ]; then
+if [ "$windowC" = "URxvt" ]; then
     killwa $wid
-elif [ "$windowM" = "Firefox" ]; then
+elif [ "$windowC" = "Navigator" ]; then
     killwa $wid
 else
     printf '%s\n' "you're terminated fucker."
