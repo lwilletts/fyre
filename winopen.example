@@ -58,6 +58,8 @@ elif [ "$windowC" = "URxvt" ]; then
     position.sh md $wid
     position.sh res $wid
     transset-df -i $wid $TRANS
+elif [ "$windowC" = "Slop" ]; then
+    transset-df -i $wid $TRANS
 else
     position.sh md $wid
 fi
