@@ -10,20 +10,24 @@ usage() {
     exit 1
 }
 
+CURX=$(wattr x $(pfw))
+CURY=$(wattr y $(pfw))
+
+
 next_east() {
-    lsw | xargs wattr xi | sort -nr | sed "0,/$CUR/d" | sed "1s/^[0-9]* //p;d"
+    lsw | xargs wattr xi | sort -nr | sed "0,/$CUR/d" | grep -v $CURX | sed "1s/^[0-9]* //p;d"
 }
 
 next_west() {
-    lsw | xargs wattr xi | sort -n | sed "0,/$CUR/d" | sed "1s/^[0-9]* //p;d"
+    lsw | xargs wattr xi | sort -n | sed "0,/$CUR/d" | grep -v $CURX | sed "1s/^[0-9]* //p;d"
 }
 
 next_north() {
-    lsw | xargs wattr yi | sort -nr | sed "0,/$CUR/d" | sed "1s/^[0-9]* //p;d"
+    lsw | xargs wattr yi | sort -nr | sed "0,/$CUR/d" | grep -v $CURY | sed "1s/^[0-9]* //p;d"
 }
 
 next_south() {
-    lsw | xargs wattr yi | sort -n | sed "0,/$CUR/d" | sed "1s/^[0-9]* //p;d"
+    lsw | xargs wattr yi | sort -n | sed "0,/$CUR/d" | grep -v $CURY | sed "1s/^[0-9]* //p;d"
 }
 
 case $1 in
