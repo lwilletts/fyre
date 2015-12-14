@@ -6,7 +6,7 @@
 . ~/.config/fyre/fyrerc
 
 usage() {
-    printf '%s\n' "usage: $(basename $0) <direction>" >&2
+    printf '%s\n' "usage: $(basename $0) <direction>"
     exit 1
 }
 
