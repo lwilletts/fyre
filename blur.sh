@@ -5,4 +5,4 @@
 
 . ~/.config/fyre/fyrerc
 
-hsetroot -tile $WALL -blur ${1:-$BLUR}
+hsetroot $WALL -blur ${1:-$BLUR}

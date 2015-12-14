@@ -34,7 +34,7 @@ TGAP=${TGAP:-$((Y + 20))}
 BGAP=${BGAP:-$((Y))}
 
 BLUR=5
-WALL=$HOME$(cat $(which bgc) | cut -d~ -f 2)
+WALL=$(cat $(which bgc) | sed 's#~#/home/wildefyr#' | cut -d\  -f 2-)
 TRANS="0.75"
 
 FYREDIR=${FYREDIR:-~/.config/fyre}
