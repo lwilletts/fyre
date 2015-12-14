@@ -17,6 +17,7 @@ case $1 in
         X=$((X - W - IGAP - BW))
         if [ $X -lt 0 ]; then
             snap.sh left
+            exit 0
         fi
         ;;
     j|down)
@@ -25,6 +26,7 @@ case $1 in
         Y=$((Y + H + IGAP + BW))
         if [ $((Y + H)) -gt $SH ]; then
             snap.sh down
+            exit 0
         fi
         ;;
     k|up)
@@ -33,6 +35,7 @@ case $1 in
         Y=$((Y - H - IGAP - BW))
         if [ $Y -lt 0 ]; then
             snap.sh up
+            exit 0
         fi
         ;;
     l|right)
@@ -41,6 +44,7 @@ case $1 in
         X=$((X + W + IGAP + BW))
         if [ $((X + W)) -gt $SW ]; then
             snap.sh right
+            exit 0
         fi
         ;;
     *) usage ;;
