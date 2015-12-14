@@ -13,22 +13,20 @@ esac
 
 case $1 in
     tl)
-        Y=$TGAP
-        ;;
-    tll)
-        X=$((X - 1))
-        Y=$TGAP
+        snap.sh up
+        snap.sh left
         ;;
     tr)
-        X=$((SW - W - XGAP - BW*2))
-        Y=$TGAP
+        snap.sh up
+        snap.sh right
         ;;
     bl)
-        Y=$((SH - H - BGAP))
+        snap.sh down
+        snap.sh left
         ;;
     br)
-        X=$((SW - W - XGAP - BW*2))
-        Y=$((SH - H - BGAP))
+        snap.sh down
+        snap.sh right
         ;;
     md)
         X=$((SW/2 - W/2 - BW))
