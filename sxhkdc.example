@@ -57,11 +57,11 @@ mod4 + c
 
 # programs
 mod1 + Return
-    urxvt -name 'URxvt' -geometry 89x24 
+    urxvtc -name 'URxvt' -geometry 89x24 
 mod2 + Return
     urxvtc -name 'URxvt' -geometry 89x24 
 mod1 + d
-    dmenu-run
+    drun
 mod2 + z
     popup "$(wclass.sh c $(pfw))"
 mod2 + x
@@ -89,15 +89,14 @@ mod4 + shift + {q,e,r}
     power {p,e,r}
 
 # mouse
-mod2 + q
-    mouse.sh e
-mod2 + w
-    mouse.sh d
 mod1 + @button1
     xmmv $(pfw)
+mod1 + button2
+    drawterm.sh
 mod1 + !button3
     wrs -a %i %i $(pfw)
-mod1 + !button2
+mod1 + {z,x}
+    mouse.sh {e,d}
 
 # transset-df
 mod4 + t
