@@ -44,6 +44,7 @@ Some optional dependancies that you might find interesting:
 - hsetroot - Minimal background setter with clean options compared to feh.
 - dmenu - suckless menu for launching programs.
 - lemonbar - Excellent statusbar program with clickable support.
+- slop - for when I am being lazy and use the mouse.
 - compton - Best X compositing manager out there.
 - transset-df - Manipulate window transparency interactively.
 
