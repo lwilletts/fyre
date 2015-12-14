@@ -15,18 +15,22 @@ case $1 in
     tl)
         snap.sh up
         snap.sh left
+        exit 0
         ;;
     tr)
         snap.sh up
         snap.sh right
+        exit 0
         ;;
     bl)
         snap.sh down
         snap.sh left
+        exit 0
         ;;
     br)
         snap.sh down
         snap.sh right
+        exit 0
         ;;
     md)
         X=$((SW/2 - W/2 - BW))
