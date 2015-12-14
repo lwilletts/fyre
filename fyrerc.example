@@ -38,17 +38,16 @@ WALL=$(cat $(which bgc) | sed 's#~#/home/wildefyr#' | cut -d\  -f 2-)
 TRANS="0.75"
 
 FYREDIR=${FYREDIR:-~/.config/fyre}
+GROUPSDIR=${GROUPSDIR:-$FYREDIR/groups}
+LAYOUTDIR=${LAYOUTDIR:-$FYREDIR/layouts}
+FSFILE=${FSFILE:-$FYREDIR/fullinfo}
 
-if [ ! -d $FYREDIR/groups ]; then
-    mkdir -p $FYREDIR/groups
+if [ ! -d $GROUPSDIR ]; then
+    mkdir -p $GROUPSDIR
 fi
 
-GROUPSDIR=${GROUPSDIR:-$FYREDIR/groups}
-
-FSFILE=${FSFILE:-$FYREDIR/fullinfo}
-WLFILE=${WLFILE:-$FYREDIR/windowList}
-WLFILETEMP=${WLFILETEMP:-$FYREDIR/windowTemp}
-MPVFILE=${MPVFILE:-$FYREDIR/mpvFile}
-MPVFILETEMP=${MPVFILETEMP:-$FYREDIR/mpvFileTemp}
+if [ ! -e $LAYOUTDIR ]; then
+    mkdir -p $LAYOUTDIR
+fi
 
 # vim: set ft=sh :
