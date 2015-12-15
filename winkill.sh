@@ -6,7 +6,7 @@
 wid=$(pfw)
 windowC=$(wclass.sh c $wid)
 
-if [ "$windowC" = "URxvt" ]; then
+if [ "$windowC" = "urxvtc" ]; then
     killwa $wid
 elif [ "$windowC" = "Navigator" ]; then
     killwa $wid
