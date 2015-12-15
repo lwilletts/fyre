@@ -5,6 +5,13 @@
 
 . ~/.config/fyre/fyrerc
 
+usage() {
+    printf '%s\n' "usage $(basename $0) \
+<tl|tr|bl|br|md|mid|lft|rht|full|ext|vid> (wid)"
+    exit 1
+}
+
+
 case $2 in
     0x*)
         PFW=$2
@@ -84,9 +91,7 @@ case $1 in
         W=$(resolution.sh $PFW | cut -d\  -f 1)
         H=$(resolution.sh $PFW | cut -d\  -f 2)
         ;;
-    *)
-        cat $0
-        ;;
+    *) usage ;;
 esac
 
 wtp $X $Y $W $H $PFW
