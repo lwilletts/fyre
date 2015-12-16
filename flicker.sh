@@ -14,11 +14,11 @@ while :; do
         wid=$(pfw)
 
         if [ "$CUR" != "$wid" ]; then
-            if [ "$(wclass.sh m $CUR)" = "URxvt" ]; then
+            if [ "$(wclass.sh c $CUR)" = "URxvt" ]; then
                 transset-df -i $CUR $TRANS > /dev/null
             fi
 
-            if [ "$(wclass.sh m $wid)" = "URxvt" ]; then
+            if [ "$(wclass.sh c $wid)" = "URxvt" ]; then
                 transset-df -i $wid $TRANS > /dev/null
             fi
  
@@ -26,7 +26,7 @@ while :; do
             break
         fi
 
-        if [ "$(wclass.sh m $wid)" = "URxvt" ]; then
+        if [ "$(wclass.sh c $wid)" = "URxvt" ]; then
             transset-df -i $wid $c > /dev/null
         fi
 
