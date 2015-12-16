@@ -12,8 +12,8 @@ test -z $1 && usage
 
 wid=$1
 
-if [ $(wclass.sh m $wid) = "mpv" ]; then
-    printf '%s\n' "$(xprop -id $(wid.sh mpv) WM_NORMAL_HINTS | sed '5s/[^0-9]*//p;d' | tr / \ )"
+if [ $(wclass.sh c $wid) = "mpv" ]; then
+    printf '%s\n' "$(xprop -id $wid WM_NORMAL_HINTS | sed '5s/[^0-9]*//p;d' | tr / \ )"
 else
     usage
 fi
