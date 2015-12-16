@@ -4,7 +4,7 @@
 # checks a windows class
 
 usage() {
-    printf '%s\n' "usage: $(basename $0) <command> (wid|unlisted)"
+    printf '%s\n' "usage: $(basename $0) <command> (wid|lswArgs)"
     exit 1
 }
 
@@ -15,40 +15,50 @@ case $2 in
 esac
 
 case $1 in
-    c|class)
+    n|name)
         case $2 in
             0x*) xprop -id $2 WM_CLASS | cut -d\" -f 2 ;;
             *) usage ;;
         esac
         ;;
-    m|more)
+    c|class)
         case $2 in
             0x*) xprop -id $2 WM_CLASS | cut -d\" -f 4 ;;
             *) usage ;;
         esac
         ;;
-    ca|classAll)
+    p|process)
+        case $2 in
+            0x*) xprop -id $2 _NET_WM_PID | cut -d\  -f 3 ;;
+            *) usage ;;
+        esac
+        ;;
+    na|nameAll)
         for i in $(seq $(lsw $lswArgs | wc -l)); do
             wid=$(lsw $lswArgs | sed "$i!d")
             printf '%s\n' "$wid $(wclass.sh c $wid)"
         done
         ;;
-    ma|moreAll)
+    ca|classAll)
         for i in $(seq $(lsw $lswArgs | wc -l)); do
             wid=$(lsw $lswArgs | sed "$i!d")
             printf '%s\n' "$wid $(wclass.sh m $wid)"
         done
         ;;
-    name)
+    pa|processAll)
+        for i in $(seq $(lsw $lswArgs | wc -l)); do
+            wid=$(lsw $lswArgs | sed "$i!d")
+            printf '%s\n' "$wid $(wclass.sh p $wid)"
+        done
+        ;;
+    a|all)
+        $(basename $0) na $lswArgs
+        $(basename $0) ca $lswArgs
+
         for i in $(seq $(lsw $lswArgs | wc -l)); do
             wid=$(lsw $lswArgs | sed "$i!d")
             printf '%s\n' "$wid $(wname $wid)"
         done
-        ;;
-    a|all)
-        $(basename $0) ca $lswArgs
-        $(basename $0) ma $lswArgs
-        $(basename $0) name $lswArgs
         ;;
     *)
         usage

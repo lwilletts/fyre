@@ -4,11 +4,11 @@
 # performs checks when window has been targetted for termination
 
 wid=$(pfw)
-windowC=$(wclass.sh c $wid)
+windowName=$(wclass.sh n $wid)
 
-if [ "$windowC" = "urxvtc" ]; then
+if [ "$windowName" = "urxvtc" ]; then
     killwa $wid
-elif [ "$windowC" = "Navigator" ]; then
+elif [ "$windowName" = "Navigator" ]; then
     killwa $wid
 else
     printf '%s\n' "you're terminated fucker."

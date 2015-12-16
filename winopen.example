@@ -13,52 +13,52 @@ usage() {
 test -z $1 && usage
 
 wid=$1
-windowC=$(wclass.sh c $wid)
-windowM=$(wclass.sh m $wid)
+windowName=$(wclass.sh n $wid)
+windowClass=$(wclass.sh c $wid)
 
 # for speed
 setborder.sh active $wid
 
-if [ "$windowC" = "Navigator" ]; then
+if [ "$windowName" = "Navigator" ]; then
     sleep 1
     wgroups.sh -s $wid 2
-elif [ "$windowC" = "Dialog" ]; then
+elif [ "$windowName" = "Dialog" ]; then
     position.sh md $wid
-elif [ "$windowC" = "mosh" ]; then
+elif [ "$windowName" = "mosh" ]; then
     position.sh mid $wid
     position.sh md $wid
     transset-df -i $wid $TRANS
     wgroups.sh -s $wid 3
-elif [ "$windowM" = "TeamSpeak 3" ]; then
+elif [ "$windowClass" = "TeamSpeak 3" ]; then
     position.sh tl $wid
     position.sh res $wid
     position.sh ext $wid
     wgroups.sh -s $wid 4
-elif [ "$windowM" = "mpv" ]; then
+elif [ "$windowClass" = "mpv" ]; then
     wgroups.sh -s $wid 5
-elif [ "$windowC" = "mupdf" ]; then
+elif [ "$windowName" = "mupdf" ]; then
     wgroups.sh -s $wid 6
-elif [ "$windowC" = "ncmpcpp" ]; then
+elif [ "$windowName" = "ncmpcpp" ]; then
     position.sh tr $wid
     position.sh res $wid
     position.sh ext $wid
     wgroups.sh -s $wid 8
     transset-df -i $wid $TRANS
-elif [ "$windowC" = "mpsyt" ]; then
+elif [ "$windowName" = "mpsyt" ]; then
     position.sh tr $wid
     position.sh res $wid
     position.sh ext $wid
     wgroups.sh -s $wid 9
     transset-df -i $wid $TRANS
-elif [ "$windowC" = "alsamixer" ]; then
+elif [ "$windowName" = "alsamixer" ]; then
     position.sh mid $wid
     position.sh md $wid
     transset-df -i $wid $TRANS
-elif [ "$windowM" = "URxvt" ]; then
+elif [ "$windowClass" = "URxvt" ]; then
     position.sh res $wid
     position.sh md $wid
     transset-df -i $wid $TRANS
-elif [ "$windowC" = "slop" ]; then
+elif [ "$windowName" = "slop" ]; then
     transset-df -i $wid $TRANS
 else
     position.sh md $wid
