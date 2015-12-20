@@ -36,25 +36,26 @@ case $1 in
     na|nameAll)
         for i in $(seq $(lsw $lswArgs | wc -l)); do
             wid=$(lsw $lswArgs | sed "$i!d")
-            printf '%s\n' "$wid $(wclass.sh c $wid)"
+            printf '%s\n' "$wid $($0 n $wid)"
         done
         ;;
     ca|classAll)
         for i in $(seq $(lsw $lswArgs | wc -l)); do
             wid=$(lsw $lswArgs | sed "$i!d")
-            printf '%s\n' "$wid $(wclass.sh m $wid)"
+            printf '%s\n' "$wid $($0 c $wid)"
         done
         ;;
     pa|processAll)
         for i in $(seq $(lsw $lswArgs | wc -l)); do
             wid=$(lsw $lswArgs | sed "$i!d")
-            printf '%s\n' "$wid $(wclass.sh p $wid)"
+            printf '%s\n' "$wid $($0 p $wid)"
         done
         ;;
     a|all)
         $(basename $0) na $lswArgs
         $(basename $0) ca $lswArgs
 
+        # find name
         for i in $(seq $(lsw $lswArgs | wc -l)); do
             wid=$(lsw $lswArgs | sed "$i!d")
             printf '%s\n' "$wid $(wname $wid)"
