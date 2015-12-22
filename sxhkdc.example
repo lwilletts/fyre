@@ -15,15 +15,15 @@ mod1 + {h,j,k,l}
 mod1 + shift + {h,j,k,l}
     move.sh {left,down,up,right}
 mod1 + Tab
-    focus.sh next
-mod1 + shift + Tab
     focus.sh prev
+mod1 + shift + Tab
+    focus.sh next
 
 # manual window management
-mod1 + {y,o,g,b,n,m}
-    position.sh {tl,tr,md,bl,br,vid} ${pfw}
-mod1 + {q,w,e,r,a,s}
-    position.sh {lft,mid,rht,full,res,ext} $(pfw)
+mod1 + {y,o,g,b,n}
+    snap.sh {tl,tr,md,bl,br} ${pfw}
+mod1 + {q,w,e,r,a,s,m}
+    position.sh {lft,mid,rht,full,res,ext,vid} $(pfw)
 mod4 + {h,j,k,l}
     wmv {-40 0,0 +40, 0 -40, +40 0} $(pfw)
 mod4 + shift + {h,j,k,l}
@@ -52,28 +52,32 @@ mod1 + shift + {1,2,3,4,5,6,7,8,9,0}
     wgroups.sh -s $(pfw) {1,2,3,4,5,6,7,8,9,0}
 mod1 + c
     wgroups.sh -c $(pfw)
-mod4 + c
-    wgroups.sh -C
 
-# programs
-mod1 + Return
-    urxvtc -name 'URxvt' -geometry 89x24 
-mod2 + Return
-    urxvtc -name 'URxvt' -geometry 89x24 
+# layouts
+mod2 + {1,2,3,4,5,6,7,8,9,0}
+    layouts.sh o {1,2,3,4,5,6,7,8,9,0}
+mod2 + shift + {1,2,3,4,5,6,7,8,9,0}
+    layouts.sh s {1,2,3,4,5,6,7,8,9,0}
+
+# terminals
+{mod1, mod2} + Return
+    urxvt
 mod1 + d
     drun
+
+# programs
 mod2 + z
-    popup "$(wclass.sh c $(pfw))"
+    popup "$(wclass.sh n $(pfw))"
 mod2 + x
-    popup "$(wclass.sh m $(pfw))"
+    popup "$(wclass.sh c $(pfw))"
 mod2 + v
-    urxvt -name "alsamixer" -geometry 89x24 -e zsh -c "alsamixer"
+    urxvt -name "alsamixer" -e zsh -c "alsamixer"
 mod2 + b
-    urxvt -name "mosh" -geometry 89x24 -e zsh -c "con m"
+    urxvt -name "mosh" -e zsh -c "con m"
 mod2 + n
-    urxvt -name "ncmpcpp" -geometry 89x24 -e zsh -c "ncmpcpp"
+    urxvt -name "ncmpcpp" -e zsh -c "ncmpcpp"
 mod2 + m
-    urxvt -name "mpsyt" -geometry 89x24 -e zsh -c "/builds/mps-youtube/mpsyt"
+    urxvt -name "mpsyt" -e zsh -c "/builds/mps-youtube/mpsyt"
 
 Print
     maim
