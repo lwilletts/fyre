@@ -1,13 +1,13 @@
 #!/bin/sh
 #
 # wildefyr - 2015 (c) wtfpl
-# move windows into all sorts of useful positions
+# move and resize windows to useful positions
 
 . ~/.config/fyre/fyrerc
 
 usage() {
     printf '%s\n' "usage $(basename $0) \
-<tl|tr|bl|br|md|mid|lft|rht|full|ext|vid> (wid)"
+<tl| r|bl|br|md|mid|lft|rht|full|ext|vid> (wid)"
     exit 1
 }
 
@@ -19,29 +19,16 @@ case $2 in
 esac
 
 case $1 in
-    tl)
-        snap.sh up
-        snap.sh left
-        exit 0
-        ;;
-    tr)
-        snap.sh up
-        snap.sh right
-        exit 0
-        ;;
-    bl)
-        snap.sh down
-        snap.sh left
-        exit 0
-        ;;
-    br)
-        snap.sh down
-        snap.sh right
-        exit 0
-        ;;
-    md)
-        X=$((SW/2 - W/2 - BW))
-        Y=$((SH/2 - H/2 - BW))
+    res)
+        SW=$((SW - 2*XGAP))
+        SH=$((SH - TGAP - BGAP))
+        W=$((SW/4 - 2*BW))
+        H=$((SH/4 - BW - 1))
+        if [ $W -lt $minW ] || [ $H -lt $minH ]; then
+            W=$minW
+            H=$minH
+        fi
+        X=$(wattr x $PFW); Y=$(wattr y $PFW)
         ;;
     mid)
         SW=$((SW - 2*XGAP))
@@ -74,17 +61,6 @@ case $1 in
         X=$(wattr x $PFW)
         Y=$TGAP
         H=$((SH - TGAP - BGAP))
-        ;;
-    res)
-        SW=$((SW - 2*XGAP))
-        SH=$((SH - TGAP - BGAP))
-        W=$((SW/4 - 2*BW))
-        H=$((SH/4 - BW - 1))
-        if [ $W -lt $minW ] || [ $H -lt $minH ]; then
-            W=$minW
-            H=$minH
-        fi
-        X=$(wattr x $PFW); Y=$(wattr y $PFW)
         ;;
     vid)
         X=$(wattr x $PFW); Y=$(wattr y $PFW)
