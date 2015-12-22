@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # wildefyr - 2015 (c) wtfpl
-# mimic i3 tiled windows swapping positions
+# move a window it's width/height / snap it to edge of the screen  
 
 . ~/.config/fyre/fyrerc
 
@@ -10,32 +10,33 @@ usage() {
     exit 1
 }
 
+# calculate usable screen size (root minus border gaps)
+SW=$((SW - 2*XGAP))
+SH=$((SH - TGAP - BGAP))
+
 case $1 in
     h|left)
         X=$(wattr x $PFW)
         Y=$(wattr y $PFW)
         X=$((X - W - IGAP - BW))
-        if [ $X -lt 0 ]; then
-            snap.sh left
-            exit 0
+        if [ $X -le $originalX ]; then
+            snap.sh left; exit
         fi
         ;;
     j|down)
         X=$(wattr x $PFW)
         Y=$(wattr y $PFW)
         Y=$((Y + H + IGAP + BW))
-        if [ $((Y + H)) -gt $SH ]; then
-            snap.sh down
-            exit 0
+        if [ $((H + BGAP)) -gt $SH ]; then
+            snap.sh down; exit
         fi
         ;;
     k|up)
         X=$(wattr x $PFW)
         Y=$(wattr y $PFW)
         Y=$((Y - H - IGAP - BW))
-        if [ $Y -lt 0 ]; then
-            snap.sh up
-            exit 0
+        if [ $Y -lt $TGAP ]; then
+            snap.sh up; exit
         fi
         ;;
     l|right)
@@ -43,8 +44,7 @@ case $1 in
         Y=$(wattr y $PFW)
         X=$((X + W + IGAP + BW))
         if [ $((X + W)) -gt $SW ]; then
-            snap.sh right
-            exit 0
+            snap.sh right; exit
         fi
         ;;
     *) usage ;;
