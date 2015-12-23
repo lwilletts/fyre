@@ -27,7 +27,7 @@ case $1 in
         X=$(wattr x $PFW)
         Y=$(wattr y $PFW)
         Y=$((Y + H + IGAP + BW))
-        if [ $((H + BGAP)) -gt $SH ]; then
+        if [ $((Y + H)) -gt $SH ]; then
             snap.sh down; exit
         fi
         ;;
