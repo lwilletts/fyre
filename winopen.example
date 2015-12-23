@@ -23,14 +23,14 @@ if [ "$windowName" = "Navigator" ]; then
     sleep 1
     wgroups.sh -s $wid 2
 elif [ "$windowName" = "Dialog" ]; then
-    position.sh md $wid
+    snap.sh md $wid
 elif [ "$windowName" = "mosh" ]; then
     position.sh mid $wid
-    position.sh md $wid
+    snap.sh md $wid
     transset-df -i $wid $TRANS
     wgroups.sh -s $wid 3
 elif [ "$windowClass" = "TeamSpeak 3" ]; then
-    position.sh tl $wid
+    snap.sh tl $wid
     position.sh res $wid
     position.sh ext $wid
     wgroups.sh -s $wid 4
@@ -39,27 +39,27 @@ elif [ "$windowClass" = "mpv" ]; then
 elif [ "$windowName" = "mupdf" ]; then
     wgroups.sh -s $wid 6
 elif [ "$windowName" = "ncmpcpp" ]; then
-    position.sh tr $wid
+    snap.sh tr $wid
     position.sh res $wid
     position.sh ext $wid
     wgroups.sh -s $wid 8
     transset-df -i $wid $TRANS
 elif [ "$windowName" = "mpsyt" ]; then
-    position.sh tr $wid
+    snap.sh tr $wid
     position.sh res $wid
     position.sh ext $wid
     wgroups.sh -s $wid 9
     transset-df -i $wid $TRANS
 elif [ "$windowName" = "alsamixer" ]; then
     position.sh mid $wid
-    position.sh md $wid
+    snap.sh md $wid
     transset-df -i $wid $TRANS
 elif [ "$windowClass" = "URxvt" ]; then
     position.sh res $wid
-    position.sh md $wid
+    snap.sh md $wid
     transset-df -i $wid $TRANS
 elif [ "$windowName" = "slop" ]; then
     transset-df -i $wid $TRANS
 else
-    position.sh md $wid
+    snap.sh md $wid
 fi
