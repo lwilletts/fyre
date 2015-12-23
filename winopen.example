@@ -39,15 +39,15 @@ elif [ "$windowClass" = "mpv" ]; then
 elif [ "$windowName" = "mupdf" ]; then
     wgroups.sh -s $wid 6
 elif [ "$windowName" = "ncmpcpp" ]; then
-    snap.sh tr $wid
     position.sh res $wid
     position.sh ext $wid
+    snap.sh left $wid
     wgroups.sh -s $wid 8
     transset-df -i $wid $TRANS
 elif [ "$windowName" = "mpsyt" ]; then
-    snap.sh tr $wid
     position.sh res $wid
     position.sh ext $wid
+    snap.sh right $wid
     wgroups.sh -s $wid 9
     transset-df -i $wid $TRANS
 elif [ "$windowName" = "alsamixer" ]; then
