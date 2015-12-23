@@ -6,9 +6,15 @@
 . ~/.config/fyre/fyrerc
 
 usage() {
-    printf '%s\n' "usage: $(basename $0) <direction>"
+    printf '%s\n' "usage: $(basename $0) <direction/position> (wid)"
     exit 1
 }
+
+case $2 in
+    0x*)
+        PFW=$2
+        ;;
+esac
 
 snap_left() {
     wtp $X $(wattr y $PFW) $W $H $PFW
