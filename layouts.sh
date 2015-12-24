@@ -56,7 +56,6 @@ loadLayout() {
     for i in $(seq $windowLoop); do
         window=$(sed "$i!d" < $LAYOUTDIR/layout.$LAY | cut -d\  -f 5)
 
-        echo $i $lswCounter
         for j in $(seq $lswCounter); do
             wid=$(printf '%s\n' $lswSort | sed "$j!d")
             windowClass=$(wclass.sh c $wid)
@@ -65,14 +64,12 @@ loadLayout() {
                 windowClass="urxvt"
             fi
 
-            echo $wid $window $windowClass
-            echo
-            printf '%s\n' $lswSort
+            echo $wid $window $windowClass \n
 
             if [ "$windowClass" = $window ]; then
                 # position the window
-                XYWH=$(sed "$i!d" < $LAYOUTDIR/layout.$LAY | cut -d\  -f -4)
-                wtp $XYWH $wid
+                # XYWH=$(sed "$i!d" < $LAYOUTDIR/layout.$LAY | cut -d\  -f -4)
+                # wtp $XYWH $wid
                 lswCounter=$(($lswCounter - 1))
                 break
             fi
@@ -97,11 +94,10 @@ openLayout() {
 
         # wait for window to appear
         while [ $lswOpen -eq $(lsw | wc -w) ]; do
-            sleep 0.2
+            sleep 0.5
         done
 
-        # assumes that the window has just been focused
-        # find another way
+        # assumes that the window has just been focused / not ideal
         wid=$(lsw | tail -1)
 
         # position the window
@@ -144,11 +140,11 @@ deleteLayout() {
 # test arguments
 test -z $2 && usage
 case $1 in
-    s|save) saveLayout $2 ;;
-    l|load) loadLayout $2 ;;
-    o|open) openLayout $2 ;;
+    s|save)    saveLayout $2    ;;
+    l|load)    loadLayout $2    ;;
+    o|open)    openLayout $2    ;;
+    d|delete)  deleteLayout $2  ;;
     r|replace) replaceLayout $2 ;;
-    ls|list) listLayout $2 ;;
-    d|delete) deleteLayout $2 ;;
-    *) usage ;;
+    ls|list)   listLayout $2    ;;
+    *)         usage            ;;
 esac
