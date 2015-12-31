@@ -24,7 +24,7 @@ while IFS=: read ev wid; do
             ;;
 
         18)
-            wattr $(pfw) || vroum.sh prev 2>/dev/null
+            wattr $(pfw) || focus.sh prev 2>/dev/null
             if [ $(lsw | wc -l) -eq 0 ]; then
                 blur.sh 0 &
             fi
