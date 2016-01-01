@@ -23,7 +23,7 @@ snap_down() {
 }
 
 snap_up() {
-    wtp $XGAP $TGAP $W $H $PFW
+    wtp $X $TGAP $W $H $PFW
 }
 
 snap_right() {
