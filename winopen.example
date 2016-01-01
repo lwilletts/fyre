@@ -52,7 +52,7 @@ elif [ "$windowName" = "alsamixer" ]; then
     snap.sh md $wid
 elif [ "$windowClass" = "URxvt" ]; then
     position.sh res $wid
-    snap.sh md $wid
+    snap.sh tl $wid
 else
     snap.sh md $wid
 fi
