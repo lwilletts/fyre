@@ -13,13 +13,13 @@ usage() {
 case $1 in
     e|enable)
         wmp 960 540
-        xinput set-int-prop $(xinput | awk '/Mouse/ {printf "%s",$9}' | sed 's/id=//') "Device Enabled" 8 1
+        xinput set-int-prop $(xinput | \
+        awk '/Mouse/ {printf "%s",$9}' | sed 's/id=//') "Device Enabled" 8 1
         ;;
     d|disable)
         wmp $SW $SH
-        xinput set-int-prop $(xinput | awk '/Mouse/ {printf "%s",$9}' | sed 's/id=//') "Device Enabled" 8 0
+        xinput set-int-prop $(xinput | \
+        awk '/Mouse/ {printf "%s",$9}' | sed 's/id=//') "Device Enabled" 8 0
         ;;
-    *)
-        usage
-        ;;
+    *) usage ;;
 esac
