@@ -3,44 +3,38 @@
 # wildefyr - 2015 (c) wtfpl
 # source file for global variables across the environment
 
-# Global variables
 ROOT=$(lsw -r)
 SW=$(wattr w $ROOT)
 SH=$(wattr h $ROOT)
 
 PFW=$(pfw)
 CUR=${2:-$(pfw)}
-maxHorizontalWindows=4
 
-BW=${BW:-2}
-ACTIVE=${ACTIVE:-0xD7D7D7}
-INACTIVE=${INACTIVE:-0x03070B}
-WARNING=${INACTIVE:-0xB23450}
-
-W=$(wattr w $CUR)
-H=$(wattr h $CUR)
-
-originalX=$((20))
-originalY=$((20))
-X=$originalX
-Y=$originalY
 minW=466
 minH=252
 
-XGAP=${XGAP:-$((X))}
+BW=${BW:-2}
+X=$(wattr x $CUR)
+Y=$(wattr y $CUR)
+W=$(wattr w $CUR)
+H=$(wattr h $CUR)
+
+XGAP=${XGAP:-$((20))}
 IGAP=${IGAP:-$((BW))}
 VGAP=${VGAP:-$((BW))}
-TGAP=${TGAP:-$((Y + 20))}
-BGAP=${BGAP:-$((Y))}
+TGAP=${TGAP:-$((40))}
+BGAP=${BGAP:-$((20))}
+
+ACTIVE=${ACTIVE:-0xD7D7D7}
+WARNING=${WARNING:-0xB23450}
+INACTIVE=${INACTIVE:-0x03070B}
 
 BLUR=5
 WALL=$(cat $(which bgc) | sed 's#~#/home/wildefyr#' | cut -d\  -f 2-)
-TRANS="0.75"
 
 FYREDIR=${FYREDIR:-~/.config/fyre}
 GROUPSDIR=${GROUPSDIR:-$FYREDIR/groups}
 LAYOUTDIR=${LAYOUTDIR:-$FYREDIR/layouts}
-FSFILE=${FSFILE:-$FYREDIR/fullinfo}
 
 if [ ! -d $GROUPSDIR ]; then
     mkdir -p $GROUPSDIR
@@ -49,5 +43,7 @@ fi
 if [ ! -e $LAYOUTDIR ]; then
     mkdir -p $LAYOUTDIR
 fi
+
+FSFILE=${FSFILE:-$FYREDIR/fullinfo}
 
 # vim: set ft=sh :
