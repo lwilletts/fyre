@@ -19,7 +19,7 @@ case $1 in
         X=$(wattr x $PFW)
         Y=$(wattr y $PFW)
         X=$((X - W - IGAP - BW))
-        if [ $X -le $originalX ]; then
+        if [ $X -le $XGAP ]; then
             snap.sh left; exit
         fi
         ;;
