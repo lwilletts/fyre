@@ -23,7 +23,7 @@ snap_down() {
 }
 
 snap_up() {
-    wtp $X $TGAP $W $H $PFW
+    wtp $XGAP $TGAP $W $H $PFW
 }
 
 snap_right() {
@@ -31,7 +31,7 @@ snap_right() {
 }
 
 snap_tl() {
-    wtp $X $TGAP $W $H $PFW
+    wtp $XGAP $TGAP $W $H $PFW
 }
 
 snap_tr() {
@@ -39,7 +39,7 @@ snap_tr() {
 }
 
 snap_bl() {
-    wtp $X $((SH - BGAP - H)) $W $H $PFW
+    wtp $XGAP $((SH - BGAP - H)) $W $H $PFW
 }
 
 snap_br() {
