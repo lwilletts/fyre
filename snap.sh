@@ -15,19 +15,19 @@ case $2 in
 esac
 
 snap_left() {
-    wtp $X $(wattr y $PFW) $W $H $PFW
+    wtp $XGAP $Y $W $H $PFW
 }
 
 snap_down() {
-    wtp $(wattr x $PFW) $((SH - BGAP - H)) $W $H $PFW
+    wtp $X $((SH - BGAP - H)) $W $H $PFW
 }
 
 snap_up() {
-    wtp $(wattr x $PFW) $TGAP $W $H $PFW
+    wtp $X $TGAP $W $H $PFW
 }
 
 snap_right() {
-    wtp $((SW - XGAP - W - 2*BW)) $(wattr y $PFW) $W $H $PFW
+    wtp $((SW - XGAP - W - 2*BW)) $Y $W $H $PFW
 }
 
 snap_tl() {
