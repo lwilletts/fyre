@@ -6,14 +6,12 @@
 . ~/.config/fyre/fyrerc
 
 usage() {
-    printf '%s\n' "usage $(basename $0) mid|lft|rht|full|ext|vid> (wid)"
+    printf '%s\n' "usage $(basename $0) <mid|lft|rht|full|ext|vid> (wid)"
     exit 1
 }
 
 case $2 in
-    0x*)
-        PFW=$2
-        ;;
+    0x*) PFW=$2 ;;
 esac
 
 case $1 in
