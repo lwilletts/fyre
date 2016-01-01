@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # wildefyr & kekler - 2015 (c) wtfpl
-# snap windows to common positions - fyre compatible
+# snap windows without resize
 
 . ~/.config/fyre/fyrerc
 
@@ -11,9 +11,7 @@ usage() {
 }
 
 case $2 in
-    0x*)
-        PFW=$2
-        ;;
+    0x*) PFW=$2 ;;
 esac
 
 snap_left() {
