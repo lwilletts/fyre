@@ -24,14 +24,12 @@ case $1 in
             W=$minW
             H=$minH
         fi
-        X=$(wattr x $PFW); Y=$(wattr y $PFW)
         ;;
     mid)
         SW=$((SW - 2*XGAP))
         SH=$((SH - TGAP - BGAP))
         W=$((SW/2 - 2*BW))
         H=$((SH/2 - BW))
-        X=$(wattr x $PFW); Y=$(wattr y $PFW)
         ;;
     lft)
         Y=$TGAP
@@ -54,12 +52,10 @@ case $1 in
         W=$SW; H=$SH
         ;;
     ext)
-        X=$(wattr x $PFW)
         Y=$TGAP
         H=$((SH - TGAP - BGAP))
         ;;
     vid)
-        X=$(wattr x $PFW); Y=$(wattr y $PFW)
         W=$(resolution.sh $PFW | cut -d\  -f 1)
         H=$(resolution.sh $PFW | cut -d\  -f 2)
         ;;
