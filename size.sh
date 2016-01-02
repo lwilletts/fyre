@@ -31,12 +31,8 @@ shrink_up() {
 }
 
 case $1 in 
-    gl|growleft)    grow_left    ;;
     gd|growdown)    grow_down    ;;
-    gu|growup)      grow_up      ;;
+    su|shrinkup)    shrink_up    ;;
     gr|growright)   grow_right   ;;
     sl|shrinkleft)  shrink_left  ;;
-    sd|shrinkdown)  shrink_down  ;;
-    su|shrinkup)    shrink_up    ;;
-    sr|shrinkright) shrink_right ;;
 esac
