@@ -10,32 +10,22 @@ mod1 + shift + r
     pkill -USR1 -x sxhkd
 
 # movement scripts
-mod1 + {h,j,k,l}
-    closest.sh {h,j,k,l}
-mod1 + shift + {h,j,k,l}
-    move.sh {left,down,up,right}
 mod1 + Tab
     focus.sh prev
 mod1 + shift + Tab
     focus.sh next
-
-# manual window management
-mod1 + {y,o,g,b,n}
-    snap.sh {tl,tr,md,bl,br} ${pfw}
-mod1 + {q,w,e,r,a,s,m}
-    position.sh {lft,mid,rht,full,res,ext,vid} $(pfw)
+mod1 + {h,j,k,l}
+    closest.sh {h,j,k,l}
 mod4 + {h,j,k,l}
-    wmv {-40 0,0 +40, 0 -40, +40 0} $(pfw)
+    snap.sh {left,down,up,right}
+mod1 + shift + {h,j,k,l}
+    move.sh {left,down,up,right}
 mod4 + shift + {h,j,k,l}
-    wmv {-10 0,0 +10, 0 -10, +10 0} $(pfw)
-mod1 + f
-    fullscreen.sh $(pfw)
+    move.sh {left,down,up,right}
 
 # resize window
-mod4 + {a,s,w,d}
-    wrs {-40 0,0 +40, 0 -40, +40 0} $(pfw)
-mod4 + shift + {a,s,w,d}
-    wrs {-10 0,0 +10, 0 -10, +10 0} $(pfw)
+mod4 + {w,a,s,d}
+    size.sh {su,sl,gd,gr} $(pfw)
 
 # window stacking order
 mod1 + u
@@ -43,15 +33,19 @@ mod1 + u
 mod1 + i
     chwso -l $(pfw); closest.sh l
 
+# manual window management
+mod1 + g
+    snap.sh md $(pfw)
+mod1 + {q,w,e,r,a,s,m}
+    position.sh {lft,mid,rht,full,res,ext,vid} $(pfw)
+mod1 + f
+    fullscreen.sh $(pfw)
+
 # groups
 mod1 + {1,2,3,4,5,6,7,8,9,0}
     wgroups.sh -t {1,2,3,4,5,6,7,8,9,0}
-mod1 + mod3 + {1,2,3,4,5,6,7,8,9,0}
-    wgroups.sh -M {1,2,3,4,5,6,7,8,9,0}
 mod1 + shift + {1,2,3,4,5,6,7,8,9,0}
     wgroups.sh -s $(pfw) {1,2,3,4,5,6,7,8,9,0}
-mod1 + c
-    wgroups.sh -c $(pfw)
 
 # layouts
 mod2 + {1,2,3,4,5,6,7,8,9,0}
@@ -95,12 +89,12 @@ mod4 + shift + {q,e,r}
 # mouse
 mod1 + @button1
     xmmv $(pfw)
-mod1 + button2
-    drawterm.sh
 mod1 + !button3
     wrs -a %i %i $(pfw)
 mod1 + {z,x}
     mouse.sh {e,d}
+mod1 + c 
+    drawterm.sh
 
 # transset-df
 mod4 + t
