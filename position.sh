@@ -32,6 +32,7 @@ case $1 in
         H=$((SH/2 - BW))
         ;;
     lft)
+        X=$XGAP
         Y=$TGAP
         SW=$((SW - 2*XGAP))
         SH=$((SH - TGAP - BGAP))
