@@ -29,7 +29,7 @@ ACTIVE=${ACTIVE:-0xD7D7D7}
 WARNING=${WARNING:-0xB23450}
 INACTIVE=${INACTIVE:-0x03070B}
 
-BLUR=5
+BLUR=1
 WALL=$(cat $(which bgc) | sed 's#~#/home/wildefyr#' | cut -d\  -f 2-)
 
 FYREDIR=${FYREDIR:-~/.config/fyre}
