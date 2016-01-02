@@ -49,7 +49,7 @@ case $1 in
     full)
         SW=$((SW - 2*XGAP - 2*BW))
         SH=$((SH - TGAP - BGAP))
-        Y=$TGAP
+        X=$XGAP; Y=$TGAP
         W=$SW; H=$SH
         ;;
     ext)
