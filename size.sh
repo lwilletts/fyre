@@ -15,11 +15,21 @@ case $2 in
 esac
 
 grow_down() {
-    wtp $X $Y $W $((H + minH + BW*2)) $PFW
+    if [ $H -lt $minH ]; then
+        H=$minH
+    else
+        H=$((H + minH + BW*2))
+    fi
+    wtp $X $Y $W $H $PFW
 }
 
 grow_right() {
-    wtp $X $Y $((W + minW + BW*2)) $H $PFW
+    if [ $W -lt $minW ]; then
+        W=$minW
+    else
+        W=$((W + minW + BW*2))
+    fi
+    wtp $X $Y $W $H $PFW
 }
 
 shrink_left() {
