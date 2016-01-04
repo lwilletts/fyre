@@ -36,6 +36,10 @@ saveLayout() {
             window=$(ps $psid | tail -1 | perl -p -e 's/^.*?mpv/mpv/')
         fi
 
+        if [ "$window" = "Firefox" ]; then
+            window="firefox"
+        fi
+
         printf '%b' "$XYWH $window" >> $LAYOUTDIR/layout.$LAY
         printf '\n' >> $LAYOUTDIR/layout.$LAY
     done
