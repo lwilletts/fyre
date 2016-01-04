@@ -15,19 +15,29 @@ case $2 in
 esac
 
 grow_down() {
-    wtp $X $Y $W $((H*2 + VGAP + BW)) $PFW
+    wtp $X $Y $W $((H + minH + BW*2)) $PFW
 }
 
 grow_right() {
-    wtp $X $Y $((W*2 + IGAP + BW)) $H $PFW
+    wtp $X $Y $((W + minW + BW*2)) $H $PFW
 }
 
 shrink_left() {
-    wtp $X $Y $((W/2 - BW)) $H $PFW
+    if [ $W -le $minW ]; then
+        W=$((W/2 - BW))
+    else
+        W=$((W - minW - BW*2))
+    fi
+    wtp $X $Y $W $H $PFW
 }
 
 shrink_up() {
-    wtp $X $Y $W $((H/2 - BW)) $PFW
+    if [ $H -le $minH ]; then
+        H=$((H/2 - BW))
+    else
+        H=$((H - minH - BW*2))
+    fi
+    wtp $X $Y $W $H $PFW
 }
 
 case $1 in 
