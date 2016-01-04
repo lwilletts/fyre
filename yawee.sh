@@ -43,7 +43,7 @@ while IFS=: read ev wid; do
 
     case $1 in
         d|debug)
-            printf '%s\n' "$ev" 
+            printf '%s\n' "$ev $wid" 
             ;;
     esac
 
