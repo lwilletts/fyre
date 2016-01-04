@@ -49,7 +49,7 @@ snap_br() {
 snap_md() {
     SW=$((SW - 2*XGAP))
     SH=$((SH - TGAP - BGAP))
-    wtp $((SW/2 - W/2 - BW)) $((SH/2 - H/2 - BW)) $W $H $PFW
+    wtp $((SW/2 - W/2 - BW + XGAP)) $((SH/2 - H/2 - BW + TGAP)) $W $H $PFW
 }
 
 case $1 in 
