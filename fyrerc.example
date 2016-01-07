@@ -45,5 +45,6 @@ if [ ! -e $LAYOUTDIR ]; then
 fi
 
 FSFILE=${FSFILE:-$FYREDIR/fullinfo}
+MPVPOS=${MPVPOS:-$FYREDIR/mpvposition}
 
 # vim: set ft=sh :
