@@ -35,6 +35,7 @@ elif [ "$windowClass" = "TeamSpeak 3" ]; then
     wgroups.sh -s $wid 4
 elif [ "$windowClass" = "mpv" ]; then
     wgroups.sh -s $wid 5
+    test -f $MPVPOS && wtp $(cat $MPVPOS) $wid
 elif [ "$windowName" = "mupdf" ]; then
     wgroups.sh -s $wid 6
 elif [ "$windowName" = "ncmpcpp" ]; then
