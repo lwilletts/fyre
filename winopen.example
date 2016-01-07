@@ -36,7 +36,6 @@ elif [ "$windowClass" = "TeamSpeak 3" ]; then
 elif [ "$windowClass" = "mpv" ]; then
     wgroups.sh -s $wid 5
     test -f $MPVPOS && wtp $(cat $MPVPOS) $wid
-    focusPrev=1
 elif [ "$windowName" = "mupdf" ]; then
     wgroups.sh -s $wid 6
 elif [ "$windowName" = "ncmpcpp" ]; then
@@ -58,6 +57,3 @@ elif [ "$windowClass" = "URxvt" ]; then
 else
     snap.sh md $wid
 fi
-
-focus.sh $wid
-test ! -z $focusPrev && focus.sh prev
