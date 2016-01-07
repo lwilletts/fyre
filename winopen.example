@@ -60,4 +60,4 @@ else
 fi
 
 focus.sh $wid
-test -n $focusPrev && focus.sh prev
+test ! -z $focusPrev && focus.sh prev
