@@ -11,12 +11,13 @@ test ! -z $1 && DURATION=$1
 while :; do
 
     for wid in $(lsw); do
-        windowC=$(wclass.sh c $wid)
+        windowName=$(wclass.sh n $wid)
+        windowClass=$(wclass.sh c $wid)
 
-        if [ $windowC = "mpv" ]; then
+        if [ "$windowName" = "Navigator" ] && [ -f $GROUPSDIR/group.2 ]; then
+            wgroups.sh -s $wid 2
+        elif [ $windowClass = "mpv" ]; then
             printf '%s ' $(wattr xywh $wid) > $MPVPOS
-        elif [ $windowC = "mpv" ] && [ ! -f $MPVPOS ]; then
-            rm $MPVPOS
         fi
 
     done
