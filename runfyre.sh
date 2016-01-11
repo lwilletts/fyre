@@ -14,7 +14,7 @@ while :; do
         windowName=$(wclass.sh n $wid)
         windowClass=$(wclass.sh c $wid)
 
-        if [ "$windowName" = "Navigator" ] && [ -f $GROUPSDIR/group.2 ]; then
+        if [ "$windowName" = "Navigator" ]; then
             wgroups.sh -s $wid 2
         elif [ $windowClass = "mpv" ]; then
             printf '%s ' $(wattr xywh $wid) > $MPVPOS
