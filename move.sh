@@ -15,39 +15,41 @@ SW=$((SW - 2*XGAP))
 SH=$((SH - TGAP - BGAP))
 
 case $1 in
+
     h|left)
         X=$(wattr x $PFW)
         Y=$(wattr y $PFW)
-        X=$((X - W - IGAP - BW))
-        if [ $X -le $XGAP ]; then
+        X=$((X - minW - IGAP - BW))
+        test $X -le $XGAP && \
             snap.sh left; exit
-        fi
         ;;
+
     j|down)
         X=$(wattr x $PFW)
         Y=$(wattr y $PFW)
-        Y=$((Y + H + IGAP + BW))
-        if [ $((Y + H)) -gt $SH ]; then
+        Y=$((Y + minH + IGAP + BW))
+        test $((Y + H)) -gt $SH && \
             snap.sh down; exit
-        fi
         ;;
+
     k|up)
         X=$(wattr x $PFW)
         Y=$(wattr y $PFW)
-        Y=$((Y - H - IGAP - BW))
-        if [ $Y -lt $TGAP ]; then
+        Y=$((Y - minH - IGAP - BW))
+        test $Y -lt $TGAP && \
             snap.sh up; exit
-        fi
         ;;
+
     l|right)
         X=$(wattr x $PFW)
         Y=$(wattr y $PFW)
-        X=$((X + W + IGAP + BW))
-        if [ $((X + W)) -gt $SW ]; then
+        X=$((X + minW + IGAP + BW))
+        test $((X + W)) -gt $SW && \
             snap.sh right; exit
-        fi
         ;;
+
     *) usage ;;
+     
 esac
 
 wtp $X $Y $W $H $PFW
