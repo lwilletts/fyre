@@ -21,7 +21,7 @@ case $1 in
         Y=$(wattr y $PFW)
         X=$((X - minW - IGAP - BW))
         test $X -le $XGAP && \
-            snap.sh left; exit
+            snap.sh left && exit
         ;;
 
     j|down)
@@ -29,7 +29,7 @@ case $1 in
         Y=$(wattr y $PFW)
         Y=$((Y + minH + IGAP + BW))
         test $((Y + H)) -gt $SH && \
-            snap.sh down; exit
+            snap.sh down && exit
         ;;
 
     k|up)
@@ -37,7 +37,7 @@ case $1 in
         Y=$(wattr y $PFW)
         Y=$((Y - minH - IGAP - BW))
         test $Y -lt $TGAP && \
-            snap.sh up; exit
+            snap.sh up && exit
         ;;
 
     l|right)
@@ -45,7 +45,7 @@ case $1 in
         Y=$(wattr y $PFW)
         X=$((X + minW + IGAP + BW))
         test $((X + W)) -gt $SW && \
-            snap.sh right; exit
+            snap.sh right && exit
         ;;
 
     *) usage ;;
