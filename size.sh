@@ -18,7 +18,7 @@ grow_down() {
     if [ $H -lt $minH ]; then
         H=$minH
     else
-        H=$((H + minH + VGAP + BW*2))
+        H=$((H + minH + VGAP + BW))
     fi
     wtp $X $Y $W $H $PFW
 }
@@ -27,7 +27,7 @@ shrink_up() {
     if [ $H -le $minH ]; then
         H=$((H/2 - BW))
     else
-        H=$((H - minH - VGAP - BW*2))
+        H=$((H - minH - VGAP - BW))
     fi
     wtp $X $Y $W $H $PFW
 }
@@ -36,7 +36,7 @@ grow_right() {
     if [ $W -lt $minW ]; then
         W=$minW
     else
-        W=$((W + minW + IGAP + BW*2))
+        W=$((W + minW + IGAP + BW))
     fi
     wtp $X $Y $W $H $PFW
 }
@@ -45,7 +45,7 @@ shrink_left() {
     if [ $W -le $minW ]; then
         W=$((W/2 - BW))
     else
-        W=$((W - minW - IGAP - BW*2))
+        W=$((W - minW - IGAP - BW))
     fi
     wtp $X $Y $W $H $PFW
 }
