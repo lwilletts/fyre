@@ -20,14 +20,14 @@ W=$(wattr w $CUR)
 H=$(wattr h $CUR)
 
 XGAP=${XGAP:-$((20))}
-IGAP=${IGAP:-$((BW))}
-VGAP=${VGAP:-$((BW))}
+IGAP=${IGAP:-$((0))}
+VGAP=${VGAP:-$((0))}
 TGAP=${TGAP:-$((40))}
 BGAP=${BGAP:-$((20))}
 
 ACTIVE=${ACTIVE:-0xD7D7D7}
 WARNING=${WARNING:-0xB23450}
-INACTIVE=${INACTIVE:-0x03070B}
+INACTIVE=${INACTIVE:-0x737373}
 
 BLUR=0
 WALL=$(cat $(which bgc) | sed 's#~#/home/wildefyr#' | cut -d\  -f 2-)
