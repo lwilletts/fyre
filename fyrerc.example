@@ -1,6 +1,6 @@
-#!/bin/mksh
+#!/bin/sh
 #
-# wildefyr - 2015 (c) wtfpl
+# wildefyr - 2016 (c) wtfpl
 # source file for global variables across the environment
 
 ROOT=$(lsw -r)
@@ -20,10 +20,11 @@ W=$(wattr w $CUR)
 H=$(wattr h $CUR)
 
 XGAP=${XGAP:-$((20))}
-IGAP=${IGAP:-$((0))}
-VGAP=${VGAP:-$((0))}
 TGAP=${TGAP:-$((40))}
 BGAP=${BGAP:-$((20))}
+# add $BW for non-overlapping borders
+IGAP=${IGAP:-$((0))}
+VGAP=${VGAP:-$((0))}
 
 ACTIVE=${ACTIVE:-0xD7D7D7}
 WARNING=${WARNING:-0xB23450}
