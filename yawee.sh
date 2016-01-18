@@ -1,44 +1,32 @@
 #!/bin/sh
 #
-# wildefyr & z3bra - 2015 (c) wtfpl
+# wildefyr & z3bra - 2016 (c) wtfpl
 # catch window events from wew
 
-. ~/.config/fyre/fyrerc
+. fyrerc.sh
 
 while IFS=: read ev wid; do
     case $ev in
-
-        4)
-            if ! wattr o $wid; then
-                focus.sh $wid
-            fi
+        4) 
+            wattr o "$wid" || focus.sh "$wid" 
             ;;
-
         16)
-            if ! wattr o $wid; then
-                $FYREDIR/winopen $wid
-                if [ $(lsw | wc -l) -eq 1 ]; then
+            wattr o "$wid" || \
+                winopen.sh "$wid"
+                test $(lsw | wc -l) -eq 1 && \
                     blur.sh &
-                fi
-            fi
             ;;
-
         18)
-            wattr $(pfw) || focus.sh prev 2>/dev/null
-            if [ $(lsw | wc -l) -eq 0 ]; then
+            wattr "$(pfw)" || focus.sh prev 2>/dev/null
+            test "$(lsw | wc -l)" -eq 0 && \
                 blur.sh 0 &
-            fi
             ;;
-
         19)
-            if ! wattr o $wid; then
-                focus.sh $wid
-                if [ $(lsw | wc -l) -ne 0 ]; then
+            wattr o "$wid" || \
+                focus.sh "$wid"
+                test "$(lsw | wc -l)" -ne 0 && \
                     blur.sh &
-                fi
-            fi
             ;;
-
     esac
 
     case $1 in
@@ -46,5 +34,4 @@ while IFS=: read ev wid; do
             printf '%s\n' "$ev $wid" 
             ;;
     esac
-
 done

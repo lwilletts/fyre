@@ -22,7 +22,7 @@ H=$(wattr h $CUR)
 XGAP=${XGAP:-$((20))}
 TGAP=${TGAP:-$((40))}
 BGAP=${BGAP:-$((20))}
-# add $BW for non-overlapping borders
+# add $BW for non-overlapping borders / might cause glitches
 IGAP=${IGAP:-$((0))}
 VGAP=${VGAP:-$((0))}
 
@@ -37,13 +37,8 @@ FYREDIR=${FYREDIR:-~/.config/fyre}
 GROUPSDIR=${GROUPSDIR:-$FYREDIR/groups}
 LAYOUTDIR=${LAYOUTDIR:-$FYREDIR/layouts}
 
-if [ ! -d $GROUPSDIR ]; then
-    mkdir -p $GROUPSDIR
-fi
-
-if [ ! -e $LAYOUTDIR ]; then
-    mkdir -p $LAYOUTDIR
-fi
+test ! -d $GROUPSDIR && mkdir -p $GROUPSDIR
+test ! -e $LAYOUTDIR && mkdir -p $LAYOUTDIR
 
 FSFILE=${FSFILE:-$FYREDIR/fullinfo}
 MPVPOS=${MPVPOS:-$FYREDIR/mpvposition}

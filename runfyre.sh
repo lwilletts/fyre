@@ -3,7 +3,7 @@
 # wildefyr - 2016 (c) wtfpl
 # checks currently visible windows
 
-. ~/.config/fyre/fyrerc
+. fyrerc.sh
 
 DURATION=20
 test ! -z $1 && DURATION=$1
@@ -14,11 +14,10 @@ while :; do
         windowName=$(wclass.sh n $wid)
         windowClass=$(wclass.sh c $wid)
 
-        if [ "$windowName" = "Navigator" ]; then
+        test "$windowName" = "Navigator" && \
             wgroups.sh -s $wid 2
-        elif [ $windowClass = "mpv" ]; then
+        test "$windowClass" = "mpv" && \
             printf '%s ' $(wattr xywh $wid) > $MPVPOS
-        fi
 
     done
 

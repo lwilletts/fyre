@@ -61,20 +61,23 @@ mod1 + d
 
 # programs
 mod2 + z
-    popup "$(wclass.sh n $(pfw))"
+    notify -m "$(wclass.sh n $(pfw))"
 mod2 + x
-    popup "$(wclass.sh c $(pfw))"
+    notify -m "$(wclass.sh c $(pfw))"
+mod2 + c
+    notify -m "$(cpu t)C"
 mod2 + v
     urxvt -name "alsamixer" -e zsh -c "alsamixer"
 mod2 + b
     urxvt -name "mosh" -e zsh -c "con m"
 mod2 + n
-    urxvt -name "ncmpcpp" -e zsh -c "ncmpcpp"
-mod2 + m
-    urxvt -name "mpsyt" -e zsh -c "/builds/mps-youtube/mpsyt"
+    urxvt -name "mpsyt" -e zsh -c "/builds/mps-youtube/mpsyt userpl wildefyri"
 
 Print
-    maim
+    maim ~/shot.png; notify -D -m $(echo "Screenshot Taken")
+shift + Print
+    maim /tmp/.image.png; notify -D -m $(echo "Uploading Screenshot"); \
+    teknik /tmp/.image.png | xsel -i
 
 # it's a killin' time!
 mod1 + shift + q
@@ -93,7 +96,7 @@ mod1 + !button3
     wrs -a %i %i $(pfw)
 mod1 + {z,x}
     mouse.sh {e,d}
-mod1 + c 
+mod1 + c
     drawterm.sh
 
 # transset-df
@@ -108,42 +111,41 @@ mod4 + i
 mod4 + o
     trans.sh $(pfw) 1.0
 
-# mpc
-mod2 + p
-    mpc toggle
-mod2 + o
-    mpc play
+# mpv
+mod1 + space
+    notify -D -m $(mpvc -p | head -n 2)
 mod2 + i
-    mpc stop
+    notify -D -m $(mpvc)
+mod2 + u
+    mpvc -k
 mod2 + l
-    mpc next
+    mpvc -f 1 -P
 mod2 + h
-    mpc prev
-mod2 + j
-    mpc seek -5
+    mpvc -f -1 -P
 mod2 + k
-    mpc seek +5
-mod2 + a
-    mpc clear
-mod2 + s
-    mpc crop
-mod2 + d
-    mpc consume
+    mpvc -s +5
+mod2 + j
+    mpvc -s -5
 mod2 + f
-    mpc single
-mod2 + g
-    mpc random
+    notify -D -m $(mpvc -l | tail -1 | cut -d\  -f 9-10)
 mod2 + r
-    mpc repeat
+    notify -D -m $(mpvc -L | tail -1 | cut -d\  -f 7-8)
+
+# speed
+mod2 + q
+    mpvc -z -0.05
+mod2 + w
+    mpvc -z 0.05
 
 # volume
-mod2 + 9
-    mpc volume -5
-mod2 + 0
-    mpc volume +5
-XF86AudioLowerVolume
-    amixer -c 0 set Master 2db-
-XF86AudioRaiseVolume
-    amixer -c 0 set Master 2db+
+mod2 + m
+    notify -D -m $(mpvc -m)
+mod2 + o
+    mpvc -v -5
+mod2 + p
+    mpvc -v 5
+
+{XF86AudioLowerVolume, XF86AudioRaiseVolume}
+    amixer -c 0 set Master 2db{-,+} unmute
 XF86AudioMute
     amixer -c 0 set Master togglemute

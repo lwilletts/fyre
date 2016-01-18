@@ -1,13 +1,16 @@
 #!/bin/sh
 #
-# wildefyr - 2015 (c) wtfpl
+# wildefyr - 2016 (c) wtfpl
 # store window classes and their positions to reopen later
 
-. ~/.config/fyre/fyrerc
+readonly PROGNAME=$(basename $0)
+readonly PROGDIR=$(readlink -m $(dirname $0))
+readonly PROGPATH=${PROGPATH:-$PROGDIR/$PROGNAME}
+ARGS="$@"
 
 usage() {
-    printf '%s\n' "usage: $(basename $0) <save|load|open|replace|list|delete> <layout>"
-    exit 1
+    printf '%s\n' "Usage: $PROGNAME <save|load|open|replace|list|delete> <layout>"
+    test -z $1 && exit 0 || exit $1
 }
 
 # save all current visible windows to a layout file
@@ -28,6 +31,7 @@ saveLayout() {
         psid=$(wclass.sh p $wid)
         window=$(wclass.sh c $wid)
 
+        # sadly we have to clean the window classes to their called names
         if [ "$window" = "URxvt" ]; then
             window=$(ps $psid | tail -1 | perl -p -e 's/^.*?urxvt/urxvt/')
         fi
@@ -141,14 +145,21 @@ deleteLayout() {
     fi
 }
 
-# test arguments
-test -z $2 && usage
-case $1 in
-    s|save)    saveLayout $2    ;;
-    l|load)    loadLayout $2    ;;
-    o|open)    openLayout $2    ;;
-    d|delete)  deleteLayout $2  ;;
-    r|replace) replaceLayout $2 ;;
-    ls|list)   listLayout $2    ;;
-    *)         usage            ;;
-esac
+main() {
+    . fyrerc.sh
+
+    # test arguments
+    test -z $2 && usage 1
+    case $1 in
+        s|save)    saveLayout $2    ;;
+        l|load)    loadLayout $2    ;;
+        o|open)    openLayout $2    ;;
+        d|delete)  deleteLayout $2  ;;
+        r|replace) replaceLayout $2 ;;
+        ls|list)   listLayout $2    ;;
+        h|help)    usage            ;;
+        *)         usage            ;;
+    esac
+}
+
+main $ARGS

@@ -3,11 +3,14 @@
 # wildefyr - 2016 (c) wtfpl
 # sane resizing in a direction
 
-. ~/.config/fyre/fyrerc
+readonly PROGNAME=$(basename $0)
+readonly PROGDIR=$(readlink -m $(dirname $0))
+readonly PROGPATH=${PROGPATH:-$PROGDIR/$PROGNAME}
+ARGS="$@"
 
 usage() {
-    printf '%s\n' "usage: $(basename $0) <gd|gr|sl|su> (wid)"
-    exit 1
+    printf '%s\n' "Usage: $PROGPATH <gd|gr|sl|su> [wid]"
+    test -z $1 && exit 0 || exit $1
 }
 
 grow_down() {
@@ -28,8 +31,8 @@ grow_right() {
     test $W -lt $minW  && \
         W=$minW || \
         W=$((W + minW + IGAP + BW))
-    test $W -gt $SH && \
-        W=
+    # test $W -gt $SH && \
+    #     W=
     wtp $X $Y $W $H $PFW
 }
 
@@ -40,17 +43,25 @@ shrink_left() {
     wtp $X $Y $W $H $PFW
 }
 
-# calculate usable screen size (root minus border gaps)
-SW=$((SW - 2*XGAP))
-SH=$((SH - TGAP - BGAP))
+main() {
+    . fyrerc.sh
 
-case $2 in
-    0x*) PFW=$2 ;;
-esac
+    # calculate usable screen size (root minus border gaps)
+    SW=$((SW - 2*XGAP))
+    SH=$((SH - TGAP - BGAP))
 
-case $1 in 
-    gd|growdown)    grow_down    ;;
-    su|shrinkup)    shrink_up    ;;
-    gr|growright)   grow_right   ;;
-    sl|shrinkleft)  shrink_left  ;;
-esac
+    case $2 in
+        0x*) PFW=$2 ;;
+    esac
+
+    case $1 in 
+        gd|growdown)    grow_down    ;;
+        su|shrinkup)    shrink_up    ;;
+        gr|growright)   grow_right   ;;
+        sl|shrinkleft)  shrink_left  ;;
+        h|help)         usage        ;;
+        *)              usage        ;;
+    esac
+}
+
+main $ARGS

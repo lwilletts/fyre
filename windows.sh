@@ -1,13 +1,16 @@
 #!/bin/sh
 #
-# wildefyr - 2015 (c) wtfpl
-# wrote my own groups script because Greduan's groups.sh was pissing me off
+# wildefyr - 2016 (c) wtfpl
+# personal 'groups' script to provide useful shortcuts
 
-. ~/.config/fyre/fyrerc
+readonly PROGNAME=$(basename $0)
+readonly PROGDIR=$(readlink -m $(dirname $0))
+readonly PROGPATH=${PROGPATH:-$PROGDIR/$PROGNAME}
+ARGS="$@"
 
 usage() {
-    printf '%s\n' "usage: $(basename $0) <a|h|s|t|c|r|l> (group) (pfw)"
-    exit 1
+    printf '%s\n' "Usage: $PROGNAME <a|h|s|t|c|r|l> (group) (pfw)"
+    test -z $1 && exit 0 || exit $1
 }
 
 add_group() {
@@ -38,17 +41,20 @@ list_groups() {
     vcat $GROUPSDIR/*.*
 }
 
-if [ $# -eq 0 ]; then
-    usage
-fi
+main() {
+    . fyrerc.sh
 
-case $1 in 
-    a|add) add_group ;;
-    h|hide) hide_group ;;
-    s|show) show_group ;;
-    t|toggle) toggle_group ;;
-    c|clean) clean_group ;;
-    r|reset) reset_groups ;;
-    l|list) list_groups ;;
-    *) usage ;;
-esac
+    case $1 in 
+        a|add)    add_group    ;;
+        h|hide)   hide_group   ;;
+        s|show)   show_group   ;;
+        t|toggle) toggle_group ;;
+        c|clean)  clean_group  ;;
+        r|reset)  reset_groups ;;
+        l|list)   list_groups  ;;
+        h|help)   usage        ;;
+        *)        usage        ;;
+    esac
+}
+
+main $ARGS

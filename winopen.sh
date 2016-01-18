@@ -3,59 +3,68 @@
 # wildefyr - 2016 (c) wtfpl
 # test window classes when being opened
 
-. ~/.config/fyre/fyrerc
+readonly PROGNAME=$(basename $0)
+readonly PROGDIR=$(readlink -m $(dirname $0))
+readonly PROGPATH=${PROGPATH:-$PROGDIR/$PROGNAME}
+ARGS="$@"
 
 usage() {
-    printf '%s\n' "usage: $(basename $0) <wid>"
-    exit 1
+    printf '%s\n' "Usage: $PROGNAME <wid>"
+    test -z $1 && exit 0 || exit $1
 }
 
-test -z $1 && usage
+main() {
+    . fyrerc.sh
 
-wid=$1
-windowName=$(wclass.sh n $wid)
-windowClass=$(wclass.sh c $wid)
+    test -z $1 && usage 1
 
-# for speed
-setborder.sh active $wid
+    wid=$1
+    windowName=$(wclass.sh n $wid)
+    windowClass=$(wclass.sh c $wid)
 
-if [ "$windowName" = "Dialog" ]; then
-    snap.sh md $wid
-elif [ "$windowName" = "mosh" ]; then
-    position.sh mid $wid
-    snap.sh md $wid
-    wgroups.sh -s $wid 3
-elif [ "$windowClass" = "TeamSpeak 3" ]; then
-    position.sh res $wid
-    position.sh ext $wid
-    snap.sh left $wid
-    wgroups.sh -s $wid 4
-elif [ "$windowClass" = "mpv" ]; then
-    wgroups.sh -s $wid 5
-    position.sh vid $wid
+    # for speed
+    setborder.sh active $wid
 
-    test -f $MPVPOS && \
-        Wcur=$(wattr w $wid)
-        Hcur=$(wattr h $wid)
-        W=$(cat $MPVPOS | cut -d\  -f 3)
-        H=$(cat $MPVPOS | cut -d\  -f 4)
-        test $W -gt $Wcur && $H -gt $Hcur && \
-            wtp $(cat $MPVPOS) $wid || \
-            wtp $(cat $MPVPOS | cut -d\  -f -2) $Wcur $Hcur $wid
+    if [ "$windowName" = "Dialog" ]; then
+        snap.sh md $wid
+    elif [ "$windowName" = "mosh" ]; then
+        position.sh mid $wid
+        snap.sh md $wid
+        wgroups.sh -s $wid 3
+    elif [ "$windowClass" = "TeamSpeak 3" ]; then
+        position.sh res $wid
+        position.sh ext $wid
+        snap.sh left $wid
+        wgroups.sh -s $wid 4
+    elif [ "$windowClass" = "mpv" ]; then
+        wgroups.sh -s $wid 5
+        position.sh vid $wid
 
-elif [ "$windowName" = "mupdf" ]; then
-    wgroups.sh -s $wid 6
-elif [ "$windowName" = "mpsyt" ]; then
-    position.sh res $wid
-    position.sh ext $wid
-    snap.sh right $wid
-    wgroups.sh -s $wid 9
-elif [ "$windowName" = "alsamixer" ]; then
-    position.sh res $wid
-    snap.sh md $wid
-elif [ "$windowClass" = "URxvt" ]; then
-    position.sh res $wid
-    snap.sh tl $wid
-else
-    snap.sh md $wid
-fi
+        test -f $MPVPOS && \
+            Wcur=$(wattr w $wid)
+            Hcur=$(wattr h $wid)
+            W=$(cat $MPVPOS | cut -d\  -f 3)
+            H=$(cat $MPVPOS | cut -d\  -f 4)
+            test $W -gt $Wcur && $H -gt $Hcur && \
+                wtp $(cat $MPVPOS) $wid || \
+                wtp $(cat $MPVPOS | cut -d\  -f -2) $Wcur $Hcur $wid
+
+    elif [ "$windowName" = "mupdf" ]; then
+        wgroups.sh -s $wid 6
+    elif [ "$windowName" = "mpsyt" ]; then
+        position.sh res $wid
+        position.sh ext $wid
+        snap.sh right $wid
+        wgroups.sh -s $wid 9
+    elif [ "$windowName" = "alsamixer" ]; then
+        position.sh res $wid
+        snap.sh md $wid
+    elif [ "$windowClass" = "URxvt" ]; then
+        position.sh res $wid
+        snap.sh tl $wid
+    else
+        snap.sh md $wid
+    fi
+}
+
+main $ARGS

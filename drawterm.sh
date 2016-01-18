@@ -1,11 +1,49 @@
 #!/bin/sh
 #
-# wildefyr - 2015 (c) wtfpl
-# use slop to get xywh position for urxvt
+# wildefyr - 2016 (c) wtfpl
+# use slop to get xywh position for urxvt window
 
-. ~/.config/fyre/fyrerc
+readonly PROGNAME=$(basename $0)
+readonly PROGDIR=$(readlink -m $(dirname $0))
+readonly PROGPATH=${PROGPATH:-$PROGDIR/$PROGNAME}
+ARGS="$@"
 
-eval $(slop -t 0 -b $BW '215,215,215,0.9')
-urxvt -name 'slop' &
-sleep 0.05
-wtp $X $Y $W $H $(wid.sh "slop" | tail -1)
+usage() {
+    cat << EOF
+Usage: $PROGNAME ARGUMENTS
+    c | cmd:  Terminal command to run.
+    h | help: Show this help.
+EOF
+
+    test -z $1 && exit 0 || exit $1
+}
+
+main() {
+    . fyrerc.sh
+
+    for arg in "$@"; do
+        case $arg in
+            -c|--cmd)   COMMANDFLAG=true ;;
+            -h|--help)  usage            ;;
+        esac
+
+        case $arg in
+            -*)  continue ;;
+            --*) continue ;;
+        esac
+
+        test "$COMMANDFLAG" = "true" && \
+            CMDSTRING="$CMDSTRING $arg"
+    done
+
+    eval $(slop -t 0 -b $BW '215,215,215,0.9')
+
+    test ! -z "$CMDSTRING" && \
+        urxvt -name 'slop' -e zsh -c "$CMDSTRING" || \
+        urxvt -name 'slop' &
+
+    sleep 0.05
+    wtp $X $Y $W $H $(wid.sh "slop" | tail -1)
+}
+
+main $ARGS

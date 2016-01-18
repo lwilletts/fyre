@@ -9,8 +9,8 @@ readonly PROGPATH=${PROGPATH:-$PROGDIR/$PROGNAME}
 ARGS="$@"
 
 usage() {
-    printf '%s\n' "usage $(basename $0) <mid|lft|rht|full|ext|vid> (wid)"
-    exit 1
+    printf '%s\n' "Usage: $PROGNAME <mid|lft|rht|full|ext|vid> [wid]"
+    test -z $1 && exit 0 || exit $1
 }
 
 restore() {
@@ -66,7 +66,7 @@ video() {
 }
 
 main() {
-    . ~/.config/fyre/fyrerc
+    . fyrerc.sh
 
     case $2 in
         0x*) PFW=$2 ;;

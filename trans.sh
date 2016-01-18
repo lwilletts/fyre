@@ -5,7 +5,7 @@
 
 usage() {
     printf '%s\n' "usage: $(basename $0) <wid> <value> (inc|dec by value)"
-    exit 1
+    test -z $1 && exit 0 || exit $1
 }
 
 # test for wid value

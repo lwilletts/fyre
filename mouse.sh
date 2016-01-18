@@ -1,25 +1,35 @@
 #!/bin/sh
 #
-# wildefyr - 2015 (c) wtfpl
+# wildefyr - 2016 (c) wtfpl
 # enable / disable mouse based on input
 
-. ~/.config/fyre/fyrerc
+readonly PROGNAME=$(basename $0)
+readonly PROGDIR=$(readlink -m $(dirname $0))
+readonly PROGPATH=${PROGPATH:-$PROGDIR/$PROGNAME}
+ARGS="$@"
+
 
 usage() {
-    echo "usage: $(basename $0) <enable|disable>"
-    exit 1
+    printf '%s\n' "Usage: $PROGNAME <enable|disable>"
+    test -z $1 && exit 0 || exit $1
 }
 
-case $1 in
-    e|enable)
-        wmp 960 540
-        xinput set-int-prop $(xinput | \
-        awk '/Mouse/ {printf "%s",$9}' | sed 's/id=//') "Device Enabled" 8 1
-        ;;
-    d|disable)
-        wmp $SW $SH
-        xinput set-int-prop $(xinput | \
-        awk '/Mouse/ {printf "%s",$9}' | sed 's/id=//') "Device Enabled" 8 0
-        ;;
-    *) usage ;;
-esac
+main() {
+    . fyrerc.sh
+
+    case $1 in
+        e|enable)
+            xinput set-int-prop $(xinput | \
+            awk '/Mouse/ {printf "%s",$9}' | sed 's/id=//') "Device Enabled" 8 1
+            ;;
+        d|disable)
+            wmp $SW $SH
+            xinput set-int-prop $(xinput | \
+            awk '/Mouse/ {printf "%s",$9}' | sed 's/id=//') "Device Enabled" 8 0
+            ;;
+        h|help) usage ;;
+        *)      usage ;;
+    esac
+}
+
+main $ARGS
