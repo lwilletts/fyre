@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# wildefyr - 2015 (c) wtfpl
+# wildefyr - 2016 (c) wtfpl
 # sane resizing in a direction
 
 . ~/.config/fyre/fyrerc
@@ -10,45 +10,43 @@ usage() {
     exit 1
 }
 
-case $2 in
-    0x*) PFW=$2 ;;
-esac
-
 grow_down() {
-    if [ $H -lt $minH ]; then
-        H=$minH
-    else
+    test $H -lt $minH && \
+        H=$minH || \
         H=$((H + minH + VGAP + BW))
-    fi
     wtp $X $Y $W $H $PFW
 }
 
 shrink_up() {
-    if [ $H -le $minH ]; then
-        H=$((H/2 - BW))
-    else
+    test $H -le $minH && \
+        H=$((H/2 - BW)) || \
         H=$((H - minH - VGAP - BW))
-    fi
     wtp $X $Y $W $H $PFW
 }
 
 grow_right() {
-    if [ $W -lt $minW ]; then
-        W=$minW
-    else
+    test $W -lt $minW  && \
+        W=$minW || \
         W=$((W + minW + IGAP + BW))
-    fi
+    test $W -gt $SH && \
+        W=
     wtp $X $Y $W $H $PFW
 }
 
 shrink_left() {
-    if [ $W -le $minW ]; then
-        W=$((W/2 - BW))
-    else
+    test $W -le $minW && \
+        W=$((W/2 - BW)) || \
         W=$((W - minW - IGAP - BW))
-    fi
     wtp $X $Y $W $H $PFW
 }
+
+# calculate usable screen size (root minus border gaps)
+SW=$((SW - 2*XGAP))
+SH=$((SH - TGAP - BGAP))
+
+case $2 in
+    0x*) PFW=$2 ;;
+esac
 
 case $1 in 
     gd|growdown)    grow_down    ;;
