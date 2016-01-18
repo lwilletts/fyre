@@ -10,8 +10,8 @@ SH=$(wattr h $ROOT)
 PFW=$(pfw)
 CUR=${2:-$(pfw)}
 
-minW=466
-minH=252
+minW=468
+minH=254
 
 BW=${BW:-2}
 X=$(wattr x $CUR)
