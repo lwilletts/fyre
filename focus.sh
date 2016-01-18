@@ -40,3 +40,12 @@ else
         setborder.sh inactive $CUR
     fi
 fi
+
+X=$(wattr x $wid)
+Y=$(wattr w $wid)
+W=$(wattr y $wid)
+H=$(wattr h $wid)
+
+# move mouse to the middle of the window
+wmp -a $(wattr xy $wid)
+wmp -r $(($(wattr w $wid) / 2)) $(($(wattr h $wid) / 2))
