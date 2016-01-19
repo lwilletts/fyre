@@ -5,7 +5,6 @@
 
 . fyrerc.sh
 
-DURATION=20
 test ! -z $1 && DURATION=$1
 
 while :; do
