@@ -16,8 +16,8 @@ main () {
     wid=$1
 
     if [ "$(wclass.sh c $wid)" = "mpv" ]; then
-        printf '%s\n' "$(xprop -id $wid WM_NORMAL_HINTS | \ 
-        sed '5s/[^0-9]*//p;d' | tr / \ )" 
+        printf '%s\n' "$(xprop -id "$wid" WM_NORMAL_HINTS | \
+            sed '5s/[^0-9]*//p;d' | tr / \ )"
     else
         printf '%s\n' "Please enter a valid mpv wid" >&2
         usage 1
