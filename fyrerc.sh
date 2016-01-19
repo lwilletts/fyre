@@ -8,12 +8,12 @@ SW=$(wattr w $ROOT)
 SH=$(wattr h $ROOT)
 
 PFW=$(pfw)
-CUR=${2:-$(pfw)}
 
 minW=468
 minH=254
 
 BW=${BW:-2}
+CUR=${2:-$(pfw)}
 X=$(wattr x $CUR)
 Y=$(wattr y $CUR)
 W=$(wattr w $CUR)
@@ -22,7 +22,7 @@ H=$(wattr h $CUR)
 XGAP=${XGAP:-$((20))}
 TGAP=${TGAP:-$((40))}
 BGAP=${BGAP:-$((20))}
-# add $BW for non-overlapping borders / might cause glitches
+# add $BW for non-overlapping borders / will probably cause glitches
 IGAP=${IGAP:-$((0))}
 VGAP=${VGAP:-$((0))}
 

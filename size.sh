@@ -3,13 +3,10 @@
 # wildefyr - 2016 (c) wtfpl
 # sane resizing in a direction
 
-readonly PROGNAME=$(basename $0)
-readonly PROGDIR=$(readlink -m $(dirname $0))
-readonly PROGPATH=${PROGPATH:-$PROGDIR/$PROGNAME}
 ARGS="$@"
 
 usage() {
-    printf '%s\n' "Usage: $PROGPATH <gd|gr|sl|su> [wid]"
+    printf '%s\n' "Usage: $(basename $0) <gd|gr|sl|su> [wid]"
     test -z $1 && exit 0 || exit $1
 }
 

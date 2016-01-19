@@ -1,54 +1,104 @@
 #!/bin/sh
 #
 # wildefyr & z3bra - 2016 (c) wtfpl
-# focus wrapper with fullscreen checks
+# focus wrapper with fullscreen check
 
-readonly PROGNAME=$(basename $0)
-readonly PROGDIR=$(readlink -m $(dirname $0))
-readonly PROGPATH=${PROGPATH:-$PROGDIR/$PROGNAME}
 ARGS="$@"
 
 usage() {
-    printf '%s\n' "Usage: $PROGNAME <next|prev|full|wid>"
+    cat << EOF
+Usage: $(basename $0) <next|prev|full|wid> [disable]
+    wid:     Focus the given window id.
+    next:    Focus the next window on the stack.
+    prev:    Focus the previous window on the stack.
+    full:    Focus the fullscreen window.
+    disable: Disable movement of the mouse.
+EOF
+
     test -z $1 && exit 0 || exit $1
 }
 
-main() {
+focusWid() {
     . fyrerc.sh
 
-    case $1 in
-        full) test -e $FSFILE && wid=$(cat $FSFILE | cut -d\  -f 5) || usage 1 ;;
-        next) wid=$(lsw | grep -v $CUR | sed '1 p;d')                          ;;
-        prev) wid=$(lsw | grep -v $CUR | sed '$ p;d')                          ;;
-        0x*)  wattr $1 && wid=$1                                               ;;
-        *)    usage                                                            ;;
-    esac
+    wattr $1 && wid=$1
+    focusMethod
+}
 
+focusNext() {
+    . fyrerc.sh
+
+    wid=$(lsw | grep -v $PFW | sed '1 p;d')
+    focusMethod
+}
+
+focusPrev() {
+    . fyrerc.sh
+
+    wid=$(lsw | grep -v $PFW | sed '$ p;d')
+    focusMethod
+}
+
+focusFull() {
+    . fyrerc.sh
+
+    test -e $FSFILE && \
+        wid=$(cat $FSFILE | cut -d\  -f 5) || usage 1
+    focusMethod
+}
+
+focusMethod() {
     chwso -r $wid
     wtf $wid
 
     # focus correctly even if there is a fullscreen window
-    test -e "$FSFILE" && {
+    if [ -e "$FSFILE" ]; then
         if [ "$(cat $FSFILE | cut -d\  -f 5)" = "$wid" ]; then
             setborder.sh none $wid
-        elif [ "$(cat $FSFILE | cut -d\  -f 5)" = "$CUR" ]; then
+        elif [ "$(cat $FSFILE | cut -d\  -f 5)" = "$PFW" ]; then
             setborder.sh active $wid
-            setborder.sh none $CUR
+            setborder.sh none $PFW
         else
-            if [ "$wid" != "$CUR" ]; then
+            if [ "$wid" != "$PFW" ]; then
                 setborder.sh active $wid
-                setborder.sh inactive $CUR
+                setborder.sh inactive $PFW
             fi
-        fi 
-    } || {
-        test "$wid" != "$CUR" && \
+        fi
+    else
+        if [ "$wid" != "$PFW" ]; then
             setborder.sh active $wid
-            setborder.sh inactive $CUR
-        }
-
-    # move mouse to the middle of the window
-    wmp -a $(wattr xy $wid)
-    wmp -r $(($(wattr w $wid) / 2)) $(($(wattr h $wid) / 2))
+            setborder.sh inactive $PFW
+        fi
+    fi
 }
 
-main $ARGS
+moveMouse() {
+    . mouse.sh
+
+    mouseStatus=$(getMouseStatus)
+    test "$mouseStatus" -eq 1 && {
+        # move mouse to the middle of the window
+        wmp -a $(wattr xy $wid)
+        wmp -r $(($(wattr w $wid) / 2)) $(($(wattr h $wid) / 2))
+    }
+}
+
+main() {
+    case $1 in
+        0x*)    focusWid  $1 ;;
+        next)   focusNext    ;;
+        prev)   focusPrev    ;;
+        full)   focusFull    ;;
+        h|help) usage        ;;
+        *)      usage        ;;
+    esac
+
+    case $2 in
+        disable) MOUSE=false ;;
+        *)       MOUSE=true  ;;
+    esac
+
+    test "$MOUSE" = "true" && moveMouse
+}
+
+test -z "$ARGS" || main $ARGS

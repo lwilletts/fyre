@@ -3,9 +3,6 @@
 # wildefyr - 2016 (c) wtfpl
 # test window classes when being opened
 
-readonly PROGNAME=$(basename $0)
-readonly PROGDIR=$(readlink -m $(dirname $0))
-readonly PROGPATH=${PROGPATH:-$PROGDIR/$PROGNAME}
 ARGS="$@"
 
 usage() {

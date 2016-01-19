@@ -3,20 +3,17 @@
 # wildefyr - 2016 (c) wtfpl
 # returns window xprop environment setting depending on wid
 
-readonly PROGNAME=$(basename $0)
-readonly PROGDIR=$(readlink -m $(dirname $0))
-readonly PROGPATH=${PROGPATH:-$PROGDIR/$PROGNAME}
 ARGS="$@"
 
 usage() {
     cat << EOF
-Usage: $PROGNAME <command> <wid>/[lswArgs]
+Usage: $(basename $0) <command> <wid>
     n:   Print name of given wid.
     c:   Print class of given wid.
     p:   Print process of given wid.
-    na:  Print all names of windows dependant on lswArgs.
-    ca:  Print all classes of windows dependant on lswArgs.
-    pa:  Print all processes of windows dependant on lswArgs.
+    na:  Print all names of visible windows.
+    ca:  Print all classes of visible windows.
+    pa:  Print all processes of visible windows.
     all: Print all names, classes and even window names for matching.
 EOF
 
@@ -68,14 +65,6 @@ showAll() {
 }
 
 main() {
-    case $2 in
-        0x*)           continue      ;;
-        a|all)         lswArgs="-a"  ;;
-        # o|override)    lswArgs="-o"  ;;
-        # u|unlisted)    lswArgs="-u"  ;;
-        # h|help)        usage 1       ;;
-    esac
-
     case $1 in
         n|name)        name $2       ;;
         c|class)       class $2      ;;
@@ -85,8 +74,7 @@ main() {
         pa|processAll) processAll    ;;
         a|all)         showAll       ;;
         h|help)        usage         ;;
-        *)             usage         ;;
     esac
 }
 
-main $ARGS
+test -z "$ARGS" || main $ARGS

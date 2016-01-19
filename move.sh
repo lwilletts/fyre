@@ -3,13 +3,10 @@
 # wildefyr - 2016 (c) wtfpl
 # move a window its width/height / snap it to edge of the screen  
 
-readonly PROGNAME=$(basename $0)
-readonly PROGDIR=$(readlink -m $(dirname $0))
-readonly PROGPATH=${PROGPATH:-$PROGDIR/$PROGNAME}
 ARGS="$@"
 
 usage() {
-    printf '%s\n' "Usage: $PROGNAME <direction>"
+    printf '%s\n' "Usage: $(basename $0) <direction>"
     test -z $1 && exit 0 || exit $1
 }
 
@@ -19,6 +16,8 @@ move_left() {
     X=$((X - minW - IGAP - BW))
     test $X -le $XGAP && \
         snap.sh h && exit
+
+    wtp $X $Y $W $H $PFW
 }
 
 move_down() {
@@ -27,6 +26,8 @@ move_down() {
     Y=$((Y + minH + IGAP + BW))
     test $((Y + H)) -gt $SH && \
         snap.sh j && exit
+
+    wtp $X $Y $W $H $PFW
 }
 
 move_up() {
@@ -35,6 +36,8 @@ move_up() {
     Y=$((Y - minH - IGAP - BW))
     test $Y -lt $TGAP && \
         snap.sh k && exit
+
+    wtp $X $Y $W $H $PFW
 }
 
 move_right() {
@@ -43,6 +46,8 @@ move_right() {
     X=$((X + minW + IGAP + BW))
     test $((X + W)) -gt $SW && \
         snap.sh l && exit
+
+    wtp $X $Y $W $H $PFW
 }
 
 main() {
@@ -57,10 +62,9 @@ main() {
         j|down)  move_down  ;;
         k|up)    move_up    ;;
         l|right) move_right ;;
+        h|help)  usage      ;;
         *)       usage      ;;
     esac
-
-    wtp $X $Y $W $H $PFW
 }
 
 main $ARGS

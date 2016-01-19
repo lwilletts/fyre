@@ -3,13 +3,10 @@
 # wildefyr - 2016 (c) wtfpl
 # move AND resize windows to useful positions
 
-readonly PROGNAME=$(basename $0)
-readonly PROGDIR=$(readlink -m $(dirname $0))
-readonly PROGPATH=${PROGPATH:-$PROGDIR/$PROGNAME}
 ARGS="$@"
 
 usage() {
-    printf '%s\n' "Usage: $PROGNAME <mid|lft|rht|full|ext|vid> [wid]"
+    printf '%s\n' "Usage: $(basename $0) <mid|lft|rht|full|ext|vid> [wid]"
     test -z $1 && exit 0 || exit $1
 }
 

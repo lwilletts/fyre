@@ -3,13 +3,10 @@
 # wildefyr - 2016 (c) wtfpl
 # store window classes and their positions to reopen later
 
-readonly PROGNAME=$(basename $0)
-readonly PROGDIR=$(readlink -m $(dirname $0))
-readonly PROGPATH=${PROGPATH:-$PROGDIR/$PROGNAME}
 ARGS="$@"
 
 usage() {
-    printf '%s\n' "Usage: $PROGNAME <save|load|open|replace|list|delete> <layout>"
+    printf '%s\n' "Usage: $(basename $0) <save|load|open|replace|list|delete> <layout>"
     test -z $1 && exit 0 || exit $1
 }
 
@@ -32,17 +29,14 @@ saveLayout() {
         window=$(wclass.sh c $wid)
 
         # sadly we have to clean the window classes to their called names
-        if [ "$window" = "URxvt" ]; then
+        test "$window" = "URxvt" && \
             window=$(ps $psid | tail -1 | perl -p -e 's/^.*?urxvt/urxvt/')
-        fi
 
-        if [ "$window" = "mpv" ]; then
+        test "$window" = "mpv" && \
             window=$(ps $psid | tail -1 | perl -p -e 's/^.*?mpv/mpv/')
-        fi
 
-        if [ "$window" = "Firefox" ]; then
+        test "$window" = "Firefox" && \
             window="firefox"
-        fi
 
         printf '%b' "$XYWH $window" >> $LAYOUTDIR/layout.$LAY
         printf '\n' >> $LAYOUTDIR/layout.$LAY
@@ -162,4 +156,4 @@ main() {
     esac
 }
 
-main $ARGS
+test -z "$ARGS" || main $ARGS

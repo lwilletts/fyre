@@ -3,23 +3,20 @@
 # wildefyr & kekler - 2016 (c) wtfpl
 # snap windows without resize
 
-readonly PROGNAME=$(basename $0)
-readonly PROGDIR=$(readlink -m $(dirname $0))
-readonly PROGPATH=${PROGPATH:-$PROGDIR/$PROGNAME}
 ARGS="$@"
 
 usage() {
     cat << EOF
-Usage: $PROGNAME <option> [wid]
-    h:  Snap window to the left side of the screen.
-    j:  Snap window to the bottom side of the screen.
-    k:  Snap window to the up side of the screen.
-    l:  Snap window to the right side of the screen.
-    tl: Snap window to the top-left corner of the screen.
-    tr: Snap window to the top-right corner of the screen.
-    bl: Snap window to the bottom-left corner of the screen.
-    br: Snap window to the bottom-right corner of the screen.
-    md: Snap window to the middle of the screen.
+Usage: $(basename $0) <option> [wid]
+    h|left:  Snap window to the left side of the screen.
+    j|down:  Snap window to the bottom side of the screen.
+    k|up:    Snap window to the up side of the screen.
+    l|right: Snap window to the right side of the screen.
+    tl:      Snap window to the top-left corner of the screen.
+    tr:      Snap window to the top-right corner of the screen.
+    bl:      Snap window to the bottom-left corner of the screen.
+    br:      Snap window to the bottom-right corner of the screen.
+    md:      Snap window to the middle of the screen.
 EOF
     test -z $1 && exit 0 || exit $1
 }
@@ -70,17 +67,17 @@ main() {
     esac
 
     case $1 in 
-        h)  snap_left  ;;
-        j)  snap_down  ;;
-        k)  snap_up    ;;
-        l)  snap_right ;;
-        tl) snap_tl    ;;
-        tr) snap_tr    ;;
-        bl) snap_bl    ;;
-        br) snap_br    ;;
-        md) snap_md    ;;
-        *)  usage      ;;
+        h|left)  snap_left  ;;
+        j|down)  snap_down  ;;
+        k|up)    snap_up    ;;
+        l|right) snap_right ;;
+        tl)      snap_tl    ;;
+        tr)      snap_tr    ;;
+        bl)      snap_bl    ;;
+        br)      snap_br    ;;
+        md)      snap_md    ;;
+        *)       usage      ;;
     esac
 } 
 
-main $ARGS
+test -z "$ARGS" || main $ARGS

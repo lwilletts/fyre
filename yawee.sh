@@ -6,9 +6,15 @@
 . fyrerc.sh
 
 while IFS=: read ev wid; do
+    case $1 in
+        d|debug)
+            printf '%s\n' "$ev $wid"
+            ;;
+    esac
+
     case $ev in
-        4) 
-            wattr o "$wid" || focus.sh "$wid" 
+        4)
+            wattr o "$wid" || focus.sh "$wid" "disable"
             ;;
         16)
             wattr o "$wid" || \
@@ -26,12 +32,6 @@ while IFS=: read ev wid; do
                 focus.sh "$wid"
                 test "$(lsw | wc -l)" -ne 0 && \
                     blur.sh &
-            ;;
-    esac
-
-    case $1 in
-        d|debug)
-            printf '%s\n' "$ev $wid" 
             ;;
     esac
 done

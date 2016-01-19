@@ -3,14 +3,11 @@
 # wildefyr - 2016 (c) wtfpl
 # use slop to get xywh position for urxvt window
 
-readonly PROGNAME=$(basename $0)
-readonly PROGDIR=$(readlink -m $(dirname $0))
-readonly PROGPATH=${PROGPATH:-$PROGDIR/$PROGNAME}
 ARGS="$@"
 
 usage() {
     cat << EOF
-Usage: $PROGNAME ARGUMENTS
+Usage: $(basename $0) ARGUMENTS
     c | cmd:  Terminal command to run.
     h | help: Show this help.
 EOF

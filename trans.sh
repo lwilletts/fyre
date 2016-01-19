@@ -26,4 +26,3 @@ case $3 in
     d|dec) transset-df -i $wid --dec $opacity > /dev/null; exit ;;
     *) transset-df -i $wid $opacity > /dev/null;;
 esac
-

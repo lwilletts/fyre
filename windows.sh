@@ -3,13 +3,10 @@
 # wildefyr - 2016 (c) wtfpl
 # personal 'groups' script to provide useful shortcuts
 
-readonly PROGNAME=$(basename $0)
-readonly PROGDIR=$(readlink -m $(dirname $0))
-readonly PROGPATH=${PROGPATH:-$PROGDIR/$PROGNAME}
 ARGS="$@"
 
 usage() {
-    printf '%s\n' "Usage: $PROGNAME <a|h|s|t|c|r|l> (group) (pfw)"
+    printf '%s\n' "Usage: $(basename $0) <a|h|s|t|c|r|l> (group) (pfw)"
     test -z $1 && exit 0 || exit $1
 }
 
@@ -57,4 +54,4 @@ main() {
     esac
 }
 
-main $ARGS
+test -z "$ARGS" || main $ARGS
