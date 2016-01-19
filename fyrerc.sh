@@ -33,6 +33,9 @@ INACTIVE=${INACTIVE:-0x737373}
 BLUR=0
 WALL=$(cat $(which bgc) | sed 's#~#/home/wildefyr#' | cut -d\  -f 2-)
 
+# how long to wait to repeat loop in runfyre.sh
+DURATION=10
+
 FYREDIR=${FYREDIR:-~/.config/fyre}
 GROUPSDIR=${GROUPSDIR:-$FYREDIR/groups}
 LAYOUTDIR=${LAYOUTDIR:-$FYREDIR/layouts}
