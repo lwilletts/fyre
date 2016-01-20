@@ -6,7 +6,17 @@
 ARGS="$@"
 
 usage() {
-    printf '%s\n' "Usage: $(basename $0) <mid|lft|rht|full|ext|vid> [wid]"
+    cat << EOF
+Usage: $(basename $0) <option> [wid]
+    res:  Restore the current or given window to minW and minH values.
+    ext:  Extend the current or given window to the max SH value.
+    quar: Make the current or given window a quarter of the screen.
+    lft:  Make the current or given window half of the screen positioned on the left.
+    rht:  Make the current or given window half of the screen positioned on the right.
+    full: Make the current or given window fullscreen minus border gaps.
+    vid:  Make the current or given mpv window its currently playing video's resolution.
+    help: Show this help.
+EOF
     test -z $1 && exit 0 || exit $1
 }
 
@@ -15,10 +25,10 @@ restore() {
     SH=$((SH - TGAP - BGAP))
     W=$((SW/4 - 2*BW))
     H=$((SH/4 - BW - 1))
-    if [ $W -lt $minW ] || [ $H -lt $minH ]; then
+    test $W -lt $minW || test $H -lt $minH && { 
         W=$minW
         H=$minH
-    fi
+    }
 }
 
 extend() {
@@ -26,7 +36,7 @@ extend() {
     H=$((SH - TGAP - BGAP + BW))
 }
 
-middle() {
+quarter() {
     SW=$((SW - 2*XGAP))
     SH=$((SH - TGAP - BGAP))
     W=$((SW/2 - BW))
@@ -62,6 +72,13 @@ video() {
     H=$(resolution.sh $PFW | cut -d\  -f 2)
 }
 
+moveMouse() {
+    . mouse.sh
+
+    mouseStatus=$(getMouseStatus)
+    test "$mouseStatus" -eq 1 && moveMouseEnabled $PFW
+}
+
 main() {
     . fyrerc.sh
 
@@ -72,7 +89,7 @@ main() {
     case $1 in
         res)  restore ;;
         ext)  extend  ;;
-        mid)  middle  ;;
+        quar) quarter ;;
         lft)  left    ;;
         rht)  right   ;;
         full) full    ;;
@@ -81,6 +98,7 @@ main() {
     esac
     
     wtp $X $Y $W $H $PFW
+    moveMouse
 }
 
 main $ARGS
