@@ -16,8 +16,10 @@ main() {
     test -z $1 && usage 1
 
     wid=$1
-    windowName=$(wclass.sh n $wid)
-    windowClass=$(wclass.sh c $wid)
+
+    . wclass.sh
+    windowName=$(name $wid)
+    windowClass=$(class $wid)
 
     # for speed
     setborder.sh active $wid
