@@ -23,6 +23,15 @@ getMouseStatus() {
     printf '%s\n' $status
 }
 
+# move mouse to the middle of the given window
+moveMouseEnabled() {
+    wid=$1
+    wmp -a $(wattr xy $wid)
+    wmp -r $(($(wattr w $wid) / 2)) $(($(wattr h $wid) / 2))
+}
+
+# move mouse to bottom-right corner of the screen
+# TODO: find way of fully hiding the mouse completely
 moveMouseDisabled() {
     wmp $SW $SH
 }
@@ -41,8 +50,8 @@ disableMouse() {
 toggleMouse() {
     device=$(getMouseDevice)
     status=$(getMouseStatus)
-    test "$status" -eq 0 && status=1 || status=0
-    test "$status" -eq 0 && moveMouseDisabled
+    test "$status" -eq 1 && status=0 || status=1
+    test "$status" -eq 1 && moveMouseEnabled $PFW || moveMouseDisabled
     xinput set-int-prop $device "Device Enabled" $device $status
 }
 

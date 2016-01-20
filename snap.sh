@@ -17,46 +17,59 @@ Usage: $(basename $0) <option> [wid]
     bl:      Snap window to the bottom-left corner of the screen.
     br:      Snap window to the bottom-right corner of the screen.
     md:      Snap window to the middle of the screen.
+    h|help:  Show this help.
 EOF
     test -z $1 && exit 0 || exit $1
 }
 
 snap_left() {
-    wtp $XGAP $Y $W $H $PFW
-}
-
-snap_down() {
-    wtp $X $((SH - BGAP - H + BW)) $W $H $PFW
+    X=$XGAP
 }
 
 snap_up() {
-    wtp $X $TGAP $W $H $PFW
+    Y=$TGAP
+}
+
+snap_down() {
+    Y=$((SH - BGAP - H + BW))
 }
 
 snap_right() {
-    wtp $((SW - XGAP - W - BW)) $Y $W $H $PFW
+    X=$((SW - XGAP - W - BW))
 }
 
 snap_tl() {
-    wtp $XGAP $TGAP $W $H $PFW
+    X=$XGAP
+    Y=$TGAP
 }
 
 snap_tr() {
-    wtp $((SW - XGAP - W - BW)) $TGAP $W $H $PFW
+    X=$((SW - XGAP - W - BW))
+    Y=$TGAP
 }
 
 snap_bl() {
-    wtp $XGAP $((SH - BGAP - H + BW)) $W $H $PFW
+    X=$XGAP
+    Y=$((SH - BGAP - H + BW))
 }
 
 snap_br() {
-    wtp $((SW - XGAP - W - BW)) $((SH - BGAP - H + BW)) $W $H $PFW
+    X=$((SW - XGAP - W - BW)) 
+    Y=$((SH - BGAP - H + BW))
 }
 
 snap_md() {
     SW=$((SW - 2*XGAP))
     SH=$((SH - TGAP - BGAP))
-    wtp $((SW/2 - W/2 - BW + XGAP)) $((SH/2 - H/2 + TGAP)) $W $H $PFW
+    X=$((SW/2 - W/2 - BW + XGAP)) 
+    Y=$((SH/2 - H/2 + TGAP))
+}
+
+moveMouse() {
+    . mouse.sh
+
+    mouseStatus=$(getMouseStatus)
+    test "$mouseStatus" -eq 1 && moveMouseEnabled $PFW
 }
 
 main() {
@@ -78,6 +91,9 @@ main() {
         md)      snap_md    ;;
         *)       usage      ;;
     esac
+
+    wtp $X $Y $W $H $PFW
+    moveMouse
 } 
 
-test -z "$ARGS" || main $ARGS
+main $ARGS

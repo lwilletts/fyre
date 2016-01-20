@@ -6,48 +6,58 @@
 ARGS="$@"
 
 usage() {
-    printf '%s\n' "Usage: $(basename $0) <direction>"
+    cat << EOF
+Usage: $(basename $0) <direction> [wid]
+    h|left:  Move given window its width or minW left.
+    j|down:  Move given window its height or minH down.
+    k|up:    Move given window its height or minH up.
+    l|right: Move given window its width or minW right.
+    h|help:  Show this help.
+EOF
     test -z $1 && exit 0 || exit $1
 }
 
 move_left() {
     X=$(wattr x $PFW)
     Y=$(wattr y $PFW)
-    X=$((X - minW - IGAP - BW))
+    test $W -ge $minW && \ 
+        X=$((X - minW - IGAP - BW))
     test $X -le $XGAP && \
         snap.sh h && exit
-
-    wtp $X $Y $W $H $PFW
 }
 
 move_down() {
     X=$(wattr x $PFW)
     Y=$(wattr y $PFW)
-    Y=$((Y + minH + IGAP + BW))
+    test $Y -ge $minH && \ 
+        Y=$((Y + minH + IGAP + BW))
     test $((Y + H)) -gt $SH && \
         snap.sh j && exit
-
-    wtp $X $Y $W $H $PFW
 }
 
 move_up() {
     X=$(wattr x $PFW)
     Y=$(wattr y $PFW)
-    Y=$((Y - minH - IGAP - BW))
+    test $Y -ge $minH && \ 
+        Y=$((Y - minH - IGAP - BW))
     test $Y -lt $TGAP && \
         snap.sh k && exit
-
-    wtp $X $Y $W $H $PFW
 }
 
 move_right() {
     X=$(wattr x $PFW)
     Y=$(wattr y $PFW)
-    X=$((X + minW + IGAP + BW))
+    test $W -ge $minW && \ 
+        X=$((X + minW + IGAP + BW))
     test $((X + W)) -gt $SW && \
         snap.sh l && exit
+}
 
-    wtp $X $Y $W $H $PFW
+moveMouse() {
+    . mouse.sh
+
+    mouseStatus=$(getMouseStatus)
+    test "$mouseStatus" -eq 1 && moveMouseEnabled $PFW
 }
 
 main() {
@@ -57,14 +67,20 @@ main() {
     SW=$((SW - 2*XGAP))
     SH=$((SH - TGAP - BGAP))
 
+    case $2 in
+        0x*) PFW=$2 ;;
+    esac
+
     case $1 in
         h|left)  move_left  ;;
         j|down)  move_down  ;;
         k|up)    move_up    ;;
         l|right) move_right ;;
-        h|help)  usage      ;;
         *)       usage      ;;
     esac
+
+    wtp $X $Y $W $H $PFW
+    moveMouse
 }
 
 main $ARGS
