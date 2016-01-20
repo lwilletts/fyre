@@ -2,7 +2,7 @@ Fyre
 ====
 
 Strict POSIX compliant shell scripts using wmutils to form a
-memorg-lightweight and minimal X11 window environment.
+memory-lightweight and minimal X11 window environment.
 
 Installation
 ------------
@@ -30,8 +30,8 @@ environment:
 
 - [slop](https://github.com/naelstrof/slop) - Selecting window geometries or for 'drawing' a window.
 - [dmenu](http://tools.suckless.org/dmenu/) - Suckless menu for launching programs.
-- [lemonbar](https://github.com/baskerville/bar) - An excellent statusbar program with clickable support.
 - [compton](https://github.com/chjj/compton) - Best X11 compositing manager out there.
+- [lemonbar](https://github.com/baskerville/bar) - An excellent statusbar program with clickable support.
 - [hsetroot](https://github.com/elmiko/hsetroot) - Minimal background setter with clean options compared to feh.
 - [transset-df](https://github.com/wildefyr/transset-df) - Manipulate window transparency interactively.
 
