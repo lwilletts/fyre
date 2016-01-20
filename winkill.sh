@@ -12,7 +12,9 @@ usage() {
 
 main() {
     wid=$(pfw)
-    windowName=$(wclass.sh n $wid)
+
+    . wclass.sh
+    windowName=$(name $wid)
 
     test "$windowName" = "urxvtc" && {
             killwa $wid
