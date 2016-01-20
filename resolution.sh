@@ -10,18 +10,24 @@ usage() {
     test -z $1 && exit 0 || exit $1
 }
 
-main () {
-    test -z $1 && usage 1
+resolution() {
+    case $1 in
+        0x*) wid=$1 ;;
+        *)   usage  ;;
+    esac
 
-    wid=$1
+    . wclass.sh
 
-    if [ "$(wclass.sh c $wid)" = "mpv" ]; then
-        printf '%s\n' "$(xprop -id "$wid" WM_NORMAL_HINTS | \
-            sed '5s/[^0-9]*//p;d' | tr / \ )"
-    else
-        printf '%s\n' "Please enter a valid mpv wid" >&2
-        usage 1
-    fi
+    test "$(class $wid)" = "mpv" && {
+        mpvWid=$(xprop -id "$wid" WM_NORMAL_HINTS | sed '5s/[^0-9]*//p;d' | tr / \ )
+        printf '%s\n' "$mpvWid"
+    } || {
+        printf '%s\n' "Please enter a valid mpv window id." >&2
+    }
+}
+
+main() {
+    resolution
 }
 
 test -z "$ARGS" || main $ARGS
