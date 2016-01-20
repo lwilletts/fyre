@@ -8,10 +8,10 @@ ARGS="$@"
 usage() {
     cat << EOF
 Usage: $(basename $0) <direction> [wid]
-    h|left:  Move given window its width or minW left.
-    j|down:  Move given window its height or minH down.
-    k|up:    Move given window its height or minH up.
-    l|right: Move given window its width or minW right.
+    h|left:  Move current or given window its width or minW left.
+    j|down:  Move current or given window its height or minH down.
+    k|up:    Move current or given window its height or minH up.
+    l|right: Move current or given window its width or minW right.
     h|help:  Show this help.
 EOF
     test -z $1 && exit 0 || exit $1

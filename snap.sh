@@ -8,15 +8,15 @@ ARGS="$@"
 usage() {
     cat << EOF
 Usage: $(basename $0) <option> [wid]
-    h|left:  Snap window to the left side of the screen.
-    j|down:  Snap window to the bottom side of the screen.
-    k|up:    Snap window to the up side of the screen.
-    l|right: Snap window to the right side of the screen.
-    tl:      Snap window to the top-left corner of the screen.
-    tr:      Snap window to the top-right corner of the screen.
-    bl:      Snap window to the bottom-left corner of the screen.
-    br:      Snap window to the bottom-right corner of the screen.
-    md:      Snap window to the middle of the screen.
+    h|left:  Snap current or given window to the left side of the screen.
+    j|down:  Snap current or given window to the bottom side of the screen.
+    k|up:    Snap current or given window to the up side of the screen.
+    l|right: Snap current or given window to the right side of the screen.
+    tl:      Snap current or given window to the top-left corner of the screen.
+    tr:      Snap current or given window to the top-right corner of the screen.
+    bl:      Snap current or given window to the bottom-left corner of the screen.
+    br:      Snap current or given window to the bottom-right corner of the screen.
+    md:      Snap current or given window to the middle of the screen.
     h|help:  Show this help.
 EOF
     test -z $1 && exit 0 || exit $1
