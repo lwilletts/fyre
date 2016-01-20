@@ -17,7 +17,7 @@ mod1 + shift + Tab
 mod1 + {h,j,k,l}
     closest.sh {h,j,k,l}
 mod4 + {h,j,k,l}
-    snap.sh {left,down,up,right}
+    snap.sh {h,j,k,l}
 mod1 + shift + {h,j,k,l}
     move.sh {left,down,up,right}
 mod4 + shift + {h,j,k,l}
@@ -37,7 +37,7 @@ mod1 + i
 mod1 + g
     snap.sh md $(pfw)
 mod1 + {q,w,e,r,a,s,m}
-    position.sh {lft,mid,rht,full,res,ext,vid} $(pfw)
+    position.sh {lft,quar,rht,full,res,ext,vid} $(pfw)
 mod1 + f
     fullscreen.sh $(pfw)
 
@@ -94,8 +94,8 @@ mod1 + @button1
     xmmv $(pfw)
 mod1 + !button3
     wrs -a %i %i $(pfw)
-mod1 + {z,x}
-    mouse.sh {e,d}
+mod1 + z
+    mouse.sh toggle
 mod1 + c
     drawterm.sh
 
