@@ -19,31 +19,38 @@ EOF
 }
 
 grow_down() {
-    test $H -lt $minH && \
-        H=$minH || \
+    test $H -lt $minH && {
+        H=$minH 
+    } || \
         H=$((H + minH + VGAP + BW))
-    wtp $X $Y $W $H $PFW
 }
 
 shrink_up() {
-    test $H -le $minH && \
-        H=$((H/2 - BW)) || \
+    test $H -le $minH && {
+        H=$((H/2 - BW)) 
+    } || \
         H=$((H - minH - VGAP - BW))
-    wtp $X $Y $W $H $PFW
 }
 
 grow_right() {
-    test $W -lt $minW  && \
-        W=$minW || \
+    test $W -lt $minW  && {
+        W=$minW 
+    } || \
         W=$((W + minW + IGAP + BW))
-    wtp $X $Y $W $H $PFW
 }
 
 shrink_left() {
-    test $W -le $minW && \
-        W=$((W/2 - BW)) || \
+    test $W -le $minW && {
+        W=$((W/2 - BW)) 
+    } || \
         W=$((W - minW - IGAP - BW))
-    wtp $X $Y $W $H $PFW
+}
+
+moveMouse() {
+    . mouse.sh
+
+    mouseStatus=$(getMouseStatus)
+    test "$mouseStatus" -eq 1 && moveMouseEnabled $PFW
 }
 
 main() {
@@ -64,6 +71,9 @@ main() {
         sl|shrinkleft)  shrink_left  ;;
         *)              usage        ;;
     esac
+
+    wtp $X $Y $W $H $PFW
+    moveMouse
 }
 
 main $ARGS
