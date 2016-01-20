@@ -8,16 +8,16 @@ ARGS="$@"
 usage() {
     cat << EOF
 Usage: $(basename $0) <option> [wid]
-    h|left:  Snap current or given window to the left side of the screen.
-    j|down:  Snap current or given window to the bottom side of the screen.
-    k|up:    Snap current or given window to the up side of the screen.
-    l|right: Snap current or given window to the right side of the screen.
-    tl:      Snap current or given window to the top-left corner of the screen.
-    tr:      Snap current or given window to the top-right corner of the screen.
-    bl:      Snap current or given window to the bottom-left corner of the screen.
-    br:      Snap current or given window to the bottom-right corner of the screen.
-    md:      Snap current or given window to the middle of the screen.
-    h|help:  Show this help.
+    h  | left:   Snap current or given window to the left side of the screen.
+    j  | down:   Snap current or given window to the bottom side of the screen.
+    k  | up:     Snap current or given window to the up side of the screen.
+    l  | right:  Snap current or given window to the right side of the screen.
+    tl | tleft:  Snap current or given window to the top-left corner of the screen.
+    tr | tright: Snap current or given window to the top-right corner of the screen.
+    bl | bleft:  Snap current or given window to the bottom-left corner of the screen.
+    br | bright: Snap current or given window to the bottom-right corner of the screen.
+    md | middle: Snap current or given window to the middle of the screen.
+    h  | help:   Show this help.
 EOF
     test -z $1 && exit 0 || exit $1
 }
@@ -80,16 +80,16 @@ main() {
     esac
 
     case $1 in 
-        h|left)  snap_left  ;;
-        j|down)  snap_down  ;;
-        k|up)    snap_up    ;;
-        l|right) snap_right ;;
-        tl)      snap_tl    ;;
-        tr)      snap_tr    ;;
-        bl)      snap_bl    ;;
-        br)      snap_br    ;;
-        md)      snap_md    ;;
-        *)       usage      ;;
+        h|left)    snap_left  ;;
+        j|down)    snap_down  ;;
+        k|up)      snap_up    ;;
+        l|right)   snap_right ;;
+        tl|tleft)  snap_tl    ;;
+        tr|tright) snap_tr    ;;
+        bl|bleft)  snap_bl    ;;
+        br|bright) snap_br    ;;
+        md|middle) snap_md    ;;
+        *)         usage      ;;
     esac
 
     wtp $X $Y $W $H $PFW

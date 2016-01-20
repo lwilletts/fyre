@@ -1,12 +1,20 @@
 #!/bin/sh
 #
 # wildefyr - 2016 (c) wtfpl
-# sane resizing in a direction
+# sane resize in a direction
 
 ARGS="$@"
 
 usage() {
-    printf '%s\n' "Usage: $(basename $0) <gd|gr|sl|su> [wid]"
+    cat << EOF
+Usage: $(basename $0) <direction> [wid]
+    gr | growright:  Grow current or given window right
+    gd | growdown:   Grow current or given window down.
+    sl | shrinkleft: Shrink current or given window left.
+    su | shrinkup:   Shrink current or given window up.
+    h  | help:       Show this help.
+EOF
+
     test -z $1 && exit 0 || exit $1
 }
 
@@ -28,8 +36,6 @@ grow_right() {
     test $W -lt $minW  && \
         W=$minW || \
         W=$((W + minW + IGAP + BW))
-    # test $W -gt $SH && \
-    #     W=
     wtp $X $Y $W $H $PFW
 }
 
@@ -56,7 +62,6 @@ main() {
         su|shrinkup)    shrink_up    ;;
         gr|growright)   grow_right   ;;
         sl|shrinkleft)  shrink_left  ;;
-        h|help)         usage        ;;
         *)              usage        ;;
     esac
 }
