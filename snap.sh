@@ -61,7 +61,7 @@ snap_br() {
 snap_md() {
     SW=$((SW - 2*XGAP))
     SH=$((SH - TGAP - BGAP))
-    X=$((SW/2 - W/2 - BW + XGAP)) 
+    X=$((SW/2 - W/2 + XGAP - 1)) 
     Y=$((SH/2 - H/2 + TGAP))
 }
 
