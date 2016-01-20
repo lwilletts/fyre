@@ -62,7 +62,6 @@ main() {
         e|enable)  enableMouse  ;;
         d|disable) disableMouse ;;
         t|toggle)  toggleMouse  ;;
-        h|help)    usage        ;;
         *)         usage        ;;
     esac
 }
