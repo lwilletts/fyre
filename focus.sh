@@ -76,11 +76,7 @@ moveMouse() {
     . mouse.sh
 
     mouseStatus=$(getMouseStatus)
-    test "$mouseStatus" -eq 1 && {
-        # move mouse to the middle of the window
-        wmp -a $(wattr xy $wid)
-        wmp -r $(($(wattr w $wid) / 2)) $(($(wattr h $wid) / 2))
-    }
+    test "$mouseStatus" -eq 1 && moveMouseEnabled $wid
 }
 
 main() {
