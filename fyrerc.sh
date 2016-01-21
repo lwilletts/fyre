@@ -8,12 +8,13 @@ SW=$(wattr w $ROOT)
 SH=$(wattr h $ROOT)
 
 PFW=$(pfw)
-
-minW=468
-minH=254
+CUR=${2:-$(pfw)}
 
 BW=${BW:-2}
-CUR=${2:-$(pfw)}
+
+minW=$((466 + BW))
+minH=$((252 + BW))
+
 X=$(wattr x $CUR)
 Y=$(wattr y $CUR)
 W=$(wattr w $CUR)
@@ -31,7 +32,7 @@ WARNING=${WARNING:-0xB23450}
 INACTIVE=${INACTIVE:-0x737373}
 
 BLUR=0
-WALL=$(cat $(which bgc) | sed 's#~#/home/wildefyr#' | cut -d\  -f 2-)
+WALL=$(cat $(which bgc) | head -n 1 | sed 's#~#/home/wildefyr#')
 
 # how long to wait to repeat loop in runfyre.sh
 DURATION=10
