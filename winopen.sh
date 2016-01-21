@@ -6,16 +6,20 @@
 ARGS="$@"
 
 usage() {
-    printf '%s\n' "Usage: $PROGNAME <wid>"
+    cat << EOF
+Usage: $(basename $0) <wid>
+EOF
+
     test -z $1 && exit 0 || exit $1
 }
 
 main() {
     . fyrerc.sh
 
-    test -z $1 && usage 1
-
-    wid=$1
+    case $1 in
+        0x*) wid=$1 ;;
+        *)   usage  ;;
+    esac
 
     . wclass.sh
     windowName=$(name $wid)
@@ -24,46 +28,76 @@ main() {
     # for speed
     setborder.sh active $wid
 
-    if [ "$windowName" = "Dialog" ]; then
-        snap.sh md $wid
-    elif [ "$windowName" = "mosh" ]; then
-        position.sh mid $wid
+    # put the things you open the most often at the top
+    test "$windowName" = "URxvt" && {
+        position.sh res $wid
+        snap.sh tl $wid
+        exit
+    }
+
+    test "$windowName" = "mosh" && {
+        position.sh quar $wid
         snap.sh md $wid
         wgroups.sh -s $wid 3
-    elif [ "$windowClass" = "TeamSpeak 3" ]; then
-        position.sh res $wid
-        position.sh ext $wid
-        snap.sh left $wid
-        wgroups.sh -s $wid 4
-    elif [ "$windowClass" = "mpv" ]; then
-        wgroups.sh -s $wid 5
-        position.sh vid $wid
+        exit
+    }
 
-        test -f $MPVPOS && \
-            Wcur=$(wattr w $wid)
-            Hcur=$(wattr h $wid)
-            W=$(cat $MPVPOS | cut -d\  -f 3)
-            H=$(cat $MPVPOS | cut -d\  -f 4)
-            test $W -gt $Wcur && $H -gt $Hcur && \
-                wtp $(cat $MPVPOS) $wid || \
-                wtp $(cat $MPVPOS | cut -d\  -f -2) $Wcur $Hcur $wid
-
-    elif [ "$windowName" = "mupdf" ]; then
-        wgroups.sh -s $wid 6
-    elif [ "$windowName" = "mpsyt" ]; then
+    test "$windowName" = "mpsyt" && {
         position.sh res $wid
         position.sh ext $wid
         snap.sh right $wid
         wgroups.sh -s $wid 9
-    elif [ "$windowName" = "alsamixer" ]; then
-        position.sh res $wid
+        exit
+    }
+
+    test "$windowName" = "alsamixer" && {
+        position.sh quar $wid
         snap.sh md $wid
-    elif [ "$windowClass" = "URxvt" ]; then
+        exit
+    }
+
+    test "$windowClass" = "mpv" && {
+        wgroups.sh -s $wid 5
+        position.sh vid $wid
+
+        test -f $MPVPOS && {
+            Wcur=$(wattr w $wid)
+            Hcur=$(wattr h $wid)
+            W=$(cat $MPVPOS | cut -d\  -f 3)
+            H=$(cat $MPVPOS | cut -d\  -f 4)
+            test $W -gt $Wcur && $H -gt $Hcur && {
+                wtp $(cat $MPVPOS) $wid
+            } || {
+                wtp $(cat $MPVPOS | cut -d\  -f -2) $Wcur $Hcur $wid
+            }
+        }
+        exit
+    }
+
+    test "$windowClass" = "google-chrome" && {
+        wgroups.sh -s $wid 1
+        exit
+    }
+
+    test "$windowClass" = "TeamSpeak 3" && {
         position.sh res $wid
-        snap.sh tl $wid
-    else
-        snap.sh md $wid
-    fi
+        position.sh ext $wid
+        snap.sh left $wid
+        wgroups.sh -s $wid 4
+        exit
+    }
+
+    test "$windowClass" = "MuPDF" && {
+        wgroups.sh -s $wid 6
+        exit
+    }
+
+    test "$windowClass" = "Wine" && {
+        wgroups.sh -s $wid 6
+        exit
+    }
+        
+    snap.sh md $wid
 }
 
 main $ARGS
