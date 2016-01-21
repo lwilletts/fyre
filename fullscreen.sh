@@ -13,28 +13,30 @@ usage() {
 main() {
     . fyrerc.sh
 
-    case $1 in 
+    case $1 in
         0x*) wid=$1 ;;
-        *) usage ;;
+        *)   usage  ;;
     esac
 
-    test -e $FSFILE && CUR=$(cat $FSFILE | cut -d\  -f 5)
+    test -e $FSFILE && { 
+        test "$PFW" = $wid && {
+            setborder.sh active $wid
+            wtp $(cat $FSFILE)
+            rm $FSFILE
+        }
+        test "$PFW" != $wid && {
+            setborder.sh active $wid
+            setborder.sh inactive $PFW
+            wtp $(cat $FSFILE)
+            rm $FSFILE
+            $(basename $0) $wid
+        }
+        exit
+    }
 
-    if [ -e $FSFILE ] && [ "$PFW" = $wid ]; then
-        setborder.sh active $wid
-        wtp $(cat $FSFILE)
-        rm $FSFILE
-    elif [ -e $FSFILE ] && [ "$PFW" != $wid ]; then
-        setborder.sh active $wid
-        setborder.sh inactive $PFW
-        wtp $(cat $FSFILE)
-        rm $FSFILE
-        $(basename $0) $wid
-    else
-        setborder.sh none $wid
-        wattr xywhi $wid > $FSFILE
-        wtp 0 0 $SW $SH $wid
-    fi
+    setborder.sh none $wid
+    wattr xywhi $wid > $FSFILE
+    wtp 0 0 $SW $SH $wid
 }
 
 main $ARGS
