@@ -29,7 +29,7 @@ main() {
     setborder.sh active $wid
 
     # put the things you open the most often at the top
-    test "$windowName" = "URxvt" && {
+    test "$windowName" = "urxvt" && {
         position.sh res $wid
         snap.sh tl $wid
         exit
