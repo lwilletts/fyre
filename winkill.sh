@@ -15,19 +15,27 @@ main() {
 
     . wclass.sh
     windowName=$(name $wid)
+    windowClass=$(class $wid)
 
     test "$windowName" = "urxvtc" && {
-            killwa $wid
-            exit 0
-        }
+        killwa $wid
+        exit 0
+    }
+
     test "$windowName" = "Navigator" && {
-            killwa $wid
-            exit 0
-        }
+        killwa $wid
+        exit 0
+    }
+
     test "$windowName" = "Steam" && {
-            killwa $wid
-            exit 0
-        }
+        killwa $wid
+        exit 0
+    }
+
+    test "$windowClass" = "Teamspeak 3" && {
+        killwa $wid
+        exit 0
+    }
 
     printf '%s\n' "you're terminated fucker."
     killw $wid
