@@ -33,7 +33,7 @@ restore() {
 
 extend() {
     Y=$TGAP
-    H=$((SH - TGAP - BGAP + BW))
+    H=$((SH - TGAP - BGAP))
 }
 
 quarter() {

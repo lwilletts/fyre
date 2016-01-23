@@ -20,37 +20,57 @@ EOF
 move_left() {
     X=$(wattr x $PFW)
     Y=$(wattr y $PFW)
-    test $W -ge $minW && \ 
+    test $W -ge $minW && { 
         X=$((X - minW - IGAP - BW))
-    test $X -le $XGAP && \
-        snap.sh h && exit
+    } || {
+        X=$((X - W - IGAP - 2*BW))
+    }
+    test $X -le $XGAP && {
+        snap.sh h 
+        exit
+    }
 }
 
 move_down() {
     X=$(wattr x $PFW)
     Y=$(wattr y $PFW)
-    test $Y -ge $minH && \ 
-        Y=$((Y + minH + IGAP + BW))
-    test $((Y + H)) -gt $SH && \
-        snap.sh j && exit
+    test $Y -ge $minH && { 
+        Y=$((Y + minH + VGAP + BW))
+    } || {
+        Y=$((Y + H + VGAP))
+    }
+    test $((Y + H)) -gt $SH && {
+        snap.sh j 
+        exit
+    }
 }
 
 move_up() {
     X=$(wattr x $PFW)
     Y=$(wattr y $PFW)
-    test $Y -ge $minH && \ 
-        Y=$((Y - minH - IGAP - BW))
-    test $Y -lt $TGAP && \
-        snap.sh k && exit
+    test $Y -ge $minH && { 
+        Y=$((Y - minH - VGAP - BW))
+    } || {
+        Y=$((Y - H - VGAP))
+    }
+    test $Y -lt $TGAP && {
+        snap.sh k 
+        exit
+    }
 }
 
 move_right() {
     X=$(wattr x $PFW)
     Y=$(wattr y $PFW)
-    test $W -ge $minW && \ 
+    test $W -ge $minW && { 
         X=$((X + minW + IGAP + BW))
-    test $((X + W)) -gt $SW && \
-        snap.sh l && exit
+    } || {
+        X=$((X + W + IGAP + 2*BW))
+    }
+    test $((X + W)) -gt $SW && {
+        snap.sh l 
+        exit
+    }
 }
 
 moveMouse() {

@@ -99,11 +99,11 @@ main() {
         exit
     }
 
-    test "$windowClass" = "Wine" && {
-        wgroups.sh -s $wid 6
+    test "$windowName" = "winecfg.exe" && {
+        snap.sh md $wid
         exit
     }
-        
+
     snap.sh md $wid
 }
 
