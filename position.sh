@@ -40,7 +40,7 @@ quarter() {
     SW=$((SW - 2*XGAP))
     SH=$((SH - TGAP - BGAP))
     W=$((SW/2 - BW))
-    H=$((SH/2))
+    H=$((SH/2 - BW))
 }
 
 left() {
