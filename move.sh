@@ -23,7 +23,7 @@ move_left() {
     test $W -ge $minW && { 
         X=$((X - minW - IGAP - BW))
     } || {
-        X=$((X - W - IGAP - 2*BW))
+        X=$((X - W - IGAP - BW))
     }
     test $X -le $XGAP && {
         snap.sh h 
@@ -65,7 +65,7 @@ move_right() {
     test $W -ge $minW && { 
         X=$((X + minW + IGAP + BW))
     } || {
-        X=$((X + W + IGAP + 2*BW))
+        X=$((X + W + IGAP + BW))
     }
     test $((X + W)) -gt $SW && {
         snap.sh l 

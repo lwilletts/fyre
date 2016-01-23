@@ -31,7 +31,7 @@ snap_up() {
 }
 
 snap_down() {
-    Y=$((SH - BGAP - H + BW))
+    Y=$((SH - BGAP - H))
 }
 
 snap_right() {
@@ -50,12 +50,12 @@ snap_tr() {
 
 snap_bl() {
     X=$XGAP
-    Y=$((SH - BGAP - H + BW))
+    Y=$((SH - BGAP - H))
 }
 
 snap_br() {
     X=$((SW - XGAP - W - BW)) 
-    Y=$((SH - BGAP - H + BW))
+    Y=$((SH - BGAP - H))
 }
 
 snap_md() {

@@ -21,29 +21,33 @@ EOF
 grow_down() {
     test $H -lt $minH && {
         H=$minH 
-    } || \
+    } || {
         H=$((H + minH + VGAP + BW))
+    }
 }
 
 shrink_up() {
     test $H -le $minH && {
-        H=$((H/2 - BW)) 
-    } || \
+        H=$((H/2 - BW + 1)) 
+    } || {
         H=$((H - minH - VGAP - BW))
+    }
 }
 
 grow_right() {
     test $W -lt $minW  && {
         W=$minW 
-    } || \
+    } || {
         W=$((W + minW + IGAP + BW))
+    }
 }
 
 shrink_left() {
     test $W -le $minW && {
-        W=$((W/2 - BW)) 
-    } || \
+        W=$((W/2 - BW + 1)) 
+    } || {
         W=$((W - minW - IGAP - BW))
+    }
 }
 
 moveMouse() {
