@@ -23,14 +23,9 @@ grow_down() {
         H=$minH 
     } || {
         H=$((H + minH + VGAP + BW))
-    }
-}
-
-shrink_up() {
-    test $H -le $minH && {
-        H=$((H/2 - BW + 1)) 
-    } || {
-        H=$((H - minH - VGAP - BW))
+        test $((Y + H)) -gt $SH && {
+            H=$((SH + TGAP - Y))
+        }
     }
 }
 
@@ -39,6 +34,17 @@ grow_right() {
         W=$minW 
     } || {
         W=$((W + minW + IGAP + BW))
+        test $((X + W)) -gt $SW && {
+            W=$((SW + XGAP - X - BW))
+        }
+    }
+}
+
+shrink_up() {
+    test $H -le $minH && {
+        H=$((H/2 - BW + 1)) 
+    } || {
+        H=$((H - minH - VGAP - BW))
     }
 }
 

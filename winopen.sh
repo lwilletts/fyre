@@ -45,7 +45,6 @@ main() {
     test "$windowName" = "tmux" && {
         position.sh res $wid
         snap.sh tl $wid
-        move.sh right $wid
         exit
     }
 

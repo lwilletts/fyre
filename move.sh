@@ -34,10 +34,10 @@ move_left() {
 move_down() {
     X=$(wattr x $PFW)
     Y=$(wattr y $PFW)
-    test $Y -ge $minH && { 
+    test $H -ge $minH && { 
         Y=$((Y + minH + VGAP + BW))
     } || {
-        Y=$((Y + H + VGAP))
+        Y=$((Y + H + VGAP + BW))
     }
     test $((Y + H)) -gt $SH && {
         snap.sh j 
@@ -48,10 +48,10 @@ move_down() {
 move_up() {
     X=$(wattr x $PFW)
     Y=$(wattr y $PFW)
-    test $Y -ge $minH && { 
-        Y=$((Y - minH - VGAP - BW))
+    test $H -ge $minH && { 
+        Y=$((Y - minH - VGAP - BW + 1))
     } || {
-        Y=$((Y - H - VGAP))
+        Y=$((Y - H - VGAP - BW))
     }
     test $Y -lt $TGAP && {
         snap.sh k 
