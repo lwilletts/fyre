@@ -5,7 +5,7 @@
 
 . fyrerc.sh
 
-while IFS=: read ev wid; do
+wew | while IFS=: read ev wid; do
     case $1 in
         d|debug)
             printf '%s\n' "$ev $wid"
