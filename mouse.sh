@@ -39,6 +39,7 @@ moveMouseDisabled() {
 enableMouse() {
     device=$(getMouseDevice)
     xinput set-int-prop $device "Device Enabled" $device 1
+    moveMouseEnabled $PFW 
 }
 
 disableMouse() {
