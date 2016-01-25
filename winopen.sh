@@ -103,6 +103,11 @@ main() {
         exit
     }
 
+    test "$windowName" = "explorer.exe" && {
+        wgroups.sh -s $wid 4
+        exit
+    }
+
     snap.sh md $wid
 }
 
