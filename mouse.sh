@@ -7,7 +7,7 @@ ARGS="$@"
 
 usage() {
     printf '%s\n' "Usage: $(basename $0) <enable|disable|toggle>"
-    test -z $1 && exit 0 || exit $1
+    test -z $1 || exit $1
 }
 
 getMouseDevice() {
@@ -63,7 +63,7 @@ main() {
         e|enable)  enableMouse  ;;
         d|disable) disableMouse ;;
         t|toggle)  toggleMouse  ;;
-        *)         usage        ;;
+        *)         usage 0      ;;
     esac
 }
 

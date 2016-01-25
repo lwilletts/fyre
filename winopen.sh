@@ -10,15 +10,15 @@ usage() {
 Usage: $(basename $0) <wid>
 EOF
 
-    test -z $1 && exit 0 || exit $1
+    test -z $1 || exit $1
 }
 
 main() {
     . fyrerc.sh
 
     case $1 in
-        0x*) wid=$1 ;;
-        *)   usage  ;;
+        0x*) wid=$1  ;;
+        *)   usage 0 ;;
     esac
 
     . wclass.sh

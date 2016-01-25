@@ -7,7 +7,7 @@ ARGS="$@"
 
 usage() {
     printf '%s\n' "Usage: $(basename $0) <direction>"
-    test -z $1 && exit 0 || exit $1
+    test -z $1 || exit $1
 }
 
 next_east() {
@@ -34,8 +34,7 @@ main() {
         j|south|down) focus.sh $(next_south) 2>/dev/null ;;
         k|north|up)   focus.sh $(next_north) 2>/dev/null ;;
         l|west|right) focus.sh $(next_west)  2>/dev/null ;;
-        h|help)       usage                              ;;
-        *)            usage                              ;;
+        *)            usage 0                            ;;
     esac
 }
 

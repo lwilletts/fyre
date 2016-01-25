@@ -6,25 +6,25 @@
 ARGS="$@"
 
 usage() { 
-    printf '%s\n' "Usage: $(basename $0) <wid>"
-    test -z $1 && exit 0 || exit $1
+    printf '%s\n' "Usage: $(basename $0) [wid]"
+    test -z $1 || exit $1
 }
 
 main() {
     . fyrerc.sh
 
     case $1 in
-        0x*) wid=$1 ;;
-        *)   usage  ;;
+        0x*) wid=$1  ;;
+        *)   usage 0 ;;
     esac
 
-    test -e $FSFILE && { 
-        test "$PFW" = $wid && {
+    test -e "$FSFILE" && { 
+        test "$PFW" = "$wid" && {
             setborder.sh active $wid
             wtp $(cat $FSFILE)
             rm $FSFILE
         }
-        test "$PFW" != $wid && {
+        test "$PFW" != "$wid" && {
             setborder.sh active $wid
             setborder.sh inactive $PFW
             wtp $(cat $FSFILE)

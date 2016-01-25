@@ -7,14 +7,14 @@ ARGS="$@"
 
 usage() {
     printf '%s\n' "Usage: $(basename $0) [blur factor]"
-    test -z $1 && exit 0 || exit $1
+    test -z $1 || exit $1
 }
 
 main() {
     . fyrerc.sh
 
     case $1 in
-        h|help) usage ;;
+        h|help) usage 0 ;;
     esac
 
     test "$1" != "" && {

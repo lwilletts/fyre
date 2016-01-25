@@ -7,7 +7,12 @@ ARGS="$@"
 
 usage() {
     cat << EOF
-Usage: $(basename $0) <option>
+Usage: $(basename $0) <argument> [wid]
+    i|ignore:   Set ignore on current or given window.
+    u|unignore: Set unignore on current or given window.
+    t|toggle:   Toggle ignore on current or given window.
+    s|status:   Retrive status of ignore on current or given window.
+    h|help:     Show this help.
 EOF
 
     test -z $1 || exit $1

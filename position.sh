@@ -17,7 +17,7 @@ Usage: $(basename $0) <option> [wid]
     vid:  Make the current or given mpv window its currently playing video's resolution.
     help: Show this help.
 EOF
-    test -z $1 && exit 0 || exit $1
+    test -z $1 || exit $1
 }
 
 restore() {
@@ -94,7 +94,7 @@ main() {
         rht)  right   ;;
         full) full    ;;
         vid)  video   ;;
-        *)    usage   ;;
+        *)    usage 0 ;;
     esac
     
     wtp $X $Y $W $H $PFW

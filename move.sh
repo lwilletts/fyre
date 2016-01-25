@@ -14,7 +14,7 @@ Usage: $(basename $0) <direction> [wid]
     l | right: Move current or given window its width or minW right.
     h | help:  Show this help.
 EOF
-    test -z $1 && exit 0 || exit $1
+    test -z $1 || exit $1
 }
 
 move_left() {
@@ -96,7 +96,7 @@ main() {
         j|down)  move_down  ;;
         k|up)    move_up    ;;
         l|right) move_right ;;
-        *)       usage      ;;
+        *)       usage 0    ;;
     esac
 
     wtp $X $Y $W $H $PFW

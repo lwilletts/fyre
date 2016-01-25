@@ -19,7 +19,7 @@ Usage: $(basename $0) <option> [wid]
     md | middle: Snap current or given window to the middle of the screen.
     h  | help:   Show this help.
 EOF
-    test -z $1 && exit 0 || exit $1
+    test -z $1 || exit $1
 }
 
 snap_left() {
@@ -89,7 +89,7 @@ main() {
         bl|bleft)  snap_bl    ;;
         br|bright) snap_br    ;;
         md|middle) snap_md    ;;
-        *)         usage      ;;
+        *)         usage 0    ;;
     esac
 
     wtp $X $Y $W $H $PFW

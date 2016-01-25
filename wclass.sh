@@ -17,7 +17,7 @@ Usage: $(basename $0) <command> <wid>
     all: Print all names, classes and even window names for matching.
 EOF
 
-    test -z $1 && exit 0 || exit $1
+    test -z $1 || exit $1
 }
 
 name() {
@@ -73,7 +73,7 @@ main() {
         ca|classAll)   classAll      ;;
         pa|processAll) processAll    ;;
         a|all)         showAll       ;;
-        h|help)        usage         ;;
+        h|help)        usage 0       ;;
     esac
 }
 

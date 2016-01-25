@@ -1,13 +1,13 @@
 #!/bin/sh
 #
 # wildefyr - 2016 (c) wtfpl
-# personal 'groups' script to provide useful shortcuts
+# personal group script with usablity enchancements
 
 ARGS="$@"
 
 usage() {
     printf '%s\n' "Usage: $(basename $0) <a|h|s|t|c|r|l> (group) (pfw)"
-    test -z $1 && exit 0 || exit $1
+    test -z $1 || exit $1
 }
 
 add_group() {
@@ -49,8 +49,7 @@ main() {
         c|clean)  clean_group  ;;
         r|reset)  reset_groups ;;
         l|list)   list_groups  ;;
-        h|help)   usage        ;;
-        *)        usage        ;;
+        *)        usage 0      ;;
     esac
 }
 

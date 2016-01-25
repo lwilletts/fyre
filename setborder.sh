@@ -7,7 +7,7 @@ ARGS="$@"
 
 usage() { 
     printf '%s\n' "Usage: $(basename $0) <state> <wid>"
-    test -z $1 && exit 0 || exit $1
+    test -z $1 || exit $1
 }
 
 main() {
@@ -31,8 +31,7 @@ main() {
         inactive) 
             chwb -s $BW -c $INACTIVE $2
             ;;
-        h|help) usage ;;
-        *)      usage ;;
+        *) usage 0 ;;
     esac
 }
 

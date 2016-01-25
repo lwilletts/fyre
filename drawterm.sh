@@ -12,7 +12,7 @@ Usage: $(basename $0) ARGUMENTS
     h | help: Show this help.
 EOF
 
-    test -z $1 && exit 0 || exit $1
+    test -z $1 || exit $1
 }
 
 main() {
@@ -21,7 +21,7 @@ main() {
     for arg in "$@"; do
         case $arg in
             -c|--cmd)   COMMANDFLAG=true ;;
-            -h|--help)  usage            ;;
+            -h|--help)  usage 0          ;;
         esac
 
         case $arg in

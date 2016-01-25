@@ -15,7 +15,7 @@ Usage: $(basename $0) <direction> [wid]
     h  | help:       Show this help.
 EOF
 
-    test -z $1 && exit 0 || exit $1
+    test -z $1 || exit $1
 }
 
 grow_down() {
@@ -79,7 +79,7 @@ main() {
         su|shrinkup)    shrink_up    ;;
         gr|growright)   grow_right   ;;
         sl|shrinkleft)  shrink_left  ;;
-        *)              usage        ;;
+        *)              usage 0      ;;
     esac
 
     wtp $X $Y $W $H $PFW
