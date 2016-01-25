@@ -15,33 +15,25 @@ Usage: $(basename $0) <next|prev|full|wid> [disable]
     disable: Disable movement of the mouse.
 EOF
 
-    test -z $1 && exit 0 || exit $1
+    test -z $1 || exit $1
 }
 
 focusWid() {
-    . fyrerc.sh
-
     wattr $1 && wid=$1
     focusMethod
 }
 
 focusNext() {
-    . fyrerc.sh
-
     wid=$(lsw | grep -v $PFW | sed '1 p;d')
     focusMethod
 }
 
 focusPrev() {
-    . fyrerc.sh
-
     wid=$(lsw | grep -v $PFW | sed '$ p;d')
     focusMethod
 }
 
 focusFull() {
-    . fyrerc.sh
-
     test -e $FSFILE && \
         wid=$(cat $FSFILE | cut -d\  -f 5) || usage 1
     focusMethod
@@ -49,24 +41,21 @@ focusFull() {
 
 focusMethod() {
     # focus correctly even if there is a fullscreen window
-    if [ -e "$FSFILE" ]; then
-        if [ "$(cat $FSFILE | cut -d\  -f 5)" = "$wid" ]; then
+    test -e "$FSFILE" && {
+        test "$(cat $FSFILE | cut -d\  -f 5)" = "$wid" && {
             setborder.sh none $wid
-        elif [ "$(cat $FSFILE | cut -d\  -f 5)" = "$PFW" ]; then
-            setborder.sh active $wid
-            setborder.sh none $PFW
-        else
-            if [ "$wid" != "$PFW" ]; then
+        } || {
+            test "$(cat $FSFILE | cut -d\  -f 5)" = "$PFW" && {
                 setborder.sh active $wid
-                setborder.sh inactive $PFW
-            fi
-        fi
-    else
-        if [ "$wid" != "$PFW" ]; then
+                setborder.sh none $PFW
+            }
+        }
+    } || {
+        test "$wid" != "$PFW" && {
             setborder.sh active $wid
             setborder.sh inactive $PFW
-        fi
-    fi
+        }
+    }
 
     chwso -r $wid
     wtf $wid
@@ -80,6 +69,8 @@ moveMouse() {
 }
 
 main() {
+    . fyrerc.sh
+
     case $1 in
         0x*)    focusWid  $1 ;;
         next)   focusNext    ;;
@@ -97,4 +88,4 @@ main() {
     test "$MOUSE" = "true" && moveMouse
 }
 
-test -z "$ARGS" || main $ARGS
+main $ARGS
