@@ -49,7 +49,7 @@ move_up() {
     X=$(wattr x $PFW)
     Y=$(wattr y $PFW)
     test $H -ge $minH && { 
-        Y=$((Y - minH - VGAP - BW + 1))
+        Y=$((Y - minH - VGAP - BW))
     } || {
         Y=$((Y - H - VGAP - BW))
     }

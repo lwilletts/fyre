@@ -35,6 +35,11 @@ main() {
         exit
     }
 
+    test "$windowClass" = "google-chrome" && {
+        wgroups.sh -s $wid 2
+        exit
+    }
+
     test "$windowName" = "mosh" && {
         position.sh quar $wid
         snap.sh md $wid
@@ -77,11 +82,6 @@ main() {
                 wtp $(cat $MPVPOS | cut -d\  -f -2) $Wcur $Hcur $wid
             }
         }
-        exit
-    }
-
-    test "$windowClass" = "google-chrome" && {
-        wgroups.sh -s $wid 1
         exit
     }
 
