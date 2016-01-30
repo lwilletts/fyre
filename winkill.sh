@@ -25,6 +25,11 @@ main() {
         exit 0
     }
 
+    test "$windowClass" = "google-chrome" && {
+        killwa $wid
+        exit 0
+    }
+
     test "$windowName" = "Navigator" && {
         killwa $wid
         exit 0
