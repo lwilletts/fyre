@@ -44,7 +44,7 @@ shrink_up() {
     test $H -le $minH && {
         H=$((H/2 - BW + 1)) 
     } || {
-        H=$((H - minH - VGAP - 1))
+        H=$((H - minH - VGAP - BW))
     }
 }
 
