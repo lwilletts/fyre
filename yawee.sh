@@ -17,21 +17,20 @@ wew | while IFS=: read ev wid; do
             wattr o "$wid" || focus.sh "$wid" "disable"
             ;;
         16)
-            wattr o "$wid" || \
+            wattr o "$wid" || {
                 winopen.sh "$wid"
-                test $(lsw | wc -l) -eq 1 && \
-                    blur.sh &
+                test $(lsw | wc -l) -eq 1 && blur.sh
+            }
             ;;
         18)
             wattr "$(pfw)" || focus.sh prev 2>/dev/null
-            test "$(lsw | wc -l)" -eq 0 && \
-                blur.sh 0 &
+            test "$(lsw | wc -l)" -eq 0 && blur.sh 0
             ;;
         19)
-            wattr o "$wid" || \
+            wattr o "$wid" || {
                 focus.sh "$wid"
-                test "$(lsw | wc -l)" -ne 0 && \
-                    blur.sh &
+                test "$(lsw | wc -l)" -ne 0 && blur.sh
+            }
             ;;
     esac
 done
