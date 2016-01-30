@@ -36,6 +36,7 @@ main() {
     }
 
     test "$windowClass" = "google-chrome" && {
+        position.sh md $wid 
         wgroups.sh -s $wid 2
         exit
     }
