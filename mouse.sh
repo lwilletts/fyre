@@ -26,8 +26,8 @@ getMouseStatus() {
 # move mouse to the middle of the given window
 moveMouseEnabled() {
     wid=$1
-    wmp -a $(wattr xy $wid)
-    wmp -r $(($(wattr w $wid) / 2)) $(($(wattr h $wid) / 2))
+    wmp -a $(($(wattr x $wid) + ($(wattr w $wid) - 100 ))) \
+           $(($(wattr y $wid) + ($(wattr h $wid) - 100 )))
 }
 
 # move mouse to bottom-right corner of the screen
