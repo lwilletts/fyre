@@ -35,7 +35,7 @@ BLUR=0
 WALL=$(cat $(which bgc) | head -n 1 | sed 's#~#/home/wildefyr#')
 
 # how long to wait to repeat loop in runfyre.sh
-DURATION=10
+DURATION=5
 
 FYREDIR=${FYREDIR:-~/.config/fyre}
 GROUPSDIR=${GROUPSDIR:-$FYREDIR/groups}

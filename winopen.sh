@@ -71,18 +71,7 @@ main() {
     test "$windowClass" = "mpv" && {
         wgroups.sh -s $wid 5
         position.sh vid $wid
-
-        test -f $MPVPOS && {
-            Wcur=$(wattr w $wid)
-            Hcur=$(wattr h $wid)
-            W=$(cat $MPVPOS | cut -d\  -f 3)
-            H=$(cat $MPVPOS | cut -d\  -f 4)
-            test $W -gt $Wcur && $H -gt $Hcur && {
-                wtp $(cat $MPVPOS) $wid
-            } || {
-                wtp $(cat $MPVPOS | cut -d\  -f -2) $Wcur $Hcur $wid
-            }
-        }
+        test -f $MPVPOS && wtp $(cat $MPVPOS) $wid
         exit
     }
 

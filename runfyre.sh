@@ -4,14 +4,15 @@
 # checks currently visible windows
 
 . fyrerc.sh
+. wclass.sh
 
 test ! -z $1 && DURATION=$1
 
 while :; do
 
     for wid in $(lsw); do
-        windowName=$(wclass.sh n $wid)
-        windowClass=$(wclass.sh c $wid)
+        windowName=$(name $wid)
+        windowClass=$(class $wid)
 
         test "$windowName" = "Navigator" && \
             wgroups.sh -s $wid 2
