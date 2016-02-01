@@ -35,7 +35,7 @@ BLUR=0
 WALL=$(sed '1!d; s_~_/home/wildefyr_' < $(which bgc))
 
 # how long to wait to repeat loop in runfyre.sh
-DURATION=5
+DURATION=10
 
 FYREDIR=${FYREDIR:-~/.config/fyre}
 GROUPSDIR=${GROUPSDIR:-$FYREDIR/groups}
@@ -46,5 +46,19 @@ test ! -e $LAYOUTDIR && mkdir -p $LAYOUTDIR
 
 FSFILE=${FSFILE:-$FYREDIR/fullinfo}
 MPVPOS=${MPVPOS:-$FYREDIR/mpvposition}
+
+# essential functions
+name() {
+    xprop -id $1 WM_CLASS | cut -d\" -f 2
+}
+
+class() {
+    xprop -id $1 WM_CLASS | cut -d\" -f 4
+}
+
+process() {
+    xprop -id $1 _NET_WM_PID | cut -d\  -f 3
+}
+
 
 # vim: set ft=sh :
