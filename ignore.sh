@@ -19,43 +19,22 @@ EOF
 }
 
 setIgnore() {
-    case $1 in
-        0x*) wid=$1 ;;
-        *)   echo "Failed to execute function." && return ;;
-    esac
-
     xprop -id $wid -f _FYRE_IGNORE 8i -set _FYRE_IGNORE '1'
 }
 
 setUnignore() {
-    case $1 in
-        0x*) wid=$1 ;;
-        *)   echo "Failed to execute function." && return ;;
-    esac
-
     xprop -id $wid -f _FYRE_IGNORE 8i -set _FYRE_IGNORE '0'
 }
 
 toggleIgnore() {
-    case $1 in
-        0x*) wid=$1 ;;
-        *)   echo "Failed to execute function." && return ;;
-    esac
-
     ignoreStatus=$(xprop -id $wid _FYRE_IGNORE | cut -d\  -f 3)
     case $ignoreStatus in
         1) setUnignore ;;
         *) setIgnore   ;;
     esac
-
 }
 
 testIgnore() {
-    case $1 in
-        0x*) wid=$1 ;;
-        *)   echo "Failed to execute function." && return ;;
-    esac
-
     ignoreStatus=$(xprop -id $wid _FYRE_IGNORE | cut -d\  -f 3)
     case $ignoreStatus in
         1) echo "1" ;;
@@ -79,4 +58,4 @@ main() {
     esac
 }
 
-test -z "$ARGS" || main $ARGS
+main $ARGS
