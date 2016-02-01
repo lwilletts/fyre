@@ -11,13 +11,13 @@ usage() {
 }
 
 resolution() {
+    . fyrerc.sh
+
     case $1 in
         0x*) wid=$1  ;;
         *)   usage 0 ;;
     esac
 
-    . wclass.sh
-   
     test "$(class $wid)" = "mpv" && {
         mpvWid=$(xprop -id "$wid" WM_NORMAL_HINTS | sed '5s/[^0-9]*//p;d' | tr / \ )
         printf '%s\n' "$mpvWid"
