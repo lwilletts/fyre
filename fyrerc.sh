@@ -15,10 +15,10 @@ BW=${BW:-2}
 minW=$((466 + BW))
 minH=$((252 + BW))
 
-X=$(wattr x $CUR)
-Y=$(wattr y $CUR)
-W=$(wattr w $CUR)
-H=$(wattr h $CUR)
+X=$(wattr x $CUR 2> /dev/null)
+Y=$(wattr y $CUR 2> /dev/null)
+W=$(wattr w $CUR 2> /dev/null)
+H=$(wattr h $CUR 2> /dev/null)
 
 XGAP=${XGAP:-$((20))}
 TGAP=${TGAP:-$((40))}
@@ -32,7 +32,7 @@ WARNING=${WARNING:-0xB23450}
 INACTIVE=${INACTIVE:-0x737373}
 
 BLUR=0
-WALL=$(cat $(which bgc) | head -n 1 | sed 's#~#/home/wildefyr#')
+WALL=$(sed '1!d; s_~_/home/wildefyr_' < $(which bgc))
 
 # how long to wait to repeat loop in runfyre.sh
 DURATION=5
