@@ -22,7 +22,7 @@ H=$(wattr h $CUR)
 
 XGAP=${XGAP:-$((20))}
 TGAP=${TGAP:-$((40))}
-BGAP=${BGAP:-$((20))}
+BGAP=${BGAP:-$((20 - BW))}
 # add $BW for non-overlapping borders / will probably cause glitches
 IGAP=${IGAP:-$((0))}
 VGAP=${VGAP:-$((0))}

@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # wildefyr - 2016 (c) wtfpl
-# move a window its width/height / snap it to edge of the screen  
+# move a window its width/height / snap it to edge of the screen
 
 ARGS="$@"
 
@@ -20,13 +20,13 @@ EOF
 move_left() {
     X=$(wattr x $PFW)
     Y=$(wattr y $PFW)
-    test $W -ge $minW && { 
+    test $W -ge $minW && {
         X=$((X - minW - IGAP - BW))
     } || {
         X=$((X - W - IGAP - BW))
     }
     test $X -le $XGAP && {
-        snap.sh h 
+        snap.sh h
         exit
     }
 }
@@ -34,13 +34,13 @@ move_left() {
 move_down() {
     X=$(wattr x $PFW)
     Y=$(wattr y $PFW)
-    test $H -ge $minH && { 
+    test $H -gt $minH && {
         Y=$((Y + minH + VGAP + BW))
     } || {
         Y=$((Y + H + VGAP + BW))
     }
     test $((Y + H)) -gt $SH && {
-        snap.sh j 
+        snap.sh j
         exit
     }
 }
@@ -48,13 +48,13 @@ move_down() {
 move_up() {
     X=$(wattr x $PFW)
     Y=$(wattr y $PFW)
-    test $H -ge $minH && { 
+    test $H -gt $minH && {
         Y=$((Y - minH - VGAP - BW))
     } || {
         Y=$((Y - H - VGAP - BW))
     }
     test $Y -lt $TGAP && {
-        snap.sh k 
+        snap.sh k
         exit
     }
 }
@@ -62,13 +62,13 @@ move_up() {
 move_right() {
     X=$(wattr x $PFW)
     Y=$(wattr y $PFW)
-    test $W -ge $minW && { 
+    test $W -ge $minW && {
         X=$((X + minW + IGAP + BW))
     } || {
         X=$((X + W + IGAP + BW))
     }
     test $((X + W)) -gt $SW && {
-        snap.sh l 
+        snap.sh l
         exit
     }
 }

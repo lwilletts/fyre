@@ -20,7 +20,7 @@ EOF
 
 grow_down() {
     test $H -lt $((minH - BW)) && {
-        H=$minH 
+        H=$minH
     } || {
         H=$((H + minH + VGAP + BW))
         test $((Y + H)) -gt $SH && {
@@ -31,7 +31,7 @@ grow_down() {
 
 grow_right() {
     test $W -lt $((minW - BW))  && {
-        W=$minW 
+        W=$minW
     } || {
         W=$((W + minW + IGAP + BW))
         test $((X + W)) -gt $SW && {
@@ -42,7 +42,7 @@ grow_right() {
 
 shrink_up() {
     test $H -le $minH && {
-        H=$((H/2 - BW + 1)) 
+        H=$((H/2 - BW + 1))
     } || {
         H=$((H - minH - VGAP - BW))
     }
@@ -50,7 +50,7 @@ shrink_up() {
 
 shrink_left() {
     test $W -le $minW && {
-        W=$((W/2 - BW + 1)) 
+        W=$((W/2 - BW + 1))
     } || {
         W=$((W - minW - IGAP - BW))
     }
@@ -74,7 +74,7 @@ main() {
         0x*) PFW=$2 ;;
     esac
 
-    case $1 in 
+    case $1 in
         gd|growdown)    grow_down    ;;
         su|shrinkup)    shrink_up    ;;
         gr|growright)   grow_right   ;;
