@@ -4,20 +4,19 @@
 # checks currently visible windows
 
 . fyrerc.sh
-. wclass.sh
 
 test ! -z $1 && DURATION=$1
 
 while :; do
 
+    test -f $MPVPOS && rm $MPVPOS
+
     for wid in $(lsw); do
-        windowName=$(name $wid)
         windowClass=$(class $wid)
 
-        test "$windowName" = "Navigator" && \
-            wgroups.sh -s $wid 2
-        test "$windowClass" = "mpv" && \
+        test "$windowClass" = "mpv" && {
             printf '%s ' $(wattr xywh $wid) > $MPVPOS
+        }
 
     done
 

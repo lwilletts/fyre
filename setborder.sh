@@ -5,7 +5,7 @@
 
 ARGS="$@"
 
-usage() { 
+usage() {
     printf '%s\n' "Usage: $(basename $0) <state> <wid>"
     test -z $1 || exit $1
 }
@@ -16,19 +16,19 @@ main() {
     test -z $1 && usage 1
 
     case $1 in
-        none)     
+        none)
             wattr "$2" || printf '%s\n' "You have not entered a window id."
-            chwb -s 0 $2                
+            chwb -s 0 $2
             ;;
-        active)   
+        active)
             wattr "$2" || printf '%s\n' "You have not entered a window id."
-            chwb -s $BW -c $ACTIVE $2   
+            chwb -s $BW -c $ACTIVE $2
             ;;
-        warning)  
+        warning)
             wattr "$2" || printf '%s\n' "You have not entered a window id."
-            chwb -s $BW -c $WARNING $2 
+            chwb -s $BW -c $WARNING $2
             ;;
-        inactive) 
+        inactive)
             chwb -s $BW -c $INACTIVE $2
             ;;
         *) usage 0 ;;

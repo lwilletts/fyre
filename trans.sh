@@ -9,7 +9,7 @@ usage() {
 }
 
 # test for wid value
-case $1 in 
+case $1 in
     0x*) wid=$1  ;;
     *)   usage 0 ;;
 esac

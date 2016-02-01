@@ -41,7 +41,7 @@ list_groups() {
 main() {
     . fyrerc.sh
 
-    case $1 in 
+    case $1 in
         a|add)    add_group    ;;
         h|hide)   hide_group   ;;
         s|show)   show_group   ;;

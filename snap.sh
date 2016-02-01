@@ -54,14 +54,14 @@ snap_bl() {
 }
 
 snap_br() {
-    X=$((SW - XGAP - W - BW)) 
+    X=$((SW - XGAP - W - BW))
     Y=$((SH - BGAP - H))
 }
 
 snap_md() {
     SW=$((SW - 2*XGAP))
     SH=$((SH - TGAP - BGAP))
-    X=$((SW/2 - W/2 + XGAP - 1)) 
+    X=$((SW/2 - W/2 + XGAP - 1))
     Y=$((SH/2 - H/2 + TGAP))
 }
 
@@ -79,7 +79,7 @@ main() {
         0x*) PFW=$2 ;;
     esac
 
-    case $1 in 
+    case $1 in
         h|left)    snap_left  ;;
         j|down)    snap_down  ;;
         k|up)      snap_up    ;;
@@ -94,6 +94,6 @@ main() {
 
     wtp $X $Y $W $H $PFW
     moveMouse
-} 
+}
 
 main $ARGS

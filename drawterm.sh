@@ -29,15 +29,18 @@ main() {
             --*) continue ;;
         esac
 
-        test "$COMMANDFLAG" = "true" && \
+        test "$COMMANDFLAG" = "true" && {
             CMDSTRING="$CMDSTRING $arg"
+        }
     done
 
     eval $(slop -t 0 -b $BW '215,215,215,0.9')
 
-    test ! -z "$CMDSTRING" && \
-        urxvt -name 'slop' -e zsh -c "$CMDSTRING" || \
+    test ! -z "$CMDSTRING" && {
+        urxvt -name 'slop' -e zsh -c "$CMDSTRING" &
+    } || {
         urxvt -name 'slop' &
+    }
 
     sleep 0.05
     wtp $X $Y $W $H $(wid.sh "slop" | tail -1)

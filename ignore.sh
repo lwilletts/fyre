@@ -47,7 +47,7 @@ toggleIgnore() {
         1) setUnignore ;;
         *) setIgnore   ;;
     esac
-    
+
 }
 
 testIgnore() {

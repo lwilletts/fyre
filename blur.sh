@@ -22,7 +22,7 @@ main() {
         test $? -ne 2 || {
             printf '%s\n' "$1 is not an integer." >&2
             exit 1
-        } 
+        }
     }
 
     $WALL -blur ${1:-$BLUR}
