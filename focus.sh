@@ -34,8 +34,9 @@ focusPrev() {
 }
 
 focusFull() {
-    test -e $FSFILE && \
+    test -e $FSFILE && {
         wid=$(cat $FSFILE | cut -d\  -f 5) || usage 1
+    }
     focusMethod
 }
 
