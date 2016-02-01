@@ -21,7 +21,6 @@ main() {
         *)   usage 0 ;;
     esac
 
-    . wclass.sh
     windowName=$(name $wid)
     windowClass=$(class $wid)
 
@@ -71,7 +70,9 @@ main() {
     test "$windowClass" = "mpv" && {
         wgroups.sh -s $wid 5
         position.sh vid $wid
-        test -f $MPVPOS && wtp $(cat $MPVPOS) $wid
+        test -f $MPVPOS && {
+            wtp $(cat $MPVPOS) $wid
+        }
         exit
     }
 
