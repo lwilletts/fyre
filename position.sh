@@ -25,7 +25,7 @@ restore() {
     SH=$((SH - TGAP - BGAP))
     W=$((SW/4 - 2*BW))
     H=$((SH/4 - BW - 1))
-    test $W -lt $minW || test $H -lt $minH && { 
+    test $W -lt $minW || test $H -lt $minH && {
         W=$minW
         H=$minH
     }
@@ -68,8 +68,8 @@ full() {
 }
 
 video() {
-    W=$(resolution.sh $PFW | cut -d\  -f 1)
-    H=$(resolution.sh $PFW | cut -d\  -f 2)
+    W=$(resolution $PFW | cut -d\  -f 1)
+    H=$(resolution $PFW | cut -d\  -f 2)
 }
 
 moveMouse() {
@@ -96,7 +96,7 @@ main() {
         vid)  video   ;;
         *)    usage 0 ;;
     esac
-    
+
     wtp $X $Y $W $H $PFW
     moveMouse
 }

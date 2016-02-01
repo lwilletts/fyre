@@ -60,5 +60,23 @@ process() {
     xprop -id $1 _NET_WM_PID | cut -d\  -f 3
 }
 
+resolution() {
+    case $1 in
+        0x*) wid=$1 ;;
+        *)
+            printf '%s\n' "Not a valid mpv window id." >&2
+            return
+            ;;
+    esac
+
+    test "$(class $wid)" = "mpv" && {
+        mpvWid=$(xprop -id "$wid" WM_NORMAL_HINTS | sed '5s/[^0-9]*//p;d' | tr / \ )
+        printf '%s\n' "$mpvWid"
+    } || {
+        printf '%s\n' "Not a valid mpv window id." >&2
+        return
+    }
+}
+
 
 # vim: set ft=sh :
