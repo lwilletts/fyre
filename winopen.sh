@@ -50,6 +50,7 @@ main() {
     test "$windowName" = "tmux" && {
         position.sh res $wid
         snap.sh tl $wid
+        wgroups.sh -s $wid 1
         exit
     }
 
