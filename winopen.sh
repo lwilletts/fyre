@@ -35,7 +35,7 @@ main() {
     }
 
     test "$windowClass" = "google-chrome" && {
-        position.sh md $wid
+        wtp $(($(wattr x $wid) - BW)) $(($(wattr y $wid) - BW)) $(wattr wh $wid) $wid
         wgroups.sh -s $wid 2
         exit
     }
