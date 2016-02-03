@@ -41,15 +41,18 @@ main() {
     }
 
     test "$windowName" = "mosh" && {
-        position.sh quar $wid
-        snap.sh md $wid
+        position.sh res $wid
+        position.sh ext $wid
+        snap.sh right $wid
+        move.sh left $wid
         wgroups.sh -s $wid 3
         exit
     }
 
     test "$windowName" = "tmux" && {
         position.sh res $wid
-        snap.sh tl $wid
+        position.sh ext $wid
+        snap.sh right $wid
         wgroups.sh -s $wid 1
         exit
     }
