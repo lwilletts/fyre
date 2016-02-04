@@ -18,7 +18,7 @@ Usage: $(basename $0) [-eslord layout] [-S group layout] [-h]
     -d: Delete given layout.
     -h: Show this help.
 
-Only the first option is executed.
+Only the first option given is executed.
 EOF
 
     test -z $1 || exit $1
@@ -253,4 +253,12 @@ main() {
     done
 }
 
-test -z "$ARGS" || main $ARGS
+for arg in $ARGS; do
+    test "$arg" = "-q" && QUIETFLAG=true
+done
+
+test "$QUIETFLAG" = "true" && {
+    test -z "$ARGS" || main $ARGS 2>&1 > /dev/null
+} || {
+    test -z "$ARGS" || main $ARGS
+}
