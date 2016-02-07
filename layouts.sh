@@ -7,6 +7,7 @@ ARGS="$@"
 
 usage() {
     cat << EOF
+
 Usage: $(basename $0) [-eslord layout] [-S group layout] [-h]
     -L: List existing layouts.
     -e: Echo given layout file.
@@ -43,7 +44,7 @@ layoutCheck() {
 groupCheck() {
     test ! -f "$GROUPSDIR/group.$GROUP" && {
         printf '%s\n' "Group does not exist." >&2
-        ls $GROUPSDIR
+        listGroups
         exit 1
     }
 }
@@ -99,8 +100,9 @@ saveLayout() {
 # save window id's in group to a layout file
 saveGroupLayout() {
     test -z $1 && {
-        printf '%s\n' "Group cannot be empty." >&2
-        echo; usage 1
+        printf '%s\n\n' "Group cannot be empty." >&2
+        listGroups
+        usage 1
     } || {
         intCheck $1
         GROUP=$1
@@ -108,8 +110,9 @@ saveGroupLayout() {
     }
 
     test -z $2 && {
-        printf '%s\n' "Layout cannot be empty." >&2
-        echo; usage 1
+        printf '%s\n\n' "Layout cannot be empty." >&2
+        listLayouts
+        usage 1
     } || {
         intCheck $2
         LAY=$2
@@ -120,7 +123,8 @@ saveGroupLayout() {
 
     # sort based on x values
     windowLoop=$(wc -l < $GROUPSDIR/group.$GROUP )
-    lswSort=$(lsw | xargs wattr xi | sort -n | sed "s/^[0-9]* //")
+    lswSort=$(cat $GROUPSDIR/group.$GROUP | xargs wattr xi | sort -n |
+sed "s/^[0-9]* //")
 
     saveWindows
 
@@ -196,7 +200,13 @@ replaceLayout() {
     layoutCheck
 }
 
+listGroups() {
+    printf '%s\n' "Existing groups:"
+    ls $GROUPSDIR
+}
+
 listLayouts() {
+    printf '%s\n' "Existing layouts:"
     ls $LAYOUTDIR
 }
 
@@ -246,8 +256,8 @@ main() {
             o)  openLayout $OPTARG    ;;
             d)  deleteLayout $OPTARG  ;;
             r)  replaceLayout $OPTARG ;;
-            S)  echo; usage 1         ;;
-            \?) echo; usage 1         ;;
+            S)  usage 1               ;;
+            \?) usage 1               ;;
         esac
         exit 0
     done
