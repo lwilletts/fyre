@@ -46,12 +46,14 @@ mod1 + {1,2,3,4,5,6,7,8,9,0}
     wgroups.sh -t {1,2,3,4,5,6,7,8,9,0}
 mod1 + shift + {1,2,3,4,5,6,7,8,9,0}
     wgroups.sh -s $(pfw) {1,2,3,4,5,6,7,8,9,0}
+mod1 + c
+    wgroups.sh -c $(pfw)
 
 # layouts
 mod2 + {1,2,3,4,5,6,7,8,9,0}
-    layouts.sh o {1,2,3,4,5,6,7,8,9,0}
+    layouts.sh -o {1,2,3,4,5,6,7,8,9,0}
 mod2 + shift + {1,2,3,4,5,6,7,8,9,0}
-    layouts.sh s {1,2,3,4,5,6,7,8,9,0}
+    layouts.sh -s {1,2,3,4,5,6,7,8,9,0}
 
 # terminals
 {mod1, mod2} + Return
@@ -60,28 +62,26 @@ mod1 + d
     drun
 
 # programs
-mod2 + z
-    notify -m "$(wclass.sh n $(pfw))"
-mod2 + x
-    notify -m "$(wclass.sh c $(pfw))"
 mod2 + c
-    notify -m "$(cpu t)C"
+    notify -D -m "$(cpu t)C"
 mod2 + v
     urxvt -name "alsamixer" -e zsh -c "alsamixer"
 mod2 + b
     urxvt -name "mosh" -e zsh -c "con m"
 mod2 + n
     urxvt -name "mpsyt" -e zsh -c "/builds/mps-youtube/mpsyt userpl wildefyri"
+mod2 + t
+    urxvt -name "tmux" -e zsh -c "tmux"
 
 Print
-    maim ~/shot.png; notify -D -m $(echo "Screenshot Taken")
+    notify -D -m $(echo "Screenshot Taken") &; sleep 0.5; maim ~/shot.png
 shift + Print
     maim /tmp/.image.png; notify -D -m $(echo "Uploading Screenshot"); \
-    teknik /tmp/.image.png | xsel -i
+    ioup /tmp/.image.png | xsel -i; xsel -o | xsel -bi
 
 # it's a killin' time!
 mod1 + shift + q
-    winkill.sh
+    killwa $(pfw)
 
 # system
 mod4 + e
@@ -92,54 +92,50 @@ mod4 + shift + {q,e,r}
 # mouse
 mod1 + @button1
     xmmv $(pfw)
+button8
+    xte 'keydown Control_L' 'key w' 'keyup Control_L'
+button9
+    xte 'keydown Control_L' 'keydown Shift_L' 'key t' 'keyup Shift_L' 'keyup Control_L'
 mod1 + !button3
     wrs -a %i %i $(pfw)
 mod1 + z
     mouse.sh toggle
-mod1 + c
-    drawterm.sh
-
-# transset-df
-mod4 + t
-    trans.sh $(pfw) 0
-mod4 + y
-    trans.sh $(pfw) 0.75
-mod4 + u
-    trans.sh $(pfw) 0.05 dec
-mod4 + i
-    trans.sh $(pfw) 0.05 inc
-mod4 + o
-    trans.sh $(pfw) 1.0
 
 # mpv
 mod1 + space
-    notify -D -m $(mpvc -p | head -n 2)
+    notify -D -m $(mpvc -p -f "mpv: %status%")
 mod2 + i
-    notify -D -m $(mpvc)
+    notify -D -m $(mpvc -f "%artist% | %title% | [%status%] (%percentage%%%) | volume: %volume%%%")
 mod2 + u
     mpvc -k
 mod2 + l
-    mpvc -f 1 -P
+    notify -D -m $(mpvc -r 1 -P -f "Now playing: %artist% - %title%" )
 mod2 + h
-    mpvc -f -1 -P
+    notify -D -m $(mpvc -r -1 -P -f "Now playing: %artist% - %title%" )
 mod2 + k
     mpvc -s +5
 mod2 + j
     mpvc -s -5
 mod2 + f
-    notify -D -m $(mpvc -l | tail -1 | cut -d\  -f 9-10)
+    notify -D -m $(mpvc -l -f "single: %single%" )
 mod2 + r
-    notify -D -m $(mpvc -L | tail -1 | cut -d\  -f 7-8)
+    notify -D -m $(mpvc -L -f "repeat: %repeat%" )
+mod2 + Up
+    mpvc -s 1
+mod2 + Down
+    mpvc -s -1
 
 # speed
 mod2 + q
-    mpvc -z -0.05
+    mpvc -x -0.05
 mod2 + w
-    mpvc -z 0.05
+    mpvc -x 0.05
+mod2 + e
+    mpvc -X 1.00
 
 # volume
 mod2 + m
-    notify -D -m $(mpvc -m)
+    notify -D -m $(mpvc -m -f "muted: %muted%" )
 mod2 + o
     mpvc -v -5
 mod2 + p
