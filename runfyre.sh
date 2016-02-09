@@ -1,24 +1,13 @@
 #!/bin/sh
 #
 # wildefyr - 2016 (c) wtfpl
-# checks currently visible windows
+# window manager loop
 
 . fyrerc.sh
 
 test ! -z $1 && DURATION=$1
 
 while :; do
-
-    test -f $MPVPOS && rm $MPVPOS
-
-    for wid in $(lsw); do
-        windowClass=$(class $wid)
-
-        test "$windowClass" = "mpv" && {
-            printf '%s ' $(wattr xywh $wid) > $MPVPOS
-        }
-
-    done
-
+    xrandr | grep -w 'connected' > $SCREENS
     sleep $DURATION
 done
