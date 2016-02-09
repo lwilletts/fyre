@@ -8,6 +8,6 @@
 test ! -z $1 && DURATION=$1
 
 while :; do
-    xrandr | grep -w 'connected' > $SCREENS
+    xrandr | grep -w 'connected' | sort > $SCREENS
     sleep $DURATION
 done
