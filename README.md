@@ -48,7 +48,8 @@ ln -s /builds/fyre/*.sh /usr/local/bin/
 ```
 
 That way you can make changes to my original repository or maintain your own
-fork with any changes you make being reflected immediately.
+fork with any changes you make being reflected immediately. Alternatively you
+can use the Makefile I have provided to install the scripts.
 
 Example scrots:
 ---------------
