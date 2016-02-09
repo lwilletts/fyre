@@ -17,15 +17,15 @@ main() {
 
     case $1 in
         none)
-            wattr "$2" || printf '%s\n' "You have not entered a window id."
+            wattr "$2" || printf '%s\n' "You have not entered a window id." >&2
             chwb -s 0 $2
             ;;
         active)
-            wattr "$2" || printf '%s\n' "You have not entered a window id."
+            wattr "$2" || printf '%s\n' "You have not entered a window id." >&2
             chwb -s $BW -c $ACTIVE $2
             ;;
         warning)
-            wattr "$2" || printf '%s\n' "You have not entered a window id."
+            wattr "$2" || printf '%s\n' "You have not entered a window id." >&2
             chwb -s $BW -c $WARNING $2
             ;;
         inactive)

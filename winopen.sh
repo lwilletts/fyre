@@ -74,9 +74,6 @@ main() {
     test "$windowClass" = "mpv" && {
         wgroups.sh -s $wid 5
         position.sh vid $wid
-        test -f $MPVPOS && {
-            wtp $(cat $MPVPOS) $wid
-        }
         exit
     }
 

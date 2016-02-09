@@ -7,9 +7,7 @@
 
 wew | while IFS=: read ev wid; do
     case $1 in
-        d|debug)
-            printf '%s\n' "$ev $wid"
-            ;;
+        -d|--debug) printf '%s\n' "$ev $wid" ;;
     esac
 
     case $ev in
@@ -23,12 +21,12 @@ wew | while IFS=: read ev wid; do
             }
             ;;
         18)
-            wattr "$(pfw)" || focus.sh prev "disable" 2>/dev/null
+            wattr "$(pfw)" || focus.sh prev 2>/dev/null
             test "$(lsw | wc -l)" -eq 0 && blur.sh 0
             ;;
         19)
             wattr o "$wid" || {
-                focus.sh "$wid" "disable"
+                focus.sh "$wid"
                 test "$(lsw | wc -l)" -ne 0 && blur.sh
             }
             ;;
