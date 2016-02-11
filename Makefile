@@ -22,7 +22,7 @@ install:
 	install -Dm755 winopen.sh $(DESTDIR)$(PREFIX)/bin/winopen.sh
 	install -Dm755 yawee.sh $(DESTDIR)$(PREFIX)/bin/yawee.sh
 
-clean:
+uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/blur.sh
 	rm -f $(DESTDIR)$(PREFIX)/bin/closest.sh
 	rm -f $(DESTDIR)$(PREFIX)/bin/focus.sh
