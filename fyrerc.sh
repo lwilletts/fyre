@@ -15,7 +15,6 @@ test ! -d "$LAYOUTDIR" && mkdir -p "$LAYOUTDIR"
 
 SCREENS=${SCREENS:-$FYREDIR/screens}
 RESOLUTIONS=${RESOLUTIONS:-$FYREDIR/resolutions}
-test ! -f "$SCREENS" && xrandr | grep -w 'connected' | sort > $SCREENS
 
 FSFILE=${FSFILE:-$FYREDIR/fullinfo}
 
@@ -28,6 +27,7 @@ test "$nuScreens" -eq "1" && {
     SW=$(wattr w $ROOT)
     SH=$(wattr h $ROOT)
 } || {
+    # probably make a new call to something like screens.sh that does all of this
     test -f $RESOLUTIONS && rm $RESOLUTIONS
 
     for i in "$(seq $nuScreens)"; do

@@ -1,13 +1,15 @@
 #!/bin/sh
 #
 # wildefyr - 2016 (c) wtfpl
-# window manager loop
+# fyre initialisation and run loop
+
 
 . fyrerc.sh
 
-test ! -z $1 && DURATION=$1
+eventually.sh &
+layouts.sh -o 0
+xrandr | grep -w 'connected' | sort > $SCREENS
 
 while :; do
-    xrandr | grep -w 'connected' | sort > $SCREENS
     sleep $DURATION
 done

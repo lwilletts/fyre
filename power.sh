@@ -16,7 +16,7 @@ EOF
 }
 
 lockfyre() {
-    mpvc --stop
+    mpvc --stop -q
     test -d /sys/class/backlight/intel_backlight && {
         LIGHT=$(xbacklight -get)
         LIGHT=$(echo "($LIGHT+0.5)/1" | bc)
