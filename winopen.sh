@@ -95,8 +95,10 @@ main() {
         exit
     }
 
-    test "$windowName" = "explorer.exe" && {
-        wgroups.sh -s $wid 4
+    test "$windowName" = "Legions.exe" && {
+        wgroups.sh -s $wid 6
+        sleep 2
+        position.sh full $wid
         exit
     }
 
