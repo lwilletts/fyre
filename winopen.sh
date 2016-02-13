@@ -44,12 +44,14 @@ main() {
         position.sh res $wid
         position.sh ext $wid
         wgroups.sh -s $wid 3
+        exit
     }
 
     test "$windowName" = "tmux" && {
         position.sh res $wid
         position.sh ext $wid
         wgroups.sh -s $wid 1
+        exit
     }
 
     test "$windowName" = "mpsyt" && {
@@ -69,20 +71,24 @@ main() {
     test "$windowClass" = "mpv" && {
         wgroups.sh -s $wid 5
         position.sh vid $wid
+        exit
     }
 
     test "$windowClass" = "TeamSpeak 3" && {
         position.sh res $wid
         position.sh ext $wid
         wgroups.sh -s $wid 4
+        exit
     }
 
     test "$windowClass" = "MuPDF" && {
         wgroups.sh -s $wid 6
+        exit
     }
 
     test "$windowName" = "Legions.exe" && {
         wgroups.sh -s $wid 6
+        exit
     }
 
     snap.sh md $wid
