@@ -30,6 +30,7 @@ main() {
     # put the things you open the most often at the top
     test "$windowName" = "urxvt" && {
         position.sh res $wid
+        position.sh ext $wid
         snap.sh tl $wid
         exit
     }
@@ -43,6 +44,7 @@ main() {
     test "$windowName" = "mosh" && {
         position.sh res $wid
         position.sh ext $wid
+        snap.sh tl $wid
         wgroups.sh -s $wid 3
         exit
     }
@@ -50,6 +52,7 @@ main() {
     test "$windowName" = "tmux" && {
         position.sh res $wid
         position.sh ext $wid
+        snap.sh tl $wid
         wgroups.sh -s $wid 1
         exit
     }
@@ -75,8 +78,7 @@ main() {
     }
 
     test "$windowClass" = "TeamSpeak 3" && {
-        position.sh res $wid
-        position.sh ext $wid
+        snap.sh md $wid
         wgroups.sh -s $wid 4
         exit
     }
