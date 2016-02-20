@@ -50,7 +50,7 @@ W=$(wattr w $CUR 2> /dev/null)
 H=$(wattr h $CUR 2> /dev/null)
 
 XGAP=${XGAP:-$((20))}
-TGAP=${TGAP:-$((40))}
+TGAP=${TGAP:-$((20 - BW))}
 BGAP=${BGAP:-$((20 - BW))}
 # add $BW for non-overlapping borders / will probably cause glitches
 IGAP=${IGAP:-$((0))}
