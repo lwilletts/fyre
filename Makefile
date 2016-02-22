@@ -6,6 +6,7 @@ SCRIPT = blur.sh \
 		 focus.sh \
 		 fullscreen.sh \
 		 fyrerc.sh \
+		 fyreTaskbar.sh \
 		 ignore.sh \
 		 layouts.sh \
 		 LICENSE.md \
