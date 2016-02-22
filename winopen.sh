@@ -30,7 +30,6 @@ main() {
     # put the things you open the most often at the top
     test "$windowName" = "urxvt" && {
         position.sh res $wid
-        position.sh ext $wid
         snap.sh tl $wid
         exit
     }

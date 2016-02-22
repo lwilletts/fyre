@@ -10,47 +10,60 @@ usage() {
     test -z $1 || exit $1
 }
 
-add_group() {
+addGroup() {
     echo 1
 }
 
-hide_group() {
+hideGroup() {
     echo 1
 }
 
-show_group() {
+showGroup() {
     echo 1
 }
 
-toggle_group() {
+toggleGroup() {
     echo 1
 }
 
-clean_group() {
+cleanGroup() {
     echo 1
 }
 
-reset_groups() {
+resetGroups() {
     echo 1
 }
 
-list_groups() {
-    vcat $GROUPSDIR/*.*
+listGroups() {
+    printf '%s\n' "Existing groups:"
+    ls $GROUPSDIR
 }
 
 main() {
     . fyrerc.sh
 
-    case $1 in
-        a|add)    add_group    ;;
-        h|hide)   hide_group   ;;
-        s|show)   show_group   ;;
-        t|toggle) toggle_group ;;
-        c|clean)  clean_group  ;;
-        r|reset)  reset_groups ;;
-        l|list)   list_groups  ;;
-        *)        usage 0      ;;
-    esac
+    for arg in $ARGS; do
+        case $arg in
+            -a|--add)    add_group    ;;
+            -h|--hide)   hide_group   ;;
+            -s|--show)   show_group   ;;
+            -t|--toggle) toggle_group ;;
+            -c|--clean)  clean_group  ;;
+            -r|--reset)  reset_groups ;;
+            -l|--list)   list_groups  ;;
+            *)           usage 0      ;;
+        esac
+    done
 }
 
-test -z "$ARGS" || main $ARGS
+for arg in $ARGS; do
+    case $arg in
+        -q|--quiet) QUIETFLAG=true ;;
+    esac
+done
+
+test "$QUIETFLAG" = "true" && {
+    main $ARGS 2>&1 > /dev/null
+} || {
+    main $ARGS
+}
