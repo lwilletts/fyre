@@ -23,7 +23,11 @@ lockfyre() {
         xbacklight -set 0 && slock && xbacklight -set $LIGHT
     } || {
         type slock 2>&1 > /dev/null && {
+            # xset dpms force suspend
             slock
+        } || {
+            printf '%s\n' "slock was not found on your \$PATH."
+            exit 1
         }
     }
 }
