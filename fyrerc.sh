@@ -68,39 +68,51 @@ WALL=$(sed '1!d; s_~_/home/wildefyr_' < $(which bgc))
 DURATION=60
 
 warn() {
-    test -z $1 && return
+    test "$#" -eq 0 && return 1
     setborder.sh warning $1 && chwso -r $1
 }
 
 name() {
-    test -z $1 && return
-    xprop -id $1 WM_CLASS | cut -d\" -f 2
+    test "$#" -eq 0 && return 1
+    for wid in "$@"; do
+        case "$wid" in
+            0x*) xprop -id "$wid" WM_CLASS | cut -d\" -f 2 ;;
+            *)   printf '%s\n' "Please enter a valid window id." >&2; continue  ;;
+        esac
+    done
 }
 
 class() {
-    test -z $1 && return
-    xprop -id $1 WM_CLASS | cut -d\" -f 4
+    test "$#" -eq 0 && return 1
+    for wid in "$@"; do
+        case "$wid" in
+            0x*) xprop -id "$wid" WM_CLASS | cut -d\" -f 4 ;;
+            *)   printf '%s\n' "Please enter a valid window id." >&2; continue  ;;
+        esac
+    done
 }
 
 process() {
-    test -z $1 && return
-    xprop -id $1 _NET_WM_PID | cut -d\  -f 3
+    test "$#" -eq 0 && return 1
+    for wid in "$@"; do
+        case "$wid" in
+            0x*) xprop -id "$wid" _NET_WM_PID | cut -d\  -f 3 ;;
+            *)   printf '%s\n' "Please enter a valid window id." >&2; continue  ;;
+        esac
+    done
 }
 
 resolution() {
-    case $1 in
+    case "$1" in
         0x*) wid=$1 ;;
-        *)
-            printf '%s\n' "Not a valid mpv window id." >&2
-            return
-            ;;
+        *)   printf '%s\n' "Please enter a valid window id." >&2; return ;;
     esac
 
     test "$(class $wid)" = "mpv" && {
         mpvWid=$(xprop -id "$wid" WM_NORMAL_HINTS | sed '5s/[^0-9]*//p;d' | tr / \ )
         printf '%s\n' "$mpvWid"
     } || {
-        printf '%s\n' "Not a valid mpv window id." >&2
+        printf '%s\n' "Please enter a valid mpv window id." >&2
         return
     }
 }
