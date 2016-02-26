@@ -82,6 +82,12 @@ main() {
         exit
     }
 
+    test "$windowClass" = "telegram" && {
+        snap.sh md $wid
+        wgroups.sh -s $wid 4
+        exit
+    }
+
     test "$windowClass" = "MuPDF" && {
         wgroups.sh -s $wid 6
         exit
