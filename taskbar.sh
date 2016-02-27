@@ -12,7 +12,7 @@ INACTIVE="%{F#737373}"
 for group in $GROUPSDIR/group.?; do
     title=""
     numGroups=$(ls $GROUPSDIR/group.? | wc -l)
-    groupNum=$(echo "$group" | rev | cut -d'.' -f 1 | rev)
+    groupNum=$(printf "$group" | rev | cut -d'.' -f 1 | rev)
 
     colour="$INACTIVE"
     for groupId in $(cat "$GROUPSDIR/active"); do
@@ -41,6 +41,9 @@ for group in $GROUPSDIR/group.?; do
         test "$window" = "mpv" && {
             window="$(wname ${wid})"
         }
+        test "$window" = "Wine" && {
+            window="$(wname ${wid})"
+        }
 
         test -z "$title" && {
             title="$(printf "$window" | tr '\n' ' ')"
@@ -49,12 +52,15 @@ for group in $GROUPSDIR/group.?; do
         }
     done
 
-    stringOut="${stringOut}${colour}\
-%{A:wgroups.sh -t $groupNum:}#${groupNum} - ${title}%{A}"
+    test ! -z "$title" && {
+        stringOut="${stringOut}${colour}\
+%{A:wgroups.sh -t $groupNum:}  #${groupNum} - ${title}  %{A}"
+    }
 
-    counter=$((counter + 1))
     test "$counter" -ne "$numGroups" && {
-        stringOut="${stringOut}${INACTIVE}  |  "
+        stringOut="${stringOut}${INACTIVE}|"
+    } || {
+        counter=$((counter + 1))
     }
 done
 

@@ -6,7 +6,6 @@ SCRIPT = blur.sh \
 		 focus.sh \
 		 fullscreen.sh \
 		 fyrerc.sh \
-		 fyreTaskbar.sh \
 		 ignore.sh \
 		 layouts.sh \
 		 LICENSE.md \
@@ -21,6 +20,7 @@ SCRIPT = blur.sh \
 		 size.sh \
 		 snap.sh \
 		 sxhkdc.example \
+		 taskbar.sh \
 		 wgroups.sh \
 		 wid.sh \
 		 windows.sh \
