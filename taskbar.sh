@@ -55,12 +55,13 @@ for group in $GROUPSDIR/group.?; do
     test ! -z "$title" && {
         stringOut="${stringOut}${colour}\
 %{A:wgroups.sh -t $groupNum:}  #${groupNum} - ${title}  %{A}"
+    } || {
+        continue
     }
 
+    counter=$((counter + 1))
     test "$counter" -ne "$numGroups" && {
         stringOut="${stringOut}${INACTIVE}|"
-    } || {
-        counter=$((counter + 1))
     }
 done
 
