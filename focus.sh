@@ -44,17 +44,17 @@ focusMethod() {
     # focus correctly even if there is a fullscreen window
     test -e "$FSFILE" && {
         test "$(cat $FSFILE | cut -d\  -f 5)" = "$wid" && {
-            setborder.sh none $wid
+            setborder.sh none "$wid"
         } || {
             test "$(cat $FSFILE | cut -d\  -f 5)" = "$PFW" && {
-                setborder.sh active $wid
-                setborder.sh none $PFW
+                setborder.sh active "$wid"
+                setborder.sh none "$PFW"
             }
         }
     } || {
         test "$wid" != "$PFW" && {
-            setborder.sh active $wid
-            setborder.sh inactive $PFW
+            setborder.sh active "$wid"
+            setborder.sh inactive "$PFW"
         }
     }
 
@@ -73,12 +73,12 @@ main() {
     . fyrerc.sh
 
     case $1 in
-        0x*)    focusWid  $1 ;;
-        next)   focusNext    ;;
-        prev)   focusPrev    ;;
-        full)   focusFull    ;;
-        h|help) usage        ;;
-        *)      usage        ;;
+        0x*)              focusWid  $1 ;;
+        next)             focusNext    ;;
+        prev)             focusPrev    ;;
+        full)             focusFull    ;;
+        h|help|-h|--help) usage 0      ;;
+        *)                usage 1      ;;
     esac
 
     case $2 in

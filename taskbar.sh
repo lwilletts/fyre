@@ -48,9 +48,11 @@ for group in $GROUPSDIR/group.?; do
         test -z "$title" && {
             title="$(printf "$window" | tr '\n' ' ')"
         } || {
-            title="$title \ $(printf "$window" | tr '\n' ' ')"
+            title="${title} \ $(printf "$window" | tr '\n' ' ')"
         }
     done
+
+    title=$(printf '%s' "$title" | tr 'A-Z' 'a-z')
 
     test ! -z "$title" && {
         stringOut="${stringOut}${colour}\

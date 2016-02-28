@@ -10,10 +10,18 @@ usage() {
     test -z $1 || exit $1
 }
 
+fnmatch() {
+    case "$2" in
+        $1) return 0 ;;
+        *)  printf '%s\n' "Please enter a valid window id." >&2; exit 1 ;;
+    esac
+}
+
 main() {
     . fyrerc.sh
 
     test -z $1 && usage 1
+    fnmatch "0x*" "$2"
 
     case $1 in
         none)
