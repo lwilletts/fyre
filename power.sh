@@ -34,19 +34,19 @@ lockfyre() {
 
 exitfyre() {
     layouts.sh -s 0 -q
-    killall xinit
+    pkill xinit
 }
 
 restartfyre() {
     layouts.sh -s 0 -q
     sudo reboot 2>/dev/null
-    killall xinit
+    pkill xinit
 }
 
 powerfyre() {
     layouts.sh -s 0 -q
     sudo poweroff 2>/dev/null
-    killall xinit
+    pkill xinit
 }
 
 case $1 in
