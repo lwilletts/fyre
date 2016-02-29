@@ -24,6 +24,7 @@ SCRIPT = blur.sh \
 		 wgroups.sh \
 		 wid.sh \
 		 windows.sh \
+		 winkill.sh \
 		 winopen.sh \
 
 .PHONY: all install uninstall
