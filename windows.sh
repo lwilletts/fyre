@@ -174,7 +174,7 @@ toggle_group() {
         }
     done < "$GROUPSDIR/active"
 
-
+    # this could be much smarter
     test "$activeFlag" = "true" && {
         while read -r wid; do
             test "$(pfw)" = $wid && {
@@ -187,7 +187,7 @@ toggle_group() {
     } || {
         show_group "$group"
         wid=$(cat "$GROUPSDIR/group.${group}" | head -n 1)
-        focus.sh "$wid"
+        focus.sh "$wid" "disable"
     }
 }
 

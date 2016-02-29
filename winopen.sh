@@ -22,8 +22,6 @@ main() {
     esac
 
     windowName=$(name $wid)
-    windowClass=$(class $wid)
-
     setborder.sh active $wid
 
     case "$windowName" in
@@ -61,6 +59,7 @@ main() {
             focus.sh $wid
             ;;
         *)
+            windowClass=$(class $wid)
             case "$windowClass" in
                 "google-chrome")
                     wtp $(($(wattr x $wid) - BW)) $(($(wattr y $wid) - BW)) \
@@ -69,6 +68,7 @@ main() {
                     focus.sh $wid
                     ;;
                 "mpv")
+                    snap.sh md $wid
                     windows.sh -a $wid 5
                     focus.sh $wid
                     ;;
