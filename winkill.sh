@@ -22,10 +22,15 @@ windowClass=$(class $wid)
 
 case "$windowClass" in
     "telegram")
-        printf '%s\n' "You're terminated fucker."
+        printf '%s\n' "you're terminated fucker."
+        killw $wid
+        ;;
+    "Wine")
         killw $wid
         ;;
     *)
         killwa $wid
         ;;
 esac
+
+windows.sh -c $wid

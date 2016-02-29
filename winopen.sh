@@ -35,48 +35,48 @@ main() {
             position.sh res $wid
             position.sh ext $wid
             snap.sh tl $wid
-            wgroups.sh -s $wid 3
+            windows.sh -a $wid 3
             ;;
         "tmux")
             position.sh res $wid
             position.sh ext $wid
             snap.sh tl $wid
-            wgroups.sh -s $wid 1
+            windows.sh -a $wid 1
             ;;
         "mpsyt")
             position.sh res $wid
             position.sh ext $wid
             snap.sh right $wid
-            wgroups.sh -s $wid 9
+            windows.sh -a $wid 9
             ;;
         "alsamixer")
             position.sh quar $wid
             snap.sh md $wid
             ;;
         "Legions.exe")
-            wgroups.sh -s $wid 6
+            windows.sh -a $wid 6
             ;;
         *)
             case "$windowClass" in
                 "google-chrome")
                     wtp $(($(wattr x $wid) - BW)) $(($(wattr y $wid) - BW)) \
                         $(wattr wh $wid) $wid
-                    wgroups.sh -s $wid 2
+                    windows.sh -a $wid 2
                     ;;
                 "mpv")
-                    wgroups.sh -s $wid 5
+                    windows.sh -a $wid 5
                     ;;
                 "TeamSpeak 3")
                     snap.sh md $wid
-                    wgroups.sh -s $wid 4
+                    windows.sh -a $wid 4
                     ;;
                 # seriously fuck this program
                 "telegram")
-                    wgroups.sh -s $wid 4
+                    windows.sh -a $wid 4
                     ;;
                 "MuPDF")
                     snap.sh md $wid
-                    wgroups.sh -s $wid 6
+                    windows.sh -a $wid 6
                     ;;
                 *)
                     snap.sh md $wid

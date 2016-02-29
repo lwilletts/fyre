@@ -116,5 +116,3 @@ resolution() {
         return
     }
 }
-
-# vim: set ft=sh :

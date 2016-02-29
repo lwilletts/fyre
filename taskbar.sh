@@ -39,7 +39,7 @@ for group in $GROUPSDIR/group.?; do
             }
         }
         test "$window" = "mpv" && {
-            window="$(wname ${wid})"
+            window="$(wname ${wid}) - $(resolution ${wid} | cut -d\  -f 2)p"
         }
         test "$window" = "Wine" && {
             window="$(wname ${wid})"
@@ -52,11 +52,9 @@ for group in $GROUPSDIR/group.?; do
         }
     done
 
-    title=$(printf '%s' "$title" | tr 'A-Z' 'a-z')
-
     test ! -z "$title" && {
         stringOut="${stringOut}${colour}\
-%{A:wgroups.sh -t $groupNum:}  #${groupNum} - ${title}  %{A}"
+%{A:windows.sh -t $groupNum:}  #${groupNum} - ${title}  %{A}"
     } || {
         continue
     }
