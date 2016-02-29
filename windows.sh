@@ -44,7 +44,11 @@ find_wid() {
     fnmatch "0x*" "$wid"
 
     for group in $(find $GROUPSDIR/*.? 2> /dev/null); do
-        grep -q "$wid" "$group" && exit 1
+        grep -q "$wid" "$group" && {
+            groupNum=$(printf '%s\n' "$group" | rev | cut -d'.' -f 1 | rev)
+            printf '%s\n' "$wid was found in group ${groupNum}."
+            exit 1
+        }
     done
 
     printf '%s\n' "$wid was not found in any group."
@@ -172,9 +176,18 @@ toggle_group() {
 
 
     test "$activeFlag" = "true" && {
-        hide_group "$group"
+        while read -r wid; do
+            test "$(pfw)" = $wid && {
+                hide_group "$group"
+            } || {
+                focus.sh "$wid" "disable"
+                return 0
+            }
+        done < $GROUPSDIR/group.${group}
     } || {
         show_group "$group"
+        wid=$(cat "$GROUPSDIR/group.${group}" | head -n 1)
+        focus.sh "$wid"
     }
 }
 
@@ -189,7 +202,7 @@ reset_groups() {
 list_groups() {
     for group in $(find $GROUPSDIR/*.? 2> /dev/null); do
         printf '%s\n' "$(printf '%s' ${group} | rev | cut -d'/' -f 1 | rev):"
-        printf '%s\n' "$(cat ${group}) - $(name $(cat ${group}))"
+        printf '%s\n' "$(cat ${group}) - $(class $(cat ${group}))"
     done
 }
 

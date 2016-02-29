@@ -36,7 +36,7 @@ wew | while IFS=: read ev wid; do
             ;;
         19)
             wattr o "$wid" || {
-                windows.sh -q -f "$wid" && focus.sh "$wid" "disable"
+                windows.sh -q -f "$wid" && focus.sh "$wid"
                 test "$(lsw | wc -l)" -ne 0 && blur.sh
             }
             ;;

@@ -14,19 +14,19 @@ EOF
 }
 
 nameAll() {
-    for wid in $(lsw -a); do
+    for wid in $(lsw); do
         printf '%s\n' "$wid $(name $wid)"
     done
 }
 
 classAll() {
-    for wid in $(lsw -a); do
+    for wid in $(lsw); do
         printf '%s\n' "$wid $(class $wid)"
     done
 }
 
 titleAll() {
-    for wid in $(lsw -a); do
+    for wid in $(lsw); do
         printf '%s\n' "$wid $(wname $wid)"
     done
 }
