@@ -41,9 +41,6 @@ CUR=${2:-$(pfw)}
 
 BW=${BW:-2}
 
-minW=$((466 + BW))
-minH=$((252 + BW))
-
 X=$(wattr x $CUR 2> /dev/null)
 Y=$(wattr y $CUR 2> /dev/null)
 W=$(wattr w $CUR 2> /dev/null)
@@ -55,6 +52,9 @@ BGAP=${BGAP:-$((20 - BW))}
 # add $BW for non-overlapping borders / will probably cause glitches
 IGAP=${IGAP:-$((0))}
 VGAP=${VGAP:-$((0))}
+
+minW=$((466 - IGAP + BW))
+minH=$((252 - VGAP + BW))
 
 ACTIVE=${ACTIVE:-0xD7D7D7}
 WARNING=${WARNING:-0xB23450}
