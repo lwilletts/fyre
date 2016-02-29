@@ -47,12 +47,12 @@ find_wid() {
         grep -q "$wid" "$group" && {
             groupNum=$(printf '%s\n' "$group" | rev | cut -d'.' -f 1 | rev)
             printf '%s\n' "$wid was found in group ${groupNum}."
-            exit 1
+            return 1
         }
     done
 
     printf '%s\n' "$wid was not found in any group."
-    exit 0
+    return 0
 }
 
 clean_wid() {
@@ -65,6 +65,7 @@ clean_wid() {
         test -z "$(cat $group)" 2> /dev/null && {
             groupNum=$(printf '%s\n' "$group" | rev | cut -d'.' -f 1 | rev)
             unmap_group "$groupNum" 2>&1 > /dev/null
+            break
         }
     done
 
@@ -92,9 +93,14 @@ add_to_group() {
     test ! -z $3 && usage 1
 
     wid=$(printf "$1" | cut -d\  -f 1)
-    group=$(printf '%s' "$1" | cut -d\  -f 2)
-
     fnmatch "0x*" "$wid"
+
+    find_wid "$wid" > /dev/null || {
+        printf '%s\n' "$wid is already exists in another group"
+        exit 1
+    }
+
+    group=$(printf '%s' "$1" | cut -d\  -f 2)
     intCheck "$group"
 
     test -f "$GROUPSDIR/inactive" && {
@@ -222,10 +228,13 @@ main() {
     for arg in "$@"; do
         test "$SHOWFLAG"   = "true" && show_group "$arg"   && SHOWFLAG=false
         test "$HIDEFLAG"   = "true" && hide_group "$arg"   && HIDEFLAG=false
-        test "$FINDFLAG"   = "true" && find_wid "$arg"     && FINDFLAG=false
         test "$CLEANFLAG"  = "true" && clean_wid "$arg"    && CLEANFLAG=false
         test "$UNMAPFLAG"  = "true" && unmap_group "$arg"  && UNMAPFLAG=false
         test "$TOGGLEFLAG" = "true" && toggle_group "$arg" && TOGGLEFLAG=false
+        test "$FINDFLAG"   = "true" && {
+            find_wid "$arg" && exit 0 || exit 1
+            FINDFLAG=false
+        }
 
         case "$arg" in
             -s|--show)   SHOWFLAG=true   ;;
