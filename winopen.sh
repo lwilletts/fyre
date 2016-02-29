@@ -62,8 +62,6 @@ main() {
             windowClass=$(class $wid)
             case "$windowClass" in
                 "google-chrome")
-                    wtp $(($(wattr x $wid) - BW)) $(($(wattr y $wid) - BW)) \
-                        $(wattr wh $wid) $wid
                     windows.sh -a $wid 2
                     focus.sh $wid
                     ;;

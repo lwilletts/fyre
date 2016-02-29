@@ -28,6 +28,9 @@ case "$windowClass" in
     "Wine")
         killw $wid
         ;;
+    "google-chrome")
+        pkill chrome
+        ;;
     *)
         killwa $wid
         ;;
