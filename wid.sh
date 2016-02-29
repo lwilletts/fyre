@@ -1,13 +1,16 @@
 #bin/sh
 #
 # wildefyr - 2016 (c) wtfpl
-# wrapper to find any window that matches a string
+# wrapper to find any visible window that matches a string
 
 ARGS="$@"
 
 usage() {
-    printf '%s\n' "Usage: $(basename $0) [Search String]"
-    test -z $1 || exit $1
+    cat << EOF
+Usage: $(basename $0) [Search String]
+EOF
+
+    test $# -eq 0 || exit $1
 }
 
 nameAll() {
@@ -41,7 +44,7 @@ main() {
     . fyrerc.sh
 
     case $1 in
-        h|help) usage 0 ;;
+        h|help|-h|--help) usage 0 ;;
     esac
 
     showAll | grep -i $1 | cut -d\  -f 1 | sort | uniq

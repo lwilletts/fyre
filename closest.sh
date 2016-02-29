@@ -6,8 +6,11 @@
 ARGS="$@"
 
 usage() {
-    printf '%s\n' "Usage: $(basename $0) <direction>"
-    test -z $1 || exit $1
+    cat << EOF
+Usage: $(basename $0) [direction]
+EOF
+
+    test $# -eq 0 || exit $1
 }
 
 next_east() {

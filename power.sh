@@ -12,7 +12,7 @@ Usage: $(basename $0) [-lerp]
     -r | --reboot: Reboot the machine.
 EOF
 
-    test -z $1 || exit $1
+    test $# -eq 0 || exit $1
 }
 
 lockfyre() {

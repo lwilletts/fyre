@@ -17,18 +17,13 @@ Usage: $(basename $0) <option> [wid]
     vid:  Make the current or given mpv window its currently playing video's resolution.
     help: Show this help.
 EOF
-    test -z $1 || exit $1
+
+    test $# -eq 0 || exit $1
 }
 
 restore() {
-    SW=$((SW - 2*XGAP))
-    SH=$((SH - TGAP - BGAP))
-    W=$((SW/4 - 2*BW))
-    H=$((SH/4 - BW - 1))
-    test $W -lt $minW || test $H -lt $minH && {
-        W=$minW
-        H=$minH
-    }
+    W=$minW
+    H=$minH
 }
 
 extend() {

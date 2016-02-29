@@ -6,8 +6,11 @@
 ARGS="$@"
 
 usage() {
-    printf '%s\n' "Usage: $(basename $0) <state> <wid>"
-    test -z $1 || exit $1
+    cat << EOF
+Usage: $(basename $0) [state] [wid]
+EOF
+
+    test $# -eq 0 || exit $1
 }
 
 fnmatch() {
@@ -20,7 +23,7 @@ fnmatch() {
 main() {
     . fyrerc.sh
 
-    test -z $1 && usage 1
+    test $# -eq 0 && usage 1
     fnmatch "0x*" "$2"
 
     case $1 in

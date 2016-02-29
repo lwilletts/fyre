@@ -22,7 +22,7 @@ Usage: $(basename $0) [-eslord layout] [-S group layout] [-h]
 Only the first option given is executed.
 EOF
 
-    test -z $1 || exit $1
+    test $# -eq 0 || exit $1
 }
 
 intCheck() {

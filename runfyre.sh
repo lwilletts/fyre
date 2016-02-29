@@ -3,7 +3,6 @@
 # wildefyr - 2016 (c) wtfpl
 # fyre initialisation and run loop
 
-
 . fyrerc.sh
 
 eventually.sh &

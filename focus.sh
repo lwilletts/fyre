@@ -15,7 +15,7 @@ Usage: $(basename $0) <next|prev|full|wid> [disable]
     disable: Disable movement of the mouse.
 EOF
 
-    test -z $1 || exit $1
+    test $# -eq 0 || exit $1
 }
 
 focusWid() {

@@ -19,7 +19,8 @@ Usage: $(basename $0) <option> [wid]
     md | middle: Snap current or given window to the middle of the screen.
     h  | help:   Show this help.
 EOF
-    test -z $1 || exit $1
+
+    test $# -eq 0 || exit $1
 }
 
 snap_left() {

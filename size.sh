@@ -15,7 +15,7 @@ Usage: $(basename $0) <direction> [wid]
     h  | help:       Show this help.
 EOF
 
-    test -z $1 || exit $1
+    test $# -eq 0 || exit $1
 }
 
 grow_down() {

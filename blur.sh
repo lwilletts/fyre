@@ -6,8 +6,11 @@
 ARGS="$@"
 
 usage() {
-    printf '%s\n' "Usage: $(basename $0) [blur factor]"
-    test -z $1 || exit $1
+    cat << EOF
+Usage: $(basename $0) [blur factor]
+EOF
+
+    test $# -eq 0 || exit $1
 }
 
 intCheck() {
@@ -25,7 +28,7 @@ main() {
         h|help) usage 0 ;;
     esac
 
-    test -z $1 || intCheck $1
+    test $# -eq 0 || intCheck $1
 
     $WALL -blur ${1:-$BLUR}
 }

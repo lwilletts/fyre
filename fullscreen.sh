@@ -5,9 +5,12 @@
 
 ARGS="$@"
 
-usage() { 
-    printf '%s\n' "Usage: $(basename $0) [wid]"
-    test -z $1 || exit $1
+usage() {
+    cat << EOF
+Usage: $(basename $0) [wid]
+EOF
+
+    test $# -eq 0 || exit $1
 }
 
 main() {
@@ -18,7 +21,7 @@ main() {
         *)   usage 0 ;;
     esac
 
-    test -e "$FSFILE" && { 
+    test -e "$FSFILE" && {
         test "$PFW" = "$wid" && {
             setborder.sh active $wid
             wtp $(cat $FSFILE)
