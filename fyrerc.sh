@@ -76,8 +76,14 @@ name() {
     test "$#" -eq 0 && return 1
     for wid in "$@"; do
         case "$wid" in
-            0x*) xprop -id "$wid" WM_CLASS | cut -d\" -f 2 ;;
-            *)   printf '%s\n' "Please enter a valid window id." >&2; continue  ;;
+            0x*)
+                lsw -a | grep -q "$wid" && {
+                    xprop -id "$wid" WM_CLASS | cut -d\" -f 2
+                } || {
+                    return 1
+                }
+                ;;
+            *)  printf '%s\n' "Please enter a valid window id." >&2; return 1 ;;
         esac
     done
 }
@@ -86,8 +92,14 @@ class() {
     test "$#" -eq 0 && return 1
     for wid in "$@"; do
         case "$wid" in
-            0x*) xprop -id "$wid" WM_CLASS | cut -d\" -f 4 ;;
-            *)   printf '%s\n' "Please enter a valid window id." >&2; continue  ;;
+            0x*)
+                lsw -a | grep -q "$wid" && {
+                    xprop -id "$wid" WM_CLASS | cut -d\" -f 4
+                } || {
+                    return 1
+                }
+                ;;
+            *)  printf '%s\n' "Please enter a valid window id." >&2; return 1 ;;
         esac
     done
 }
@@ -96,8 +108,14 @@ process() {
     test "$#" -eq 0 && return 1
     for wid in "$@"; do
         case "$wid" in
-            0x*) xprop -id "$wid" _NET_WM_PID | cut -d\  -f 3 ;;
-            *)   printf '%s\n' "Please enter a valid window id." >&2; continue  ;;
+            0x*)
+                lsw -a | grep -q "$wid" && {
+                    xprop -id "$wid" _NET_WM_PID | cut -d\" -f 4
+                } || {
+                    return 1
+                }
+                ;;
+            *)  printf '%s\n' "Please enter a valid window id." >&2; return 1 ;;
         esac
     done
 }
@@ -105,7 +123,7 @@ process() {
 resolution() {
     case "$1" in
         0x*) wid=$1 ;;
-        *)   printf '%s\n' "Please enter a valid window id." >&2; return ;;
+        *)   printf '%s\n' "Please enter a valid window id." >&2; return 1 ;;
     esac
 
     test "$(class $wid)" = "mpv" && {
