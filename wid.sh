@@ -14,22 +14,19 @@ EOF
 }
 
 nameAll() {
-    for i in $(seq $(lsw | wc -l)); do
-        wid=$(lsw | head -n $i | tail -1)
-        printf '%s\n' "$wid $(class $wid)"
+    for wid in $(lsw -a); do
+        printf '%s\n' "$wid $(name $wid)"
     done
 }
 
 classAll() {
-    for i in $(seq $(lsw | wc -l)); do
-        wid=$(lsw | head -n $i | tail -1)
+    for wid in $(lsw -a); do
         printf '%s\n' "$wid $(class $wid)"
     done
 }
 
 titleAll() {
-    for i in $(seq $(lsw | wc -l)); do
-        wid=$(lsw | head -n $i | tail -1)
+    for wid in $(lsw -a); do
         printf '%s\n' "$wid $(wname $wid)"
     done
 }
