@@ -31,7 +31,6 @@ main() {
             ;;
         "mosh")
             position.sh res $wid
-            position.sh ext $wid
             snap.sh tl $wid
             windows.sh -a $wid 3
             focus.sh $wid
@@ -79,6 +78,8 @@ main() {
                     ;;
                 # seriously fuck this program
                 "telegram")
+                    position.sh res $wid
+                    position.sh ext $wid
                     windows.sh -a $wid 4
                     focus.sh $wid
                     ;;
