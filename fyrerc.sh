@@ -46,12 +46,14 @@ Y=$(wattr y $CUR 2> /dev/null)
 W=$(wattr w $CUR 2> /dev/null)
 H=$(wattr h $CUR 2> /dev/null)
 
-XGAP=${XGAP:-$((20))}
-TGAP=${TGAP:-$((40))}
-BGAP=${BGAP:-$((20 - BW))}
-# add $BW for non-overlapping borders / will probably cause glitches
-IGAP=${IGAP:-$((0))}
-VGAP=${VGAP:-$((0))}
+# add $BW for non-overlapping borders
+# must be multiple of 2
+IGAP=${IGAP:-$((20))}
+VGAP=${VGAP:-$((20))}
+
+XGAP=${XGAP:-$((20 + IGAP/2))}
+TGAP=${TGAP:-$((40 + VGAP/2))}
+BGAP=${BGAP:-$((20 + VGAP/2 - BW))}
 
 minW=$((466 - IGAP + BW))
 minH=$((252 - VGAP + BW))
@@ -80,6 +82,7 @@ name() {
                 lsw -a | grep -q "$wid" && {
                     xprop -id "$wid" WM_CLASS | cut -d\" -f 2
                 } || {
+                    printf '%s\n' "wid does not exist!" >&2
                     return 1
                 }
                 ;;
@@ -96,6 +99,7 @@ class() {
                 lsw -a | grep -q "$wid" && {
                     xprop -id "$wid" WM_CLASS | cut -d\" -f 4
                 } || {
+                    printf '%s\n' "wid does not exist!" >&2
                     return 1
                 }
                 ;;
@@ -112,6 +116,7 @@ process() {
                 lsw -a | grep -q "$wid" && {
                     xprop -id "$wid" _NET_WM_PID | cut -d\" -f 4
                 } || {
+                    printf '%s\n' "wid does not exist!" >&2
                     return 1
                 }
                 ;;
@@ -131,6 +136,6 @@ resolution() {
         printf '%s\n' "$mpvWid"
     } || {
         printf '%s\n' "Please enter a valid mpv window id." >&2
-        return
+        return 1
     }
 }

@@ -43,7 +43,7 @@ left() {
     Y=$TGAP
     SW=$((SW - 2*XGAP))
     SH=$((SH - TGAP - BGAP))
-    W=$((SW/2 - BW))
+    W=$((SW/2 - IGAP/2 - BW))
     H=$SH
 }
 
@@ -51,7 +51,7 @@ right() {
     Y=$TGAP
     H=$((SH - TGAP - BGAP))
     SW=$((SW - 2*XGAP))
-    W=$(((SW - 2*IGAP - 2*BW)/2))
+    W=$(((SW - IGAP - 2*BW)/2))
     X=$((W + XGAP + IGAP + BW))
 }
 
