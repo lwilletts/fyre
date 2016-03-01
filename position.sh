@@ -32,10 +32,9 @@ extend() {
 }
 
 quarter() {
-    SW=$((SW - 2*XGAP))
+    W=$((2*minW + IGAP + BW))
     SH=$((SH - TGAP - BGAP))
-    W=$((SW/2 - BW))
-    H=$((SH/2 - BW + 1))
+    H=$((SH/2 - VGAP/2))
 }
 
 left() {
