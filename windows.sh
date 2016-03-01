@@ -45,19 +45,23 @@ find_wid() {
 
     for group in $(find $GROUPSDIR/*.? 2> /dev/null); do
         grep -q "$wid" "$group" && {
-            groupNum=$(printf '%s\n' "$group" | rev | cut -d'.' -f 1 | rev)
-            printf '%s\n' "$wid was found in group ${groupNum}."
-            return 1
+            foundWid=true
         }
     done
 
-    printf '%s\n' "$wid was not found in any group."
-    return 0
+    test "$foundWid" = "true" && {
+        printf '%s\n' "$wid was found in a group."
+        return 1
+    } || {
+        printf '%s\n' "$wid was not found in any group."
+        return 0
+    }
 }
 
 clean_wid() {
     wid=$1
-    fnmatch "0x*" "$wid"
+
+    find_wid "$wid" && return 1
 
     for group in $(find $GROUPSDIR/*.? 2> /dev/null); do
         buffer=$(sed "s/$wid//" < $group)
@@ -65,7 +69,6 @@ clean_wid() {
         test -z "$(cat $group)" 2> /dev/null && {
             groupNum=$(printf '%s\n' "$group" | rev | cut -d'.' -f 1 | rev)
             unmap_group "$groupNum" 2>&1 > /dev/null
-            break
         }
     done
 
@@ -73,19 +76,19 @@ clean_wid() {
 }
 
 unmap_group() {
-    group=$1
-    intCheck "$group"
+    groupNum=$1
+    intCheck "$groupNum"
 
-    test -f "$GROUPSDIR/group.${group}" && {
+    test -f "$GROUPSDIR/group.${groupNum}" && {
         # make the group visible
-        show_group "$group"
+        show_group "$groupNum"
         # clean group from active file
-        buffer=$(cat "$GROUPSDIR/active" | sed "s/$group//")
+        buffer=$(sed "s/$groupNum//" < "$GROUPSDIR/active")
         printf '%s\n' "$buffer" | sed '/^\s*$/d' > "$GROUPSDIR/active"
-        rm -f $GROUPSDIR/group.${group}
-        printf '%s\n' "group ${group} cleaned!"
+        rm -f $GROUPSDIR/group.${groupNum}
+        printf '%s\n' "group ${groupNum} cleaned!"
     } || {
-        printf '%s\n' "group ${group} does not exist!" >&2
+        printf '%s\n' "group ${groupNum} does not exist!" >&2
     }
 }
 
@@ -93,113 +96,143 @@ add_to_group() {
     test ! -z $3 && usage 1
 
     wid=$(printf "$1" | cut -d\  -f 1)
-    fnmatch "0x*" "$wid"
+    groupNum=$(printf '%s' "$1" | cut -d\  -f 2)
 
-    find_wid "$wid" > /dev/null || {
-        printf '%s\n' "$wid is already exists in another group"
-        exit 1
+    fnmatch "0x*" "$wid"
+    intCheck "$groupNum"
+
+    # test if window exists in given group already
+    find_wid "$wid" 2>&1 > /dev/null || {
+        grep -q "$wid" "$GROUPSDIR/group.${groupNum}" 2> /dev/null && {
+            printf '%s\n' "$(class $wid) ($wid) already exists in ${groupNum}!"
+            return 1
+        } || {
+            clean_wid "$wid"
+        }
     }
 
-    group=$(printf '%s' "$1" | cut -d\  -f 2)
-    intCheck "$group"
-
+    # hide wid if group is curently hidden
     test -f "$GROUPSDIR/inactive" && {
         while read -r inactive; do
-            test "$inactive" -eq "$group" && {
-                inactiveFlag=true
+            test "$inactive" -eq "$groupNum" && {
+                mapw -u "$wid"
                 break
             }
         done < $GROUPSDIR/inactive
     }
-    test -f "$GROUPSDIR/inactive" && {
-        while read -r active; do
-            test "$active" -eq "$group" && {
-                activeFlag=true
-                break
-            }
-        done < $GROUPSDIR/active
+
+    # add group to active if group doesn't exist
+    test ! -f "$GROUPSDIR/group.${groupNum}" && {
+        printf '%s\n' "$groupNum" >> "$GROUPSDIR/active"
     }
 
-    test "$inactiveFlag" = "true" && {
-        mapw -u $wid
-    }
-    test "$activeFlag" != "true" && {
-        printf '%s\n' "$group" >> "$GROUPSDIR/active"
-    }
-
-    grep -q "$wid" "$GROUPSDIR/group.${group}" 2> /dev/null && {
-        printf '%s\n' "$(class $wid) ($wid) already exists in ${group}!"
-    } || {
-        printf '%s\n' "$wid" >> $GROUPSDIR/group.${group}
-        printf '%s\n' "$(class $wid) ($wid) added to ${group}!"
-    }
+    printf '%s\n' "$wid" >> $GROUPSDIR/group.${groupNum}
+    printf '%s\n' "$(class $wid) ($wid) added to ${groupNum}!"
 }
 
 hide_group() {
-    group=$1
-    intCheck "$group"
+    groupNum=$1
+    intCheck "$groupNum"
 
-    printf '%s\n' "$group" >> "$GROUPSDIR/inactive"
+    printf '%s\n' "$groupNum" >> "$GROUPSDIR/inactive"
 
-    buffer=$(cat "$GROUPSDIR/active" | sed "s/$group//")
+    buffer=$(cat "$GROUPSDIR/active" | sed "s/$groupNum//")
     printf '%s\n' "$buffer" | sed '/^\s*$/d' > "$GROUPSDIR/active"
 
     while read -r wid; do
         mapw -u $wid
-    done < $GROUPSDIR/group.${group}
+    done < $GROUPSDIR/group.${groupNum}
 
-    printf '%s\n' "group ${group} hidden!"
+    printf '%s\n' "group ${groupNum} hidden!"
 }
 
 show_group() {
-    group=$1
-    intCheck "$group"
+    groupNum=$1
+    intCheck "$groupNum"
 
-    printf '%s\n' "$group" >> "$GROUPSDIR/active"
+    printf '%s\n' "$groupNum" >> "$GROUPSDIR/active"
 
-    buffer=$(cat "$GROUPSDIR/inactive" | sed "s/$group//")
+    buffer=$(cat "$GROUPSDIR/inactive" | sed "s/$groupNum//")
     printf '%s\n' "$buffer" | sed '/^\s*$/d' > "$GROUPSDIR/inactive"
 
     while read -r wid; do
         mapw -m $wid
-    done < "$GROUPSDIR/group.${group}"
+    done < "$GROUPSDIR/group.${groupNum}"
 
-    printf '%s\n' "group ${group} visible!"
+    printf '%s\n' "group ${groupNum} visible!"
 }
 
 toggle_group() {
-    group=$1
-    intCheck "$group"
+    groupNum=$1
+    intCheck "$groupNum"
 
     activeFlag=false
 
     while read -r active; do
-        test "$active" -eq "$group" && {
+        test "$active" -eq "$groupNum" && {
             activeFlag=true
             break
         }
     done < "$GROUPSDIR/active"
 
-    # this could be much smarter
+    # logic level over 9000
     test "$activeFlag" = "true" && {
-        while read -r wid; do
+        test $(wc -l < "$GROUPSDIR/group.${groupNum}") -eq 1 && {
+            wid=$(cat $GROUPSDIR/group.${groupNum})
             test "$(pfw)" = $wid && {
-                hide_group "$group"
+                hide_group "${groupNum}"
+                return 0
             } || {
                 focus.sh "$wid" "disable"
-                return 0
             }
-        done < $GROUPSDIR/group.${group}
+        }
+        test $(wc -l < "$GROUPSDIR/group.${groupNum}") -gt 1 && {
+            while read -r wid; do
+                test "$(pfw)" = $wid && {
+                    hide_group "$groupNum"
+                    return 0
+                }
+            done < "$GROUPSDIR/group.${groupNum}"
+        }
     } || {
-        show_group "$group"
-        wid=$(cat "$GROUPSDIR/group.${group}" | head -n 1)
+        show_group "$groupNum"
+
+        # always place windows at the top of the window stack
+        while read -r wid; do
+            chwso -r $wid
+        done < "$GROUPSDIR/group.${groupNum} | tac"
+
+        wid=$(head -n 1 < "$GROUPSDIR/group.${groupNum}")
         focus.sh "$wid" "disable"
     }
 }
 
+cycle_wid() {
+    groupNum=$1
+    intCheck "$groupNum"
+
+    activeFlag=false
+
+    while read -r active; do
+        test "$active" -eq "$groupNum" && {
+            activeFlag=true
+            break
+        }
+    done < "$GROUPSDIR/active"
+
+    test "$activeFlag" = "true" && {
+        while read -r wid; do
+            test "$(pfw)" != $wid && {
+                focus.sh "$wid" "disable"
+                return 0
+            }
+        done < "$GROUPSDIR/group.${groupNum}"
+    }
+}
+
 reset_groups() {
-    while read -r group; do
-        show_group "$group"
+    while read -r groupNum; do
+        show_group "$groupNum"
     done < "$GROUPSDIR/inactive"
 
     rm -f $GROUPSDIR/*
@@ -228,6 +261,7 @@ main() {
     for arg in "$@"; do
         test "$SHOWFLAG"   = "true" && show_group "$arg"   && SHOWFLAG=false
         test "$HIDEFLAG"   = "true" && hide_group "$arg"   && HIDEFLAG=false
+        test "$CYCLEFLAG"  = "true" && cycle_wid "$arg"    && cycle_wid=false
         test "$CLEANFLAG"  = "true" && clean_wid "$arg"    && CLEANFLAG=false
         test "$UNMAPFLAG"  = "true" && unmap_group "$arg"  && UNMAPFLAG=false
         test "$TOGGLEFLAG" = "true" && toggle_group "$arg" && TOGGLEFLAG=false
@@ -242,6 +276,7 @@ main() {
             -f|--find)   FINDFLAG=true   ;;
             -c|--clean)  CLEANFLAG=true  ;;
             -u|--unmap)  UNMAPFLAG=true  ;;
+            -z|--cycle)  CYCLEFLAG=true  ;;
             -t|--toggle) TOGGLEFLAG=true ;;
             -r|--reset)  reset_groups    ;;
             -l|--list)   list_groups     ;;
