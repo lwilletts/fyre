@@ -210,8 +210,12 @@ toggle_group() {
         # hide group if there's only one window
         test $(wc -l < "$GROUPSDIR/group.${groupNum}") -eq 1 && {
             wid=$(cat $GROUPSDIR/group.${groupNum})
-            hide_group "${groupNum}"
-            return 0
+            test "$(pfw)" = $wid && {
+                hide_group "${groupNum}"
+                return 0
+            } || {
+                focus.sh "$wid" "disable"
+            }
         }
         # if more than one window, cycle through them
         test $(wc -l < "$GROUPSDIR/group.${groupNum}") -gt 1 && {
