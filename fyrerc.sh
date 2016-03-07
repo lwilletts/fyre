@@ -17,6 +17,9 @@ SCREENS=${SCREENS:-$FYREDIR/screens}
 RESOLUTIONS=${RESOLUTIONS:-$FYREDIR/resolutions}
 
 FSFILE=${FSFILE:-$FYREDIR/fullinfo}
+MPVPOS=${MPVPOS:=$FYREDIR/mpvpos}
+IGNORE=${IGNORE:-$FYREDIR/ignored}
+HOVER=${HOVER:-$FYREDIR/hover}
 
     # window management
 ###############################################################################
@@ -67,7 +70,7 @@ INACTIVE=${INACTIVE:-0x737373}
 
 BLUR=10
 WALL=$(sed '1!d; s_~_/home/wildefyr_' < $(which bgc))
-DURATION=60
+DURATION=5
 
 warn() {
     test "$#" -eq 0 && return 1
@@ -114,7 +117,7 @@ process() {
         case "$wid" in
             0x*)
                 lsw -a | grep -q "$wid" && {
-                    xprop -id "$wid" _NET_WM_PID | cut -d\" -f 4
+                    xprop -id "$wid" _NET_WM_PID | cut -d\  -f 3
                 } || {
                     printf '%s\n' "wid does not exist!" >&2
                     return 1
@@ -132,8 +135,8 @@ resolution() {
     esac
 
     test "$(class $wid)" = "mpv" && {
-        mpvWid=$(xprop -id "$wid" WM_NORMAL_HINTS | sed '5s/[^0-9]*//p;d' | tr / \ )
-        printf '%s\n' "$mpvWid"
+        resolution=$(xprop -id "$wid" WM_NORMAL_HINTS | sed '5s/[^0-9]*//p;d' | tr / \ )
+        printf '%s\n' "$resolution"
     } || {
         printf '%s\n' "Please enter a valid mpv window id." >&2
         return 1

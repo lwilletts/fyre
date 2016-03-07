@@ -21,7 +21,7 @@ main() {
         *)   usage 0 ;;
     esac
 
-    test -e "$FSFILE" && {
+    test -f "$FSFILE" && {
         test "$PFW" = "$wid" && {
             setborder.sh active $wid
             wtp $(cat $FSFILE)
