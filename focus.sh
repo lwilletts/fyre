@@ -24,18 +24,18 @@ focusWid() {
 }
 
 focusNext() {
-    wid=$(lsw | grep -v $PFW | sed '1 p;d')
+    wid=$(lsw | grep -v "$PFW" | sed '1 p;d')
     focusMethod
 }
 
 focusPrev() {
-    wid=$(lsw | grep -v $PFW | sed '$ p;d')
+    wid=$(lsw | grep -v "$PFW" | sed '$ p;d')
     focusMethod
 }
 
 focusFull() {
     test -e $FSFILE && {
-        wid=$(cat $FSFILE | cut -d\  -f 5) || usage 1
+        wid=$(cut -d\  -f 5 < $FSFILE) || usage 1
     }
     focusMethod
 }
@@ -43,10 +43,10 @@ focusFull() {
 focusMethod() {
     # focus correctly even if there is a fullscreen window
     test -e "$FSFILE" && {
-        test "$(cat $FSFILE | cut -d\  -f 5)" = "$wid" && {
+        test "$(cut -d\  -f 5 < $FSFILE)" = "$wid" && {
             setborder.sh none "$wid"
         } || {
-            test "$(cat $FSFILE | cut -d\  -f 5)" = "$PFW" && {
+            test "$(cut -d\  -f 5 < $FSFILE)" = "$PFW" && {
                 setborder.sh active "$wid"
                 setborder.sh none "$PFW"
             }
