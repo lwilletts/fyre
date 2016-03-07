@@ -3,8 +3,6 @@
 # wildefyr - 2016 (c) wtfpl
 # move a window its width/height / snap it to edge of the screen
 
-ARGS="$@"
-
 usage() {
     cat << EOF
 Usage: $(basename $0) <direction> [wid]
@@ -81,27 +79,23 @@ moveMouse() {
     test "$mouseStatus" -eq 1 && moveMouseEnabled $PFW
 }
 
-main() {
-    . fyrerc.sh
+. fyrerc.sh
 
-    # calculate usable screen size (root minus border gaps)
-    SW=$((SW - 2*XGAP))
-    SH=$((SH - TGAP - BGAP))
+# calculate usable screen size (root minus border gaps)
+SW=$((SW - 2*XGAP))
+SH=$((SH - TGAP - BGAP))
 
-    case $2 in
-        0x*) PFW=$2 ;;
-    esac
+case $2 in
+    0x*) PFW=$2 ;;
+esac
 
-    case $1 in
-        h|left)  move_left  ;;
-        j|down)  move_down  ;;
-        k|up)    move_up    ;;
-        l|right) move_right ;;
-        *)       usage 0    ;;
-    esac
+case $1 in
+    h|left)  move_left  ;;
+    j|down)  move_down  ;;
+    k|up)    move_up    ;;
+    l|right) move_right ;;
+    *)       usage 0    ;;
+esac
 
-    wtp $X $Y $W $H $PFW
-    moveMouse
-}
-
-main $ARGS
+wtp $X $Y $W $H $PFW
+moveMouse

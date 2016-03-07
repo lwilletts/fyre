@@ -3,8 +3,6 @@
 # wildefyr - 2016 (c) wtfpl
 # move AND resize windows to useful positions
 
-ARGS="$@"
-
 usage() {
     cat << EOF
 Usage: $(basename $0) <option> [wid]
@@ -73,26 +71,22 @@ moveMouse() {
     test "$mouseStatus" -eq 1 && moveMouseEnabled $PFW
 }
 
-main() {
-    . fyrerc.sh
+. fyrerc.sh
 
-    case $2 in
-        0x*) PFW=$2 ;;
-    esac
+case $2 in
+    0x*) PFW=$2 ;;
+esac
 
-    case $1 in
-        res)  restore ;;
-        ext)  extend  ;;
-        quar) quarter ;;
-        lft)  left    ;;
-        rht)  right   ;;
-        full) full    ;;
-        vid)  video   ;;
-        *)    usage 0 ;;
-    esac
+case $1 in
+    res)  restore ;;
+    ext)  extend  ;;
+    quar) quarter ;;
+    lft)  left    ;;
+    rht)  right   ;;
+    full) full    ;;
+    vid)  video   ;;
+    *)    usage 0 ;;
+esac
 
-    wtp $X $Y $W $H $PFW
-    moveMouse
-}
-
-main $ARGS
+wtp $X $Y $W $H $PFW
+moveMouse
