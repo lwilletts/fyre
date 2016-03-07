@@ -31,11 +31,14 @@ for group in $GROUPSDIR/group.?; do
 
         test "$window" = "URxvt" && {
             window="$(name ${wid})"
+            test "$window" = "urxvt" && {
+                window="$(wname ${wid})"
+            }
             test "$window" = "tmux" && {
                 window="$(wname ${wid})"
             }
-            test "$window" = "urxvt" && {
-                window="$(wname ${wid})"
+            test "$window" = "mosh" && {
+                window="mosh: $(ps $(process $wid) | tail -1 | awk '{printf $NF}')"
             }
         }
         test "$window" = "mpv" && {
@@ -44,6 +47,10 @@ for group in $GROUPSDIR/group.?; do
         test "$window" = "Wine" && {
             window="$(wname ${wid})"
         }
+
+        window=$(printf '%s' "$window" | sed '
+        s_google-chrome_chrome_
+        ')
 
         test -z "$title" && {
             title="$(printf "$window" | tr '\n' ' ')"
@@ -54,7 +61,8 @@ for group in $GROUPSDIR/group.?; do
 
     test ! -z "$title" && {
         stringOut="${stringOut}${colour}\
-%{A:windows.sh -t $groupNum:}  #${groupNum} - ${title}  %{A}"
+%{A:windows.sh -t $groupNum:}  #${groupNum} %{A}-\
+%{A:windows.sh -T $groupNum:} ${title}  %{A}"
     } || {
         continue
     }
