@@ -21,10 +21,9 @@ main() {
         *)   usage 0 ;;
     esac
 
-    windowName=$(name $wid)
-    setborder.sh active $wid
+    focus.sh $wid
 
-    case "$windowName" in
+    case "$(name $wid)" in
         "urxvt")
             position.sh res $wid
             snap.sh tl $wid
@@ -33,21 +32,22 @@ main() {
             position.sh res $wid
             snap.sh tl $wid
             windows.sh -a $wid 3
-            focus.sh $wid
             ;;
         "tmux")
             position.sh res $wid
             position.sh ext $wid
             snap.sh tl $wid
             windows.sh -a $wid 1
-            focus.sh $wid
+            ;;
+        "paste")
+            position.sh res $wid
+            snap.sh md $wid
             ;;
         "mpsyt")
             position.sh res $wid
             position.sh ext $wid
             snap.sh right $wid
             windows.sh -a $wid 9
-            focus.sh $wid
             ;;
         "alsamixer")
             position.sh quar $wid
@@ -55,38 +55,42 @@ main() {
             ;;
         "Legions.exe")
             windows.sh -a $wid 6
-            focus.sh $wid
             ;;
         *)
-            windowClass=$(class $wid)
-            case "$windowClass" in
+            case "$(class $wid)" in
                 "google-chrome")
                     wtp $(($(wattr x $wid) - BW)) $(($(wattr y $wid) - BW)) \
                         $(wattr wh $wid) $wid
                     windows.sh -a $wid 2
-                    focus.sh $wid
                     ;;
                 "mpv")
-                    snap.sh md $wid
                     windows.sh -a $wid 5
-                    focus.sh $wid
+
+                    test -f "$MPVPOS" && {
+                        wtp $(cut -d\  -f -4 < $MPVPOS) $wid
+                    } || {
+                        test $(resolution $wid | cut -d\  -f 1) -ge $SW && {
+                            position.sh full $wid
+                        }
+                        test $(resolution $wid | cut -d\  -f 2) -ge $SH && {
+                            position.sh full $wid
+                        }
+                        snap.sh md $wid
+                    }
                     ;;
                 "TeamSpeak 3")
                     snap.sh md $wid
                     windows.sh -a $wid 4
-                    focus.sh $wid
                     ;;
                 # seriously fuck this program
                 "telegram")
                     position.sh res $wid
                     position.sh ext $wid
                     windows.sh -a $wid 4
-                    focus.sh $wid
                     ;;
                 "MuPDF")
                     snap.sh md $wid
                     windows.sh -a $wid 6
-                    focus.sh $wid
                     ;;
                 *)
                     snap.sh md $wid
@@ -94,7 +98,6 @@ main() {
             esac
             ;;
     esac
-
 }
 
 main $ARGS
