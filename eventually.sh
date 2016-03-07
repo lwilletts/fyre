@@ -23,16 +23,9 @@ wew | while IFS=: read ev wid; do
             }
             ;;
         17)
-            wattr o "$wid" || {
-                windows.sh -q -c "$wid"
-            }
-            ;;
-        18)
-            wattr o "$wid" || {
-                wattr "$(pfw)" || focus.sh prev "disable" 2>/dev/null
-                setborder.sh inactive "$wid"
-                test "$(lsw | wc -l)" -eq 0 && blur.sh 0
-            }
+            wattr "$(pfw)" || focus.sh prev "disable" 2>/dev/null
+            windows.sh -q -c "$wid"
+            test "$(lsw | wc -l)" -eq 0 && blur.sh 0
             ;;
         19)
             wattr o "$wid" || {
