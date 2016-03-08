@@ -11,11 +11,6 @@ wew | while IFS=: read ev wid; do
     esac
 
     case $ev in
-        4)
-            wattr o "$wid" || {
-                focus.sh "$wid" "disable"
-            }
-            ;;
         16)
             wattr o "$wid" || {
                 winopen.sh "$wid"
