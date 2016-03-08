@@ -77,7 +77,6 @@ main() {
         next)             focusNext    ;;
         prev)             focusPrev    ;;
         full)             focusFull    ;;
-        h|help|-h|--help) usage 0      ;;
         *)                usage 1      ;;
     esac
 
@@ -89,4 +88,17 @@ main() {
     test "$MOUSE" = "true" && moveMouse
 }
 
-main $ARGS
+test "$#" -eq 0 && usage 1
+
+for arg in "$ARGS"; do
+    case $arg in
+        -q|--quiet)      QUIETFLAG=true ;;
+        h|help-h|--help) usage 0        ;;
+    esac
+done
+
+test "$QUIETFLAG" = "true" && {
+    main $ARGS 2>&1 > /dev/null
+} || {
+    main $ARGS
+}
