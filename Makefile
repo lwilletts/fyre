@@ -6,7 +6,8 @@ SCRIPT = blur.sh \
 		 focus.sh \
 		 fullscreen.sh \
 		 fyrerc.sh \
-		 ignore.sh \
+		 hover.sh \
+		 ign.sh \
 		 layouts.sh \
 		 LICENSE.md \
 		 Makefile \
@@ -21,6 +22,7 @@ SCRIPT = blur.sh \
 		 snap.sh \
 		 sxhkdc.example \
 		 taskbar.sh \
+		 underneath.sh \
 		 wgroups.sh \
 		 wid.sh \
 		 windows.sh \
