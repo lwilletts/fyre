@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# wildefyr - 2016 (c) wtfpl
+# wildefyr - 2016 (c) MIT
 # move a window its width/height / snap it to edge of the screen
 
 usage() {

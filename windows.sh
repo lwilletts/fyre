@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# wildefyr && greduan - 2016 (c) wtfpl
+# wildefyr - 2016 (c) MIT
 # groups script with usablity enchancements
 
 ARGS="$@"

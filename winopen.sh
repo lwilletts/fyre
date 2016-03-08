@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# wildefyr - 2016 (c) wtfpl
+# wildefyr - 2016 (c) MIT
 # test window classes when being opened
 
 ARGS="$@"

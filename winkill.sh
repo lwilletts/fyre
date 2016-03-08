@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# wildefyr - 2016 (c) wtfpl
+# wildefyr - 2016 (c) MIT
 # i was happy with killwa before telegram showed up in my life
 
 usage() {

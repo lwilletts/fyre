@@ -1,6 +1,6 @@
 #bin/sh
 #
-# wildefyr - 2016 (c) wtfpl
+# wildefyr - 2016 (c) MIT
 # wrapper to find any visible window that matches a string
 
 ARGS="$@"

@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# wildefyr - 2016 (c) wtfpl
+# wildefyr - 2016 (c) MIT
 # fyre initialisation and run loop
 
 . fyrerc.sh

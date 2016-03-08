@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# wildefyr - 2016 (c) wtfpl
+# wildefyr - 2016 (c) MIT
 # power menu for fyre
 
 usage() {
@@ -15,6 +15,12 @@ EOF
     test $# -eq 0 || exit $1
 }
 
+killfyre() {
+    layouts.sh -s 0 -q
+    windows.sh --reset
+    pkill xinit
+}
+
 lockfyre() {
     mpvc --stop -q
     test -d /sys/class/backlight/intel_backlight && {
@@ -23,7 +29,7 @@ lockfyre() {
         xbacklight -set 0 && slock && xbacklight -set $LIGHT
     } || {
         type slock 2>&1 > /dev/null && {
-            # xset dpms force suspend
+            xset dpms force suspend
             slock
         } || {
             printf '%s\n' "slock was not found on your \$PATH."
@@ -33,20 +39,17 @@ lockfyre() {
 }
 
 exitfyre() {
-    layouts.sh -s 0 -q
-    pkill xinit
+    killfyre
 }
 
 restartfyre() {
-    layouts.sh -s 0 -q
+    killfyre
     sudo reboot 2>/dev/null
-    pkill xinit
 }
 
 powerfyre() {
-    layouts.sh -s 0 -q
+    killfyre
     sudo poweroff 2>/dev/null
-    pkill xinit
 }
 
 case $1 in

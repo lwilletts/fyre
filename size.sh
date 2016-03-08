@@ -1,9 +1,7 @@
 #!/bin/sh
 #
-# wildefyr - 2016 (c) wtfpl
+# wildefyr - 2016 (c) MIT
 # sane resize in a direction
-
-ARGS="$@"
 
 usage() {
     cat << EOF
@@ -15,7 +13,7 @@ Usage: $(basename $0) <direction> [wid]
     h  | help:       Show this help.
 EOF
 
-    test $# -eq 0 || exit $1
+    test -z $1 || exit $1
 }
 
 grow_down() {
@@ -38,9 +36,11 @@ grow_right() {
         W=$minW
     } || {
         W=$((W + minW + IGAP + BW))
-        test $((X + W - minW)) -gt $SW && {
-            W=$((SW + XGAP - X - BW))
-            test $W -lt $SW && {
+        SW=$((SW - XGAP))
+        test $((X + W)) -gt $SW && {
+            W=$((SW - X - BW))
+            echo $W $SW
+            test $((X + W + BW)) = $SW && test $((W - XGAP)) -lt $SW && {
                 X=$((X - minW - IGAP - BW))
                 W=$((W + minW + IGAP + BW))
             }
@@ -73,27 +73,23 @@ moveMouse() {
     test "$mouseStatus" -eq 1 && moveMouseEnabled $wid
 }
 
-main() {
-    . fyrerc.sh
+. fyrerc.sh
 
-    # calculate usable screen size (root minus border gaps)
-    SW=$((SW - 2*XGAP))
-    SH=$((SH - TGAP - BGAP))
+wid=$PFW
+# calculate usable screen size (root minus border gaps)
+SH=$((SH - TGAP - BGAP))
 
-    case $2 in
-        0x*) wid=$2 ;;
-    esac
+case $2 in
+    0x*) wid=$2 ;;
+esac
 
-    case $1 in
-        gd|growdown)    grow_down    ;;
-        su|shrinkup)    shrink_up    ;;
-        gr|growright)   grow_right   ;;
-        sl|shrinkleft)  shrink_left  ;;
-        *)              usage 0      ;;
-    esac
+case $1 in
+    gd|growdown)    grow_down    ;;
+    su|shrinkup)    shrink_up    ;;
+    gr|growright)   grow_right   ;;
+    sl|shrinkleft)  shrink_left  ;;
+    *)              usage 0      ;;
+esac
 
-    wtp $X $Y $W $H $wid
-    moveMouse
-}
-
-main $ARGS
+wtp $X $Y $W $H $wid
+moveMouse
