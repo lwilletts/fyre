@@ -16,8 +16,6 @@ while true; do
     test ! -z "$mpvid" && {
         printf '%s\n' "$(wattr xywhi ${mpvid})" > "$MPVPOS"
     } || {
-        test -f "$MPVPOS" && {
-            rm -f "$MPVPOS"
-        }
+        test -f "$MPVPOS" && rm -f "$MPVPOS"
     }
 done
