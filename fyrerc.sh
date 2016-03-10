@@ -58,6 +58,7 @@ INACTIVE=${INACTIVE:-0x737373}
 BLUR=10
 WALL=$(sed '1!d; s_~_/home/wildefyr_' < $(which bgc))
 MOUSE="false"
+SLOPPY="true"
 DURATION=5
 
 name() {

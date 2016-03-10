@@ -8,7 +8,7 @@ wew | while IFS=: read ev wid; do
 
     case "$ev" in
         7)
-            test "$MOUSE" = "true" && {
+            test "$SLOPPY" = "true" && {
                 wattr o "$wid" || {
                     focus.sh "$wid" "disable" -q
                 }
