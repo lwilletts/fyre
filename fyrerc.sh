@@ -14,30 +14,17 @@ test ! -d "$GROUPSDIR" && mkdir -p "$GROUPSDIR"
 test ! -d "$LAYOUTDIR" && mkdir -p "$LAYOUTDIR"
 
 SCREENS=${SCREENS:-$FYREDIR/screens}
-RESOLUTIONS=${RESOLUTIONS:-$FYREDIR/resolutions}
-
 FSFILE=${FSFILE:-$FYREDIR/fullinfo}
-MPVPOS=${MPVPOS:=$FYREDIR/mpvpos}
+MPVPOS=${MPVPOS:-$FYREDIR/mpvpos}
 IGNORE=${IGNORE:-$FYREDIR/ignored}
 HOVER=${HOVER:-$FYREDIR/hover}
 
     # window management
 ###############################################################################
 
-nuScreens=$(wc -l < "$SCREENS")
-test "$nuScreens" -eq "1" && {
-    ROOT=$(lsw -r)
-    SW=$(wattr w $ROOT)
-    SH=$(wattr h $ROOT)
-} || {
-    # probably make a new call to something like screens.sh that does all of this
-    test -f $RESOLUTIONS && rm $RESOLUTIONS
-
-    for i in "$(seq $nuScreens)"; do
-        sed "$i!d" < $SCREENS | cut -d\  -f 3 | cut -d+ -f 1 | sed "s/x/ /g" \
-            >> $RESOLUTIONS
-    done
-}
+ROOT=$(lsw -r)
+SW=$(wattr w $ROOT)
+SH=$(wattr h $ROOT)
 
 PFW=$(pfw)
 CUR=${2:-$(pfw)}
@@ -72,11 +59,6 @@ BLUR=10
 WALL=$(sed '1!d; s_~_/home/wildefyr_' < $(which bgc))
 MOUSE="false"
 DURATION=5
-
-warn() {
-    test "$#" -eq 0 && return 1
-    setborder.sh warning $1 && chwso -r $1
-}
 
 name() {
     test "$#" -eq 0 && return 1

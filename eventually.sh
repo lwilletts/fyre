@@ -3,14 +3,17 @@
 # wildefyr & z3bra - 2016 (c) wtfpl
 # catch window events from wew
 
-. fyrerc.sh
-
 wew | while IFS=: read ev wid; do
-    case $1 in
-        -d|--debug) printf '%s\n' "$ev $wid" ;;
-    esac
+    . fyrerc.sh
 
-    case $ev in
+    case "$ev" in
+        7)
+            test "$MOUSE" = "true" && {
+                wattr o "$wid" || {
+                    focus.sh "$wid" "disable" -q
+                }
+            }
+            ;;
         16)
             wattr o "$wid" || {
                 winopen.sh "$wid"
@@ -18,13 +21,16 @@ wew | while IFS=: read ev wid; do
             }
             ;;
         17)
-            wattr "$(pfw)" || focus.sh prev "disable" 2>/dev/null
+            wattr "$(pfw)" || focus.sh prev "disable" -q
+            test -f "$FSFILE" && {
+                test "$(cut -d\  -f 5 < $FSFILE)" = "$wid" && rm -f "$FSFILE"
+            }
             windows.sh -q -c "$wid"
             test "$(lsw | wc -l)" -eq 0 && blur.sh 0
             ;;
         19)
             wattr o "$wid" || {
-                windows.sh -q -f "$wid" && focus.sh "$wid" "disable"
+                windows.sh -q -f "$wid" && focus.sh "$wid" "disable" -q
                 test "$(lsw | wc -l)" -ne 0 && blur.sh
             }
             ;;
