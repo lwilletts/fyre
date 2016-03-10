@@ -73,16 +73,16 @@ main() {
     . fyrerc.sh
 
     case $1 in
-        0x*)              focusWid  $1 ;;
-        next)             focusNext    ;;
-        prev)             focusPrev    ;;
-        full)             focusFull    ;;
-        *)                usage 1      ;;
+        0x*)  focusWid  $1 ;;
+        next) focusNext    ;;
+        prev) focusPrev    ;;
+        full) focusFull    ;;
+        *)    usage 1      ;;
     esac
 
     case $2 in
+        enable)  MOUSE=true  ;;
         disable) MOUSE=false ;;
-        *)       MOUSE=true  ;;
     esac
 
     test "$MOUSE" = "true" && moveMouse

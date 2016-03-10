@@ -92,4 +92,4 @@ case $1 in
 esac
 
 wtp $X $Y $W $H $wid
-moveMouse
+test "$MOUSE" = "true" && moveMouse
