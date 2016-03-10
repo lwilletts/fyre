@@ -13,6 +13,7 @@ SCRIPT = blur.sh \
 		 position.sh \
 		 power.sh \
 		 runfyre.sh \
+		 screens.sh \
 		 setborder.sh \
 		 size.sh \
 		 snap.sh \
