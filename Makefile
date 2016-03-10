@@ -6,24 +6,18 @@ SCRIPT = blur.sh \
 		 focus.sh \
 		 fullscreen.sh \
 		 fyrerc.sh \
-		 hover.sh \
 		 ign.sh \
 		 layouts.sh \
-		 LICENSE.md \
-		 Makefile \
 		 mouse.sh \
 		 move.sh \
 		 position.sh \
 		 power.sh \
-		 README.md \
 		 runfyre.sh \
 		 setborder.sh \
 		 size.sh \
 		 snap.sh \
-		 sxhkdc.example \
 		 taskbar.sh \
 		 underneath.sh \
-		 wgroups.sh \
 		 wid.sh \
 		 windows.sh \
 		 winkill.sh \
