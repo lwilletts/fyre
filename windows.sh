@@ -121,10 +121,7 @@ toggle_wid_group() {
         while read -r inactive; do
             test "$inactive" -eq "$addGroupNum" && {
                 mapw -u "$addWid"
-                test ! -z "$(lsw)" && {
-                    focusWid="$(lsw | tail -1)"
-                    focus.sh "$focusWid" "disable"
-                }
+                focus.sh prev
                 break
             }
         done < $GROUPSDIR/inactive
@@ -159,10 +156,7 @@ hide_group() {
     done < $GROUPSDIR/group.${hideGroupNum}
 
     test -z "$mapGroupNum" && {
-        test ! -z "$(lsw)" && {
-            focusWid="$(lsw | tail -1)"
-            focus.sh "$focusWid" "disable"
-        }
+        focus.sh prev
     }
 
     printf '%s\n' "group ${hideGroupNum} hidden!"
@@ -185,9 +179,11 @@ show_group() {
 
     while read -r showWid; do
         mapw -m $showWid
+        chwso -r $showWid
     done < "$GROUPSDIR/group.${showGroupNum}"
 
-    focusWid=$(head -n 1 < "$GROUPSDIR/group.${showGroupNum}")
+    # focus the top window in the group
+    focusWid=$(head -n 1 < "$GROUPSDIR/group.${toggleGroupNum}")
     focus.sh "$focusWid" "disable"
 
     printf '%s\n' "group ${showGroupNum} visible!"
@@ -244,16 +240,6 @@ toggle_group() {
         hide_group "${toggleGroupNum}"
     } || {
         show_group "$toggleGroupNum"
-
-        # always place windows at the top of the window stack
-        while read -r toggleWid; do
-            chwso -r "$toggleWid"
-            setborder.sh inactive "$toggleWid"
-        done < "$GROUPSDIR/group.${toggleGroupNum}"
-
-        # focus the top window in the group
-        focusWid=$(head -n 1 < "$GROUPSDIR/group.${toggleGroupNum}")
-        focus.sh "$focusWid" "disable"
     }
 }
 
@@ -276,32 +262,14 @@ smart_toggle_group() {
             wid=$(cat $GROUPSDIR/group.${toggleGroupNum})
             test "$(pfw)" = $wid && {
                 hide_group "${toggleGroupNum}"
-                return 0
             } || {
                 focus.sh "$wid" "disable"
-                return 0
             }
         } || {
-            # if more than one window, cycle through them
-            while read -r wid; do
-                test "$(pfw)" = $wid && {
-                    cycle_group "$toggleGroupNum"
-                    return 0
-                }
-            done < "$GROUPSDIR/group.${toggleGroupNum}"
+            hide_group "${toggleGroupNum}"
         }
     } || {
         show_group "$toggleGroupNum"
-
-        # always place windows at the top of the window stack
-        while read -r wid; do
-            chwso -r "$toggleWid"
-            setborder.sh inactive "$toggleWid"
-        done < "$GROUPSDIR/group.${toggleGroupNum}"
-
-        # focus the top window in the group
-        focusWid=$(head -n 1 < "$GROUPSDIR/group.${toggleGroupNum}")
-        focus.sh "$focusWid" "disable"
     }
 }
 
