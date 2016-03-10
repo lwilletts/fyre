@@ -7,7 +7,7 @@
 
 eventually.sh &
 layouts.sh -o 0
-xrandr | grep -w 'connected' | sort > "$SCREENS"
+screens.sh
 
 while true; do
     sleep "$DURATION"
