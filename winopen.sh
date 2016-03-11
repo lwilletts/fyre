@@ -21,6 +21,11 @@ main() {
         *)   usage 0 ;;
     esac
 
+    case "$(name $wid)" in
+        "WM_CLASS:  not found.")
+            return 1
+    esac
+
     focus.sh $wid
 
     case "$(name $wid)" in
