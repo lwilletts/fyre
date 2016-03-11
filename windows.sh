@@ -6,7 +6,7 @@
 ARGS="$@"
 
 usage() {
-    cat << EOF
+    cat >&2 << EOF
 Usage: $(basename $0) [-a wid group] [-fc wid] [-shmtTuz group] [-rlhq]
     -a | --add:    Add a wid to a group, or clean it if it already exists in given group.
     -f | --find:   Outputs wid if it was not found in a group.
@@ -16,7 +16,7 @@ Usage: $(basename $0) [-a wid group] [-fc wid] [-shmtTuz group] [-rlhq]
     -m | --map:    Show given group, but hide other active groups.
     -z | --cycle:  Cycle through windows in the given group.
     -t | --toggle: Toggle given group.
-    -T | --smart:  Cycle through given group, or toggle it if only one window exists in group.
+    -T | --smart:  Jump to group; if on a group window, hide the group.
     -u | --unmap:  Unmap given group.
     -r | --reset:  Reset all groups.
     -l | --list:   List all groups.
@@ -121,7 +121,7 @@ toggle_wid_group() {
         while read -r inactive; do
             test "$inactive" -eq "$addGroupNum" && {
                 mapw -u "$addWid"
-                focus.sh prev
+                focus.sh prev "disable" -q
                 break
             }
         done < $GROUPSDIR/inactive
@@ -140,6 +140,12 @@ hide_group() {
     hideGroupNum=$1
     intCheck "$hideGroupNum"
 
+    test -f "$GROUPSDIR/inactive" && {
+        grep -qw "$hideGroupNum" "$GROUPSDIR/inactive" && {
+            return 1
+        }
+    }
+
     printf '%s\n' "$hideGroupNum" >> "$GROUPSDIR/inactive"
 
     test -f "$GROUPSDIR/active" && {
@@ -152,11 +158,12 @@ hide_group() {
     }
 
     while read -r addWid; do
-        mapw -u $addWid
+        mapw -u "$addWid"
+        setborder.sh inactive "$addWid"
     done < $GROUPSDIR/group.${hideGroupNum}
 
     test -z "$mapGroupNum" && {
-        focus.sh prev
+        focus.sh prev "disable" -q
     }
 
     printf '%s\n' "group ${hideGroupNum} hidden!"
@@ -165,6 +172,12 @@ hide_group() {
 show_group() {
     showGroupNum=$1
     intCheck "$showGroupNum"
+
+    test -f "$GROUPSDIR/active" && {
+        grep -qw "$hideGroupNum" "$GROUPSDIR/active" && {
+            return 1
+        }
+    }
 
     printf '%s\n' "$showGroupNum" >> "$GROUPSDIR/active"
 
@@ -264,12 +277,14 @@ smart_toggle_group() {
                 hide_group "${toggleGroupNum}"
             } || {
                 focus.sh "$wid" "disable"
+                return 0
             }
         } || {
             hide_group "${toggleGroupNum}"
         }
     } || {
         show_group "$toggleGroupNum"
+        return 0
     }
 }
 
@@ -312,7 +327,7 @@ main() {
     . fyrerc.sh
 
     for arg in "$@"; do
-        case "$arg" in -?|--*)   ADDFLAG=false ;; esac
+        case "$arg" in -?|--*) ADDFLAG=false ;; esac
         test "$ADDFLAG" = "true" && ADDSTRING="${ADDSTRING}${arg} "
         case "$arg" in -a|--add) ADDFLAG=true ;; esac
     done
