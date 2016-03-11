@@ -3,6 +3,16 @@
 # wildefyr & z3bra - 2016 (c) wtfpl
 # catch window events from wew
 
+case $1 in
+    -d|--debug)
+        . fyrerc.sh
+
+        wew | while IFS=: read -r ev wid; do
+            printf '%s\n' "$ev $wid $(name $wid) $(class $wid) $(process $wid)"
+        done
+        ;;
+esac
+
 wew | while IFS=: read ev wid; do
     . fyrerc.sh
 
