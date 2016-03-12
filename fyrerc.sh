@@ -126,3 +126,12 @@ resolution() {
         return 1
     }
 }
+
+hoverPush() {
+    test -f "$HOVER" && {
+        while read -r line; do
+            wid=$(printf '%s\n' "$line" | cut -d\  -f 5)
+            chwso -r $wid
+        done < "$HOVER"
+    }
+}

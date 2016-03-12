@@ -20,10 +20,11 @@ esac
 
 wattr o "$PFW" && {
     ignw -r "$PFW"
-    buffer=$(sed "s/$PFW//" < "$IGNORE")
-    printf '%s\n' "$buffer" | sed '/^\s*$/d' > "$IGNORE"
-    test -z "$(cat $IGNORE)" 2> /dev/null && {
-        rm -f $IGNORE
+    buffer=$(grep -wv "$PFW" "$IGNORE")
+    test -z "$buffer" 2> /dev/null && {
+        rm -f "$IGNORE"
+    } || {
+        printf '%s\n' "$buffer" > "$IGNORE"
     }
 } || {
     ignw -s "$PFW"

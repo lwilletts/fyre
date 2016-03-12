@@ -86,6 +86,8 @@ main() {
     esac
 
     test "$MOUSE" = "true" && moveMouse
+
+    hoverPush
 }
 
 test "$#" -eq 0 && usage 1
