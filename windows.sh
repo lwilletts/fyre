@@ -49,8 +49,11 @@ find_wid() {
     for group in $(find $GROUPSDIR/*.? 2> /dev/null); do
         grep -q "$wid" "$group" && {
             printf '%s\n' "$group"
+            return 0
         }
     done
+
+    return 1
 }
 
 clean_wid() {
@@ -371,7 +374,7 @@ test "$#" -eq 0 && usage 1
 for arg in $ARGS; do
     case $arg in
         -q|--quiet)      QUIETFLAG=true ;;
-        h|help-h|--help) usage 0        ;;
+        h|help|-h|--help) usage 0        ;;
     esac
 done
 
