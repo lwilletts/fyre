@@ -11,32 +11,25 @@ Installation
 
 This repo relies on the installation of:
 
-- [wmutils/libwm](https://github.com/wmutils/libwm)
 - [wmutils/core](https://github.com/wmutils/core)
 - [wmutils/opt](https://github.com/wmutils/opt)
-
-I also have my own fork of [wmutils/opt](https://github.com/wildefyr/opt),
-which allows the use of middle mouse click to focus a window.
 
 Dependencies that I would consider are essential:
 
 - dash - Become one with the POSIX.
-- sxhkd - To bind scripts to hotkeys.
+- [sxhkd](https://github.com/baskerville/sxhkd) - To bind scripts to hotkeys.
 - xorg-xprop - Environment information.
 - xorg-xinput - Enabling/Disabling input devices.
 
 Optional dependencies that are important for forming a more 'complete'
 environment:
 
-- [slop](https://github.com/naelstrof/slop) - Selecting window geometries or for 'drawing' a window.
 - [dmenu](http://tools.suckless.org/dmenu/) - Suckless menu for launching programs.
-- [compton](https://github.com/chjj/compton) - Best X11 compositing manager out there.
 - [lemonbar](https://github.com/baskerville/bar) - An excellent statusbar program with clickable support.
 - [hsetroot](https://github.com/elmiko/hsetroot) - Minimal background setter with clean options compared to feh.
-- [transset-df](https://github.com/wildefyr/transset-df) - Manipulate window transparency interactively.
 
 Install these separately depending on your distribution, but I recommend
-grabbing from source wherever possible (especially for suckless tools). 
+grabbing from source wherever possible (especially for suckless tools).
 My personal configuration for these can be found in my
 [dotfiles](https://github.com/wildefyr/dotfiles) and
 [scripts](https://github.com/wildefyr/bin) repositories.
