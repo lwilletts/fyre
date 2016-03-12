@@ -6,6 +6,7 @@ SCRIPT = blur.sh \
 		 focus.sh \
 		 fullscreen.sh \
 		 fyrerc.sh \
+		 hover.sh \
 		 ign.sh \
 		 layouts.sh \
 		 mouse.sh \
