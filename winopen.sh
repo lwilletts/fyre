@@ -24,6 +24,7 @@ main() {
     case "$(name $wid)" in
         "WM_CLASS:  not found.")
             return 1
+            ;;
     esac
 
     focus.sh $wid
@@ -52,7 +53,7 @@ main() {
             position.sh res $wid
             position.sh ext $wid
             snap.sh right $wid
-            windows.sh -a $wid 9
+            windows.sh -a $wid 8
             ;;
         "alsamixer")
             position.sh quar $wid
