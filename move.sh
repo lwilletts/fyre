@@ -4,7 +4,7 @@
 # move a window its width/height / snap it to edge of the screen
 
 usage() {
-    cat << EOF
+    cat >&2 << EOF
 Usage: $(basename $0) <direction> [wid]
     h | left:  Move current or given window its width or minW left.
     j | down:  Move current or given window its height or minH down.
@@ -31,12 +31,10 @@ move_left() {
 }
 
 move_down() {
-    X=$(wattr x $PFW)
-    Y=$(wattr y $PFW)
     test $H -gt $minH && {
         Y=$((Y + minH + VGAP + BW))
     } || {
-        Y=$((Y + H + VGAP + BW))
+        Y=$((Y + H + VGAP + VGAP/2))
     }
     test $((Y + H)) -gt $SH && {
         snap.sh j
@@ -50,7 +48,7 @@ move_up() {
     test $H -gt $minH && {
         Y=$((Y - minH - VGAP - BW))
     } || {
-        Y=$((Y - H - VGAP - BW))
+        Y=$((Y - H - VGAP - VGAP/2))
     }
     test $Y -lt $TGAP && {
         snap.sh k
@@ -76,18 +74,19 @@ moveMouse() {
     . mouse.sh
 
     mouseStatus=$(getMouseStatus)
-    test "$mouseStatus" -eq 1 && moveMouseEnabled $PFW
+    test "$mouseStatus" -eq 1 && moveMouseEnabled $wid
 }
 
 . fyrerc.sh
 
-# calculate usable screen size (root minus border gaps)
-SW=$((SW - 2*XGAP))
-SH=$((SH - TGAP - BGAP))
+wid=$PFW
 
 case $2 in
-    0x*) PFW=$2 ;;
+    0x*) wid=$2 ;;
 esac
+
+SW=$eSW
+SH=$eSH
 
 case $1 in
     h|left)  move_left  ;;
@@ -97,5 +96,5 @@ case $1 in
     *)       usage 0    ;;
 esac
 
-wtp $X $Y $W $H $PFW
+wtp $X $Y $W $H $wid
 test "$MOUSE" = "true" && moveMouse

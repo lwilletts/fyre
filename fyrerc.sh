@@ -29,24 +29,27 @@ SH=$(wattr h $ROOT)
 PFW=$(pfw)
 CUR=${2:-$(pfw)}
 
-BW=${BW:-2}
-
 X=$(wattr x $CUR 2> /dev/null)
 Y=$(wattr y $CUR 2> /dev/null)
 W=$(wattr w $CUR 2> /dev/null)
 H=$(wattr h $CUR 2> /dev/null)
 
+BW=${BW:-1}
+
 # add $BW for non-overlapping borders
-# must be multiple of 2
-IGAP=${IGAP:-$((20))}
-VGAP=${VGAP:-$((20))}
+IGAP=${IGAP:-$((10))}
+VGAP=${VGAP:-$((10))}
+# must be multiple of two
 
-XGAP=${XGAP:-$((20 + IGAP/2))}
+XGAP=${XGAP:-$((10 + IGAP/2))}
+BGAP=${BGAP:-$((10 + VGAP/2))}
 TGAP=${TGAP:-$((40 + VGAP/2))}
-BGAP=${BGAP:-$((20 + VGAP/2 - BW))}
 
-minW=$((466 - IGAP + BW))
-minH=$((252 - VGAP + BW))
+eSW=$((SW - XGAP - 2*BW))
+eSH=$((SH - TGAP - BGAP))
+
+minW=$((eSW/4 - IGAP - BW))
+minH=$((eSH/4 - VGAP - BW))
 
 ACTIVE=${ACTIVE:-0xD7D7D7}
 WARNING=${WARNING:-0xB23450}
@@ -130,7 +133,7 @@ resolution() {
 hoverPush() {
     test -f "$HOVER" && {
         while read -r line; do
-            wid=$(printf '%s\n' "$line" | cut -d\  -f 5)
+            wid=$(printf '%s\n' "$line" | cut -d\  -f 1)
             chwso -r $wid
         done < "$HOVER"
     }

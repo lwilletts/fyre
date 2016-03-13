@@ -67,13 +67,15 @@ moveMouse() {
     . mouse.sh
 
     mouseStatus=$(getMouseStatus)
-    test "$mouseStatus" -eq 1 && moveMouseEnabled $PFW
+    test "$mouseStatus" -eq 1 && moveMouseEnabled $wid
 }
 
 . fyrerc.sh
 
+wid=$PFW
+
 case $2 in
-    0x*) PFW=$2 ;;
+    0x*) wid=$2 ;;
 esac
 
 case $1 in
@@ -89,5 +91,5 @@ case $1 in
     *)         usage 0    ;;
 esac
 
-wtp $X $Y $W $H $PFW
+wtp $X $Y $W $H $wid
 test "$MOUSE" = "true" && moveMouse

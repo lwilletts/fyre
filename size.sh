@@ -4,7 +4,7 @@
 # sane resize in a direction
 
 usage() {
-    cat << EOF
+    cat >&2 << EOF
 Usage: $(basename $0) <direction> [wid]
     gr | growright:  Grow current or given window right
     gd | growdown:   Grow current or given window down.
@@ -20,13 +20,10 @@ grow_down() {
     test $H -lt $((minH - BW)) && {
         H=$minH
     } || {
-        H=$((H + minH + VGAP + BW))
-        test $((Y + H - minH)) -gt $SH && {
-            H=$((SH + TGAP - Y))
-            test $H -lt $SH && {
-                Y=$((Y - minH - VGAP - BW))
-                H=$((H + minH + VGAP + BW))
-            }
+        H=$((H + minH + VGAP + VGAP/2))
+        test $((Y + H - minH - BGAP)) -gt $SH && {
+            Y=$TGAP
+            H=$SH
         }
     }
 }
@@ -36,31 +33,24 @@ grow_right() {
         W=$minW
     } || {
         W=$((W + minW + IGAP + BW))
-        SW=$((SW - XGAP))
-        test $((X + W)) -gt $SW && {
-            W=$((SW - X - BW))
-            echo $W $SW
-            test $((X + W + BW)) = $SW && test $((W - XGAP)) -lt $SW && {
-                X=$((X - minW - IGAP - BW))
-                W=$((W + minW + IGAP + BW))
-            }
+        test $((X + W - minW - XGAP)) -gt $SW && {
+            X=$XGAP
+            W=$SW
         }
     }
 }
 
 shrink_up() {
     test $H -le $minH && {
-        test $H -eq 1 && exit 1
-        H=$((H/2 - BW + 1))
+        H=$minH
     } || {
-        H=$((H - minH - VGAP - BW))
+        H=$((H - minH - VGAP - VGAP/2))
     }
 }
 
 shrink_left() {
     test $W -le $minW && {
-        test $W -eq 1 && exit 1
-        W=$((W/2 - BW + 1))
+        W=$minW
     } || {
         W=$((W - minW - IGAP - BW))
     }
@@ -76,12 +66,13 @@ moveMouse() {
 . fyrerc.sh
 
 wid=$PFW
-# calculate usable screen size (root minus border gaps)
-SH=$((SH - TGAP - BGAP))
 
 case $2 in
     0x*) wid=$2 ;;
 esac
+
+SW=$((SW - 2*XGAP - 1))
+SH=$eSH
 
 case $1 in
     gd|growdown)    grow_down    ;;

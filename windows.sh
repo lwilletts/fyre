@@ -165,10 +165,6 @@ hide_group() {
         setborder.sh inactive "$addWid"
     done < $GROUPSDIR/group.${hideGroupNum}
 
-    test -z "$mapGroupNum" && {
-        focus.sh prev "disable" -q
-    }
-
     printf '%s\n' "group ${hideGroupNum} hidden!"
 }
 
@@ -373,7 +369,7 @@ test "$#" -eq 0 && usage 1
 
 for arg in $ARGS; do
     case $arg in
-        -q|--quiet)      QUIETFLAG=true ;;
+        -q|--quiet)       QUIETFLAG=true ;;
         h|help|-h|--help) usage 0        ;;
     esac
 done

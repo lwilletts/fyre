@@ -4,7 +4,7 @@
 # move AND resize windows to useful positions
 
 usage() {
-    cat << EOF
+    cat >&2 << EOF
 Usage: $(basename $0) <option> [wid]
     res:  Restore the current or given window to minW and minH values.
     ext:  Extend the current or given window to the max SH value.
@@ -26,29 +26,25 @@ restore() {
 
 extend() {
     Y=$TGAP
-    H=$((SH - TGAP - BGAP))
+    H=$((4*minH + 4*VGAP + 4*BW))
 }
 
 quarter() {
     W=$((2*minW + IGAP + BW))
-    SH=$((SH - TGAP - BGAP))
-    H=$((SH/2 - VGAP/2))
+    H=$((2*minH + VGAP + BW))
 }
 
 left() {
     X=$XGAP
     Y=$TGAP
-    SW=$((SW - 2*XGAP))
-    SH=$((SH - TGAP - BGAP))
-    W=$((SW/2 - IGAP/2 - BW))
-    H=$SH
+    W=$((2*minW + IGAP + BW))
+    H=$((4*minH + 4*VGAP + 4*BW))
 }
 
 right() {
     Y=$TGAP
-    H=$((SH - TGAP - BGAP))
-    SW=$((SW - 2*XGAP))
-    W=$(((SW - IGAP - 2*BW)/2))
+    W=$((2*minW + IGAP + BW))
+    H=$((4*minH + 4*VGAP + 4*BW))
     X=$((W + XGAP + IGAP + BW))
 }
 
@@ -68,13 +64,15 @@ moveMouse() {
     . mouse.sh
 
     mouseStatus=$(getMouseStatus)
-    test "$mouseStatus" -eq 1 && moveMouseEnabled $PFW
+    test "$mouseStatus" -eq 1 && moveMouseEnabled $wid
 }
 
 . fyrerc.sh
 
+wid=$PFW
+
 case $2 in
-    0x*) PFW=$2 ;;
+    0x*) wid=$2 ;;
 esac
 
 case $1 in
@@ -88,5 +86,5 @@ case $1 in
     *)    usage 0 ;;
 esac
 
-wtp $X $Y $W $H $PFW
+wtp $X $Y $W $H $wid
 test "$MOUSE" = "true" && moveMouse
