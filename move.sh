@@ -22,7 +22,7 @@ move_left() {
     test $W -ge $minW && {
         X=$((X - minW - IGAP - BW))
     } || {
-        X=$((X - W - IGAP - BW))
+        X=$((X - minW - IGAP - BW))
     }
     test $X -le $XGAP && {
         snap.sh h
@@ -34,7 +34,7 @@ move_down() {
     test $H -gt $minH && {
         Y=$((Y + minH + VGAP + BW))
     } || {
-        Y=$((Y + H + VGAP + VGAP/2))
+        Y=$((Y + minH + VGAP + VGAP/2))
     }
     test $((Y + H)) -gt $SH && {
         snap.sh j
@@ -48,7 +48,7 @@ move_up() {
     test $H -gt $minH && {
         Y=$((Y - minH - VGAP - BW))
     } || {
-        Y=$((Y - H - VGAP - VGAP/2))
+        Y=$((Y - minH - VGAP - VGAP/2))
     }
     test $Y -lt $TGAP && {
         snap.sh k
@@ -62,7 +62,7 @@ move_right() {
     test $W -ge $minW && {
         X=$((X + minW + IGAP + BW))
     } || {
-        X=$((X + W + IGAP + BW))
+        X=$((X + minW + IGAP + BW))
     }
     test $((X + W)) -gt $SW && {
         snap.sh l

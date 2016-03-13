@@ -21,9 +21,14 @@ grow_down() {
         H=$minH
     } || {
         H=$((H + minH + VGAP + VGAP/2))
+        test $H -gt $SH && {
+            H=$SH
+            return 0
+        }
         test $((Y + H - minH - BGAP)) -gt $SH && {
             Y=$TGAP
             H=$SH
+            return 0
         }
     }
 }
@@ -33,9 +38,14 @@ grow_right() {
         W=$minW
     } || {
         W=$((W + minW + IGAP + BW))
+        test $W -gt $SW && {
+            W=$SW
+            return 0
+        }
         test $((X + W - minW - XGAP)) -gt $SW && {
             X=$XGAP
             W=$SW
+            return 0
         }
     }
 }

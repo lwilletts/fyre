@@ -37,8 +37,8 @@ H=$(wattr h $CUR 2> /dev/null)
 BW=${BW:-1}
 
 # add $BW for non-overlapping borders
-IGAP=${IGAP:-$((10))}
-VGAP=${VGAP:-$((10))}
+IGAP=${IGAP:-$((20))}
+VGAP=${VGAP:-$((20))}
 # must be multiple of two
 
 XGAP=${XGAP:-$((10 + IGAP/2))}
@@ -48,8 +48,8 @@ TGAP=${TGAP:-$((40 + VGAP/2))}
 eSW=$((SW - XGAP - 2*BW))
 eSH=$((SH - TGAP - BGAP))
 
-minW=$((eSW/4 - IGAP - BW))
-minH=$((eSH/4 - VGAP - BW))
+minW=$((eSW/4 - IGAP))
+minH=$((eSH/4 - VGAP))
 
 ACTIVE=${ACTIVE:-0xD7D7D7}
 WARNING=${WARNING:-0xB23450}
@@ -58,7 +58,7 @@ INACTIVE=${INACTIVE:-0x737373}
     # other
 ###############################################################################
 
-BLUR=10
+BLUR=2
 WALL=$(sed '1!d; s_~_/home/wildefyr_' < $(which bgc))
 MOUSE="false"
 SLOPPY="true"
