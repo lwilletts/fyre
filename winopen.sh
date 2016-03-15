@@ -59,9 +59,6 @@ main() {
             position.sh quar $wid
             snap.sh md $wid
             ;;
-        "Legions.exe")
-            windows.sh -a $wid 6
-            ;;
         *)
     case "$(class $wid)" in
         "google-chrome")
@@ -100,6 +97,10 @@ main() {
             position.sh res $wid
             position.sh ext $wid
             windows.sh -a $wid 4
+            ;;
+        "Wine")
+            snap.sh md $wid
+            windows.sh -a $wid 6
             ;;
         "MuPDF")
             snap.sh md $wid
