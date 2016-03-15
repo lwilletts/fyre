@@ -16,7 +16,15 @@ case $1 in
         . fyrerc.sh
 
         wew | while IFS=: read -r ev wid; do
-            printf '%s\n' "$ev $wid $(name $wid) $(class $wid) $(process $wid)"
+
+        cat << EOF
+$ev $wid
+$(name $wid)
+$(wname $wid)
+$(class $wid)
+$(process $wid)
+
+EOF
         done
         ;;
     h|help|-h|--help)
@@ -38,28 +46,31 @@ wew | while IFS=: read ev wid; do
         16)
             wattr o "$wid" || winopen.sh "$wid"
 
-            test $(lsw | wc -l) -eq 1 && blur.sh
+            case "$WOKRFLOW" in
+                "workspaces")
+                    windows.sh -q -a "$wid" "$(cat $active)"
+                    ;;
+            esac
+
+            blur.sh
             ;;
         17)
-            # clean group
+            # clean workspace/group
             windows.sh -q -c "$wid"
+
             # clean hover
-            test -f "$HOVER" && hover.sh -c "$wid"
+            hover.sh -c "$wid"
             # clean fullscreen
             test -f "$FSFILE" && \
                 test "$(cut -d\  -f 5 < $FSFILE)" = "$wid" && rm -f "$FSFILE"
-
-            test "$(lsw | wc -l)" -eq 0 && blur.sh 0
             ;;
         18)
             wattr "$(pfw)" || focus.sh prev "disable" -q
+
+            blur.sh
             ;;
         19)
-            wattr o "$wid" || {
-                windows.sh -q -f "$wid" && focus.sh "$wid" "disable" -q
-            }
-
-            test "$(lsw | wc -l)" -ne 0 && blur.sh
+            blur.sh
             ;;
     esac
 done

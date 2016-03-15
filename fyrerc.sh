@@ -41,9 +41,9 @@ IGAP=${IGAP:-$((20))}
 VGAP=${VGAP:-$((20))}
 # must be multiple of two
 
-XGAP=${XGAP:-$((10 + IGAP/2))}
-BGAP=${BGAP:-$((10 + VGAP/2))}
-TGAP=${TGAP:-$((40 + VGAP/2))}
+XGAP=${XGAP:-$((20))}
+BGAP=${BGAP:-$((20))}
+TGAP=${TGAP:-$((40))}
 
 eSW=$((SW - XGAP - 2*BW))
 eSH=$((SH - TGAP - BGAP))
@@ -58,11 +58,15 @@ INACTIVE=${INACTIVE:-0x737373}
     # other
 ###############################################################################
 
-BLUR=2
+# set to workspaces or groups
+WORKFLOW="groups"
+
 WALL=$(sed '1!d; s_~_/home/wildefyr_' < $(which bgc))
-MOUSE="false"
-SLOPPY="true"
 DURATION=5
+BLUR=2
+
+MOUSE="true"
+SLOPPY="false"
 
 name() {
     test "$#" -eq 0 && return 1

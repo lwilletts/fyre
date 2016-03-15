@@ -27,19 +27,21 @@ clean_hover() {
 
     . fyrerc.sh
 
-    grep -q "$cleanWid" "$HOVER" && {
-        while read -r line; do
-            searchWid=$(printf '%s\n' "$line" | cut -d\  -f 1)
-            test "$searchWid" = $cleanWid && {
-                buffer=$(grep -wv "$cleanWid" "$HOVER")
-                test -z "$buffer" 2> /dev/null && {
-                    rm -f "$HOVER"
-                } || {
-                    printf '%s\n' "$buffer" > "$HOVER"
+    test -f "$HOVER" && {
+        grep -q "$cleanWid" "$HOVER" && {
+            while read -r line; do
+                searchWid=$(printf '%s\n' "$line" | cut -d\  -f 1)
+                test "$searchWid" = $cleanWid && {
+                    buffer=$(grep -wv "$cleanWid" "$HOVER")
+                    test -z "$buffer" 2> /dev/null && {
+                        rm -f "$HOVER"
+                    } || {
+                        printf '%s\n' "$buffer" > "$HOVER"
+                    }
+                    return 0
                 }
-                return 0
-            }
-        done < "$HOVER"
+            done < "$HOVER"
+        }
     }
 }
 

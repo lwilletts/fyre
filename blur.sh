@@ -30,6 +30,10 @@ main() {
 
     test $# -eq 0 || intCheck $1
 
+    case "$(lsw | wc -l)" in
+        0) BLUR=0 ;;
+    esac
+
     $WALL -blur ${1:-$BLUR}
 }
 
