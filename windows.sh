@@ -85,9 +85,13 @@ unmap_group() {
     test -f "$GROUPSDIR/group.${unmapGroupNum}" && {
         # make the group visible
         show_group "$unmapGroupNum"
-        # clean group from active file
+
+        # clean group from active/inactive files
         buffer=$(grep -wv "$unmapGroupNum" "$GROUPSDIR/active")
         printf '%s\n' "$buffer" > "$GROUPSDIR/active"
+        buffer=$(grep -wv "$unmapGroupNum" "$GROUPSDIR/inactive")
+        printf '%s\n' "$buffer" > "$GROUPSDIR/inactive"
+
         rm -f $GROUPSDIR/group.${unmapGroupNum}
         printf '%s\n' "group ${unmapGroupNum} cleaned!"
     } || {
@@ -112,12 +116,12 @@ toggle_wid_group() {
     currentGroup=$(find_wid "$addWid")
     currentGroup=$(printf '%s\n' "$currentGroup" | rev | cut -d'.' -f 1 | rev)
 
-    clean_wid "$addWid"
-
     test "$addGroupNum" -eq "$currentGroup" && {
-        printf '%s\n' ""
+        printf '%s\n' "Window id (${addWid}) alrady exists in ${currentGroup}!"
         return 0
     }
+
+    clean_wid "$addWid"
 
     # hide wid if group is curently hidden
     test -f "$GROUPSDIR/inactive" && {
@@ -274,14 +278,26 @@ smart_toggle_group() {
             wid=$(cat $GROUPSDIR/group.${toggleGroupNum})
             test "$(pfw)" = $wid && {
                 hide_group "${toggleGroupNum}"
+                return 0
             } || {
                 focus.sh "$wid" "disable"
                 return 0
             }
         } || {
             hide_group "${toggleGroupNum}"
+            return 0
         }
-    } || {
+    }
+
+    while read -r inactive; do
+        test "$inactive" -eq "$toggleGroupNum" && {
+            inactiveFlag=true
+            break
+        }
+    done < "$GROUPSDIR/inactive"
+
+
+    test "$inactiveFlag" = "true" && {
         show_group "$toggleGroupNum"
         return 0
     }
