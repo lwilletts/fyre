@@ -128,7 +128,6 @@ toggle_wid_group() {
         while read -r inactive; do
             test "$inactive" -eq "$addGroupNum" && {
                 mapw -u "$addWid"
-                focus.sh prev "disable" -q
                 break
             }
         done < $GROUPSDIR/inactive
@@ -271,6 +270,13 @@ smart_toggle_group() {
         }
     done < "$GROUPSDIR/active"
 
+    while read -r inactive; do
+        test "$inactive" -eq "$toggleGroupNum" && {
+            inactiveFlag=true
+            break
+        }
+    done < "$GROUPSDIR/inactive"
+
     # logic level over 9000
     test "$activeFlag" = "true" && {
         # focus single window in group, or if it is focused, hide it
@@ -288,14 +294,6 @@ smart_toggle_group() {
             return 0
         }
     }
-
-    while read -r inactive; do
-        test "$inactive" -eq "$toggleGroupNum" && {
-            inactiveFlag=true
-            break
-        }
-    done < "$GROUPSDIR/inactive"
-
 
     test "$inactiveFlag" = "true" && {
         show_group "$toggleGroupNum"
