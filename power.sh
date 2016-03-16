@@ -18,6 +18,11 @@ EOF
 killfyre() {
     layouts.sh -s 0 -q
     windows.sh --reset
+
+    pgrep lemonbar 2>&1 > /dev/null && {
+        pkill lemonbar
+    }
+
     pkill xinit
 }
 
@@ -28,12 +33,11 @@ lockfyre() {
         LIGHT=$(echo "($LIGHT+0.5)/1" | bc)
         xbacklight -set 0 && slock && xbacklight -set $LIGHT
     } || {
+        xset dpms force suspend
         type slock 2>&1 > /dev/null && {
-            xset dpms force suspend
             slock
         } || {
             printf '%s\n' "slock was not found on your \$PATH."
-            exit 1
         }
     }
 }
