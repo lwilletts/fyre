@@ -65,8 +65,8 @@ WALL=$(sed '1!d; s_~_/home/wildefyr_' < $(which bgc))
 DURATION=5
 BLUR=2
 
-MOUSE="true"
-SLOPPY="false"
+MOUSE="false"
+SLOPPY="true"
 
 name() {
     test "$#" -eq 0 && return 1

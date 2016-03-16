@@ -44,11 +44,12 @@ wew | while IFS=: read ev wid; do
             }
             ;;
         16)
-            wattr o "$wid" || winopen.sh "$wid"
-
             case "$WOKRFLOW" in
                 "workspaces")
                     windows.sh -q -a "$wid" "$(cat $active)"
+                    ;;
+                *)
+                    wattr o "$wid" || winopen.sh "$wid"
                     ;;
             esac
 
