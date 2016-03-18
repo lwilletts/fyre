@@ -13,22 +13,35 @@ EOF
     test $# -eq 0 || exit $1
 }
 
-getMouseDevice() {
-    device=$(xinput | awk '/Mouse/ {printf "%s\n",$9}' | cut -d= -f 2)
+fnmatch() {
+    case "$2" in
+        $1) return 0 ;;
+        *)  printf '%s\n' "Please enter a valid window id." >&2; exit 1 ;;
+    esac
+}
 
-    printf '%s\n' $device
+getMouseDevice() {
+    device="$(xinput | awk '/mouse|trackpad/ {printf "%s\n",$9}' | cut -d= -f 2)"
+
+    test ! -z "$device" && {
+        printf '%s\n' "$device"
+    } || {
+        printf '%s\n' "No pointer device found!"
+    }
 }
 
 getMouseStatus() {
     device=$(getMouseDevice)
     status=$(xinput list-props $device | awk '/Device Enabled/ {printf "%s\n", $NF}')
 
-    printf '%s\n' $status
+    printf '%s\n' "$status"
 }
 
-# move mouse to the middle of the given window
 moveMouseEnabled() {
     wid=$1
+    fnmatch "0x*" "$wid"
+
+    # move mouse to the middle of the given window id
     wmp -a $(($(wattr x $wid) + ($(wattr w $wid) / 2))) \
            $(($(wattr y $wid) + ($(wattr h $wid) / 2)))
 }
@@ -40,29 +53,30 @@ moveMouseDisabled() {
 }
 
 enableMouse() {
-    device=$(getMouseDevice)
-    xinput set-int-prop $device "Device Enabled" $device 1
-    moveMouseEnabled $PFW
+    device="$(getMouseDevice)"
+    xinput set-prop "$device" "Device Enabled" "$device" 1
+    moveMouseEnabled "$PFW"
 }
 
 disableMouse() {
-    device=$(getMouseDevice)
+    device="$(getMouseDevice)"
     moveMouseDisabled
-    xinput set-int-prop $device "Device Enabled" $device 0
+    xinput set-prop "$device" "Device Enabled" "$device" 0
 }
 
 toggleMouse() {
-    device=$(getMouseDevice)
-    status=$(getMouseStatus)
+    device="$(getMouseDevice)"
+    status="$(getMouseStatus)"
     test "$status" -eq 1 && status=0 || status=1
     test "$status" -eq 1 && moveMouseEnabled $PFW || moveMouseDisabled
-    xinput set-int-prop $device "Device Enabled" $device $status
+    xinput set-prop "$device" "Device Enabled" "$device" "$status"
 }
 
 main() {
     . fyrerc.sh
 
     case $1 in
+        i|info)    getMouseDevice ;;
         e|enable)  enableMouse  ;;
         d|disable) disableMouse ;;
         t|toggle)  toggleMouse  ;;
