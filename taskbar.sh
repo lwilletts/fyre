@@ -66,7 +66,7 @@ for group in $GROUPSDIR/group.?; do
         stringOut="${stringOut}${colour}\
 %{A1:windows.sh -T $groupNum:}\
 %{A3:windows.sh -h $groupNum:}\
-  #${groupNum} - ${title}  \
+  ${title}  \
 %{A}%{A}"
     } || {
         continue
