@@ -21,7 +21,8 @@ fnmatch() {
 }
 
 getMouseDevice() {
-    device="$(xinput | awk '/mouse|trackpad/ {printf "%s\n",$9}' | cut -d= -f 2)"
+    device="$(xinput | grep -i "mouse\|trackpad" | awk '{printf "%s\n",$9}' | \
+        cut -d= -f 2)"
 
     test ! -z "$device" && {
         printf '%s\n' "$device"
@@ -54,14 +55,14 @@ moveMouseDisabled() {
 
 enableMouse() {
     device="$(getMouseDevice)"
-    xinput set-prop "$device" "Device Enabled" "$device" 1
+    xinput --set-prop --type=int "$device" "Device Enabled" 1
     moveMouseEnabled "$PFW"
 }
 
 disableMouse() {
     device="$(getMouseDevice)"
     moveMouseDisabled
-    xinput set-prop "$device" "Device Enabled" "$device" 0
+    xinput --set-prop --type=int "$device" "Device Enabled" 0
 }
 
 toggleMouse() {
@@ -69,14 +70,13 @@ toggleMouse() {
     status="$(getMouseStatus)"
     test "$status" -eq 1 && status=0 || status=1
     test "$status" -eq 1 && moveMouseEnabled $PFW || moveMouseDisabled
-    xinput set-prop "$device" "Device Enabled" "$device" "$status"
+    xinput --set-prop --type=int "$device" "Device Enabled" "$status"
 }
 
 main() {
     . fyrerc.sh
 
     case $1 in
-        i|info)    getMouseDevice ;;
         e|enable)  enableMouse  ;;
         d|disable) disableMouse ;;
         t|toggle)  toggleMouse  ;;
