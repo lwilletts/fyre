@@ -39,6 +39,9 @@ for group in $GROUPSDIR/group.?; do
                     "tmux")
                         window="$(wname ${wid})"
                         ;;
+                    "ssh")
+                        window="ssh: $(ps $(process $wid) | tail -1 | awk '{printf $NF}')"
+                        ;;
                     "mosh")
                         window="mosh: $(ps $(process $wid) | tail -1 | awk '{printf $NF}')"
                         ;;

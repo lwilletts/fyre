@@ -39,6 +39,11 @@ main() {
             snap.sh tl $wid
             windows.sh -a $wid 3
             ;;
+        "ssh")
+            position.sh res $wid
+            snap.sh tl $wid
+            windows.sh -a $wid 3
+            ;;
         "tmux")
             position.sh res $wid
             position.sh ext $wid
