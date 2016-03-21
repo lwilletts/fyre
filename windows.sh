@@ -219,7 +219,7 @@ show_group() {
     done < "$GROUPSDIR/group.${showGroupNum}"
 
     # focus the top window in the group
-    focusWid=$(head -n 1 < "$GROUPSDIR/group.${toggleGroupNum}")
+    focusWid=$(head -n 1 < "$GROUPSDIR/group.${showGroupNum}")
     focus.sh "$focusWid" "disable"
 
     printf '%s\n' "group ${showGroupNum} visible!"
