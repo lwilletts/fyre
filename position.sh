@@ -26,25 +26,25 @@ restore() {
 
 extend() {
     Y=$TGAP
-    H=$((4*minH + 4*VGAP + 2*BW))
+    H=$((4*minH + 4*VGAP))
 }
 
 quarter() {
     W=$((2*minW + IGAP + BW))
-    H=$((2*minH + VGAP + BW))
+    H=$((2*minH + VGAP + VGAP/2 + BW))
 }
 
 left() {
     X=$XGAP
     Y=$TGAP
     W=$((2*minW + IGAP + BW))
-    H=$((4*minH + 4*VGAP + 2*BW))
+    H=$((4*minH + 4*VGAP))
 }
 
 right() {
     Y=$TGAP
     W=$((2*minW + IGAP + BW))
-    H=$((4*minH + 4*VGAP + 2*BW))
+    H=$((4*minH + 4*VGAP))
     X=$((W + XGAP + IGAP + BW))
 }
 
