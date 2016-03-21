@@ -16,14 +16,16 @@ for group in $GROUPSDIR/group.?; do
 
     colour="$INACTIVE"
 
-    while read -r groupId; do
-        test "$groupId" -eq "$groupNum" && {
-            colour="$ACTIVE"
-            break
-        } || {
-            colour="$INACTIVE"
-        }
-    done < $GROUPSDIR/active
+    test -f "$GROUPSDIR/active" && {
+        while read -r groupId; do
+            test "$groupId" -eq "$groupNum" && {
+                colour="$ACTIVE"
+                break
+            }
+        done < $GROUPSDIR/active
+    } || {
+        colour="$INACTIVE"
+    }
 
     wids=$(tr '\n' ' ' < $group)
 
@@ -68,7 +70,7 @@ for group in $GROUPSDIR/group.?; do
     test ! -z "$title" && {
         stringOut="${stringOut}${colour}\
 %{A1:windows.sh -T $groupNum:}\
-%{A3:windows.sh -h $groupNum:}\
+%{A3:windows.sh -m $groupNum:}\
   ${title}  \
 %{A}%{A}"
     } || {
