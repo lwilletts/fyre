@@ -63,10 +63,13 @@ WORKFLOW="groups"
 
 WALL=$(sed '1!d; s_~_/home/wildefyr_' < $(which bgc))
 DURATION=5
-BLUR=2
+BLUR=0
 
 MOUSE="false"
 SLOPPY="true"
+
+    # functions
+###############################################################################
 
 name() {
     test "$#" -eq 0 && return 1
