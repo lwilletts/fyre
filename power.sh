@@ -19,8 +19,8 @@ killfyre() {
     layouts.sh -s 0 -q
     windows.sh --reset
 
-    pgrep lemonbar 2>&1 > /dev/null && {
-        pkill lemonbar
+    pgrep taskbar.sh 2>&1 > /dev/null && {
+        pkill taskbar.sh
     }
 
     pkill xinit
@@ -28,22 +28,23 @@ killfyre() {
 
 lockfyre() {
     mpvc --stop -q
+
     test -d /sys/class/backlight/intel_backlight && {
-        LIGHT=$(xbacklight -get)
-        LIGHT=$(echo "($LIGHT+0.5)/1" | bc)
-        xbacklight -set 0 && slock && xbacklight -set $LIGHT
-    } || {
-        xset dpms force suspend
-        type slock 2>&1 > /dev/null && {
-            slock
-        } || {
-            printf '%s\n' "slock was not found on your \$PATH."
+        type xbacklight 2>&1 > /dev/null && {
+            LIGHT=$(xbacklight -get)
+            LIGHT=$(echo "($LIGHT+0.5)/1" | bc)
+            xbacklight -set 0 && slock && xbacklight -set $LIGHT
+            return 0
         }
     }
-}
 
-exitfyre() {
-    killfyre
+    xset dpms force suspend
+
+    type slock 2>&1 > /dev/null && {
+        slock
+    } || {
+        printf '%s\n' "slock was not found on your \$PATH."
+    }
 }
 
 restartfyre() {
@@ -58,7 +59,7 @@ powerfyre() {
 
 case $1 in
     -l|--lock)     lockfyre    ;;
-    -e|--exit)     exitfyre    ;;
+    -e|--exit)     killfyre    ;;
     -r|--restart)  restartfyre ;;
     -p|--poweroff) powerfyre   ;;
     *)             usage       ;;
