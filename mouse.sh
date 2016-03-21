@@ -27,7 +27,7 @@ getMouseDevice() {
     test ! -z "$device" && {
         printf '%s\n' "$device"
     } || {
-        printf '%s\n' "No pointer device found!"
+        printf '%s\n' "N/A"
     }
 }
 
@@ -67,6 +67,12 @@ disableMouse() {
 
 toggleMouse() {
     device="$(getMouseDevice)"
+
+    test "$device" = "N/A" && {
+        moveMouseDisabled
+        return 1
+    }
+
     status="$(getMouseStatus)"
     test "$status" -eq 1 && status=0 || status=1
     test "$status" -eq 1 && moveMouseEnabled $PFW || moveMouseDisabled
