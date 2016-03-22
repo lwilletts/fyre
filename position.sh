@@ -31,7 +31,7 @@ extend() {
 
 quarter() {
     W=$((2*minW + IGAP + BW))
-    H=$((2*minH + VGAP + VGAP/2 + BW))
+    H=$((2*minH + VGAP + VGAP/2))
 }
 
 left() {
