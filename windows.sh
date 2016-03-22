@@ -8,7 +8,7 @@ ARGS="$@"
 usage() {
     cat >&2 << EOF
 Usage: $(basename $0) [-a wid group] [-fc wid] [-shmtTuz group] [-rlhq]
-    -a | --add:    Add a wid to a group, or clean it if it already exists in given group.
+    -a | --add:    Add wid to the given group.
     -f | --find:   Outputs wid if it was not found in a group.
     -c | --clean:  Clean wid from all groups.
     -h | --hide:   Hide given group.
@@ -31,7 +31,7 @@ intCheck() {
     test $1 -ne 0 2> /dev/null
     test $? -ne 2 || {
          printf '%s\n' "'$1' is not an integer." >&2
-         exit 1
+         echo; usage 1
     }
 }
 
@@ -406,7 +406,7 @@ main() {
 test "$#" -eq 0 && usage 1
 
 for arg in $ARGS; do
-    case $arg in
+    case "$arg" in
         -q|--quiet)       QUIETFLAG=true ;;
         h|help|-h|--help) usage 0        ;;
     esac
