@@ -4,13 +4,14 @@
 # snap windows without resize
 
 usage() {
-    cat << EOF
+    cat >&2 << EOF
 Usage: $(basename $0) <option> [wid]
     h  | left:   Snap current or given window to the left side of the screen.
     j  | down:   Snap current or given window to the bottom side of the screen.
     k  | up:     Snap current or given window to the up side of the screen.
     l  | right:  Snap current or given window to the right side of the screen.
-    tl | tleft:  Snap current or given window to the top-left corner of the screen.  tr | tright: Snap current or given window to the top-right corner of the screen.
+    tl | tleft:  Snap current or given window to the top-left corner of the screen.
+    tr | tright: Snap current or given window to the top-right corner of the screen.
     bl | bleft:  Snap current or given window to the bottom-left corner of the screen.
     br | bright: Snap current or given window to the bottom-right corner of the screen.
     md | middle: Snap current or given window to the middle of the screen.
@@ -33,7 +34,7 @@ snap_down() {
 }
 
 snap_right() {
-    X=$((SW - XGAP - W - BW))
+    X=$((SW - XGAP - W))
 }
 
 snap_tl() {
@@ -42,7 +43,7 @@ snap_tl() {
 }
 
 snap_tr() {
-    X=$((SW - XGAP - W - BW))
+    X=$((SW - XGAP - W))
     Y=$TGAP
 }
 
@@ -52,15 +53,13 @@ snap_bl() {
 }
 
 snap_br() {
-    X=$((SW - XGAP - W - BW))
+    X=$((SW - XGAP - W))
     Y=$((SH - BGAP - H))
 }
 
 snap_md() {
-    SW=$((SW - 2*XGAP))
-    SH=$((SH - TGAP - BGAP))
-    X=$((SW/2 - W/2 + XGAP - 1))
-    Y=$((SH/2 - H/2 + TGAP))
+    X=$((eSW/2 - W/2 + XGAP - 1))
+    Y=$((eSH/2 - H/2 + TGAP))
 }
 
 moveMouse() {

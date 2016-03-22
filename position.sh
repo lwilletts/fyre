@@ -26,31 +26,31 @@ restore() {
 
 extend() {
     Y=$TGAP
-    H=$((4*minH + 4*VGAP))
+    H=$((ROWS*minH + $((ROWS - 1))*VGAP))
 }
 
 quarter() {
     W=$((2*minW + IGAP + BW))
-    H=$((2*minH + VGAP + VGAP/2))
+    H=$((2*minH + VGAP))
 }
 
 left() {
     X=$XGAP
     Y=$TGAP
-    W=$((2*minW + IGAP + BW))
-    H=$((4*minH + 4*VGAP))
+    W=$((2*minW + IGAP))
+    H=$((ROWS*minH + $((ROWS - 1))*VGAP))
 }
 
 right() {
     Y=$TGAP
-    W=$((2*minW + IGAP + BW))
-    H=$((4*minH + 4*VGAP))
-    X=$((W + XGAP + IGAP + BW))
+    W=$((2*minW + IGAP))
+    H=$((ROWS*minH + $((ROWS - 1))*VGAP))
+    X=$((W + XGAP + IGAP))
 }
 
 full() {
-    SW=$((SW - 2*XGAP - BW))
-    SH=$((SH - TGAP - BGAP))
+    SW=$eSW
+    SH=$eSH
     X=$XGAP; Y=$TGAP
     W=$SW; H=$SH
 }

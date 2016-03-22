@@ -13,6 +13,7 @@ LAYOUTDIR=${LAYOUTDIR:-$FYREDIR/layouts}
 test ! -d "$GROUPSDIR" && mkdir -p "$GROUPSDIR"
 test ! -d "$LAYOUTDIR" && mkdir -p "$LAYOUTDIR"
 
+WIDLOCK=${WIDLOCK:-$FYREDIR/.widlock}
 SCREENS=${SCREENS:-$FYREDIR/screens}
 FSFILE=${FSFILE:-$FYREDIR/fullinfo}
 MPVPOS=${MPVPOS:-$FYREDIR/mpvpos}
@@ -36,20 +37,23 @@ H=$(wattr h $CUR 2> /dev/null)
 
 BW=${BW:-1}
 
+ROWS=4
+COLS=4
+
 # add $BW for non-overlapping borders
+# must be multiple of two for best results
 IGAP=${IGAP:-$((20))}
 VGAP=${VGAP:-$((20))}
-# must be multiple of two
 
 XGAP=${XGAP:-$((20))}
 BGAP=${BGAP:-$((20))}
 TGAP=${TGAP:-$((40))}
 
-eSW=$((SW - XGAP - 2*BW))
+eSW=$((SW - 2*XGAP))
 eSH=$((SH - TGAP - BGAP))
 
-minW=$((eSW/4 - IGAP))
-minH=$((eSH/4 - VGAP))
+minW=$((eSW/COLS - $((COLS - 1))*IGAP/COLS))
+minH=$((eSH/ROWS - $((ROWS - 1))*VGAP/ROWS))
 
 ACTIVE=${ACTIVE:-0xD7D7D7}
 WARNING=${WARNING:-0xB23450}

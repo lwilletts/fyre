@@ -19,13 +19,27 @@ EOF
 move_left() {
     X=$(wattr x $PFW)
     Y=$(wattr y $PFW)
-    test $W -ge $minW && {
+    test $W -gt $minW && {
         X=$((X - minW - IGAP - BW))
     } || {
-        X=$((X - minW - IGAP - BW))
+        X=$((X - minW - IGAP))
     }
     test $X -le $XGAP && {
         snap.sh h
+        exit
+    }
+}
+
+move_right() {
+    X=$(wattr x $PFW)
+    Y=$(wattr y $PFW)
+    test $W -gt $minW && {
+        X=$((X + minW + IGAP + BW))
+    } || {
+        X=$((X + minW + IGAP))
+    }
+    test $((X + W)) -gt $SW && {
+        snap.sh l
         exit
     }
 }
@@ -34,7 +48,7 @@ move_down() {
     test $H -gt $minH && {
         Y=$((Y + minH + VGAP + BW))
     } || {
-        Y=$((Y + minH + VGAP + VGAP/2))
+        Y=$((Y + minH + VGAP))
     }
     test $((Y + H)) -gt $SH && {
         snap.sh j
@@ -48,24 +62,10 @@ move_up() {
     test $H -gt $minH && {
         Y=$((Y - minH - VGAP - BW))
     } || {
-        Y=$((Y - minH - VGAP - VGAP/2))
+        Y=$((Y - minH - VGAP))
     }
     test $Y -lt $TGAP && {
         snap.sh k
-        exit
-    }
-}
-
-move_right() {
-    X=$(wattr x $PFW)
-    Y=$(wattr y $PFW)
-    test $W -ge $minW && {
-        X=$((X + minW + IGAP + BW))
-    } || {
-        X=$((X + minW + IGAP + BW))
-    }
-    test $((X + W)) -gt $SW && {
-        snap.sh l
         exit
     }
 }

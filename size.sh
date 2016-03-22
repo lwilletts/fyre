@@ -20,7 +20,7 @@ grow_down() {
     test $H -lt $((minH - BW)) && {
         H=$minH
     } || {
-        H=$((H + minH + VGAP + VGAP/2))
+        H=$((H + minH + VGAP))
         test $H -gt $SH && {
             H=$SH
             return 0
@@ -54,7 +54,7 @@ shrink_up() {
     test $H -le $minH && {
         H=$minH
     } || {
-        H=$((H - minH - VGAP - VGAP/2))
+        H=$((H - minH - VGAP))
     }
 }
 
