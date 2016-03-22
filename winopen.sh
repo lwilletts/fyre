@@ -21,15 +21,15 @@ main() {
         *)   usage 0 ;;
     esac
 
-    case "$(name $wid)" in
-        "WM_CLASS:  not found.")
-            return 1
-            ;;
-    esac
+    # if file exists then we know a layout is getting opened
+    test -f "$WIDLOCK" && exit 0
 
     focus.sh $wid
 
     case "$(name $wid)" in
+        "WM_CLASS:  not found.")
+            return 1
+            ;;
         "urxvt")
             position.sh res $wid
             snap.sh tl $wid
