@@ -6,7 +6,7 @@
 ARGS="$@"
 
 usage() {
-    cat << EOF
+    cat >&2 << EOF
 Usage: $(basename $0) [Search String]
 EOF
 
@@ -44,7 +44,7 @@ main() {
         h|help|-h|--help) usage 0 ;;
     esac
 
-    showAll | grep -wi "$1" | cut -d\  -f 1 | sort | uniq
+    showAll | grep -i "$1" | cut -d\  -f 1 | sort | uniq
 }
 
 test -z "$ARGS" || main $ARGS
