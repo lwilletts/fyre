@@ -40,11 +40,9 @@ BW=${BW:-1}
 ROWS=4
 COLS=4
 
-# add $BW for non-overlapping borders
-# must be multiple of two for best results
+# best to keep these as multiples of two
 IGAP=${IGAP:-$((20))}
 VGAP=${VGAP:-$((20))}
-
 XGAP=${XGAP:-$((20))}
 BGAP=${BGAP:-$((20))}
 TGAP=${TGAP:-$((40))}
