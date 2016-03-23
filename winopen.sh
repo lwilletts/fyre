@@ -54,11 +54,15 @@ main() {
             position.sh res $wid
             snap.sh md $wid
             ;;
+        "libreoffice")
+            position.sh rht $wid
+            windows.sh -a $wid 8
+            ;;
         "mpsyt")
             position.sh res $wid
             position.sh ext $wid
             snap.sh right $wid
-            windows.sh -a $wid 8
+            windows.sh -a $wid 9
             ;;
         "alsamixer")
             position.sh quar $wid
