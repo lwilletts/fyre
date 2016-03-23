@@ -8,7 +8,6 @@ usage() {
 Usage: $(basename $0) <option> [wid]
     res:  Restore the current or given window to minW and minH values.
     ext:  Extend the current or given window to the max SH value.
-    quar: Make the current or given window a quarter of the screen.
     lft:  Make the current or given window half of the screen positioned on the left.
     rht:  Make the current or given window half of the screen positioned on the right.
     full: Make the current or given window fullscreen minus border gaps.
@@ -27,11 +26,6 @@ restore() {
 extend() {
     Y=$TGAP
     H=$((ROWS*minH + $((ROWS - 1))*VGAP))
-}
-
-quarter() {
-    W=$((2*minW + IGAP + BW))
-    H=$((2*minH + VGAP))
 }
 
 left() {
@@ -78,7 +72,6 @@ esac
 case $1 in
     res)  restore ;;
     ext)  extend  ;;
-    quar) quarter ;;
     lft)  left    ;;
     rht)  right   ;;
     full) full    ;;

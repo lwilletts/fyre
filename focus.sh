@@ -6,7 +6,7 @@
 ARGS="$@"
 
 usage() {
-    cat << EOF
+    cat >&2 << EOF
 Usage: $(basename $0) <next|prev|full|wid> [disable]
     wid:     Focus the given window id.
     next:    Focus the next window on the stack.
@@ -16,6 +16,15 @@ Usage: $(basename $0) <next|prev|full|wid> [disable]
 EOF
 
     test $# -eq 0 || exit $1
+}
+
+hoverPush() {
+    test -f "$HOVER" && {
+        while read -r line; do
+            wid=$(printf '%s\n' "$line" | cut -d\  -f 1)
+            chwso -r $wid
+        done < "$HOVER"
+    }
 }
 
 focusWid() {
