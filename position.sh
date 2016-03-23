@@ -11,7 +11,7 @@ Usage: $(basename $0) <option> [wid]
     lft:  Make the current or given window half of the screen positioned on the left.
     rht:  Make the current or given window half of the screen positioned on the right.
     full: Make the current or given window fullscreen minus border gaps.
-    vid:  Make the current or given mpv window its currently playing video's resolution.
+    vid:  Make the current or given mpv window full resolution.
     help: Show this help.
 EOF
 
@@ -25,20 +25,20 @@ restore() {
 
 extend() {
     Y=$TGAP
-    H=$((ROWS*minH + $((ROWS - 1))*VGAP))
+    H=$eSH
 }
 
 left() {
     X=$XGAP
     Y=$TGAP
-    W=$((2*minW + IGAP))
-    H=$((ROWS*minH + $((ROWS - 1))*VGAP))
+    W=$((eSW/2 - IGAP/2))
+    H=$eSH
 }
 
 right() {
     Y=$TGAP
-    W=$((2*minW + IGAP))
-    H=$((ROWS*minH + $((ROWS - 1))*VGAP))
+    W=$((eSW/2 - IGAP/2))
+    H=$eSH
     X=$((W + XGAP + IGAP))
 }
 
