@@ -29,12 +29,11 @@ SCRIPT = blur.sh \
 
 all: install
 
-install:
-	for i in $(SCRIPT); do \
-		install -Dm755 $$i $(DESTDIR)$(PREFIX)/bin/$$i; \
-	done
+install: $(SCRIPT)
+	mkdir -p $(DESTDIR)$(PREFIX)/bin
+	cp -f $(SCRIPT) $(DESTDIR)$(PREFIX)/bin
 
 uninstall:
-	for i in $(SCRIPT); do \
-		rm $(DESTDIR)$(PREFIX)/bin/$$i; \
+	@for script in $(SCRIPT); do \
+		rm $(DESTDIR)$(PREFIX)/bin/$$script; \
 	done
