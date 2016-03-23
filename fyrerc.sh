@@ -68,10 +68,18 @@ DURATION=5
 BLUR=0
 
 MOUSE="false"
-SLOPPY="true"
+SLOPPY="false"
 
     # functions
 ###############################################################################
+
+intCheck() {
+    test $1 -ne 0 2> /dev/null
+    test $? -ne 2 || {
+         printf '%s\n' "'$1' is not an integer." >&2
+         exit 1
+    }
+}
 
 name() {
     test "$#" -eq 0 && return 1
@@ -137,4 +145,34 @@ resolution() {
         printf '%s\n' "Please enter a valid mpv window id." >&2
         return 1
     }
+}
+
+# test if a point is over the top of a window
+underneath() {
+    test "$#" -eq 0 && {
+        X="$(wmp | cut -d\  -f 1)"
+        Y="$(wmp | cut -d\  -f 2)"
+    } || {
+        intCheck $1 && X=$1
+        intCheck $2 && Y=$2
+    }
+
+    # start from the currently highest stacked window
+    for wid in $(lsw | tac); do
+        windowX="$(wattr x $wid)"
+        windowY="$(wattr y $wid)"
+
+        # we won't get a match if the left and top edges greater than X or Y
+        test "$windowX" -gt "$X" && continue
+        test "$windowY" -gt "$Y" && continue
+
+        windowW="$(wattr w $wid)"
+        windowH="$(wattr h $wid)"
+
+        # we won't get a match if the right and bottom edges are less than X or Y
+        test "$((windowX + windowW))" -lt "$X" && continue
+        test "$((windowY + windowH))" -lt "$Y" && continue
+
+        printf '%s\n' "$wid" && return
+    done
 }

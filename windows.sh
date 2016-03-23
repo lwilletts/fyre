@@ -27,14 +27,6 @@ EOF
     test $# -eq 0 || exit $1
 }
 
-intCheck() {
-    test $1 -ne 0 2> /dev/null
-    test $? -ne 2 || {
-         printf '%s\n' "'$1' is not an integer." >&2
-         echo; usage 1
-    }
-}
-
 fnmatch() {
     case "$2" in
         $1) return 0 ;;
@@ -132,9 +124,11 @@ toggle_wid_group() {
     currentGroup=$(printf '%s\n' "$currentGroup" | rev | cut -d'.' -f 1 | rev)
 
     # return if it already exists in the given group
-    test "$addGroupNum" -eq "$currentGroup" && {
-        printf '%s\n' "Window id (${addWid}) alrady exists in ${currentGroup}!"
-        return 0
+    test ! -z "$currentGroup" && {
+        test "$addGroupNum" -eq "$currentGroup" && {
+            printf '%s\n' "Window id ($addWid) alrady exists in ${currentGroup}!"
+            return 0
+        }
     }
 
     clean_wid "$addWid"

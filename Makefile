@@ -19,7 +19,6 @@ SCRIPT = blur.sh \
 		 size.sh \
 		 snap.sh \
 		 taskbar.sh \
-		 underneath.sh \
 		 wid.sh \
 		 windows.sh \
 		 winkill.sh \

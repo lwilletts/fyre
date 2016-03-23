@@ -6,29 +6,21 @@
 ARGS="$@"
 
 usage() {
-    cat << EOF
+    cat >&2 << EOF
 Usage: $(basename $0) [blur factor]
 EOF
 
     test $# -eq 0 || exit $1
 }
 
-intCheck() {
-    test $1 -ne 0 2> /dev/null
-    test $? -ne 2 || {
-         printf '%s\n' "'$1' is not an integer." >&2
-         exit 1
-    }
-}
-
 main() {
     . fyrerc.sh
 
-    case $1 in
+    case "$1" in
         h|help) usage 0 ;;
     esac
 
-    test $# -eq 0 || intCheck $1
+    test "$#" -eq 0 || intCheck $1
 
     case "$(lsw | wc -l)" in
         0) BLUR=0 ;;

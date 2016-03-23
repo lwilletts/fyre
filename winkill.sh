@@ -18,9 +18,7 @@ esac
 
 . fyrerc.sh
 
-windowClass=$(class $wid)
-
-case "$windowClass" in
+case "$(class $wid)" in
     "telegram")
         printf '%s\n' "you're terminated fucker."
         killw $wid
