@@ -21,31 +21,27 @@ grow_down() {
         H=$minH
     } || {
         H=$((H + minH + VGAP))
-        test $H -gt $SH && {
-            H=$SH
-            return 0
+        test $((Y + H - minH - BGAP)) -gt $eSH && {
+            Y=$((Y - minH - VGAP))
         }
-        test $((Y + H - minH - BGAP)) -gt $SH && {
+        test $H -gt $eSH && {
             Y=$TGAP
-            H=$SH
-            return 0
+            H=$eSH
         }
     }
 }
 
 grow_right() {
-    test $W -lt $((minW - BW))  && {
+    test $W -lt $minW && {
         W=$minW
     } || {
-        W=$((W + minW + IGAP + BW))
-        test $W -gt $SW && {
-            W=$SW
-            return 0
+        W=$((W + minW + IGAP))
+        test $((X + W - minW - XGAP)) -gt $eSW && {
+            X=$((X - minW - IGAP))
         }
-        test $((X + W - minW - XGAP)) -gt $SW && {
+        test $W -gt $eSW && {
             X=$XGAP
-            W=$SW
-            return 0
+            W=$eSW
         }
     }
 }
@@ -62,7 +58,7 @@ shrink_left() {
     test $W -le $minW && {
         W=$minW
     } || {
-        W=$((W - minW - IGAP - BW))
+        W=$((W - minW - IGAP))
     }
 }
 
@@ -80,9 +76,6 @@ wid=$PFW
 case $2 in
     0x*) wid=$2 ;;
 esac
-
-SW=$((SW - 2*XGAP - 1))
-SH=$eSH
 
 case $1 in
     gd|growdown)    grow_down    ;;
