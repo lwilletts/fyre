@@ -37,7 +37,13 @@ That way you can make changes to my original repository or maintain your own
 fork with any changes you make being reflected immediately. Alternatively you
 can use the Makefile I have provided to install the scripts.
 
-Finally, check out [Example sxhkd](https://raw.githubusercontent.com/wildefyr/fyre/master/sxhkdc.example) to see what you can do with fyre.
+Check out the [example sxhkd](https://raw.githubusercontent.com/wildefyr/fyre/master/sxhkdc.example) to see what you can do with fyre.
+
+Finally, start up your hotkey daemon and put the following in your xinitrc:
+
+```bash
+exec runfyre.sh
+```
 
 Example scrots:
 ---------------
@@ -52,7 +58,7 @@ Contributors
 ------------
 
 Contributors for specific scripts are listed in the files where they have
-contributed ideas or code. Many thanks to the original wmutils authors:
+inputted ideas or code. Many thanks to the original wmutils authors:
 dcat & z3bra.
 
 Shameless Plug
