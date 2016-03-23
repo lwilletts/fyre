@@ -1,42 +1,29 @@
 #!/bin/sh
 #
-# wildefyr - 2016 (c) wtfpl
-# store window classes and their positions to reopen later
+# wildefyr - 2016 (c) MIT
+# translate window classes to binary names and save their position
 
 ARGS="$@"
 
 usage() {
-    cat << EOF
-
-Usage: $(basename $0) [-eslord layout] [-S group layout] [-h]
-    -L: List existing layouts.
-    -e: Echo given layout file.
-    -s: Save currently visible windows to given layout.
-    -S: Save windows in given group to given layout.
-    -l: Load currently open windows into given layout.
-    -o: Open given layout without affecting currently visable windows.
-    -r: Replace all currently open windows with the given layout.
-    -d: Delete given layout.
-    -h: Show this help.
-
-Only the first option given is executed.
+    cat >&2 << EOF
+Usage: $(basename $0) [-esod layout] [-S group layout] [-lhq]
+    -s | --save:   Save currently visible windows to given layout.
+    -S | --group:  Save windows in given group to given layout.
+    -o | --open:   Open given layout without affecting currently visable windows.
+    -d | --delete: Delete given layout.
+    -l | --list:   List all existing layouts.
+    -q | --quiet:  Suppress all textual output.
+    -h | --help:   Show this help.
 EOF
 
-    test $# -eq 0 || exit $1
-}
-
-intCheck() {
-    test $1 -ne 0 2> /dev/null
-    test $? -ne 2 || {
-         printf '%s\n' "$1 is not an integer." >&2
-         echo; usage 1
-    }
+    test "$#" -eq 0 || exit $1
 }
 
 layoutCheck() {
     test ! -f $LAYOUTDIR/layout.$LAY && {
         printf '%s\n' "Layout does not exist." >&2
-        listLayouts
+        list_layouts
         exit 1
     }
 }
@@ -44,181 +31,160 @@ layoutCheck() {
 groupCheck() {
     test ! -f "$GROUPSDIR/group.$GROUP" && {
         printf '%s\n' "Group does not exist." >&2
-        listGroups
+        list_groups
         exit 1
     }
 }
 
-saveWindows() {
-    for i in $(seq $windowLoop); do
-        wid=$(printf '%s\n' $lswSort | sed "$i!d")
-
+save_windows() {
+    printf '%s\n' "$lswSort" | while read -r wid; do
         psid=$(process $wid)
         window=$(class $wid)
 
-        # rename the window classes to their names on $PATH
-        # also if appropriate, save arguments it was launched with
-        test "$window" = "URxvt" && {
-            window=$(ps $psid | tail -1 | perl -p -e 's/^.*?urxvt/urxvt/')
-        }
-        test "$window" = "mpv" && {
-            window=$(ps $psid | tail -1 | perl -p -e 's/^.*?mpv/mpv/')
-        }
-        test "$window" = "Firefox" && {
-            window="firefox"
-        }
-        test "$window" = "google-chrome" && {
-            window="google-chrome-stable"
-        }
-        test "$window" = "WM_CLASS:  not found." && {
-            continue
+        # sometimes making the class name lowercase will give the right launch name
+        window=$(printf '%s\n' "$window" | tr '[A-Z]' '[a-z]')
+
+        # get arguments program was launched with if appropriate
+        case "$window" in
+            "wm_class:  not found.")
+                continue
+                ;;
+            "mpv")
+                window=$(ps $psid | tail -1 | sed 's/.*mpv/mpv/')
+                ;;
+            "google-chrome")
+                window="google-chrome-stable"
+                ;;
+        esac
+
+        group=$(windows.sh -f $wid | rev | cut -d'.' -f 1 | rev)
+        test -z "$group" && {
+            group="N/A"
         }
 
-        XYWH=$(wattr xywh $wid)
-        printf '%b' "$XYWH $window" >> $LAYOUTDIR/layout.$LAY
-        printf '\n' >> $LAYOUTDIR/layout.$LAY
+        XYWH="$(wattr xywh $wid)"
+
+        printf '%s\n' "$XYWH $group $window" >> "$LAYOUTDIR/layout.$LAY"
     done
-}
-
-# save currently visible windows to a layout file
-saveLayout() {
-    intCheck $1
-    LAY=$1
-
-    # overwrite existing layout
-    test -e $LAYOUTDIR/layout.$LAY && rm $LAYOUTDIR/layout.$LAY 2> /dev/null
-
-    # sort based on x values
-    windowLoop=$(lsw | wc -l)
-    lswSort=$(lsw | xargs wattr xi | sort -n | sed "s/^[0-9]* //")
-
-    saveWindows
 
     printf '%s\n' "Layout $LAY saved."
 }
 
-# save window id's in group to a layout file
-saveGroupLayout() {
-    test -z $1 && {
+# save currently visible windows to a layout file
+save_layout() {
+    intCheck $1
+    LAY=$1
+
+    test -z "$(lsw)" && {
+        printf '%s\n' "No windows are visible to save to layout!"
+        exit 1
+    }
+
+    # overwrite existing layout
+    test -e "$LAYOUTDIR/layout.$LAY" && rm "$LAYOUTDIR/layout.$LAY" 2> /dev/null
+
+    # sort based on x values
+    lswSort=$(lsw | xargs wattr xi | sort -n | sed "s/^[0-9]* //")
+
+    save_windows
+}
+
+# save windows in given group to a layout file
+save_group_layout() {
+    test ! -z $3 && usage 1
+
+    GROUP=$(printf "$1" | cut -d\  -f 1)
+    LAY=$(printf '%s' "$1" | cut -d\  -f 2)
+
+    test -z "$GROUP" && {
         printf '%s\n\n' "Group cannot be empty." >&2
         listGroups
         usage 1
     } || {
-        intCheck $1
-        GROUP=$1
+        intCheck "$GROUP"
         groupCheck
     }
 
-    test -z $2 && {
+    test -z "$LAY" && {
         printf '%s\n\n' "Layout cannot be empty." >&2
         listLayouts
         usage 1
     } || {
-        intCheck $2
-        LAY=$2
+        intCheck "$LAY"
+    }
+
+    # very unlikely to happen but just to be safe
+    test -z "$(cat $GROUPSDIR/group.$GROUP)" && {
+        printf '%s\n' "Group file exists but is empty!"
+        rm -f "$GROUPSDIR/group.$GROUP"
+        exit 1
     }
 
     # overwrite existing layout
-    test -e $LAYOUTDIR/layout.$LAY && rm $LAYOUTDIR/layout.$LAY 2> /dev/null
+    test -e "$LAYOUTDIR/layout.$LAY" && rm "$LAYOUTDIR/layout.$LAY" 2> /dev/null
 
     # sort based on x values
-    windowLoop=$(wc -l < $GROUPSDIR/group.$GROUP )
-    lswSort=$(cat $GROUPSDIR/group.$GROUP | xargs wattr xi | sort -n |
-sed "s/^[0-9]* //")
+    lswSort=$(xargs wattr xi < "$GROUPSDIR/group.$GROUP" | sort -n | \
+        sed "s/^[0-9]* //")
 
-    saveWindows
-
-    printf '%s\n' "Layout $LAY saved."
+    save_windows
 }
 
-# try and position the currently open windows to a layout
-loadLayout() {
+open_layout() {
     intCheck $1
     LAY=$1
     layoutCheck
 
-    windowLoop=$(wc -l < $LAYOUTDIR/layout.$LAY)
-    lswSort=$(lsw | xargs wattr xi | sort -n | sed "s/^[0-9]* //")
-    lswCounter=$(echo $lswSort | wc -w)
+    # create lock file for winopen.sh
+    :> "$WIDLOCK"
 
-    for i in $(seq $windowLoop); do
-        window=$(sed "$i!d" < $LAYOUTDIR/layout.$LAY | cut -d\  -f 5)
+    while read -r window; do
+        windowsOpen=$(lsw)
+        windowCount=$(printf '%s\n' "$windowsOpen" | wc -w)
 
-        for j in $(seq $lswCounter); do
-            wid=$(printf '%s\n' $lswSort | sed "$j!d")
-            windowClass=$(class $wid)
+        PROGRAM=$(printf '%s\n' "$window" | cut -d\  -f 6-)
+        $PROGRAM &
 
-            if [ "$windowClass" = "URxvt" ]; then
-                windowClass="urxvt"
-            fi
+        XYWH=$(printf '%s\n' "$window" | cut -d\  -f -4)
+        GROUP=$(printf '%s\n' "$window" | cut -d\  -f 5)
 
-            echo $wid $window $windowClass \n
-
-            if [ "$windowClass" = $window ]; then
-                # position the window
-                # XYWH=$(sed "$i!d" < $LAYOUTDIR/layout.$LAY | cut -d\  -f -4)
-                # wtp $XYWH $wid
-                lswCounter=$(($lswCounter - 1))
-                break
-            fi
-        done
-    done
-}
-
-# load the entire layout regardless of currently visible windows
-openLayout() {
-    intCheck $1
-    LAY=$1
-    layoutCheck
-
-    windowLoop=$(wc -l < $LAYOUTDIR/layout.$LAY)
-    for i in $(seq $windowLoop); do
-        lswOpen=$(lsw | wc -w)
-
-        program=$(sed "$i!d" < $LAYOUTDIR/layout.$LAY | cut -d\  -f 5-)
-        $program &
-
-        # wait for window to appear - this fking sucks
-        while [ $lswOpen -eq $(lsw | wc -w) ]; do
-            sleep 0.5
+        # wait for window to load...
+        while test $windowCount -eq $(lsw | wc -w); do
+            sleep 0.1
         done
 
-        # assumes that the window has just been focused / not ideal
-        wid=$(lsw | tail -1)
-
-        # position the window
-        XYWH=$(sed "$i!d" < $LAYOUTDIR/layout.$LAY | cut -d\  -f -4)
+        # find the wid of the new window
+        wid=$(lsw | grep -v "$windowsOpen")
         wtp $XYWH $wid
+
+        focus.sh $wid
+
+        test "$GROUP" != "N/A" && {
+            windows.sh -a $wid $GROUP
+        }
+    done < "$LAYOUTDIR/layout.$LAY"
+
+    # delay deletion just slightly to ensure window isn't moved by winopen.sh
+    sleep 0.5
+    # clean lock as we have finished opening windows
+    rm -f "$WIDLOCK"
+}
+
+list_groups() {
+    for group in $(find $GROUPSDIR/*.? 2> /dev/null); do
+        printf '%s\n' "$(printf '%s' ${group} | rev | cut -d'/' -f 1 | rev):"
+        printf '%s\n' "$(cat ${group})"
     done
 }
 
-# try and position the currently open windows to a layout
-# but also open windows when a wid cannot be found
-replaceLayout() {
-    intCheck $1
-    LAY=$1
-    layoutCheck
+list_layouts() {
+    for layout in $(find $LAYOUTDIR/*.? 2> /dev/null); do
+        printf '%s\n' "$(printf '%s' ${layout} | rev | cut -d'/' -f 1 | rev):"
+        printf '%s\n' "$(cat ${layout})"
+    done
 }
 
-listGroups() {
-    printf '%s\n' "Existing groups:"
-    ls $GROUPSDIR
-}
-
-listLayouts() {
-    printf '%s\n' "Existing layouts:"
-    ls $LAYOUTDIR
-}
-
-echoLayout() {
-    intCheck $1
-    LAY=$1
-    layoutCheck
-
-    cat $LAYOUTDIR/layout.$LAY
-}
-
-deleteLayout() {
+delete_layout() {
     intCheck $1
     LAY=$1
     layoutCheck
@@ -231,44 +197,41 @@ main() {
     . fyrerc.sh
 
     for arg in "$@"; do
-        test "$SAVEFLAG" = "true" && {
-            SAVESTRING="$SAVESTRING $arg"
-        }
-
-        case $arg in
-            -S)        SAVEFLAG=true  ;;
-            -?)        break          ;;
-            -h|--help) usage 0        ;;
-        esac
+        case $arg in -?|--*) SAVEFLAG=false ;; esac
+        test "$SAVEFLAG" = "true" && SAVESTRING="${SAVESTRING}${arg} "
+        case $arg in -S|--group) SAVEFLAG=true ;; esac
     done
 
-    test "$SAVEFLAG" = "true" && {
-        SAVESTRING=$(echo $SAVESTRING | cut -d\  -f -2)
-        saveGroupLayout $SAVESTRING
+    test ! -z "$SAVESTRING" && {
+        save_group_layout "$SAVESTRING"
+        exit 0
     }
 
-    while getopts "Le:s:l:o:r:d:Sh" opt; do
-        case "$opt" in
-            L)  listLayouts           ;;
-            e)  echoLayout $OPTARG    ;;
-            s)  saveLayout $OPTARG    ;;
-            l)  loadLayout $OPTARG    ;;
-            o)  openLayout $OPTARG    ;;
-            d)  deleteLayout $OPTARG  ;;
-            r)  replaceLayout $OPTARG ;;
-            S)  usage 1               ;;
-            \?) usage 1               ;;
+    for arg in "$@"; do
+        test "$SAVEFLAG"   = "true" && save_layout "$arg"   && exit 0
+        test "$OPENFLAG"   = "true" && open_layout "$arg"   && exit 0
+        test "$DELETEFLAG" = "true" && delete_layout "$arg" && exit 0
+
+        case "$arg" in
+            -s|--save)   SAVEFLAG=true   ;;
+            -o|--open)   OPENFLAG=true   ;;
+            -d|--delete) DELETEFLAG=true ;;
+            -l|--list)   list_layouts    ;;
         esac
-        exit 0
     done
 }
 
+test "$#" -eq 0 && usage 1
+
 for arg in $ARGS; do
-    test "$arg" = "-q" && QUIETFLAG=true
+    case "$arg" in
+        -q|--quiet)       QUIETFLAG=true ;;
+        h|help|-h|--help) usage 0        ;;
+    esac
 done
 
 test "$QUIETFLAG" = "true" && {
-    test -z "$ARGS" || main $ARGS 2>&1 > /dev/null
+    main $ARGS 2>&1 > /dev/null
 } || {
-    test -z "$ARGS" || main $ARGS
+    main $ARGS
 }
