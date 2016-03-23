@@ -67,8 +67,10 @@ WALL=$(sed '1!d; s_~_/home/wildefyr_' < $(which bgc))
 DURATION=5
 BLUR=0
 
+# mouse gets moved to the middle of the window
 MOUSE="false"
-SLOPPY="false"
+# moving over windows automatically focuses them
+SLOPPY="true"
 
     # functions
 ###############################################################################
