@@ -81,25 +81,29 @@ moveMouse() {
 main() {
     . fyrerc.sh
 
-    case $1 in
-        0x*)  focusWid  $1 ;;
-        next) focusNext    ;;
-        prev) focusPrev    ;;
-        full) focusFull    ;;
-        *)    usage 1      ;;
-    esac
+    test "$#" -eq 0 && {
+        # automatically focus the window underneath the cursor
+        wid=$(underneath)
+        test ! -z "$wid" && focusMethod
+    } || {
+        case $1 in
+            0x*)  focusWid $1 ;;
+            next) focusNext   ;;
+            prev) focusPrev   ;;
+            full) focusFull   ;;
+            *)    usage 1     ;;
+        esac
 
-    case $2 in
-        enable)  MOUSE=true  ;;
-        disable) MOUSE=false ;;
-    esac
+        case $2 in
+            enable)  MOUSE=true  ;;
+            disable) MOUSE=false ;;
+        esac
 
-    test "$MOUSE" = "true" && moveMouse
+        test "$MOUSE" = "true" && moveMouse
+    }
 
     hoverPush
 }
-
-test "$#" -eq 0 && usage 1
 
 for arg in "$ARGS"; do
     case $arg in
