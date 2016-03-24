@@ -24,7 +24,7 @@ Usage: $(basename $0) [-a wid group] [-fc wid] [-shmtTuz group] [-rlhq]
     -h | --help:   Show this help.
 EOF
 
-    test $# -eq 0 || exit $1
+    test "$#" -eq 0 || exit $1
 }
 
 fnmatch() {
@@ -140,7 +140,7 @@ toggle_wid_group() {
                 mapw -u "$addWid"
                 break
             }
-        done < $GROUPSDIR/inactive
+        done < "$GROUPSDIR/inactive"
     }
 
     # add group to active if group doesn't exist
@@ -149,7 +149,7 @@ toggle_wid_group() {
     }
 
     # add wid to the group file
-    printf '%s\n' "$addWid" >> $GROUPSDIR/group.${addGroupNum}
+    printf '%s\n' "$addWid" >> "$GROUPSDIR/group.${addGroupNum}"
     printf '%s\n' "$(class $addWid) ($addWid) added to ${addGroupNum}!"
 }
 
@@ -179,7 +179,7 @@ hide_group() {
     while read -r addWid; do
         mapw -u "$addWid"
         setborder.sh inactive "$addWid"
-    done < $GROUPSDIR/group.${hideGroupNum}
+    done < "$GROUPSDIR/group.${hideGroupNum}"
 
     printf '%s\n' "group ${hideGroupNum} hidden!"
 }
@@ -273,7 +273,7 @@ toggle_group() {
 
     # hide or show group
     test "$activeFlag" = "true" && {
-        hide_group "${toggleGroupNum}"
+        hide_group "$toggleGroupNum"
     } || {
         show_group "$toggleGroupNum"
     }
@@ -296,7 +296,7 @@ smart_toggle_group() {
             wid=$(cat $GROUPSDIR/group.${toggleGroupNum})
             test "$(pfw)" = $wid && {
                 # hide group as we are already on the first window in group
-                hide_group "${toggleGroupNum}"
+                hide_group "$toggleGroupNum"
                 return 0
             } || {
                 # focus first window in group if we are NOT on a window in group
@@ -305,7 +305,7 @@ smart_toggle_group() {
             }
         } || {
             # hide group if we are on a window in group
-            hide_group "${toggleGroupNum}"
+            hide_group "$toggleGroupNum"
             return 0
         }
     }
@@ -343,7 +343,7 @@ reset_groups() {
     done < "$GROUPSDIR/inactive"
 
     # clean the group directory
-    rm -f $GROUPSDIR/*
+    rm -f "$GROUPSDIR/*"
 }
 
 # list all windows in groups in a friendly-ish format
