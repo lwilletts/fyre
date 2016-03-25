@@ -31,13 +31,13 @@ extend() {
 left() {
     X=$XGAP
     Y=$TGAP
-    W=$((eSW/2 - IGAP/2 - BW*2))
+    W=$((eSW/2 - IGAP/2))
     H=$eSH
 }
 
 right() {
     Y=$TGAP
-    W=$((eSW/2 - IGAP/2 - BW*2))
+    W=$((eSW/2 - IGAP/2))
     H=$eSH
     X=$((W + XGAP + IGAP))
 }
