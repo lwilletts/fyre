@@ -225,33 +225,26 @@ map_group() {
     intCheck "$mapGroupNum"
 
     test -f "$GROUPSDIR/active" && {
-        # create temp file to store active windows as functions can modify it
-        cp "$GROUPSDIR/active" "$GROUPSDIR/.tmpactive"
-
-        test -f "$GROUPSDIR/active" && {
-            while read -r active; do
-                test "$active" -eq "$mapGroupNum" && {
-                    activeFlag=true
-                    break
-                }
-            done < "$GROUPSDIR/active"
-
-            # return user input if the group was NOT already on the screen
-            test "$activeFlag" != "true" && {
-                show_group "$mapGroupNum"
-            } || {
-                show_group "$mapGroupNum" > /dev/null
-            }
-        }
-
         # hide all other groups listed in the active file
         while read -r active; do
             test "$mapGroupNum" -ne "$active" && {
                 hide_group "$active"
             }
-        done < "$GROUPSDIR/.tmpactive"
+        done < "$GROUPSDIR/active"
 
-        rm "$GROUPSDIR/.tmpactive"
+        while read -r active; do
+            test "$active" -eq "$mapGroupNum" && {
+                activeFlag=true
+                break
+            }
+        done < "$GROUPSDIR/active"
+
+        # return user input if the group was NOT already on the screen
+        test "$activeFlag" != "true" && {
+            show_group "$mapGroupNum"
+        } || {
+            show_group "$mapGroupNum" > /dev/null
+        }
     } || {
         # we know it's the only group existing and it's inactive
         show_group "$mapGroupNum"
