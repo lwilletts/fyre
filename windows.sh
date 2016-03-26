@@ -336,7 +336,7 @@ reset_groups() {
     done < "$GROUPSDIR/inactive"
 
     # clean the group directory
-    rm -f "$GROUPSDIR/*"
+    rm -f $GROUPSDIR/*
 }
 
 # list all windows in groups in a friendly-ish format
