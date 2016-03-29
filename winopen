@@ -28,96 +28,86 @@ main() {
 
     case "$(name $wid)" in
         "WM_CLASS:  not found.")
-            return 1
-            ;;
+            return 1 ;;
         "urxvt")
             position res $wid
             snap tl $wid
-            ;;
+            return 0 ;;
         "mosh")
             position res $wid
             snap tl $wid
             windows -a $wid 3
-            ;;
+            return 0 ;;
         "ssh")
             position res $wid
             snap tl $wid
             windows -a $wid 3
-            ;;
+            return 0 ;;
         "tmux")
             position res $wid
             position ext $wid
             snap tl $wid
             windows -a $wid 1
-            ;;
+            return 0 ;;
         "paste")
             position res $wid
             snap md $wid
-            ;;
+            return 0 ;;
         "libreoffice")
             position rht $wid
             windows -a $wid 8
-            ;;
+            return 0 ;;
         "mpsyt")
             position res $wid
             position ext $wid
             snap right $wid
             windows -a $wid 9
-            ;;
+            return 0 ;;
         "alsamixer")
             position quar $wid
             snap md $wid
-            ;;
+            return 0 ;;
         *)
     case "$(class $wid)" in
         "google-chrome")
             wtp $(($(wattr x $wid) - BW)) $(($(wattr y $wid) - BW)) \
                 $(wattr wh $wid) $wid
             windows -a $wid 2
-            ;;
+            return 0 ;;
         "mpv")
             snap md $wid
             windows -a $wid 5
 
-            test -f "$MPVPOS" && {
-                test -z "$(wid mpv)" && {
-                    test ! -f "$FSFILE" && {
-                        wtp $(cut -d\  -f -4 < $MPVPOS) $wid
-                    }
-                }
-            } || {
-                test "$(resolution $wid | cut -d\  -f 1)" -ge $SW && {
-                    position full $wid
-                }
-                test "$(resolution $wid | cut -d\  -f 2)" -ge  && {
-                    position full $wid
-                }
+            test "$(resolution $wid | cut -d\  -f 1)" -ge $SW && {
+                position full $wid
+                return 0
             }
-            ;;
+            test "$(resolution $wid | cut -d\  -f 2)" -ge  && {
+                position full $wid
+                return 0
+            }
+
+            return 0 ;;
         "Steam")
             windows -a $wid 7
-            ;;
+            return 0 ;;
         "TeamSpeak 3")
             snap md $wid
             windows -a $wid 4
-            ;;
+            return 0 ;;
         # seriously fuck this program
         "telegram")
             position res $wid
             position ext $wid
             windows -a $wid 4
-            ;;
-        "Wine")
-            snap md $wid
-            windows -a $wid 6
-            ;;
+            return 0 ;;
         "MuPDF")
             snap md $wid
             windows -a $wid 6
-            ;;
+            return 0 ;;
         *)
             snap md $wid
-            ;;
+            return 0 ;;
     esac
     ;;
     esac

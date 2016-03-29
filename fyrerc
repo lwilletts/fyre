@@ -16,7 +16,6 @@ test ! -d "$LAYOUTDIR" && mkdir -p "$LAYOUTDIR"
 WIDLOCK=${WIDLOCK:-$FYREDIR/.widlock}
 SCREENS=${SCREENS:-$FYREDIR/screens}
 FSFILE=${FSFILE:-$FYREDIR/fullinfo}
-MPVPOS=${MPVPOS:-$FYREDIR/mpvpos}
 IGNORE=${IGNORE:-$FYREDIR/ignored}
 HOVER=${HOVER:-$FYREDIR/hover}
 
