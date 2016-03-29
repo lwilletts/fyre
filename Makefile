@@ -17,7 +17,7 @@ SCRIPT = blur \
 		 runfyre \
 		 screens \
 		 setborder \
-		 size \
+		 resize \
 		 snap \
 		 taskbar \
 		 wid \
@@ -25,9 +25,12 @@ SCRIPT = blur \
 		 winkill \
 		 winopen
 
-.PHONY: all install uninstall
+.PHONY: all link install uninstall
 
-all: install
+all: link
+
+link: $(SCRIPT)
+	ln -svfn $(SCRIPT) $(PREFIX)/bin
 
 install: $(SCRIPT)
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
