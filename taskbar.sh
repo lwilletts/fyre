@@ -42,10 +42,10 @@ for group in $GROUPSDIR/group.?; do
                         window="$(wname ${wid})"
                         ;;
                     "ssh")
-                        window="ssh: $(ps $(process $wid) | tail -1 | awk '{printf $NF}')"
+                        window="ssh"
                         ;;
                     "mosh")
-                        window="mosh: $(ps $(process $wid) | tail -1 | awk '{printf $NF}')"
+                        window="mosh"
                         ;;
                 esac
                 ;;
