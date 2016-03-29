@@ -1,17 +1,17 @@
-Fyre
+fyre
 ====
 
-Fyre is set of scripts using standalone tools to form a more complete X11
+fyre is set of scripts using standalone tools to form a complete X11
 environment. As you run a specific script when you want to achieve a certain
 window task, this means there is virtually no memory footprint for the
-environment other than what X11 requires.
+environment.
 
 Installation
 ------------
 
-#### Manual Installation:
+#### Dependencies
 
-This repo relies on the installation of:
+fyre relies on the installation of:
 
 - [wmutils/core](https://github.com/wmutils/core)
 - [wmutils/opt](https://github.com/wmutils/opt)
@@ -26,26 +26,29 @@ Personal recommendations for tools in your environment:
 - [lemonbar](https://github.com/baskerville/bar) - An excellent statusbar program with clickable support.
 - [hsetroot](https://github.com/elmiko/hsetroot) - Minimal background setter with clean options compared to feh.
 
-I personally recommend system linking the scripts to somewhere on
-your path, for example:
+#### Using the Makefile
 
-```bash
-ln -s ./*.sh /usr/local/bin/
-```
+You have two choices here:
 
-That way you can make changes to my original repository or maintain your own
-fork with any changes you make being reflected immediately. Alternatively you
-can use the Makefile I have provided to install the scripts.
+- Symbolically link the scripts PREFIX/bin: `make link`
+- Copy the scripts to PREFIX/bin: `make install`
+
+I recommend the former as it'll allow you make modifications to the scripts
+with the changes being applied immediately.
+
+Usage
+-----
 
 Check out the [example sxhkd](https://raw.githubusercontent.com/wildefyr/fyre/master/sxhkdc.example) to see what you can do with fyre.
 
-Finally, start up your hotkey daemon and put the following in your xinitrc:
+Start up your hotkey daemon of your choice in your xinitrc and append the
+following at the end of your xinitrc:
 
 ```bash
-exec runfyre.sh
+exec runfyre
 ```
 
-Example scrots:
+Example Desktops:
 ---------------
 
 ![The belly of the beast](https://wildefyr.net/media/screenshots/The%20belly%20of%20the%20beast.png)
