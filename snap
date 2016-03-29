@@ -63,13 +63,13 @@ snap_md() {
 }
 
 moveMouse() {
-    . mouse.sh
+    . mouse
 
     mouseStatus=$(getMouseStatus)
     test "$mouseStatus" -eq 1 && moveMouseEnabled $wid
 }
 
-. fyrerc.sh
+. fyrerc
 
 wid=$PFW
 

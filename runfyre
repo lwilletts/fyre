@@ -3,11 +3,11 @@
 # wildefyr - 2016 (c) MIT
 # fyre initialisation and run loop
 
-. fyrerc.sh
+. fyrerc
 
-eventually.sh &
-layouts.sh -o 0
-screens.sh
+eventually &
+layouts -o 0
+screens
 
 while true; do
     sleep "$DURATION"

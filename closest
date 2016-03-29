@@ -34,7 +34,7 @@ next_south() {
 }
 
 main() {
-    . fyrerc.sh
+    . fyrerc
 
     case $1 in
         h|east|left)  wid=$(next_east)  ;;
@@ -44,7 +44,7 @@ main() {
         *)            usage 0           ;;
     esac
 
-    test ! -z $wid && focus.sh "$wid"
+    test ! -z $wid && focus "$wid"
 }
 
 main $ARGS

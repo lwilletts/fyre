@@ -14,7 +14,7 @@ EOF
 }
 
 main() {
-    . fyrerc.sh
+    . fyrerc
 
     case $1 in
         0x*) wid=$1  ;;
@@ -24,99 +24,99 @@ main() {
     # if file exists then we know a layout is getting opened
     test -f "$WIDLOCK" && exit 0
 
-    focus.sh $wid
+    focus $wid
 
     case "$(name $wid)" in
         "WM_CLASS:  not found.")
             return 1
             ;;
         "urxvt")
-            position.sh res $wid
-            snap.sh tl $wid
+            position res $wid
+            snap tl $wid
             ;;
-        "mosh")
-            position.sh res $wid
-            snap.sh tl $wid
-            windows.sh -a $wid 3
+        "m")
+            position res $wid
+            snap tl $wid
+            windows -a $wid 3
             ;;
-        "ssh")
-            position.sh res $wid
-            snap.sh tl $wid
-            windows.sh -a $wid 3
+        "")
+            position. res $wid
+            snap tl $wid
+            windows -a $wid 3
             ;;
         "tmux")
-            position.sh res $wid
-            position.sh ext $wid
-            snap.sh tl $wid
-            windows.sh -a $wid 1
+            position res $wid
+            position ext $wid
+            snap tl $wid
+            windows -a $wid 1
             ;;
         "paste")
-            position.sh res $wid
-            snap.sh md $wid
+            position res $wid
+            snap md $wid
             ;;
         "libreoffice")
-            position.sh rht $wid
-            windows.sh -a $wid 8
+            position rht $wid
+            windows -a $wid 8
             ;;
         "mpsyt")
-            position.sh res $wid
-            position.sh ext $wid
-            snap.sh right $wid
-            windows.sh -a $wid 9
+            position res $wid
+            position ext $wid
+            snap right $wid
+            windows -a $wid 9
             ;;
         "alsamixer")
-            position.sh quar $wid
-            snap.sh md $wid
+            position quar $wid
+            snap md $wid
             ;;
         *)
     case "$(class $wid)" in
         "google-chrome")
             wtp $(($(wattr x $wid) - BW)) $(($(wattr y $wid) - BW)) \
                 $(wattr wh $wid) $wid
-            windows.sh -a $wid 2
+            windows -a $wid 2
             ;;
         "mpv")
-            snap.sh md $wid
-            windows.sh -a $wid 5
+            snap md $wid
+            windows -a $wid 5
 
             test -f "$MPVPOS" && {
-                test -z "$(wid.sh mpv)" && {
+                test -z "$(wid mpv)" && {
                     test ! -f "$FSFILE" && {
                         wtp $(cut -d\  -f -4 < $MPVPOS) $wid
                     }
                 }
             } || {
                 test "$(resolution $wid | cut -d\  -f 1)" -ge $SW && {
-                    position.sh full $wid
+                    position full $wid
                 }
-                test "$(resolution $wid | cut -d\  -f 2)" -ge $SH && {
-                    position.sh full $wid
+                test "$(resolution $wid | cut -d\  -f 2)" -ge  && {
+                    position full $wid
                 }
             }
             ;;
         "Steam")
-            windows.sh -a $wid 7
+            windows -a $wid 7
             ;;
         "TeamSpeak 3")
-            snap.sh md $wid
-            windows.sh -a $wid 4
+            snap md $wid
+            windows -a $wid 4
             ;;
         # seriously fuck this program
         "telegram")
-            position.sh res $wid
-            position.sh ext $wid
-            windows.sh -a $wid 4
+            position res $wid
+            position ext $wid
+            windows -a $wid 4
             ;;
         "Wine")
-            snap.sh md $wid
-            windows.sh -a $wid 6
+            snap md $wid
+            windows -a $wid 6
             ;;
         "MuPDF")
-            snap.sh md $wid
-            windows.sh -a $wid 6
+            snap md $wid
+            windows -a $wid 6
             ;;
         *)
-            snap.sh md $wid
+            snap md $wid
             ;;
     esac
     ;;

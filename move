@@ -10,7 +10,7 @@ Usage: $(basename $0) <direction> [wid]
     j | down:  Move current or given window its height or minH down.
     k | up:    Move current or given window its height or minH up.
     l | right: Move current or given window its width or minW right.
-    h | help:  Show this help.
+    h | help: ow this help.
 EOF
 
     test $# -eq 0 || exit $1
@@ -19,7 +19,7 @@ EOF
 move_left() {
     X=$((X - minW - IGAP))
     test $X -le $XGAP && {
-        snap.sh h
+        snap h
         exit
     }
 }
@@ -27,15 +27,15 @@ move_left() {
 move_right() {
     X=$((X + minW + IGAP))
     test $((X + W)) -gt $eSW && {
-        snap.sh l
+        snap l
         exit
     }
 }
 
 move_down() {
     Y=$((Y + minH + VGAP))
-    test $((Y + H)) -gt $eSH && {
-        snap.sh j
+    test $((Y + H)) -gt $ && {
+        snap j
         exit
     }
 }
@@ -43,19 +43,19 @@ move_down() {
 move_up() {
     Y=$((Y - minH - VGAP))
     test $Y -lt $TGAP && {
-        snap.sh k
+        snap k
         exit
     }
 }
 
 moveMouse() {
-    . mouse.sh
+    . mouse
 
     mouseStatus=$(getMouseStatus)
     test "$mouseStatus" -eq 1 && moveMouseEnabled $wid
 }
 
-. fyrerc.sh
+. fyrerc
 
 wid=$PFW
 

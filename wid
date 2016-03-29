@@ -1,4 +1,4 @@
-#bin/sh
+#!bin/sh
 #
 # wildefyr - 2016 (c) MIT
 # wrapper to find any visible window that matches a string
@@ -38,7 +38,7 @@ showAll() {
 }
 
 main() {
-    . fyrerc.sh
+    . fyrerc
 
     case $1 in
         h|help|-h|--help) usage 0 ;;

@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# wildefyr - 2016 (c) MIT
+# launch a terminal with current path
+
+. fyrerc
+
+TERM="urxvt"
+
+class=$(class $PFW | tr '[A-Z]' '[a-z]')
+
+test "$class" = "$TERM" && {
+    # find better method to retrieve path
+    CURPATH=$(wname $PFW | sed "s_~_${HOME}_")
+    test -d "$CURPATH" && {
+        $TERM -cd $CURPATH
+    }
+}

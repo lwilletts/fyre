@@ -14,7 +14,7 @@ EOF
 }
 
 main() {
-    . fyrerc.sh
+    . fyrerc
 
     case "$1" in
         h|help) usage 0 ;;

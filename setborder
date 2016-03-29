@@ -21,7 +21,7 @@ fnmatch() {
 }
 
 main() {
-    . fyrerc.sh
+    . fyrerc
 
     test $# -eq 0 && usage 1
     fnmatch "0x*" "$2"

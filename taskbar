@@ -3,7 +3,7 @@
 # wildefyr - 2016 (c) MIT
 # report group and window title data in lemonbar format
 
-. fyrerc.sh
+. fyrerc
 
 # colours!!11!!!
 ACTIVE="%{F#D7D7D7}"

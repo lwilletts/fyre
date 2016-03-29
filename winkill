@@ -16,7 +16,7 @@ case $1 in
     *)   usage 1 ;;
 esac
 
-. fyrerc.sh
+. fyrerc
 
 case "$(class $wid)" in
     "telegram")

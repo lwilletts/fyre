@@ -13,7 +13,7 @@ EOF
 
 case $1 in
     -d|--debug)
-        . fyrerc.sh
+        . fyrerc
 
         wew | while IFS=: read -r ev wid; do
 
@@ -33,45 +33,45 @@ EOF
 esac
 
 wew | while IFS=: read ev wid; do
-    . fyrerc.sh
+    . fyrerc
 
     case "$ev" in
         7)
             test "$SLOPPY" = "true" && {
                 wattr o "$wid" || {
-                    focus.sh "$wid" "disable" -q
+                    focus "$wid" "disable" -q
                 }
             }
             ;;
         16)
             case "$WOKRFLOW" in
                 "workspaces")
-                    windows.sh -q -a "$wid" "$(cat $active)"
+                    windows -q -a "$wid" "$(cat $active)"
                     ;;
                 *)
-                    wattr o "$wid" || winopen.sh "$wid"
+                    wattr o "$wid" || winopen "$wid"
                     ;;
             esac
 
-            blur.sh
+            blur
             ;;
         17)
             # clean workspace/group
-            windows.sh -q -c "$wid"
+            windows -q -c "$wid"
 
             # clean hover
-            hover.sh -c "$wid"
+            hover -c "$wid"
             # clean fullscreen
             test -f "$FSFILE" && \
                 test "$(cut -d\  -f 5 < $FSFILE)" = "$wid" && rm -f "$FSFILE"
             ;;
         18)
-            wattr "$(pfw)" || focus.sh prev "disable" -q
+            wattr "$(pfw)" || focus prev "disable" -q
 
-            blur.sh
+            blur
             ;;
         19)
-            blur.sh
+            blur
             ;;
     esac
 done

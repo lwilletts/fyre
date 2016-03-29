@@ -11,7 +11,7 @@ EOF
     test "$#" -eq 0 || exit $1
 }
 
-. fyrerc.sh
+. fyrerc
 
 wid=$PFW
 
@@ -21,13 +21,13 @@ esac
 
 test -f "$FSFILE" && {
     test "$PFW" = "$wid" && {
-        setborder.sh active $wid
+        setborder active $wid
         wtp $(cat $FSFILE)
         rm $FSFILE
     }
     test "$PFW" != "$wid" && {
-        setborder.sh active $wid
-        setborder.sh inactive $PFW
+        setborder active $wid
+        setborder inactive $PFW
         wtp $(cat $FSFILE)
         rm $FSFILE
         $(basename $0) $wid
@@ -35,6 +35,6 @@ test -f "$FSFILE" && {
     exit
 }
 
-setborder.sh none $wid
+setborder none $wid
 wattr xywhi $wid > $FSFILE
 wtp 0 0 $SW $SH $wid

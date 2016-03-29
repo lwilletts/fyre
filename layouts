@@ -194,7 +194,7 @@ delete_layout() {
 }
 
 main() {
-    . fyrerc.sh
+    . fyrerc
 
     for arg in "$@"; do
         case $arg in -?|--*) SAVEFLAG=false ;; esac

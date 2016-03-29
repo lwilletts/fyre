@@ -4,7 +4,7 @@
 # generate screens config for wmutils
 # USE XRANDR TO PLACE SCREENS WHERE YOU WANT THEM
 
-. fyrerc.sh
+. fyrerc
 
 test -f "$SCREENS" && rm -f "$SCREENS"
 

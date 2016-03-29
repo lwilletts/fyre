@@ -80,7 +80,7 @@ toggleMouse() {
 }
 
 main() {
-    . fyrerc.sh
+    . fyrerc
 
     case $1 in
         e|enable)  enableMouse  ;;

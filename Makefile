@@ -1,28 +1,29 @@
 PREFIX = /usr/local
 MANDIR = /usr/share/man
-SCRIPT = blur.sh \
-		 closest.sh \
-		 eventually.sh \
-		 focus.sh \
-		 fullscreen.sh \
-		 fyrerc.sh \
-		 hover.sh \
-		 ign.sh \
-		 layouts.sh \
-		 mouse.sh \
-		 move.sh \
-		 position.sh \
-		 power.sh \
-		 runfyre.sh \
-		 screens.sh \
-		 setborder.sh \
-		 size.sh \
-		 snap.sh \
-		 taskbar.sh \
-		 wid.sh \
-		 windows.sh \
-		 winkill.sh \
-		 winopen.sh \
+SCRIPT = blur \
+		 closest \
+		 eventually \
+		 focus \
+		 fullscreen \
+		 fyrerc \
+		 hover \
+		 layouts \
+		 Makefile \
+		 mouse \
+		 move \
+		 pather \
+		 position \
+		 power \
+		 runfyre \
+		 screens \
+		 setborder \
+		 size \
+		 snap \
+		 taskbar \
+		 wid \
+		 windows \
+		 winkill \
+		 winopen
 
 .PHONY: all install uninstall
 

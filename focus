@@ -53,17 +53,17 @@ focusMethod() {
     # focus correctly even if there is a fullscreen window
     test -e "$FSFILE" && {
         test "$(cut -d\  -f 5 < $FSFILE)" = "$wid" && {
-            setborder.sh none "$wid"
+            setborder none "$wid"
         } || {
             test "$(cut -d\  -f 5 < $FSFILE)" = "$PFW" && {
-                setborder.sh active "$wid"
-                setborder.sh none "$PFW"
+                setborder active "$wid"
+                setborder none "$PFW"
             }
         }
     } || {
         test "$wid" != "$PFW" && {
-            setborder.sh active "$wid"
-            setborder.sh inactive "$PFW"
+            setborder active "$wid"
+            setborder inactive "$PFW"
         }
     }
 
@@ -72,14 +72,14 @@ focusMethod() {
 }
 
 moveMouse() {
-    . mouse.sh
+    . mouse
 
     mouseStatus=$(getMouseStatus)
     test "$mouseStatus" -eq 1 && moveMouseEnabled $wid
 }
 
 main() {
-    . fyrerc.sh
+    . fyrerc
 
     test "$#" -eq 0 && {
         # automatically focus the window underneath the cursor

@@ -24,73 +24,70 @@ mod4 + Tab
 
 # focus the closest window in a direction
 mod1 + {h,j,k,l}
-    closest.sh {h,j,k,l}
+    closest {h,j,k,l}
 # snap current window to an edge
 mod4 + {h,j,k,l}
-    snap.sh {h,j,k,l}
+    snap {h,j,k,l}
 # move window in a direction
 mod1 + shift + {h,j,k,l}
-    move.sh {left,down,up,right}
+    move {left,down,up,right}
 # resize window in a direction
 mod4 + {w,a,s,d}
-    size.sh {su,sl,gd,gr}
+    resize {su,sl,gd,gr}
 
-# ignore window in scripts
-mod1 + o
-    ign.sh $(pfw)
 # ingore window in scripts and set it to hover other all over windows
 mod1 + y
-    hover.sh $(pfw)
+    hover $(pfw)
 
 # position the window in the middle of the screen
 mod1 + g
-    snap.sh md
+    snap md
 # handy shortcuts to place window in a useful position
 mod1 + {q,w,e,r,a,s}
-    position.sh {lft,ext,rht,full,res,vid}
+    position {lft,ext,rht,full,res,vid}
 # fullscreen the current window
 mod1 + f
-    fullscreen.sh
+    fullscreen
 
 # smart group toggle - see windows.sh for details
 mod1 + {1,2,3,4,5,6,7,8,9,0}
-    windows.sh -T {1,2,3,4,5,6,7,8,9,0}
+    windows -T {1,2,3,4,5,6,7,8,9,0}
 # map group and unmap all other groups
 mod4 + {1,2,3,4,5,6,7,8,9,0}
-    windows.sh -m {1,2,3,4,5,6,7,8,9,0}
+    windows -m {1,2,3,4,5,6,7,8,9,0}
 # add current window to group
 mod1 + shift + {1,2,3,4,5,6,7,8,9,0}
-    windows.sh -a $(pfw) {1,2,3,4,5,6,7,8,9,0}
+    windows -a $(pfw) {1,2,3,4,5,6,7,8,9,0}
 # clean current window from group
 mod1 + c
-    windows.sh -c $(pfw)
+    windows -c $(pfw)
 # reset groups
 mod1 + shift + c
-    windows.sh --reset
+    windows --reset
 
 # open layout
 mod2 + {1,2,3,4,5,6,7,8,9,0}
-    layouts.sh -o {1,2,3,4,5,6,7,8,9,0}
+    layouts -o {1,2,3,4,5,6,7,8,9,0}
 # save layout to plain text file
 mod2 + shift + {1,2,3,4,5,6,7,8,9,0}
-    layouts.sh -s {1,2,3,4,5,6,7,8,9,0}
+    layouts -s {1,2,3,4,5,6,7,8,9,0}
 
 # here's johnny!
 mod1 + shift + q
-    winkill.sh $(pfw)
+    winkill $(pfw)
 
 # handy script to close fyre correctly
 mod4 + e
-    power.sh -l
+    power -l
 mod4 + shift + {q,e,r}
-    power.sh -{p,e,r}
+    power -{p,e,r}
 
 # move the mouse
 mod1 + @button1
-    focus.sh; xmmv
+    focus; xmmv
 # focus the window underneath the cursor
 button2
-    focus.sh
+    focus
 
 # doesn't work in new sxhkd version
 mod1 + !button3
@@ -98,4 +95,4 @@ mod1 + !button3
 
 # toggle mouse functionality
 mod1 + z
-    mouse.sh toggle
+    mouse toggle

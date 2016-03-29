@@ -178,7 +178,7 @@ hide_group() {
     # hide all windows in group and set the border to inactive just to be safe
     while read -r addWid; do
         mapw -u "$addWid"
-        setborder.sh inactive "$addWid"
+        setborder inactive "$addWid"
     done < "$GROUPSDIR/group.${hideGroupNum}"
 
     printf '%s\n' "group ${hideGroupNum} hidden!"
@@ -214,7 +214,7 @@ show_group() {
 
     # focus the top window in the group
     focusWid=$(head -n 1 < "$GROUPSDIR/group.${showGroupNum}")
-    focus.sh "$focusWid" "disable"
+    focus "$focusWid" "disable"
 
     printf '%s\n' "group ${showGroupNum} visible!"
 }
@@ -293,7 +293,7 @@ smart_toggle_group() {
                 return 0
             } || {
                 # focus first window in group if we are NOT on a window in group
-                focus.sh "$wid" "disable"
+                focus "$wid" "disable"
                 return 0
             }
         } || {
@@ -326,7 +326,7 @@ cycle_group() {
     # focus next window in group or if at the bottom of stack go to first window
     wid=$(sed "0,/^${PFW}$/d" < $GROUPSDIR/group.${cycleGroupNum})
     test -z "$wid" && wid=$(head -n 1 < $GROUPSDIR/group.${cycleGroupNum})
-    focus.sh "$wid" "disable"
+    focus "$wid" "disable"
 }
 
 reset_groups() {
@@ -348,7 +348,7 @@ list_groups() {
 }
 
 main() {
-    . fyrerc.sh
+    . fyrerc
 
     for arg in "$@"; do
         case "$arg" in -?|--*) ADDFLAG=false ;; esac
