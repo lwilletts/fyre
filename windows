@@ -157,66 +157,70 @@ hide_group() {
     hideGroupNum=$1
     intCheck "$hideGroupNum"
 
-    # return if group is already inactive
-    test -f "$GROUPSDIR/inactive" && {
-        grep -qw "$hideGroupNum" "$GROUPSDIR/inactive" && return 1
-    }
-
-    # add the group to the inactive file
-    printf '%s\n' "$hideGroupNum" >> "$GROUPSDIR/inactive"
-
-    # clean the group from the active file
-    test -f "$GROUPSDIR/active" && {
-        buffer=$(grep -wv "$hideGroupNum" "$GROUPSDIR/active")
-        test ! -z "$buffer" && {
-            printf '%s\n' "$buffer" > "$GROUPSDIR/active"
-        } || {
-            rm -f "$GROUPSDIR/active"
+    test -f "$GROUPSDIR/group.$hideGroupNum" && {
+        # return if group is already inactive
+        test -f "$GROUPSDIR/inactive" && {
+            grep -qw "$hideGroupNum" "$GROUPSDIR/inactive" && return 1
         }
+
+        # add the group to the inactive file
+        printf '%s\n' "$hideGroupNum" >> "$GROUPSDIR/inactive"
+
+        # clean the group from the active file
+        test -f "$GROUPSDIR/active" && {
+            buffer=$(grep -wv "$hideGroupNum" "$GROUPSDIR/active")
+            test ! -z "$buffer" && {
+                printf '%s\n' "$buffer" > "$GROUPSDIR/active"
+            } || {
+                rm -f "$GROUPSDIR/active"
+            }
+        }
+
+        # hide all windows in group and set the border to inactive just to be safe
+        while read -r addWid; do
+            mapw -u "$addWid"
+            setborder inactive "$addWid"
+        done < "$GROUPSDIR/group.${hideGroupNum}"
+
+        printf '%s\n' "group ${hideGroupNum} hidden!"
     }
-
-    # hide all windows in group and set the border to inactive just to be safe
-    while read -r addWid; do
-        mapw -u "$addWid"
-        setborder inactive "$addWid"
-    done < "$GROUPSDIR/group.${hideGroupNum}"
-
-    printf '%s\n' "group ${hideGroupNum} hidden!"
 }
 
 show_group() {
     showGroupNum=$1
     intCheck "$showGroupNum"
 
-    # return if group is already active
-    test -f "$GROUPSDIR/active" && {
-        grep -qw "$hideGroupNum" "$GROUPSDIR/active" && return 1
-    }
-
-    # add the group to the active file
-    printf '%s\n' "$showGroupNum" >> "$GROUPSDIR/active"
-
-    # clean the group from the inactive file
-    test -f "$GROUPSDIR/inactive" && {
-        buffer=$(grep -wv "$showGroupNum" "$GROUPSDIR/inactive")
-        test ! -z "$buffer" && {
-            printf '%s\n' "$buffer" > "$GROUPSDIR/inactive"
-        } || {
-            rm -f "$GROUPSDIR/inactive"
+    test -f "$GROUPSDIR/group.$showGroupNum" && {
+        # return if group is already active
+        test -f "$GROUPSDIR/active" && {
+            grep -qw "$hideGroupNum" "$GROUPSDIR/active" && return 1
         }
+
+        # add the group to the active file
+        printf '%s\n' "$showGroupNum" >> "$GROUPSDIR/active"
+
+        # clean the group from the inactive file
+        test -f "$GROUPSDIR/inactive" && {
+            buffer=$(grep -wv "$showGroupNum" "$GROUPSDIR/inactive")
+            test ! -z "$buffer" && {
+                printf '%s\n' "$buffer" > "$GROUPSDIR/inactive"
+            } || {
+                rm -f "$GROUPSDIR/inactive"
+            }
+        }
+
+        # show all windows in group and place them at the top of window stack
+        while read -r showWid; do
+            mapw -m $showWid
+            chwso -r $showWid
+        done < "$GROUPSDIR/group.${showGroupNum}"
+
+        # focus the top window in the group
+        focusWid=$(head -n 1 < "$GROUPSDIR/group.${showGroupNum}")
+        focus "$focusWid" "disable"
+
+        printf '%s\n' "group ${showGroupNum} visible!"
     }
-
-    # show all windows in group and place them at the top of window stack
-    while read -r showWid; do
-        mapw -m $showWid
-        chwso -r $showWid
-    done < "$GROUPSDIR/group.${showGroupNum}"
-
-    # focus the top window in the group
-    focusWid=$(head -n 1 < "$GROUPSDIR/group.${showGroupNum}")
-    focus "$focusWid" "disable"
-
-    printf '%s\n' "group ${showGroupNum} visible!"
 }
 
 # show given group and hide all others - could be used for workspaces
@@ -257,12 +261,14 @@ toggle_group() {
     intCheck "$toggleGroupNum"
 
     # find out if the group is active
-    while read -r active; do
-        test "$active" -eq "$toggleGroupNum" && {
-            activeFlag=true
-            break
-        }
-    done < "$GROUPSDIR/active"
+    test -f "$GROUPSDIR/active" && {
+        while read -r active; do
+            test "$active" -eq "$toggleGroupNum" && {
+                activeFlag=true
+                break
+            }
+        done < "$GROUPSDIR/active"
+    }
 
     # hide or show group
     test "$activeFlag" = "true" && {
@@ -277,12 +283,14 @@ smart_toggle_group() {
     intCheck "$toggleGroupNum"
 
     # find out if the group is active
-    while read -r active; do
-        test "$active" -eq "$toggleGroupNum" && {
-            activeFlag=true
-            break
-        }
-    done < "$GROUPSDIR/active"
+    test -f "$GROUPSDIR/active" && {
+        while read -r active; do
+            test "$active" -eq "$toggleGroupNum" && {
+                activeFlag=true
+                break
+            }
+        done < "$GROUPSDIR/active"
+    }
 
     test "$activeFlag" = "true" && {
         test $(wc -l < "$GROUPSDIR/group.${toggleGroupNum}") -eq 1 && {
@@ -301,10 +309,10 @@ smart_toggle_group() {
             hide_group "$toggleGroupNum"
             return 0
         }
+    } || {
+        # show group as we know it has to inactive
+        show_group "$toggleGroupNum"
     }
-
-    # show group as we know it has to inactive
-    show_group "$toggleGroupNum"
 }
 
 cycle_group() {
