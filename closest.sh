@@ -37,12 +37,14 @@ main() {
     . fyrerc.sh
 
     case $1 in
-        h|east|left)  focus.sh $(next_east)  -q 2>/dev/null ;;
-        j|south|down) focus.sh $(next_south) -q 2>/dev/null ;;
-        k|north|up)   focus.sh $(next_north) -q 2>/dev/null ;;
-        l|west|right) focus.sh $(next_west)  -q 2>/dev/null ;;
-        *)            usage 0                               ;;
+        h|east|left)  wid=$(next_east)  ;;
+        j|south|down) wid=$(next_south) ;;
+        k|north|up)   wid=$(next_north) ;;
+        l|west|right) wid=$(next_west)  ;;
+        *)            usage 0           ;;
     esac
+
+    test ! -z $wid && focus.sh "$wid"
 }
 
 main $ARGS
