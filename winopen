@@ -34,13 +34,13 @@ main() {
             position res $wid
             snap tl $wid
             ;;
-        "m")
+        "mosh")
             position res $wid
             snap tl $wid
             windows -a $wid 3
             ;;
-        "")
-            position. res $wid
+        "ssh")
+            position res $wid
             snap tl $wid
             windows -a $wid 3
             ;;
