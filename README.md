@@ -48,11 +48,10 @@ exec runfyre.sh
 Example scrots:
 ---------------
 
-![The belly of the beast](https://raw.githubusercontent.com/wildefyr/dotfiles/master/screenshots/The%20belly%20of%20the%20beast.png)
-![Cityscape](https://raw.githubusercontent.com/wildefyr/dotfiles/master/screenshots/cityscape.png)
-![The Final Frontier](https://raw.githubusercontent.com/wildefyr/dotfiles/master/screenshots/thefinalfrontier.png)
-![Blade Runner Blues](https://raw.githubusercontent.com/wildefyr/dotfiles/master/screenshots/bladerunnerblues.png)
-![Endless](https://github.com/wildefyr/dotfiles/blob/master/screenshots/clean.png?raw=true)
+![The belly of the beast](https://wildefyr.net/media/screenshots/The%20belly%20of%20the%20beast.png)
+![The Final Frontier](https://wildefyr.net/media/screenshots/thefinalfrontier.png)
+![Blade Runner Blues](https://wildefyr.net/media/screenshots/bladerunnerblues.png)
+![Endless](https://wildefyr.net/media/screenshots/clean.png)
 
 Contributors
 ------------
