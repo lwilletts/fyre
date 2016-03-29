@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # wildefyr - 2016 (c) MIT
-# generate screens config for wmutils
+# generate screens config for fyre
 # USE XRANDR TO PLACE SCREENS WHERE YOU WANT THEM
 
 . fyrerc

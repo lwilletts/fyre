@@ -49,12 +49,20 @@ lockfyre() {
 
 restartfyre() {
     killfyre
-    sudo reboot 2>/dev/null
+    type hostnamectl 2>&1 > /dev/null {
+        systemctl reboot
+    } || {
+        sudo reboot 2>/dev/null
+    }
 }
 
 powerfyre() {
     killfyre
-    sudo poweroff 2>/dev/null
+    type hostnamectl 2>&1 > /dev/null {
+        systemctl poweroff
+    } || {
+        sudo poweroff 2>/dev/null
+    }
 }
 
 case $1 in
