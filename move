@@ -10,7 +10,7 @@ Usage: $(basename $0) <direction> [wid]
     j | down:  Move current or given window its height or minH down.
     k | up:    Move current or given window its height or minH up.
     l | right: Move current or given window its width or minW right.
-    h | help: ow this help.
+    h | help:  Show this help.
 EOF
 
     test $# -eq 0 || exit $1
@@ -34,7 +34,7 @@ move_right() {
 
 move_down() {
     Y=$((Y + minH + VGAP))
-    test $((Y + H)) -gt $ && {
+    test $((Y + H)) -gt $eSH && {
         snap j
         exit
     }
