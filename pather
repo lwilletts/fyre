@@ -13,6 +13,6 @@ test "$class" = "$TERM" && {
     # find better method to retrieve path
     CURPATH=$(wname $PFW | sed "s_~_${HOME}_")
     test -d "$CURPATH" && {
-        $TERM -cd $CURPATH
+        $TERM -cd $CURPATH &
     }
 }
