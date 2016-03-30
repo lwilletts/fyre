@@ -59,15 +59,17 @@ INACTIVE=${INACTIVE:-0x737373}
     # other
 ###############################################################################
 
+# duration of runfyre execution loop
+DURATION=60
+
 # set to workspaces or groups
 WORKFLOW="groups"
 
-WALL=$(sed '1!d; s_~_/home/wildefyr_' < $(which bgc))
-DURATION=5
 BLUR=0
+WALL=$(cat $(which bgc))
 
 # mouse gets moved to the middle of the window
-MOUSE="true"
+MOUSE="false"
 # moving over windows automatically focuses them
 SLOPPY="true"
 
