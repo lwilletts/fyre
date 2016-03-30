@@ -319,12 +319,15 @@ cycle_group() {
     cycleGroupNum=$1
     intCheck "$cycleGroupNum"
 
-    while read -r active; do
-        test "$active" -eq "$cycleGroupNum" && {
-            activeFlag=true
-            break
-        }
-    done < "$GROUPSDIR/active"
+    # find out if the group is active
+    test -f "$GROUPSDIR/active" && {
+        while read -r active; do
+            test "$active" -eq "$cycleGroupNum" && {
+                activeFlag=true
+                break
+            }
+        done < "$GROUPSDIR/active"
+    }
 
     # show group if group is not active
     test "$activeFlag" != "true" && {
@@ -339,9 +342,11 @@ cycle_group() {
 
 reset_groups() {
     # map all groups to the screen
-    while read -r resetGroupNum; do
-        test "$resetGroupNum" != "" && show_group "$resetGroupNum"
-    done < "$GROUPSDIR/inactive"
+    test -f "$GROUPSDIR/inactive" && {
+        while read -r resetGroupNum; do
+            test "$resetGroupNum" != "" && show_group "$resetGroupNum"
+        done < "$GROUPSDIR/inactive"
+    }
 
     # clean the group directory
     rm -f $GROUPSDIR/*
