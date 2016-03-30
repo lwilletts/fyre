@@ -8,7 +8,6 @@ SCRIPT = blur \
 		 fyrerc \
 		 hover \
 		 layouts \
-		 Makefile \
 		 mouse \
 		 move \
 		 pather \
@@ -30,7 +29,9 @@ SCRIPT = blur \
 all: link
 
 link: $(SCRIPT)
-	ln -svfn $(SCRIPT) $(PREFIX)/bin
+	@for script in $(SCRIPT); do \
+		ln -svfn $(shell pwd)/$$script $(PREFIX)/bin ; \
+	done
 
 install: $(SCRIPT)
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
