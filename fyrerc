@@ -69,7 +69,7 @@ BLUR=0
 WALL=$(cat $(which bgc))
 
 # mouse gets moved to the middle of the window
-MOUSE="false"
+MOUSE="true"
 # moving over windows automatically focuses them
 SLOPPY="true"
 
