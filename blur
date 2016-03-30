@@ -10,7 +10,7 @@ usage() {
 Usage: $(basename $0) [blur factor]
 EOF
 
-    test $# -eq 0 || exit $1
+    test "$#" -eq 0 || exit $1
 }
 
 main() {
@@ -26,7 +26,9 @@ main() {
         0) BLUR=0 ;;
     esac
 
-    $WALL -blur ${1:-$BLUR}
+    test ! -z "$WALL" && {
+        $WALL -blur ${1:-$BLUR}
+    }
 }
 
 main $ARGS
