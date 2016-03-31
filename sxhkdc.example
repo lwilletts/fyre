@@ -7,7 +7,7 @@ mod1 + shift + r
 
 # launch programs
 {mod1, mod2} + Return
-    urxvt
+    urxvtc
 mod1 + d
     dmenu
 
@@ -88,8 +88,15 @@ button2
 mod1 + !button3
     wrs -a %i %i $(pfw)
 
+# move window underneath cursor
+mod1 + @button1
+    focus; xmmv
+# focus on click with middle mouse button
+button2
+    focus
+
 # toggle mouse functionality
-mod1 + z
+mod1 + t
     mouse --toggle
 
 # vim: set ft=sxhkdrc :
