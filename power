@@ -3,8 +3,10 @@
 # wildefyr - 2016 (c) MIT
 # power menu for fyre
 
+ARGS="$@"
+
 usage() {
-    cat << EOF
+    cat >&2 << EOF
 Usage: $(basename $0) [-lerp]
     -e | --exit:   Exit fyre.
     -l | --lock:   Lock the session.
@@ -15,9 +17,8 @@ EOF
     test $# -eq 0 || exit $1
 }
 
-killfyre() {
-    layouts.sh -s 0 -q
-    windows.sh --reset
+killFyre() {
+    layouts -s 0 -q
 
     pgrep taskbar.sh 2>&1 > /dev/null && {
         pkill taskbar.sh
@@ -26,7 +27,7 @@ killfyre() {
     pkill xinit
 }
 
-lockfyre() {
+lockFyre() {
     mpvc --stop -q
 
     test -d /sys/class/backlight/intel_backlight && {
@@ -42,21 +43,10 @@ lockfyre() {
 
     type slock 2>&1 > /dev/null && {
         slock
-    } || {
-        printf '%s\n' "slock was not found on your \$PATH."
     }
 }
 
-restartfyre() {
-    killfyre
-    type hostnamectl 2>&1 > /dev/null && {
-        systemctl reboot
-    } || {
-        sudo reboot 2>/dev/null
-    }
-}
-
-powerfyre() {
+powerFyre() {
     killfyre
     type hostnamectl 2>&1 > /dev/null && {
         systemctl poweroff
@@ -65,10 +55,36 @@ powerfyre() {
     }
 }
 
-case $1 in
-    -l|--lock)     lockfyre    ;;
-    -e|--exit)     killfyre    ;;
-    -r|--restart)  restartfyre ;;
-    -p|--poweroff) powerfyre   ;;
-    *)             usage       ;;
-esac
+restartFyre() {
+    killfyre
+    type hostnamectl 2>&1 > /dev/null && {
+        systemctl reboot
+    } || {
+        sudo reboot 2>/dev/null
+    }
+}
+
+main() {
+    case "$1" in
+        "-l"|"--lock")     lockFyre    ;;
+        "-e"|"--exit")     killFyre    ;;
+        "-p"|"--poweroff") powerFyre   ;;
+        "-r"|"--restart")  restartFyre ;;
+        *)                 usage 1     ;;
+    esac
+}
+
+test $# -eq 0 && usage 1
+
+for arg in $ARGS; do
+    case "$arg" in
+        -q|--quiet)       QUIETFLAG=true ;;
+        h|help|-h|--help) usage 0        ;;
+    esac
+done
+
+test "$QUIETFLAG" = "true" && {
+    main $ARGS 2>&1 > /dev/null
+} || {
+    main $ARGS
+}

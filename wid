@@ -15,19 +15,19 @@ EOF
 
 nameAll() {
     for wid in $(lsw); do
-        printf '%s\n' "$wid $(name $wid)"
+        printf '%s\n' "$wid $(name "$wid")"
     done
 }
 
 classAll() {
     for wid in $(lsw); do
-        printf '%s\n' "$wid $(class $wid)"
+        printf '%s\n' "$wid $(class "$wid")"
     done
 }
 
 titleAll() {
     for wid in $(lsw); do
-        printf '%s\n' "$wid $(wname $wid)"
+        printf '%s\n' "$wid $(wname "$wid")"
     done
 }
 
@@ -40,11 +40,20 @@ showAll() {
 main() {
     . fyrerc
 
-    case $1 in
-        h|help|-h|--help) usage 0 ;;
-    esac
-
     showAll | grep -i "$1" | cut -d\  -f 1 | sort | uniq
 }
 
-test -z "$ARGS" || main $ARGS
+test $# -eq 0 && usage 1
+
+for arg in $ARGS; do
+    case "$arg" in
+        -q|--quiet)       QUIETFLAG=true ;;
+        h|help|-h|--help) usage 0        ;;
+    esac
+done
+
+test "$QUIETFLAG" = "true" && {
+    main $ARGS 2>&1 > /dev/null
+} || {
+    main $ARGS
+}

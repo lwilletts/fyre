@@ -17,13 +17,13 @@ Usage: $(basename $0) [-esod layout] [-S group layout] [-lhq]
     -h | --help:   Show this help.
 EOF
 
-    test "$#" -eq 0 || exit $1
+    test $# -eq 0 || exit $1
 }
 
 layoutCheck() {
-    test ! -f $LAYOUTDIR/layout.$LAY && {
+    test ! -f "$LAYOUTDIR/layout.$LAY" && {
         printf '%s\n' "Layout does not exist." >&2
-        list_layouts
+        listLayouts
         exit 1
     }
 }
@@ -31,18 +31,18 @@ layoutCheck() {
 groupCheck() {
     test ! -f "$GROUPSDIR/group.$GROUP" && {
         printf '%s\n' "Group does not exist." >&2
-        list_groups
+        listGroups
         exit 1
     }
 }
 
-save_windows() {
+saveWindows() {
     printf '%s\n' "$lswSort" | while read -r wid; do
         psid=$(process $wid)
-        window=$(class $wid)
+        window="$(class $wid)"
 
         # sometimes making the class name lowercase will give the right launch name
-        window=$(printf '%s\n' "$window" | tr '[A-Z]' '[a-z]')
+        window="$(printf '%s\n' "$window" | tr '[A-Z]' '[a-z]')"
 
         # get arguments program was launched with if appropriate
         case "$window" in
@@ -57,12 +57,12 @@ save_windows() {
                 ;;
         esac
 
-        group=$(windows.sh -f $wid | rev | cut -d'.' -f 1 | rev)
-        test -z "$group" && {
+        group=$(windows.sh -f "$wid" | rev | cut -d'.' -f 1 | rev)
+        test -z $group && {
             group="N/A"
         }
 
-        XYWH="$(wattr xywh $wid)"
+        XYWH="$(wattr xywh "$wid")"
 
         printf '%s\n' "$XYWH $group $window" >> "$LAYOUTDIR/layout.$LAY"
     done
@@ -70,8 +70,7 @@ save_windows() {
     printf '%s\n' "Layout $LAY saved."
 }
 
-# save currently visible windows to a layout file
-save_layout() {
+saveLayout() {
     intCheck $1
     LAY=$1
 
@@ -86,17 +85,16 @@ save_layout() {
     # sort based on x values
     lswSort=$(lsw | xargs wattr xi | sort -n | sed "s/^[0-9]* //")
 
-    save_windows
+    saveWindows
 }
 
-# save windows in given group to a layout file
-save_group_layout() {
-    test ! -z $3 && usage 1
+saveGroupLayout() {
+    test $# -gt 2 && usage 1
 
-    GROUP=$(printf "$1" | cut -d\  -f 1)
-    LAY=$(printf '%s' "$1" | cut -d\  -f 2)
+    GROUP=$(printf $1 | cut -d\  -f 1)
+    LAY=$(printf '%s' $1 | cut -d\  -f 2)
 
-    test -z "$GROUP" && {
+    test -z $GROUP && {
         printf '%s\n\n' "Group cannot be empty." >&2
         listGroups
         usage 1
@@ -105,7 +103,7 @@ save_group_layout() {
         groupCheck
     }
 
-    test -z "$LAY" && {
+    test -z $LAY && {
         printf '%s\n\n' "Layout cannot be empty." >&2
         listLayouts
         usage 1
@@ -127,10 +125,10 @@ save_group_layout() {
     lswSort=$(xargs wattr xi < "$GROUPSDIR/group.$GROUP" | sort -n | \
         sed "s/^[0-9]* //")
 
-    save_windows
+    saveWindows
 }
 
-open_layout() {
+openLayout() {
     intCheck $1
     LAY=$1
     layoutCheck
@@ -139,7 +137,7 @@ open_layout() {
     :> "$WIDLOCK"
 
     while read -r window; do
-        windowsOpen=$(lsw)
+        windowsOpen="$(lsw)"
         windowCount=$(printf '%s\n' "$windowsOpen" | wc -w)
 
         PROGRAM=$(printf '%s\n' "$window" | cut -d\  -f 6-)
@@ -160,7 +158,7 @@ open_layout() {
         focus.sh $wid
 
         test "$GROUP" != "N/A" && {
-            windows.sh -a $wid $GROUP
+            windows.sh -a "$wid" $GROUP
         }
     done < "$LAYOUTDIR/layout.$LAY"
 
@@ -170,21 +168,21 @@ open_layout() {
     rm -f "$WIDLOCK"
 }
 
-list_groups() {
+listGroups() {
     for group in $(find $GROUPSDIR/*.? 2> /dev/null); do
         printf '%s\n' "$(printf '%s' ${group} | rev | cut -d'/' -f 1 | rev):"
         printf '%s\n' "$(cat ${group})"
     done
 }
 
-list_layouts() {
+listLayouts() {
     for layout in $(find $LAYOUTDIR/*.? 2> /dev/null); do
         printf '%s\n' "$(printf '%s' ${layout} | rev | cut -d'/' -f 1 | rev):"
         printf '%s\n' "$(cat ${layout})"
     done
 }
 
-delete_layout() {
+deleteLayout() {
     intCheck $1
     LAY=$1
     layoutCheck
@@ -196,32 +194,31 @@ delete_layout() {
 main() {
     . fyrerc
 
-    for arg in "$@"; do
+    for arg in $@; do
         case $arg in -?|--*) SAVEFLAG=false ;; esac
         test "$SAVEFLAG" = "true" && SAVESTRING="${SAVESTRING}${arg} "
         case $arg in -S|--group) SAVEFLAG=true ;; esac
     done
 
     test ! -z "$SAVESTRING" && {
-        save_group_layout "$SAVESTRING"
-        exit 0
+        saveGroupLayout "$SAVESTRING" && exit 0
     }
 
-    for arg in "$@"; do
-        test "$SAVEFLAG"   = "true" && save_layout "$arg"   && exit 0
-        test "$OPENFLAG"   = "true" && open_layout "$arg"   && exit 0
-        test "$DELETEFLAG" = "true" && delete_layout "$arg" && exit 0
+    for arg in $@; do
+        test "$SAVEFLAG"   = "true" && saveLayout "$arg"   && exit 0
+        test "$OPENFLAG"   = "true" && openLayout "$arg"   && exit 0
+        test "$DELETEFLAG" = "true" && deleteLayout "$arg" && exit 0
 
         case "$arg" in
             -s|--save)   SAVEFLAG=true   ;;
             -o|--open)   OPENFLAG=true   ;;
             -d|--delete) DELETEFLAG=true ;;
-            -l|--list)   list_layouts    ;;
+            -l|--list)   listLayouts     ;;
         esac
     done
 }
 
-test "$#" -eq 0 && usage 1
+test $# -eq 0 && usage 1
 
 for arg in $ARGS; do
     case "$arg" in
@@ -231,7 +228,7 @@ for arg in $ARGS; do
 done
 
 test "$QUIETFLAG" = "true" && {
-    main $ARGS 2>&1 > /dev/null
+    main "$ARGS" 2>&1 > /dev/null
 } || {
-    main $ARGS
+    main "$ARGS"
 }

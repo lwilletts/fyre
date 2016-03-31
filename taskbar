@@ -22,12 +22,12 @@ for group in $GROUPSDIR/group.?; do
                 colour="$ACTIVE"
                 break
             }
-        done < $GROUPSDIR/active
+        done < "$GROUPSDIR/active"
     } || {
         colour="$INACTIVE"
     }
 
-    wids=$(tr '\n' ' ' < $group)
+    wids=$(tr '\n' ' ' < "$group")
 
     for wid in $wids; do
         window="$(class ${wid})"
@@ -78,7 +78,7 @@ for group in $GROUPSDIR/group.?; do
     }
 
     counter=$((counter + 1))
-    test "$counter" -ne "$numGroups" && {
+    test $counter -ne $numGroups && {
         stringOut="${stringOut}${INACTIVE}|"
     }
 done

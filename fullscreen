@@ -1,40 +1,53 @@
 #!/bin/sh
 #
-# wildefyr & z3bra - 2016 (c) wtfpl
+# wildefyr & z3bra - 2016 (c) MIT
 # fullscreen without borders, remembers previous window geometry
+
+ARGS="$@"
 
 usage() {
     cat >&2 << EOF
-Usage: $(basename $0) [wid]
+Usage: $(basename $0) <wid>
 EOF
 
-    test "$#" -eq 0 || exit $1
+    test $# -eq 0 || exit $1
 }
 
-. fyrerc
+main() {
+    . fyrerc
 
-wid=$PFW
+    wattr "$1" && wid="$1" || wid=$PFW
 
-case $1 in
-    0x*) wid=$1 ;;
-esac
-
-test -f "$FSFILE" && {
-    test "$PFW" = "$wid" && {
-        setborder active $wid
-        wtp $(cat $FSFILE)
-        rm $FSFILE
+    test -f "$FSFILE" && {
+        test "$PFW" = "$wid" && {
+            setborder active "$wid"
+            wtp $(cat "$FSFILE")
+            rm "$FSFILE"
+        }
+        test "$PFW" != "$wid" && {
+            setborder active "$wid"
+            setborder inactive "$PFW"
+            wtp $(cat "$FSFILE")
+            rm "$FSFILE"
+            $(basename $0) "$wid"
+        }
+        exit
     }
-    test "$PFW" != "$wid" && {
-        setborder active $wid
-        setborder inactive $PFW
-        wtp $(cat $FSFILE)
-        rm $FSFILE
-        $(basename $0) $wid
-    }
-    exit
+
+    setborder none "$wid"
+    wattr xywhi "$wid" > "$FSFILE"
+    wtp 0 0 $SW $SH "$wid"
 }
 
-setborder none $wid
-wattr xywhi $wid > $FSFILE
-wtp 0 0 $SW $SH $wid
+for arg in $ARGS; do
+    case "$arg" in
+        -q|--quiet)       QUIETFLAG=true ;;
+        h|help|-h|--help) usage 0        ;;
+    esac
+done
+
+test "$QUIETFLAG" = "true" && {
+    main $ARGS 2>&1 > /dev/null
+} || {
+    main $ARGS
+}

@@ -6,7 +6,7 @@
 ARGS="$@"
 
 usage() {
-    cat << EOF
+    cat >&2 << EOF
 Usage: $(basename $0) [wid]
 EOF
 
@@ -16,101 +16,110 @@ EOF
 main() {
     . fyrerc
 
-    case $1 in
-        0x*) wid=$1  ;;
-        *)   usage 0 ;;
+    case "$1" in
+        0x*) wid="$1" ;;
+        *)   usage 1  ;;
     esac
 
     # if file exists then we know a layout is getting opened
     test -f "$WIDLOCK" && exit 0
 
-    focus $wid
+    focus "$wid"
 
     case "$(name $wid)" in
         "WM_CLASS:  not found.")
             return 1
             ;;
         "urxvt")
-            position res $wid
-            snap tl $wid
+            position res "$wid"
+            snap --topleft "$wid"
             ;;
         "mosh")
-            position res $wid
-            snap tl $wid
-            windows -a $wid 3
+            position res "$wid"
+            snap --topleft "$wid"
+            windows -a "$wid" 3
             ;;
         "ssh")
-            position res $wid
-            snap tl $wid
-            windows -a $wid 3
+            position res "$wid"
+            snap --topleft "$wid"
+            windows -a "$wid" 3
             ;;
         "tmux")
-            position res $wid
-            position ext $wid
-            snap tl $wid
-            windows -a $wid 1
+            position res "$wid"
+            position ext "$wid"
+            snap --topleft "$wid"
+            windows -a "$wid" 1
             ;;
         "paste")
-            position res $wid
-            snap md $wid
+            position res "$wid"
+            snap --middle "$wid"
             ;;
         "libreoffice")
-            position rht $wid
-            windows -a $wid 8
+            position rht "$wid"
+            windows -a "$wid" 8
             ;;
         "mpsyt")
-            position res $wid
-            position ext $wid
-            snap right $wid
-            windows -a $wid 9
-            ;;
-        "alsamixer")
-            position quar $wid
-            snap md $wid
+            position res "$wid"
+            position ext "$wid"
+            snap --right "$wid"
+            windows -a "$wid" 9
             ;;
         *)
     case "$(class $wid)" in
         "google-chrome")
-            wtp $(($(wattr x $wid) - BW)) $(($(wattr y $wid) - BW)) \
-                $(wattr wh $wid) $wid
-            windows -a $wid 2
+            wtp $(($(wattr x "$wid") - BW)) $(($(wattr y "$wid") - BW)) \
+                $(wattr wh "$wid") "$wid"
+            windows -a "$wid" 2
             ;;
         "mpv")
-            snap md $wid
-            windows -a $wid 5
+            snap --middle "$wid"
+            windows -a "$wid" 5
 
-            test "$(resolution $wid | cut -d\  -f 1)" -ge $SW && {
-                position full $wid
+            test $(resolution "$wid" | cut -d\  -f 1) -ge $SW && {
+                position full "$wid"
                 return 0
             }
-            test "$(resolution $wid | cut -d\  -f 2)" -ge  && {
-                position full $wid
+            test $(resolution "$wid" | cut -d\  -f 2) -ge $SH && {
+                position full "$wid"
                 return 0
             }
             ;;
         "Steam")
-            windows -a $wid 7
+            windows -a "$wid" 7
             ;;
         "TeamSpeak 3")
-            snap md $wid
-            windows -a $wid 4
+            snap --middle "$wid"
+            windows -a "$wid" 4
             ;;
         # seriously fuck this program
         "telegram")
-            position res $wid
-            position ext $wid
-            windows -a $wid 4
+            position res "$wid"
+            position ext "$wid"
+            windows -a "$wid" 4
             ;;
         "MuPDF")
-            snap md $wid
-            windows -a $wid 6
+            snap --middle "$wid"
+            windows -a "$wid" 6
             ;;
         *)
-            snap md $wid
+            snap --middle "$wid"
             ;;
     esac
     ;;
     esac
 }
 
-main $ARGS
+test $# -eq 0 && usage 1
+
+for arg in $ARGS; do
+    case "$arg" in
+        -q|--quiet)       QUIETFLAG=true ;;
+        h|help|-h|--help) usage 0        ;;
+    esac
+done
+
+test "$QUIETFLAG" = "true" && {
+    main $ARGS 2>&1 > /dev/null
+} || {
+    main $ARGS
+}

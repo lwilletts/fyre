@@ -3,20 +3,22 @@
 # wildefyr - 2016 (c) MIT
 # sane resize in a direction
 
+ARGS="$@"
+
 usage() {
     cat >&2 << EOF
 Usage: $(basename $0) <direction> [wid]
-    gr | growright:  Grow current or given window right
-    gd | growdown:   Grow current or given window down.
-    sl | shrinkleft: Shrink current or given window left.
-    su | shrinkup:   Shrink current or given window up.
-    h  | help:       Show this help.
+    -gr | --growright:  Grow current or given window right
+    -gd | --growdown:   Grow current or given window down.
+    -sl | --shrinkleft: Shrink current or given window left.
+    -su | --shrinkup:   Shrink current or given window up.
+    -h  | --help:       Show this help.
 EOF
 
     test -z $1 || exit $1
 }
 
-grow_down() {
+growDown() {
     test $H -lt $((minH - BW)) && {
         H=$minH
     } || {
@@ -31,7 +33,7 @@ grow_down() {
     }
 }
 
-grow_right() {
+growRight() {
     test $W -lt $minW && {
         W=$minW
     } || {
@@ -46,7 +48,7 @@ grow_right() {
     }
 }
 
-shrink_up() {
+shrinkUp() {
     test $H -le $minH && {
         H=$minH
     } || {
@@ -54,7 +56,7 @@ shrink_up() {
     }
 }
 
-shrink_left() {
+shrinkLeft() {
     test $W -le $minW && {
         W=$minW
     } || {
@@ -66,24 +68,37 @@ moveMouse() {
     . mouse
 
     mouseStatus=$(getMouseStatus)
-    test "$mouseStatus" -eq 1 && moveMouseEnabled $wid
+    test $mouseStatus -eq 1 && moveMouseEnabled "$wid"
 }
 
-. fyrerc
+main() {
+    . fyrerc
 
-wid=$PFW
+    wattr "$2" && wid="$2" || wid="$PFW"
 
-case $2 in
-    0x*) wid=$2 ;;
-esac
+    case "$1" in
+        "-gd"|"--growdown")   growDown   ;;
+        "-su"|"--shrinkup")   shrinkUp   ;;
+        "-gr"|"--growright")  growRight  ;;
+        "-sl"|"--shrinkleft") shrinkLeft ;;
+        *)                    usage 1    ;;
+    esac
 
-case $1 in
-    gd|growdown)    grow_down    ;;
-    su|shrinkup)    shrink_up    ;;
-    gr|growright)   grow_right   ;;
-    sl|shrinkleft)  shrink_left  ;;
-    *)              usage 0      ;;
-esac
+    wtp $X $Y $W $H "$wid"
+    test "$MOUSE" = "true" && moveMouse
+}
 
-wtp $X $Y $W $H $wid
-test "$MOUSE" = "true" && moveMouse
+test $# -eq 0 && usage 1
+
+for arg in $ARGS; do
+    case "$arg" in
+        -q|--quiet)       QUIETFLAG=true ;;
+        h|help|-h|--help) usage 0        ;;
+    esac
+done
+
+test "$QUIETFLAG" = "true" && {
+    main $ARGS 2>&1 > /dev/null
+} || {
+    main $ARGS
+}

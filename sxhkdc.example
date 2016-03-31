@@ -1,10 +1,5 @@
 # You don't have to use sxhkd for your hotkey daemon - xbindkeys is an alternative
-# I set my modifiers using xmodmap - https://wildefyr.net/blog/2015/05/Modifying-Modifiers.html
-
-# mod1 = Alt_L
-# mod2 = Alt_R
-# mod3 = Hyper_L
-# mod4 = Super_L
+# I set modifiers using xmodmap - https://wildefyr.net/blog/2015/05/Modifying-Modifiers.html
 
 # reload sxhkd
 mod1 + shift + r
@@ -24,24 +19,24 @@ mod4 + Tab
 
 # focus the closest window in a direction
 mod1 + {h,j,k,l}
-    closest {h,j,k,l}
+    closest {--left,--down,--up,--right}
 # snap current window to an edge
 mod4 + {h,j,k,l}
-    snap {h,j,k,l}
+    snap {--left,--down,--up,--right}
+# snap the window to the corners and middle of the screen
+mod1 + {g,y,u,b,n}
+    snap {--middle,--topleft,--topright,--bottomleft,--bottomright}
 # move window in a direction
 mod1 + shift + {h,j,k,l}
-    move {left,down,up,right}
+    move {--left,--down,--up,--right}
 # resize window in a direction
 mod4 + {w,a,s,d}
-    resize {su,sl,gd,gr}
+    resize {--shrinkup,--shrinkleft,--growdown,--growright}
 
 # ingore window in scripts and set it to hover other all over windows
-mod1 + y
+mod1 + o
     hover $(pfw)
 
-# position the window in the middle of the screen
-mod1 + g
-    snap md
 # handy shortcuts to place window in a useful position
 mod1 + {q,w,e,r,a,s}
     position {lft,ext,rht,full,res,vid}
@@ -95,4 +90,6 @@ mod1 + !button3
 
 # toggle mouse functionality
 mod1 + z
-    mouse toggle
+    mouse --toggle
+
+# vim: set ft=sxhkdrc :

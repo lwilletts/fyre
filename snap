@@ -3,61 +3,63 @@
 # wildefyr & kekler - 2016 (c) wtfpl
 # snap windows without resize
 
+ARGS="$@"
+
 usage() {
     cat >&2 << EOF
-Usage: $(basename $0) <option> [wid]
-    h  | left:   Snap current or given window to the left side of the screen.
-    j  | down:   Snap current or given window to the bottom side of the screen.
-    k  | up:     Snap current or given window to the up side of the screen.
-    l  | right:  Snap current or given window to the right side of the screen.
-    tl | tleft:  Snap current or given window to the top-left corner of the screen.
-    tr | tright: Snap current or given window to the top-right corner of the screen.
-    bl | bleft:  Snap current or given window to the bottom-left corner of the screen.
-    br | bright: Snap current or given window to the bottom-right corner of the screen.
-    md | middle: Snap current or given window to the middle of the screen.
-    h  | help:   Show this help.
+Usage: $(basename $0) [option] <wid>
+    -u  | --up:          Snap current or given window to the top of the screen.
+    -l  | --left:        Snap current or given window to the left of the screen.
+    -d  | --down:        Snap current or given window to the bottom of the screen.
+    -r  | --right:       Snap current or given window to the right of the screen.
+    -tl | --topleft:     Snap current or given window to the top left of the screen.
+    -tr | --topright:    Snap current or given window to the top right of the screen.
+    -bl | --bottomleft:  Snap current or given window to the bottom left of the screen.
+    -br | --bottomright: Snap current or given window to the bottom right of the screen.
+    -md | --middle:      Snap current or given window to the middle of the screen.
+    -h  | --help:        Show this help.
 EOF
 
     test $# -eq 0 || exit $1
 }
 
-snap_left() {
-    X=$XGAP
-}
-
-snap_up() {
+snapTop() {
     Y=$TGAP
 }
 
-snap_down() {
+snapLeft() {
+    X=$XGAP
+}
+
+snapBottom() {
     Y=$((SH - BGAP - H))
 }
 
-snap_right() {
+snapRight() {
     X=$((SW - XGAP - W))
 }
 
-snap_tl() {
+snapTopLeft() {
     X=$XGAP
     Y=$TGAP
 }
 
-snap_tr() {
+snapTopRight() {
     X=$((SW - XGAP - W))
     Y=$TGAP
 }
 
-snap_bl() {
+snapBottomLeft() {
     X=$XGAP
     Y=$((SH - BGAP - H))
 }
 
-snap_br() {
+snapBottomRight() {
     X=$((SW - XGAP - W))
     Y=$((SH - BGAP - H))
 }
 
-snap_md() {
+snapMiddle() {
     X=$((eSW/2 - W/2 + XGAP))
     Y=$((eSH/2 - H/2 + TGAP))
 }
@@ -66,29 +68,42 @@ moveMouse() {
     . mouse
 
     mouseStatus=$(getMouseStatus)
-    test "$mouseStatus" -eq 1 && moveMouseEnabled $wid
+    test "$mouseStatus" -eq 1 && moveMouseEnabled "$wid"
 }
 
-. fyrerc
+main() {
+    . fyrerc
 
-wid=$PFW
+    wattr "$2" && wid="$2" || wid="$PFW"
 
-case $2 in
-    0x*) wid=$2 ;;
-esac
+    case "$1" in
+        "-u"|"--up")           snapTop         ;;
+        "-l"|"--left")         snapLeft        ;;
+        "-d"|"--down")         snapBottom      ;;
+        "-r"|"--right")        snapRight       ;;
+        "-tl"|"--topleft")     snapTopLeft     ;;
+        "-tr"|"--topright")    snapTopRight    ;;
+        "-bl"|"--bottomleft")  snapBottomLeft  ;;
+        "-br"|"--bottomright") snapBottomRight ;;
+        "-md"|"--middle")      snapMiddle      ;;
+        *)                     usage 1         ;;
+    esac
 
-case $1 in
-    h|left)    snap_left  ;;
-    j|down)    snap_down  ;;
-    k|up)      snap_up    ;;
-    l|right)   snap_right ;;
-    tl|tleft)  snap_tl    ;;
-    tr|tright) snap_tr    ;;
-    bl|bleft)  snap_bl    ;;
-    br|bright) snap_br    ;;
-    md|middle) snap_md    ;;
-    *)         usage 0    ;;
-esac
+    wtp $X $Y $W $H "$wid"
+    test "$MOUSE" = "true" && moveMouse
+}
 
-wtp $X $Y $W $H $wid
-test "$MOUSE" = "true" && moveMouse
+test $# -eq 0 && usage 1
+
+for arg in $ARGS; do
+    case "$arg" in
+        -q|--quiet)       QUIETFLAG=true ;;
+        h|help|-h|--help) usage 0        ;;
+    esac
+done
+
+test "$QUIETFLAG" = "true" && {
+    main $ARGS 2>&1 > /dev/null
+} || {
+    main $ARGS
+}

@@ -22,17 +22,17 @@ HOVER=${HOVER:-$FYREDIR/hover}
     # window management
 ###############################################################################
 
-ROOT=$(lsw -r)
-SW=$(wattr w $ROOT)
-SH=$(wattr h $ROOT)
+ROOT="$(lsw -r)"
+SW=$(wattr w "$ROOT")
+SH=$(wattr h "$ROOT")
 
-PFW=$(pfw)
-CUR=${2:-$(pfw)}
+PFW="$(pfw)"
+CUR=${2:-"$(pfw)"}
 
-X=$(wattr x $CUR 2> /dev/null)
-Y=$(wattr y $CUR 2> /dev/null)
-W=$(wattr w $CUR 2> /dev/null)
-H=$(wattr h $CUR 2> /dev/null)
+X=$(wattr x "$CUR" 2> /dev/null)
+Y=$(wattr y "$CUR" 2> /dev/null)
+W=$(wattr w "$CUR" 2> /dev/null)
+H=$(wattr h "$CUR" 2> /dev/null)
 
 BW=${BW:-1}
 
@@ -66,7 +66,7 @@ DURATION=60
 WORKFLOW="groups"
 
 BLUR=0
-WALL=$(cat $(which bgc))
+WALL="$(cat $(which bgc))"
 
 # mouse gets moved to the middle of the window
 MOUSE="true"
@@ -85,97 +85,111 @@ intCheck() {
 }
 
 name() {
-    test "$#" -eq 0 && return 1
-    for wid in "$@"; do
-        case "$wid" in
-            0x*)
-                lsw -a | grep -q "$wid" && {
-                    xprop -id "$wid" WM_CLASS | cut -d\" -f 2
-                } || {
-                    printf '%s\n' "wid does not exist!" >&2
-                    return 1
-                }
-                ;;
-            *)  printf '%s\n' "Please enter a valid window id." >&2; return 1 ;;
-        esac
+    test $# -eq 0 && return 1
+    for wid in $@; do
+        lsw -a | grep -q "$wid" && {
+            xprop -id "$wid" WM_CLASS | cut -d\" -f 2
+            unset -v wid
+        } || {
+            printf '%s\n' "Please enter a valid window id." >&2
+            unset -v wid
+            return 1
+        }
     done
 }
 
 class() {
-    test "$#" -eq 0 && return 1
-    for wid in "$@"; do
-        case "$wid" in
-            0x*)
-                lsw -a | grep -q "$wid" && {
-                    xprop -id "$wid" WM_CLASS | cut -d\" -f 4
-                } || {
-                    printf '%s\n' "wid does not exist!" >&2
-                    return 1
-                }
-                ;;
-            *)  printf '%s\n' "Please enter a valid window id." >&2; return 1 ;;
-        esac
+    test $# -eq 0 && return 1
+    for wid in $@; do
+        lsw -a | grep -q "$wid" && {
+            xprop -id "$wid" WM_CLASS | cut -d\" -f 4
+            unset -v wid
+        } || {
+            printf '%s\n' "Please enter a valid window id." >&2
+            unset -v wid
+            return 1
+        }
     done
 }
 
 process() {
-    test "$#" -eq 0 && return 1
-    for wid in "$@"; do
-        case "$wid" in
-            0x*)
-                lsw -a | grep -q "$wid" && {
-                    xprop -id "$wid" _NET_WM_PID | cut -d\  -f 3
-                } || {
-                    printf '%s\n' "wid does not exist!" >&2
-                    return 1
-                }
-                ;;
-            *)  printf '%s\n' "Please enter a valid window id." >&2; return 1 ;;
-        esac
+    test $# -eq 0 && return 1
+    for wid in $@; do
+        lsw -a | grep -q "$wid" && {
+            xprop -id "$wid" _NET_WM_PID | cut -d\  -f 3
+            unset -v wid
+        } || {
+            printf '%s\n' "Please enter a valid window id." >&2
+            unset -v wid
+            return 1
+        }
     done
 }
 
 resolution() {
-    case "$1" in
-        0x*) wid=$1 ;;
-        *)   printf '%s\n' "Please enter a valid window id." >&2; return 1 ;;
-    esac
-
-    test "$(class $wid)" = "mpv" && {
-        resolution=$(xprop -id "$wid" WM_NORMAL_HINTS | sed '5s/[^0-9]*//p;d' | tr / \ )
-        printf '%s\n' "$resolution"
+    wattr "$1" && {
+        wid=$1
     } || {
         printf '%s\n' "Please enter a valid mpv window id." >&2
+        return 1
+    }
+
+    test "$(class $wid)" = "mpv" && {
+        resolution=$(xprop -id "$wid" WM_NORMAL_HINTS | \
+            sed '5s/[^0-9]*//p;d' | tr / \ )
+        printf '%s\n' "$resolution"
+        unset -v wid resolution
+    } || {
+        printf '%s\n' "Please enter a valid mpv window id." >&2
+        unset -v wid
         return 1
     }
 }
 
 # test if a point is over the top of a window
 underneath() {
-    test "$#" -eq 0 && {
-        X="$(wmp | cut -d\  -f 1)"
-        Y="$(wmp | cut -d\  -f 2)"
+    test $# -eq 0 && {
+        X=$(wmp | cut -d\  -f 1)
+        Y=$(wmp | cut -d\  -f 2)
     } || {
         intCheck $1 && X=$1
         intCheck $2 && Y=$2
     }
 
     # start from the currently highest stacked window
-    for wid in $(lsw | tac); do
-        windowX="$(wattr x $wid)"
-        windowY="$(wattr y $wid)"
+    for wid in "$(lsw | tac)"; do
+        windowX=$(wattr x "$wid")
+        windowY=$(wattr y "$wid")
 
         # we won't get a match if the left and top edges greater than X or Y
-        test "$windowX" -gt "$X" && continue
-        test "$windowY" -gt "$Y" && continue
+        test $windowX -gt $X && continue
+        test $windowY -gt $Y && continue
 
-        windowW="$(wattr w $wid)"
-        windowH="$(wattr h $wid)"
+        windowW=$(wattr w "$wid")
+        windowH=$(wattr h "$wid")
 
         # we won't get a match if the right and bottom edges are less than X or Y
-        test "$((windowX + windowW))" -lt "$X" && continue
-        test "$((windowY + windowH))" -lt "$Y" && continue
+        test $((windowX + windowW)) -lt $X && continue
+        test $((windowY + windowH)) -lt $Y && continue
 
-        printf '%s\n' "$wid" && return
+        printf '%s\n' "$wid"
+        unset -v wid
+        return 0
     done
 }
+
+moveMouseEnabled() {
+    wattr "$1" && {
+        wid="$1"
+    } || {
+        printf '%s\n' "Please enter a valid window id." >&2
+        return 1
+    }
+
+    # move mouse to the middle of the given window id
+    wmp -a $(($(wattr x "$wid") + ($(wattr w "$wid") / 2))) \
+           $(($(wattr y "$wid") + ($(wattr h "$wid") / 2)))
+
+    unset -v wid
+}
+

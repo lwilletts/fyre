@@ -1,50 +1,67 @@
 #!/bin/sh
 #
-# wildefyr & z3bra - 2014 (c) wtfpl
+# wildefyr & z3bra - 2016 (c) MIT
 # find and focus the closest window in a specific direction
 
 ARGS="$@"
 
 usage() {
-    cat << EOF
+    cat >&2 << EOF
 Usage: $(basename $0) [direction]
+    -u | --up:    Focus next window up.
+    -l | --left:  Focus next window left.
+    -d | --down:  Focus next window down.
+    -r | --right: Focus next window right.
 EOF
 
     test $# -eq 0 || exit $1
 }
 
-next_east() {
-    (lsw; pfw) | sort | uniq | xargs wattr xi | sort -nr | sed "0,/$PFW/d" | \
-        sed "1s/^[0-9]* //p;d"
-}
-
-next_west() {
-    (lsw; pfw) | sort | uniq | xargs wattr xi | sort -n  | sed "0,/$PFW/d" | \
-        sed "1s/^[0-9]* //p;d"
-}
-
-next_north() {
+nextUp() {
     (lsw; pfw) | sort | uniq | xargs wattr yi | sort -nr | sed "0,/$PFW/d" | \
         sed "1s/^[0-9]* //p;d"
 }
 
-next_south() {
+nextLeft() {
+    (lsw; pfw) | sort | uniq | xargs wattr xi | sort -nr | sed "0,/$PFW/d" | \
+        sed "1s/^[0-9]* //p;d"
+}
+
+nextSouth() {
     (lsw; pfw) | sort | uniq | xargs wattr yi | sort -n  | sed "0,/$PFW/d" | \
+        sed "1s/^[0-9]* //p;d"
+}
+
+nextRight() {
+    (lsw; pfw) | sort | uniq | xargs wattr xi | sort -n  | sed "0,/$PFW/d" | \
         sed "1s/^[0-9]* //p;d"
 }
 
 main() {
     . fyrerc
 
-    case $1 in
-        h|east|left)  wid=$(next_east)  ;;
-        j|south|down) wid=$(next_south) ;;
-        k|north|up)   wid=$(next_north) ;;
-        l|west|right) wid=$(next_west)  ;;
-        *)            usage 0           ;;
+    case "$1" in
+        "-u"|"--up")    wid="$(nextUp)"    ;;
+        "-l"|"--left")  wid="$(nextLeft)"  ;;
+        "-d"|"--down")  wid="$(nextDown)"  ;;
+        "-r"|"--right") wid="$(nextRight)" ;;
+        *)              usage 1            ;;
     esac
 
     test ! -z "$wid" && focus "$wid"
 }
 
-main $ARGS
+test $# -eq 0 && usage 1
+
+for arg in $ARGS; do
+    case "$arg" in
+        -q|--quiet)       QUIETFLAG=true ;;
+        h|help|-h|--help) usage 0        ;;
+    esac
+done
+
+test "$QUIETFLAG" = "true" && {
+    main $ARGS 2>&1 > /dev/null
+} || {
+    main $ARGS
+}

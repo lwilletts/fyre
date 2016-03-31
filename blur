@@ -7,28 +7,30 @@ ARGS="$@"
 
 usage() {
     cat >&2 << EOF
-Usage: $(basename $0) [blur factor]
+Usage: $(basename $0) [blur integer]
 EOF
 
-    test "$#" -eq 0 || exit $1
+    test $# -eq 0 || exit $1
 }
 
 main() {
     . fyrerc
 
-    case "$1" in
-        h|help) usage 0 ;;
-    esac
+    test $# -eq 0 && usage 1 || intCheck $1
 
-    test "$#" -eq 0 || intCheck $1
-
-    case "$(lsw | wc -l)" in
-        0) BLUR=0 ;;
-    esac
-
-    test ! -z "$WALL" && {
-        $WALL -blur ${1:-$BLUR}
-    }
+    test $(lsw | wc -l) -eq 0 && BLUR=0
+    test ! -z "$WALL" && $WALL -blur ${1:-$BLUR}
 }
 
-main $ARGS
+for arg in $ARGS; do
+    case "$arg" in
+        -q|--quiet)       QUIETFLAG=true ;;
+        h|help|-h|--help) usage 0        ;;
+    esac
+done
+
+test "$QUIETFLAG" = "true" && {
+    main $ARGS 2>&1 > /dev/null
+} || {
+    main $ARGS
+}

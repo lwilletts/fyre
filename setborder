@@ -1,13 +1,13 @@
 #!/bin/sh
 #
-# wildefyr & z3bra - 2016 (c) wtfpl
-# set or unset a border around a window
+# wildefyr & z3bra - 2016 (c) MIT
+# set border around a window
 
 ARGS="$@"
 
 usage() {
-    cat << EOF
-Usage: $(basename $0) [state] [wid]
+    cat >&2 << EOF
+Usage: $(basename $0) [state] <wid>
 EOF
 
     test $# -eq 0 || exit $1
@@ -16,32 +16,28 @@ EOF
 main() {
     . fyrerc
 
-    test "$#" -eq 0 && usage 1
+    wattr "$2" && wid="$2" || wid="$PFW"
 
-    wid=$PFW
-
-    case $2 in
-        0x*) wid=$2 ;;
-    esac
-
-    case $1 in
-        none)
-            wattr "$wid" || printf '%s\n' "You have not entered a window id." >&2
-            chwb -s 0 "$wid"
-            ;;
-        active)
-            wattr "$wid" || printf '%s\n' "You have not entered a window id." >&2
-            chwb -s "$BW" -c "$ACTIVE" "$wid"
-            ;;
-        warning)
-            wattr "$wid" || printf '%s\n' "You have not entered a window id." >&2
-            chwb -s "$BW" -c "$WARNING" "$wid"
-            ;;
-        inactive)
-            chwb -s "$BW" -c "$INACTIVE" "$wid"
-            ;;
-        *) usage 0 ;;
+    case "$1" in
+        "none")     chwb -s 0 "$wid"                  ;;
+        "active")   chwb -s $BW -c "$ACTIVE" "$wid"   ;;
+        "warning")  chwb -s $BW -c "$WARNING" "$wid"  ;;
+        "inactive") chwb -s $BW -c "$INACTIVE" "$wid" ;;
+        *)          usage 1                           ;;
     esac
 }
 
-main $ARGS
+test $# -eq 0 && usage 1
+
+for arg in $ARGS; do
+    case "$arg" in
+        -q|--quiet)       QUIETFLAG=true ;;
+        h|help|-h|--help) usage 0        ;;
+    esac
+done
+
+test "$QUIETFLAG" = "true" && {
+    main $ARGS 2>&1 > /dev/null
+} || {
+    main $ARGS
+}

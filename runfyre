@@ -13,5 +13,5 @@ eventually &
 windows.sh -r
 
 while true; do
-    sleep "$DURATION"
+    sleep $DURATION
 done

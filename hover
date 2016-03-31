@@ -13,17 +13,21 @@ EOF
     test $# -eq 0 || exit $1
 }
 
-fnmatch() {
-    case "$2" in
-        $1) return 0 ;;
-        *)  printf '%s\n' "Please enter a valid window id." >&2; exit 1 ;;
+widCheck() {
+    case "$1" in
+        0x*)
+            return 0
+            ;;
+        *)
+            printf '%s\n' "Please enter a valid window id." >&2
+            exit 1
+            ;;
     esac
 }
 
-
-clean_hover() {
+cleanHover() {
     cleanWid=$1
-    fnmatch "0x*" "$cleanWid"
+    widCheck "$cleanWid"
 
     . fyrerc
 
@@ -46,8 +50,8 @@ clean_hover() {
 }
 
 main() {
-    hoverWid=$1
-    fnmatch "0x*" "$hoverWid"
+    hoverWid="$1"
+    widCheck "$hoverWid"
 
     . fyrerc
 
@@ -84,24 +88,24 @@ main() {
         printf '%s\n' "$hoverWid $currentGroup" >> "$HOVER"
     }
 
-    windows -a "$hoverWid" 9
+    windows -a "$hoverWid" 0
     ignw -s "$hoverWid"
 }
 
-test "$#" -eq 0 && usage 1
+test $# -eq 0 && usage 1
 
 for arg in $ARGS; do
-    test "$CLEANFLAG" = "true" && clean_hover "$arg" && exit
+    test "$CLEANFLAG" = "true" && cleanHover "$arg" && exit
 
-    case $arg in
-        -c|--clean)      CLEANFLAG=true ;;
-        -q|--quiet)      QUIETFLAG=true ;;
-        h|help-h|--help) usage 0        ;;
+    case "$arg" in
+        -c|--clean)       CLEANFLAG=true ;;
+        -q|--quiet)       QUIETFLAG=true ;;
+        h|help|-h|--help) usage 0        ;;
     esac
 done
 
 test "$QUIETFLAG" = "true" && {
-    main $ARGS 2>&1 > /dev/null
+    main "$ARGS" 2>&1 > /dev/null
 } || {
-    main $ARGS
+    main "$ARGS"
 }
