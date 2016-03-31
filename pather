@@ -5,7 +5,7 @@
 
 . fyrerc
 
-TERM="urxvt"
+TERM="urxvtc"
 
 class="$(class "$PFW" | tr '[A-Z]' '[a-z]')"
 

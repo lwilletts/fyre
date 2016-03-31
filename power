@@ -20,9 +20,7 @@ EOF
 killFyre() {
     layouts -s 0 -q
 
-    pgrep taskbar.sh 2>&1 > /dev/null && {
-        pkill taskbar.sh
-    }
+    pgrep taskbar 2>&1 > /dev/null && pkill taskbar
 
     pkill xinit
 }
