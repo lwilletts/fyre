@@ -5,12 +5,10 @@
 
 . fyrerc
 
-# get monitor information
-screens
-# load our event watcher
+# event watcher
 eventually &
 # reset group data
-windows.sh -r
+windows.sh --reset
 
 while true; do
     sleep $DURATION

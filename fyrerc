@@ -3,75 +3,20 @@
 # wildefyr - 2016 (c) MIT
 # source file for fyre
 
-    # window management
-###############################################################################
-
-ROOT="$(lsw -r)"
-SW=$(wattr w "$ROOT")
-SH=$(wattr h "$ROOT")
-
-PFW="$(pfw)"
-CUR=${2:-"$(pfw)"}
-
-X=$(wattr x "$CUR" 2> /dev/null)
-Y=$(wattr y "$CUR" 2> /dev/null)
-W=$(wattr w "$CUR" 2> /dev/null)
-H=$(wattr h "$CUR" 2> /dev/null)
-
-BW=${BW:-1}
-
-ROWS=4
-COLS=4
-
-# best to keep these as multiples of two
-IGAP=${IGAP:-$((20))}
-VGAP=${VGAP:-$((20))}
-XGAP=${XGAP:-$((20))}
-BGAP=${BGAP:-$((20))}
-TGAP=${TGAP:-$((40))}
-
-eSW=$((SW - 2*XGAP))
-eSH=$((SH - TGAP - BGAP))
-
-minW=$((eSW/COLS - $((COLS - 1))*IGAP/COLS))
-minH=$((eSH/ROWS - $((ROWS - 1))*VGAP/ROWS))
-
-ACTIVE=${ACTIVE:-0xD7D7D7}
-WARNING=${WARNING:-0xB23450}
-INACTIVE=${INACTIVE:-0x737373}
-
-    # other
-###############################################################################
-
-# duration of runfyre execution loop
-DURATION=60
-
-# set to workspaces or groups
-WORKFLOW="groups"
-
-BLUR=0
-WALL="$(cat $(which bgc))"
-
-# mouse gets moved to the middle of the window
-MOUSE="false"
-# moving over windows automatically focuses them
-SLOPPY="false"
-
     # environment files
 ###############################################################################
 
 FYREDIR=${FYREDIR:-~/.config/fyre}
-
 GROUPSDIR=${GROUPSDIR:-$FYREDIR/groups}
 LAYOUTDIR=${LAYOUTDIR:-$FYREDIR/layouts}
 test ! -d "$GROUPSDIR" && mkdir -p "$GROUPSDIR"
 test ! -d "$LAYOUTDIR" && mkdir -p "$LAYOUTDIR"
 
-WIDLOCK=${WIDLOCK:-$FYREDIR/.widlock}
-SCREENS=${SCREENS:-$FYREDIR/screens}
-FSFILE=${FSFILE:-$FYREDIR/fullinfo}
-IGNORE=${IGNORE:-$FYREDIR/ignored}
 HOVER=${HOVER:-$FYREDIR/hover}
+IGNORE=${IGNORE:-$FYREDIR/ignored}
+FSFILE=${FSFILE:-$FYREDIR/fullinfo}
+SCREENS=${SCREENS:-$FYREDIR/screens}
+WIDLOCK=${WIDLOCK:-$FYREDIR/.widlock}
 
     # functions
 ###############################################################################
@@ -146,6 +91,73 @@ resolution() {
     }
 }
 
+generateScreenInfo() {
+    test -f "$SCREENS" && rm -f "$SCREENS"
+
+    type xrandr 2>&1 > /dev/null && {
+        xrandr | grep -w 'connected' | while read -r connected; do
+            screen=$(printf '%s\n' "$connected" | cut -d\  -f 1)
+            geometry=$(printf '%s\n' "$connected" | cut -d\  -f 3)
+            screenX="$(printf '%s\n' "$geometry" | cut -d'+' -f 2)"
+            screenY="$(printf '%s\n' "$geometry" | cut -d'+' -f 3)"
+            screenW="$(printf '%s\n' "$geometry" | cut -d'x' -f 1)"
+            screenH="$(printf '%s\n' "$geometry" | cut -d'x' -f 2 | cut -d'+' -f 1)"
+            printf '%s\n' "$screen $screenX $screenY $screenW $screenH" >> "$SCREENS"
+        done
+
+        unset -v screen screenX screenY screenW screenH geometry
+    } || {
+        printf '%s\n' "xrandr was not found on your \$PATH." >&2
+        printf '%s\n' "multi-monitor detection will not work." >&2
+        return 1
+    }
+}
+
+# return the current screen number
+getCurrentScreen() {
+    test ! -f "$SCREENS" && {
+        generateScreenInfo || {
+            printf '%s\n' "1"
+            return 1
+        }
+    }
+
+    for screen in $(wc -l < "$SCREENS"); do
+        screenInfo="$(sed "/$screen/!d" "$SCREENS")"
+
+        screenX=$(printf '%s\n' "$screenInfo" | cut -d\  -f 2)
+        screenY=$(printf '%s\n' "$screenInfo" | cut -d\  -f 3)
+        screenW=$(printf '%s\n' "$screenInfo" | cut -d\  -f 4)
+        screenH=$(printf '%s\n' "$screenInfo" | cut -d\  -f 5)
+
+        test $X -lt $screenX && continue
+        test $Y -lt $screenY && continue
+        test $X -gt $screenW && continue
+        test $Y -gt $screenH && continue
+
+        printf '%s\n' "$screen"
+        unset -v screen screenX screenY screenW screenH
+        return 0
+    done
+}
+
+# get correct SW and SH of current screen
+retrieveScreenValues() {
+    test ! -f "$SCREENS" && {
+        generateScreenInfo || {
+            ROOT="$(lsw -r)"
+            SW=$(wattr w "$ROOT")
+            SH=$(wattr h "$ROOT")
+            return 1
+        }
+    }
+
+    screen=$(getCurrentScreen)
+    SW=$(sed "/$screen/!d" "$SCREENS" | cut -d\  -f 4)
+    SH=$(sed "/$screen/!d" "$SCREENS" | cut -d\  -f 5)
+
+}
+
 # test if a point is over the top of a window
 underneath() {
     test $# -eq 0 && {
@@ -192,3 +204,57 @@ moveMouseEnabled() {
 
     unset -v wid
 }
+
+    # window management
+###############################################################################
+
+PFW="$(pfw)"
+CUR=${2:-"$(pfw)"}
+
+X=$(wattr x "$CUR" 2> /dev/null)
+Y=$(wattr y "$CUR" 2> /dev/null)
+W=$(wattr w "$CUR" 2> /dev/null)
+H=$(wattr h "$CUR" 2> /dev/null)
+
+# multiple monitor support
+retrieveScreenValues
+
+ROWS=4
+COLS=4
+
+BW=${BW:-1}
+
+# best to keep these as multiples of two
+IGAP=${IGAP:-$((20))}
+VGAP=${VGAP:-$((20))}
+XGAP=${XGAP:-$((20))}
+BGAP=${BGAP:-$((20))}
+TGAP=${TGAP:-$((40))}
+
+eSW=$((SW - 2*XGAP))
+eSH=$((SH - TGAP - BGAP))
+
+minW=$((eSW/COLS - $((COLS - 1))*IGAP/COLS))
+minH=$((eSH/ROWS - $((ROWS - 1))*VGAP/ROWS))
+
+ACTIVE=${ACTIVE:-0xD7D7D7}
+WARNING=${WARNING:-0xB23450}
+INACTIVE=${INACTIVE:-0x737373}
+
+    # other
+###############################################################################
+
+# duration of runfyre execution loop
+DURATION=60
+
+# set to workspaces or groups
+WORKFLOW="groups"
+
+BLUR=0
+WALL="$(cat $(which bgc))"
+
+# mouse gets moved to the middle of the window
+MOUSE="false"
+# moving over windows automatically focuses them
+SLOPPY="true"
+
