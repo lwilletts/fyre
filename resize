@@ -50,7 +50,8 @@ growRight() {
 
 shrinkUp() {
     test $H -le $minH && {
-        H=$minH
+        test $H -lt 20 && exit 0
+        H=$((H/2 - VGAP/2))
     } || {
         H=$((H - minH - VGAP))
     }
@@ -58,7 +59,8 @@ shrinkUp() {
 
 shrinkLeft() {
     test $W -le $minW && {
-        W=$minW
+        test $W -lt 20 && exit 0
+        W=$((W/2 - VGAP/2))
     } || {
         W=$((W - minW - IGAP))
     }

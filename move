@@ -19,34 +19,70 @@ EOF
 }
 
 moveUp() {
-    Y=$((Y - minH - VGAP))
+    test $H -le $minH && {
+        test $((H % 2)) -eq 0 && {
+            Y=$((Y - H - VGAP))
+        } || {
+            Y=$((Y - H - VGAP - 1))
+        }
+    } || {
+        Y=$((Y - minH - VGAP))
+    }
+
     test $Y -lt $TGAP && {
         snap --up
-        exit
+        exit 0
     }
 }
 
 moveLeft() {
-    X=$((X - minW - IGAP))
+    test $W -le $minW && {
+        test $((W % 2)) -eq 0 && {
+            X=$((X - W - IGAP))
+        } || {
+            X=$((X - W - IGAP - 1))
+        }
+    } || {
+        X=$((X - minW - IGAP))
+    }
+
     test $X -le $XGAP && {
         snap --left
-        exit
+        exit 0
     }
 }
 
 moveDown() {
-    Y=$((Y + minH + VGAP))
+    test $H -le $minH && {
+        test $((H % 2)) -eq 0 && {
+            Y=$((Y + H + VGAP))
+        } || {
+            Y=$((Y + H + VGAP + 1))
+        }
+    } || {
+        Y=$((Y + minH + VGAP))
+    }
+
     test $((Y + H)) -gt $eSH && {
         snap --down
-        exit
+        exit 0
     }
 }
 
 moveRight() {
-    X=$((X + minW + IGAP))
+    test $W -le $minW && {
+        test $((W % 2)) -eq 0 && {
+            X=$((X + W + IGAP))
+        } || {
+            X=$((X + W + IGAP + 1))
+        }
+    } || {
+        X=$((X + minW + IGAP))
+    }
+
     test $((X + W)) -gt $eSW && {
         snap --right
-        exit
+        exit 0
     }
 }
 
