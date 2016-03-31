@@ -3,22 +3,6 @@
 # wildefyr - 2016 (c) MIT
 # source file for fyre
 
-    # environment files
-###############################################################################
-
-FYREDIR=${FYREDIR:-~/.config/fyre}
-
-GROUPSDIR=${GROUPSDIR:-$FYREDIR/groups}
-LAYOUTDIR=${LAYOUTDIR:-$FYREDIR/layouts}
-test ! -d "$GROUPSDIR" && mkdir -p "$GROUPSDIR"
-test ! -d "$LAYOUTDIR" && mkdir -p "$LAYOUTDIR"
-
-WIDLOCK=${WIDLOCK:-$FYREDIR/.widlock}
-SCREENS=${SCREENS:-$FYREDIR/screens}
-FSFILE=${FSFILE:-$FYREDIR/fullinfo}
-IGNORE=${IGNORE:-$FYREDIR/ignored}
-HOVER=${HOVER:-$FYREDIR/hover}
-
     # window management
 ###############################################################################
 
@@ -69,9 +53,25 @@ BLUR=0
 WALL="$(cat $(which bgc))"
 
 # mouse gets moved to the middle of the window
-MOUSE="true"
+MOUSE="false"
 # moving over windows automatically focuses them
-SLOPPY="true"
+SLOPPY="false"
+
+    # environment files
+###############################################################################
+
+FYREDIR=${FYREDIR:-~/.config/fyre}
+
+GROUPSDIR=${GROUPSDIR:-$FYREDIR/groups}
+LAYOUTDIR=${LAYOUTDIR:-$FYREDIR/layouts}
+test ! -d "$GROUPSDIR" && mkdir -p "$GROUPSDIR"
+test ! -d "$LAYOUTDIR" && mkdir -p "$LAYOUTDIR"
+
+WIDLOCK=${WIDLOCK:-$FYREDIR/.widlock}
+SCREENS=${SCREENS:-$FYREDIR/screens}
+FSFILE=${FSFILE:-$FYREDIR/fullinfo}
+IGNORE=${IGNORE:-$FYREDIR/ignored}
+HOVER=${HOVER:-$FYREDIR/hover}
 
     # functions
 ###############################################################################
@@ -156,8 +156,8 @@ underneath() {
         intCheck $2 && Y=$2
     }
 
-    # start from the currently highest stacked window
-    for wid in "$(lsw | tac)"; do
+    # start from the highest stacked window
+    for wid in $(lsw | tac); do
         windowX=$(wattr x "$wid")
         windowY=$(wattr y "$wid")
 
@@ -192,4 +192,3 @@ moveMouseEnabled() {
 
     unset -v wid
 }
-
