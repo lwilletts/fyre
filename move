@@ -19,12 +19,8 @@ EOF
 }
 
 moveUp() {
-    test $H -le $minH && {
-        test $((H % 2)) -eq 0 && {
-            Y=$((Y - H - VGAP))
-        } || {
-            Y=$((Y - H - VGAP - 1))
-        }
+    test $H -lt $minH && {
+        Y=$((Y - H - VGAP))
     } || {
         Y=$((Y - minH - VGAP))
     }
@@ -36,12 +32,8 @@ moveUp() {
 }
 
 moveLeft() {
-    test $W -le $minW && {
-        test $((W % 2)) -eq 0 && {
-            X=$((X - W - IGAP))
-        } || {
-            X=$((X - W - IGAP - 1))
-        }
+    test $W -lt $minW && {
+        X=$((X - W - IGAP))
     } || {
         X=$((X - minW - IGAP))
     }
@@ -53,12 +45,8 @@ moveLeft() {
 }
 
 moveDown() {
-    test $H -le $minH && {
-        test $((H % 2)) -eq 0 && {
-            Y=$((Y + H + VGAP))
-        } || {
-            Y=$((Y + H + VGAP + 1))
-        }
+    test $H -lt $minH && {
+        Y=$((Y + H + VGAP))
     } || {
         Y=$((Y + minH + VGAP))
     }
@@ -70,12 +58,8 @@ moveDown() {
 }
 
 moveRight() {
-    test $W -le $minW && {
-        test $((W % 2)) -eq 0 && {
-            X=$((X + W + IGAP))
-        } || {
-            X=$((X + W + IGAP + 1))
-        }
+    test $W -lt $minW && {
+        X=$((X + W + IGAP))
     } || {
         X=$((X + minW + IGAP))
     }
