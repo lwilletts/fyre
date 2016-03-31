@@ -45,7 +45,7 @@ lockFyre() {
 }
 
 powerFyre() {
-    killfyre
+    killFyre
     type hostnamectl 2>&1 > /dev/null && {
         systemctl poweroff
     } || {
@@ -54,7 +54,7 @@ powerFyre() {
 }
 
 restartFyre() {
-    killfyre
+    killFyre
     type hostnamectl 2>&1 > /dev/null && {
         systemctl reboot
     } || {
