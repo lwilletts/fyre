@@ -40,12 +40,12 @@ widCheck() {
 }
 
 findWid() {
-    findwid="$1"
-    widCheck "$findwid"
+    wid="$1"
+    widCheck "$wid"
 
     # if wid is found in a group, return the group
     for group in $(find $GROUPSDIR/*.? 2> /dev/null); do
-        grep -q "$findwid" "$group" && {
+        grep -q "$wid" "$group" && {
             printf '%s\n' "$group"
             return 0
         }
@@ -200,7 +200,7 @@ showGroup() {
     test -f "$GROUPSDIR/group.$showGroupNum" && {
         # return if group is already active
         test -f "$GROUPSDIR/active" && {
-            grep -qw $hideGroupNum "$GROUPSDIR/active" && return 1
+            grep -qw $showGroupNum "$GROUPSDIR/active" && return 1
         }
 
         # add the group to the active file
