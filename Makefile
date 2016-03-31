@@ -14,7 +14,6 @@ SCRIPT = blur \
 		 position \
 		 power \
 		 runfyre \
-		 screens \
 		 setborder \
 		 resize \
 		 snap \

@@ -155,7 +155,6 @@ retrieveScreenValues() {
     screen=$(getCurrentScreen)
     SW=$(sed "/$screen/!d" "$SCREENS" | cut -d\  -f 4)
     SH=$(sed "/$screen/!d" "$SCREENS" | cut -d\  -f 5)
-
 }
 
 # test if a point is over the top of a window
