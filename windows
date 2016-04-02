@@ -69,7 +69,7 @@ cleanWid() {
         buffer=$(grep -wv "$cleanWid" "$group")
         test -z "$buffer" 2> /dev/null && {
             cleanGroupNum=$(printf '%s\n' "$group" | rev | cut -d'.' -f 1 | rev)
-            unmapGroup "$cleanGroupNum" 2>&1 > /dev/null
+            unmapGroup $cleanGroupNum 2>&1 > /dev/null
         } || {
             printf '%s\n' "$buffer" > "$group"
         }
@@ -88,7 +88,7 @@ unmapGroup() {
 
         # clean group from the active file
         test -f "$GROUPSDIR/active" && {
-            buffer=$(grep -wv "$unmapGroupNum" "$GROUPSDIR/active")
+            buffer=$(grep -wv $unmapGroupNum "$GROUPSDIR/active")
             test -z "$buffer" 2> /dev/null && {
                 rm -f "$GROUPSDIR/active"
             } || {
@@ -98,7 +98,7 @@ unmapGroup() {
 
         # clean group from the inactive file
         test -f "$GROUPSDIR/inactive" && {
-            buffer=$(grep -wv "$unmapGroupNum" "$GROUPSDIR/inactive")
+            buffer=$(grep -wv $unmapGroupNum "$GROUPSDIR/inactive")
             test -z "$buffer" 2> /dev/null && {
                 rm -f "$GROUPSDIR/active"
             } || {
@@ -127,11 +127,11 @@ toggleWidGroup() {
     }
 
     # get the current group the wid belongs to - if it does
-    currentGroup=$(findWid "$addWid")
+    currentGroup="$(findWid "$addWid")"
     currentGroup=$(printf '%s\n' "$currentGroup" | rev | cut -d'.' -f 1 | rev)
 
     # return if it already exists in the given group
-    test ! -z "$currentGroup" && {
+    test ! -z $currentGroup && {
         test $addGroupNum -eq $currentGroup && {
             printf '%s\n' "Window id ($addWid) alrady exists in ${currentGroup}!"
             return 0
@@ -175,7 +175,7 @@ hideGroup() {
 
         # clean the group from the active file
         test -f "$GROUPSDIR/active" && {
-            buffer=$(grep -wv "$hideGroupNum" "$GROUPSDIR/active")
+            buffer=$(grep -wv $hideGroupNum "$GROUPSDIR/active")
             test ! -z "$buffer" && {
                 printf '%s\n' "$buffer" > "$GROUPSDIR/active"
             } || {
@@ -208,7 +208,7 @@ showGroup() {
 
         # clean the group from the inactive file
         test -f "$GROUPSDIR/inactive" && {
-            buffer=$(grep -wv "$showGroupNum" "$GROUPSDIR/inactive")
+            buffer="$(grep -wv $showGroupNum "$GROUPSDIR/inactive")"
             test ! -z "$buffer" && {
                 printf '%s\n' "$buffer" > "$GROUPSDIR/inactive"
             } || {

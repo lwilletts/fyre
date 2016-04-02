@@ -122,6 +122,10 @@ getCurrentScreen() {
         }
     }
 
+    CUR=${2:-"$(pfw)"}
+    X=$(wattr x "$CUR" 2> /dev/null)
+    Y=$(wattr y "$CUR" 2> /dev/null)
+
     for screen in $(wc -l < "$SCREENS"); do
         screenInfo="$(sed "/$screen/!d" "$SCREENS")"
 
