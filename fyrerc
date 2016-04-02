@@ -250,14 +250,17 @@ INACTIVE=${INACTIVE:-0x737373}
 # duration of runfyre execution loop
 DURATION=60
 
-# set to workspaces or groups
+# set to workspaces or groups -- not finised yet
 WORKFLOW="groups"
 
+# set path to your background - omit if you don't want fyre to manage your wall
+WALL="$HOME/files/pictures/backs/pluto.png"
+# call your background program with args if WALL used
+BACK="hsetroot -tile $WALL -gamma 0.5 -blur ${1:-$BLUR}"
+# set integer factor to blur background by if wall program uses it
 BLUR=0
-WALL="$(cat $(which bgc))"
 
 # mouse gets moved to the middle of the window
 MOUSE="false"
 # moving over windows automatically focuses them
 SLOPPY="true"
-
