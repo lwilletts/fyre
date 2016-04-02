@@ -55,6 +55,8 @@ wew | while IFS=: read ev wid; do
             back
             ;;
         17)
+            # clean groups
+            windows -q -c "$wid"
             # clean hover
             hover -c "$wid"
             # clean fullscreen

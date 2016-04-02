@@ -40,8 +40,6 @@ main() {
             }
             ;;
     esac
-
-    windows -c "$wid"
 }
 
 test $# -eq 0 && usage 1
