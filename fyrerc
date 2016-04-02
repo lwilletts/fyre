@@ -1,15 +1,22 @@
 #!/bin/sh
 #
 # wildefyr - 2016 (c) MIT
-# source file for fyre
+# configuration file for fyre
 
-    # modify these to your liking!
+    # settings
 ###############################################################################
 
+# grid based snapping
 ROWS=4
 COLS=4
 
+# border width of windows in pixels
 BW=${BW:-1}
+
+# set border colours for windows
+ACTIVE=${ACTIVE:-"D7D7D7"}
+WARNING=${WARNING:-"B23450"} # not currently used anywhere
+INACTIVE=${INACTIVE:-"03070B"}
 
 # best to keep these as multiples of two
 IGAP=${IGAP:-$((20))}
@@ -260,7 +267,3 @@ eSH=$((SH - TGAP - BGAP))
 
 minW=$((eSW/COLS - $((COLS - 1))*IGAP/COLS))
 minH=$((eSH/ROWS - $((ROWS - 1))*VGAP/ROWS))
-
-ACTIVE=${ACTIVE:-0xD7D7D7}
-WARNING=${WARNING:-0xB23450}
-INACTIVE=${INACTIVE:-0x737373}
