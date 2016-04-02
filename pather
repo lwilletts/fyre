@@ -7,12 +7,8 @@
 
 TERM="urxvtc"
 
-class="$(class "$PFW" | tr '[A-Z]' '[a-z]')"
-
-test "$class" = "$TERM" && {
-    # find better method to retrieve path of current term
-    CURPATH=$(wname $PFW | sed "s_~_${HOME}_")
-    test -d "$CURPATH" && {
-        $TERM -cd "$CURPATH" &
-    }
+# find better method to retrieve path of current term
+CURPATH=$(wname $PFW | sed "s_~_${HOME}_")
+test -d "$CURPATH" && {
+    $TERM -cd "$CURPATH" &
 }

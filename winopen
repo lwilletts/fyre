@@ -58,7 +58,6 @@ main() {
             ;;
         "tmux")
             position res "$wid"
-            position ext "$wid"
             snap --topleft "$wid"
             windows -a "$wid" 1
             ;;
