@@ -8,7 +8,7 @@
 # event watcher
 eventually &
 # reset group data
-windows.sh --reset
+windows --reset
 
 while true; do
     sleep $DURATION
