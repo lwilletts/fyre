@@ -57,7 +57,7 @@ saveWindows() {
                 ;;
         esac
 
-        group=$(windows.sh -f "$wid" | rev | cut -d'.' -f 1 | rev)
+        group=$(windows -f "$wid" | rev | cut -d'.' -f 1 | rev)
         test -z $group && {
             group="N/A"
         }
@@ -133,7 +133,7 @@ openLayout() {
     LAY=$1
     layoutCheck
 
-    # create lock file for winopen.sh
+    # create lock file for winopen
     :> "$WIDLOCK"
 
     while read -r window; do
@@ -155,14 +155,14 @@ openLayout() {
         wid=$(lsw | grep -v "$windowsOpen")
         wtp $XYWH $wid
 
-        focus.sh $wid
+        focus $wid
 
         test "$GROUP" != "N/A" && {
-            windows.sh -a "$wid" $GROUP
+            windows -a "$wid" $GROUP
         }
     done < "$LAYOUTDIR/layout.$LAY"
 
-    # delay deletion just slightly to ensure window isn't moved by winopen.sh
+    # delay deletion just slightly to ensure window isn't moved by winopen
     sleep 0.5
     # clean lock as we have finished opening windows
     rm -f "$WIDLOCK"

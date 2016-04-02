@@ -69,8 +69,8 @@ for group in $GROUPSDIR/group.?; do
 
     test ! -z "$title" && {
         stringOut="${stringOut}${colour}\
-%{A1:windows.sh -T $groupNum:}\
-%{A3:windows.sh -m $groupNum:}\
+%{A1:windows -T $groupNum:}\
+%{A3:windows -m $groupNum:}\
   ${title}  \
 %{A}%{A}"
     } || {

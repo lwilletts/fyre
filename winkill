@@ -41,7 +41,7 @@ main() {
             ;;
     esac
 
-    windows.sh -c "$wid"
+    windows -c "$wid"
 }
 
 test $# -eq 0 && usage 1

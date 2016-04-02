@@ -13,9 +13,9 @@ mod1 + d
 
 # similar to windows alt-tab functionality
 mod1 + Tab
-    focus.sh prev
+    focus prev
 mod4 + Tab
-    focus.sh next
+    focus next
 
 # focus the closest window in a direction
 mod1 + {h,j,k,l}
@@ -44,7 +44,7 @@ mod1 + {q,w,e,r,a,s}
 mod1 + f
     fullscreen
 
-# smart group toggle - see windows.sh for details
+# smart group toggle - see windows for details
 mod1 + {1,2,3,4,5,6,7,8,9,0}
     windows -T {1,2,3,4,5,6,7,8,9,0}
 # map group and unmap all other groups
