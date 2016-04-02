@@ -3,6 +3,28 @@
 # wildefyr - 2016 (c) MIT
 # fyre initialisation
 
+type wew 2>&1 > /dev/null || {
+    cat >&2 << EOF
+wew was not found on your path. This means you likely don't have the wmutils
+tools installed. You can install wmutils from these directories on github:
+
+core - https://github.com/wmutils/core
+opt - https://github.com/wmutils/opt
+EOF
+
+    exit 1
+}
+
+type xprop 2>&1 > /dev/null || {
+    cat >&2 << EOF
+xprop was not found on your path. You need xprop so fyre can detect what
+properties a window has i.e. the window's name and class. You can install xprop
+by searching for 'xorg-xprop' (or similar) using your package manager.
+EOF
+
+    exit 1
+}
+
 . fyrerc
 
 # set background if WALL set
