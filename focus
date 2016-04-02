@@ -48,6 +48,8 @@ focusFull() {
 }
 
 focusMethod() {
+    test "$wid" = "$(pfw)" && exit 1
+
     # focus correctly even if there is a fullscreen window
     test -f "$FSFILE" && {
         test "$(cut -d\  -f 5 < $FSFILE)" = "$wid" && {
