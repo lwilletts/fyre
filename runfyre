@@ -1,15 +1,15 @@
 #!/bin/sh
 #
 # wildefyr - 2016 (c) MIT
-# fyre initialisation and run loop
+# fyre initialisation
 
 . fyrerc
 
-# event watcher
-eventually &
-# reset group data
+# set background if WALL set
+back
+
+# reset group data on launch
 windows --reset
 
-while true; do
-    sleep $DURATION
-done
+# let the event watcher loop keep the X11 connection open
+eventually

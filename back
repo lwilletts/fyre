@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # wildefyr - 2016 (c) MIT
-# blur current background
+# set current background and includes logic to blur background
 
 ARGS="$@"
 
@@ -19,8 +19,10 @@ main() {
     # if we don't have a wall, don't do anything
     test -z "$WALL" && return 0
 
-    test $# -eq 0 && usage 1 || intCheck $1
+    test $# -eq 0 && BLUR=0 || intCheck $1
     test $(lsw | wc -l) -eq 0 && BLUR=0
+
+    # finally: set our wall
     $BACK
 }
 

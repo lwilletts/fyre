@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# wildefyr & z3bra - 2016 (c) wtfpl
+# wildefyr & z3bra - 2016 (c) MIT
 # catch window events from wew
 
 usage() {
@@ -52,7 +52,7 @@ wew | while IFS=: read ev wid; do
                     ;;
             esac
 
-            blur
+            back
             ;;
         17)
             # clean hover
@@ -65,10 +65,10 @@ wew | while IFS=: read ev wid; do
         18)
             wattr "$(pfw)" || focus prev
 
-            blur
+            back
             ;;
         19)
-            blur
+            back
             ;;
     esac
 done

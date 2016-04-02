@@ -3,6 +3,39 @@
 # wildefyr - 2016 (c) MIT
 # source file for fyre
 
+    # modify these to your liking!
+###############################################################################
+
+ROWS=4
+COLS=4
+
+BW=${BW:-1}
+
+# best to keep these as multiples of two
+IGAP=${IGAP:-$((20))}
+VGAP=${VGAP:-$((20))}
+XGAP=${XGAP:-$((20))}
+BGAP=${BGAP:-$((20))}
+TGAP=${TGAP:-$((40))}
+
+# set to workspaces or groups -- not finised yet
+WORKFLOW="groups"
+
+# set path to your background - omit if you don't want fyre to manage your wall
+WALL="$HOME/files/pictures/backs/pluto.png"
+
+# set integer factor to blur background by if wall program uses it
+BLUR=0
+
+# call your background program with args if WALL used
+BACK="hsetroot -tile $WALL -gamma 0.5 -blur ${1:-$BLUR}"
+
+# mouse gets moved to the middle of the window
+MOUSE="false"
+
+# moving over windows automatically focuses them
+SLOPPY="true"
+
     # environment files
 ###############################################################################
 
@@ -222,18 +255,6 @@ H=$(wattr h "$CUR" 2> /dev/null)
 # multiple monitor support
 retrieveScreenValues
 
-ROWS=4
-COLS=4
-
-BW=${BW:-1}
-
-# best to keep these as multiples of two
-IGAP=${IGAP:-$((20))}
-VGAP=${VGAP:-$((20))}
-XGAP=${XGAP:-$((20))}
-BGAP=${BGAP:-$((20))}
-TGAP=${TGAP:-$((40))}
-
 eSW=$((SW - 2*XGAP))
 eSH=$((SH - TGAP - BGAP))
 
@@ -243,24 +264,3 @@ minH=$((eSH/ROWS - $((ROWS - 1))*VGAP/ROWS))
 ACTIVE=${ACTIVE:-0xD7D7D7}
 WARNING=${WARNING:-0xB23450}
 INACTIVE=${INACTIVE:-0x737373}
-
-    # other
-###############################################################################
-
-# duration of runfyre execution loop
-DURATION=60
-
-# set to workspaces or groups -- not finised yet
-WORKFLOW="groups"
-
-# set path to your background - omit if you don't want fyre to manage your wall
-WALL="$HOME/files/pictures/backs/pluto.png"
-# call your background program with args if WALL used
-BACK="hsetroot -tile $WALL -gamma 0.5 -blur ${1:-$BLUR}"
-# set integer factor to blur background by if wall program uses it
-BLUR=0
-
-# mouse gets moved to the middle of the window
-MOUSE="false"
-# moving over windows automatically focuses them
-SLOPPY="true"

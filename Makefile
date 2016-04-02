@@ -1,6 +1,6 @@
 PREFIX = /usr/local
 MANDIR = /usr/share/man
-SCRIPT = blur \
+SCRIPT = back \
 		 closest \
 		 eventually \
 		 focus \

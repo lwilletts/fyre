@@ -18,11 +18,8 @@ EOF
 }
 
 killFyre() {
-    layouts -s 0 -q
-
     pgrep taskbar 2>&1 > /dev/null && pkill taskbar
-
-    pkill xinit
+    pkill eventually
 }
 
 lockFyre() {
