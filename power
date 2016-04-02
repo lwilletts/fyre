@@ -28,7 +28,7 @@ killFyre() {
 lockFyre() {
     mpvc --stop -q
 
-    test -d /sys/class/backlight/intel_backlight && {
+    test -d "/sys/class/backlight/intel_backlight" && {
         type xbacklight 2>&1 > /dev/null && {
             LIGHT=$(xbacklight -get)
             LIGHT=$(echo "($LIGHT+0.5)/1" | bc)
