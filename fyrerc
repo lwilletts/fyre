@@ -153,18 +153,22 @@ generateScreenInfo() {
     }
 }
 
-# return the current screen number
-getCurrentScreen() {
+# get correct SW and SH of current screen
+retrieveScreenValues() {
     test ! -f "$SCREENS" && {
         generateScreenInfo || {
-            printf '%s\n' "1"
             return 1
         }
     }
 
-    CUR=${2:-"$(pfw)"}
-    X=$(wattr x "$CUR" 2> /dev/null)
-    Y=$(wattr y "$CUR" 2> /dev/null)
+    test -z $X -o -z $Y && {
+        ROOT="$(lsw -r)"
+        SW=$(wattr w "$ROOT")
+        SH=$(wattr h "$ROOT")
+
+        unset -v ROOT
+        return 1
+    }
 
     for screen in $(wc -l < "$SCREENS"); do
         screenInfo="$(sed "/$screen/!d" "$SCREENS")"
@@ -178,27 +182,12 @@ getCurrentScreen() {
         test $Y -lt $screenY && continue
         test $X -gt $screenW && continue
         test $Y -gt $screenH && continue
-
-        printf '%s\n' "$screen"
-        unset -v screen screenX screenY screenW screenH
-        return 0
     done
-}
 
-# get correct SW and SH of current screen
-retrieveScreenValues() {
-    test ! -f "$SCREENS" && {
-        generateScreenInfo || {
-            ROOT="$(lsw -r)"
-            SW=$(wattr w "$ROOT")
-            SH=$(wattr h "$ROOT")
-            return 1
-        }
-    }
-
-    screen=$(getCurrentScreen)
     SW=$(sed "/$screen/!d" "$SCREENS" | cut -d\  -f 4)
     SH=$(sed "/$screen/!d" "$SCREENS" | cut -d\  -f 5)
+
+    unset -v screen screenX screenY screenW screenH
 }
 
 # test if a point is over the top of a window
