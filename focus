@@ -50,10 +50,6 @@ focusFull() {
 focusMethod() {
     test "$wid" = "$(pfw)" && exit 1
 
-    # try to be as responsive as possible to user input
-    chwso -r "$wid"
-    wtf "$wid"
-
     # focus correctly even if there is a fullscreen window
     test -f "$FSFILE" && {
         test "$(cut -d\  -f 5 "$FSFILE")" = "$wid" && {
@@ -70,6 +66,10 @@ focusMethod() {
             setborder inactive "$PFW"
         }
     }
+
+    # try to be as responsive as possible to user input
+    chwso -r "$wid"
+    wtf "$wid"
 }
 
 moveMouse() {

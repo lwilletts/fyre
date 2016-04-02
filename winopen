@@ -83,17 +83,18 @@ main() {
             windows -a "$wid" 2
             ;;
         "mpv")
-            snap --middle "$wid"
             windows -a "$wid" 5
 
             test $(resolution "$wid" | cut -d\  -f 1) -ge $SW && {
-                position full "$wid"
+                fullscreen "$wid"
                 return 0
             }
             test $(resolution "$wid" | cut -d\  -f 2) -ge $SH && {
-                position full "$wid"
+                fullscreen "$wid"
                 return 0
             }
+
+            snap --middle "$wid"
             ;;
         "Steam")
             windows -a "$wid" 7
