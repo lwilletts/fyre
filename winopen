@@ -24,12 +24,24 @@ main() {
     # if file exists then we know a layout is getting opened
     test -f "$WIDLOCK" && exit 0
 
-    focus "$wid"
+    name="$(name "$wid")"
 
-    case "$(name $wid)" in
+    # grab bad windows
+    case "$name" in
+        "")
+            return 1
+            ;;
+        "WM_CLASS")
+            return 1
+            ;;
         "WM_CLASS:  not found.")
             return 1
             ;;
+    esac
+
+    focus "$wid"
+
+    case "$name" in
         "urxvt")
             position res "$wid"
             snap --topleft "$wid"
