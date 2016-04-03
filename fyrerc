@@ -153,25 +153,21 @@ generateScreenInfo() {
     }
 }
 
-totalArea() {
-    ROOT="$(lsw -r)"
-    SW=$(wattr w "$ROOT")
-    SH=$(wattr h "$ROOT")
-
-    unset -v ROOT
-}
-
 # get correct SW and SH of current screen
 retrieveScreenValues() {
     test ! -f "$SCREENS" && {
         generateScreenInfo || {
-            totalArea
+            ROOT="$(lsw -r)"
+            SW=$(wattr w "$ROOT")
+            SH=$(wattr h "$ROOT")
+            unset -v ROOT
             return 1
         }
     }
 
     test -z $X -o -z $Y && {
-        totalArea
+        SW=$(sed "1!d" "$SCREENS" | cut -d\  -f 4)
+        SH=$(sed "1!d" "$SCREENS" | cut -d\  -f 5)
         return 1
     }
 

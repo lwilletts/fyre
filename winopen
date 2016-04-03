@@ -39,7 +39,7 @@ main() {
             ;;
     esac
 
-    focus "$wid"
+    focus --wid "$wid"
 
     case "$name" in
         "urxvt")

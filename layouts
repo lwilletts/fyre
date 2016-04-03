@@ -153,9 +153,9 @@ openLayout() {
 
         # find the wid of the new window
         wid=$(lsw | grep -v "$windowsOpen")
-        wtp $XYWH $wid
+        wtp $XYWH "$wid"
 
-        focus $wid
+        focus --wid "$wid"
 
         test "$GROUP" != "N/A" && {
             windows -a "$wid" $GROUP

@@ -48,7 +48,7 @@ main() {
         *)              usage 1            ;;
     esac
 
-    test ! -z "$wid" && focus "$wid"
+    test ! -z "$wid" && focus --wid "$wid"
 }
 
 test $# -eq 0 && usage 1

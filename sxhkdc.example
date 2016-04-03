@@ -13,9 +13,9 @@ mod1 + d
 
 # similar to windows alt-tab functionality
 mod1 + Tab
-    focus prev
+    focus --prev
 mod4 + Tab
-    focus next
+    focus --next
 
 # focus the closest window in a direction
 mod1 + {h,j,k,l}

@@ -7,12 +7,14 @@ ARGS="$@"
 
 usage() {
     cat >&2 << EOF
-Usage: $(basename $0) <next|prev|full|wid> [disable]
-    wid:     Focus the given window.
-    next:    Focus the next window on the stack.
-    prev:    Focus the previous window on the stack.
-    full:    Focus the fullscreen window.
-    disable: Disable movement of the mouse.
+Usage: $(basename $0) [-w wid] [-nphq] <--enable|--disable>
+    -w | --wid:     Focus the given window.
+    -n | --next:    Focus the next window on the stack.
+    -p | --prev:    Focus the previous window on the stack.
+    -e | --enable:  Optional: Enable movement of the mouse.
+    -d | --disable: Optional: Disable movement of the mouse.
+    -q | --quiet:   Suppress all textual output.
+    -h | --help:    Show this help.
 EOF
 
     test $# -eq 0 || exit $1
@@ -42,34 +44,27 @@ focusPrev() {
     test ! -z "$wid" && focusMethod
 }
 
-focusFull() {
-    test -f "$FSFILE" && wid="$(cut -d\  -f 5 < "$FSFILE")" || usage 1
-    test ! -z "$wid" && focusMethod
-}
-
 focusMethod() {
-    test "$wid" = "$(pfw)" && exit 1
+    test "$wid" = "$PFW" && exit 1
 
-    # focus correctly even if there is a fullscreen window
+    # be as responsive as possible to user input
+    wtf "$wid"
+    chwso -r "$wid"
+
+    # account for fullscreen file
     test -f "$FSFILE" && {
         test "$(cut -d\  -f 5 "$FSFILE")" = "$wid" && {
             setborder none "$wid"
         } || {
             test "$(cut -d\  -f 5 "$FSFILE")" = "$PFW" && {
-                setborder active "$wid"
                 setborder none "$PFW"
+                setborder active "$wid"
             }
         }
     } || {
-        test "$wid" != "$PFW" && {
-            setborder active "$wid"
-            setborder inactive "$PFW"
-        }
+        setborder inactive "$PFW"
+        setborder active "$wid"
     }
-
-    # try to be as responsive as possible to user input
-    chwso -r "$wid"
-    wtf "$wid"
 }
 
 moveMouse() {
@@ -88,16 +83,10 @@ main() {
         test ! -z "$wid" && focusMethod
     } || {
         case "$1" in
-            "next") focusNext     ;;
-            "prev") focusPrev     ;;
-            "full") focusFull     ;;
-            0x*)    focusWid "$1" ;;
-            *)      usage 1       ;;
-        esac
-
-        case "$2" in
-            "--enable")  MOUSE=true  ;;
-            "--disable") MOUSE=false ;;
+            "-w"|"--wid")  focusWid "$2" ;;
+            "-n"|"--next") focusNext     ;;
+            "-p"|"--prev") focusPrev     ;;
+            *)             usage 1       ;;
         esac
 
         test "$MOUSE" = "true" && moveMouse
@@ -108,8 +97,10 @@ main() {
 
 for arg in $ARGS; do
     case "$arg" in
-        -q|--quiet)       QUIETFLAG=true ;;
-        h|help|-h|--help) usage 0        ;;
+        "-e"|"--enable")          MOUSE=true     ;;
+        "-d"|"--disable")         MOUSE=false    ;;
+        "-q"|"--quiet")           QUIETFLAG=true ;;
+        "-h"|"--help"|"h"|"help") usage 0        ;;
     esac
 done
 

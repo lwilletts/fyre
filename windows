@@ -224,7 +224,7 @@ showGroup() {
 
         # focus the top window in the group
         focusWid="$(head -n 1 < "$GROUPSDIR/group.${showGroupNum}")"
-        focus $focusWid
+        focus --wid "$focusWid"
 
         printf '%s\n' "group ${showGroupNum} visible!"
     }
@@ -302,13 +302,13 @@ smartToggleGroup() {
     test "$activeFlag" = "true" && {
         test $(wc -l < "$GROUPSDIR/group.${toggleGroupNum}") -eq 1 && {
             wid="$(cat "$GROUPSDIR/group.${toggleGroupNum}")"
-            test "$(pfw)" = $wid && {
+            test "$(pfw)" = "$wid" && {
                 # hide group as we are already on the first window in group
                 hideGroup $toggleGroupNum
                 return 0
             } || {
                 # focus first window in group if we are NOT on a window in group
-                focus "$wid"
+                focus --wid "$wid"
                 return 0
             }
         } || {
@@ -344,7 +344,7 @@ cycleGroup() {
     # focus next window in group or if at the bottom of stack go to first window
     wid="$(sed "0,/^${PFW}$/d" < "$GROUPSDIR/group.${cycleGroupNum}")"
     test -z "$wid" && wid="$(head -n 1 < "$GROUPSDIR/group.${cycleGroupNum}")"
-    focus "$wid"
+    focus --wid "$wid"
 }
 
 resetGroups() {

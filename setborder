@@ -8,6 +8,10 @@ ARGS="$@"
 usage() {
     cat >&2 << EOF
 Usage: $(basename $0) [state] <wid>
+    none:     No border is set around given or current window.
+    active:   Active colour border is set around given or current window.
+    warning:  Warning colour border is set around given or current window.
+    inactive: Inactive colour border is set around given or current window.
 EOF
 
     test $# -eq 0 || exit $1
