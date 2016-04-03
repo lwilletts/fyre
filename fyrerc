@@ -165,7 +165,7 @@ retrieveScreenValues() {
         }
     }
 
-    test -z $X -o -z $Y && {
+    test -z $X && test -z $Y && {
         SW=$(sed "1!d" "$SCREENS" | cut -d\  -f 4)
         SH=$(sed "1!d" "$SCREENS" | cut -d\  -f 5)
         return 1
