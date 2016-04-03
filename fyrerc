@@ -29,10 +29,10 @@ TGAP=${TGAP:-$((40))}
 WORKFLOW="groups"
 
 # set path to your background - omit if you don't want fyre to manage your wall
-WALL="$HOME/files/pictures/backs/pluto.png"
+WALL="$HOME/files/pictures/backs/vinyl.jpg"
 
 # set integer factor to blur background by if wall program uses it
-BLUR=0
+BLUR=5
 
 # call your background program with args if WALL used
 BACK="hsetroot -tile $WALL -gamma 0.5 -blur ${1:-$BLUR}"
