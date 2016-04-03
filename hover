@@ -36,13 +36,15 @@ cleanHover() {
             while read -r line; do
                 searchWid=$(printf '%s\n' "$line" | cut -d\  -f 1)
                 test "$searchWid" = $cleanWid && {
-                    buffer=$(grep -wv "$cleanWid" "$HOVER")
+                    buffer="$(grep -wv "$cleanWid" "$HOVER")"
                     test -z "$buffer" 2> /dev/null && {
                         rm -f "$HOVER"
                     } || {
                         printf '%s\n' "$buffer" > "$HOVER"
                     }
-                    return 0
+
+                    printf '%s\n' "${searchWid} no longer hovers."
+                    exit 0
                 }
             done < "$HOVER"
         }
@@ -50,62 +52,29 @@ cleanHover() {
 }
 
 main() {
-    hoverWid="$1"
-    widCheck "$hoverWid"
-
     . fyrerc
 
-    test -f "$HOVER" && {
-        while read -r line; do
-            searchWid=$(printf '%s\n' "$line" | cut -d\  -f 1)
-            test "$searchWid" = $hoverWid && {
-                buffer=$(grep -wv "$hoverWid" "$HOVER")
-                test -z "$buffer" 2> /dev/null && {
-                    rm -f "$HOVER"
-                } || {
-                    printf '%s\n' "$buffer" > "$HOVER"
-                }
+    hoverWid="$1"
+    cleanHover "$hoverWid"
 
-                ignw -r "$hoverWid"
-
-                groupId=$(printf '%s\n' "$line" | awk '{print $2}')
-                test -z "$groupId" && {
-                    windows -c "$hoverWid"
-                } || {
-                    windows -a "$hoverWid" "$groupId"
-                }
-
-                return 0
-            }
-        done < "$HOVER"
-    }
-
-    currentGroup=$(windows -f "$hoverWid")
-    currentGroup=$(printf '%s\n' "$currentGroup" | rev | cut -d'.' -f 1 | rev)
-    test -z "$currentGroup" && {
-        printf '%s\n' "$hoverWid" >> "$HOVER"
-    } || {
-        printf '%s\n' "$hoverWid $currentGroup" >> "$HOVER"
-    }
-
-    windows -a "$hoverWid" 0
-    ignw -s "$hoverWid"
+    printf '%s\n' "$hoverWid" >> "$HOVER"
+    printf '%s\n' "${hoverWid} now hovers."
 }
 
 test $# -eq 0 && usage 1
 
 for arg in $ARGS; do
-    test "$CLEANFLAG" = "true" && cleanHover "$arg" && exit
+    test "$CLEANFLAG" = "true" && cleanHover "$arg" && exit 0
 
     case "$arg" in
-        -c|--clean)       CLEANFLAG=true ;;
-        -q|--quiet)       QUIETFLAG=true ;;
-        h|help|-h|--help) usage 0        ;;
+        "-c"|"--clean")           CLEANFLAG=true ;;
+        "-q"|"--quiet")           QUIETFLAG=true ;;
+        "-h"|"--help"|"h"|"help") usage 0        ;;
     esac
 done
 
 test "$QUIETFLAG" = "true" && {
-    main "$ARGS" 2>&1 > /dev/null
+    main $ARGS 2>&1 > /dev/null
 } || {
-    main "$ARGS"
+    main $ARGS
 }
