@@ -18,6 +18,7 @@ main() {
 
     # if we don't have a wall, don't do anything
     test -z "$WALL" && return 0
+    test -e "$WALL" || return 1
 
     test $# -eq 0 && BLUR=0 || intCheck $1
     test $(lsw | wc -l) -eq 0 && BLUR=0
