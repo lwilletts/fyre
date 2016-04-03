@@ -24,7 +24,11 @@ main() {
     test $(lsw | wc -l) -eq 0 && BLUR=0
 
     # finally: set our wall
-    $BACK
+    printf '%s\n' "$BACK" | grep -q "hsetroot" && {
+        $BACK -blur $BLUR
+    } || {
+        $BACK
+    }
 }
 
 for arg in $ARGS; do

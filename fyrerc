@@ -35,7 +35,7 @@ WALL="$HOME/files/pictures/backs/vinyl.jpg"
 BLUR=5
 
 # call your background program with args if WALL used
-BACK="hsetroot -tile $WALL -gamma 0.5 -blur ${1:-$BLUR}"
+BACK="hsetroot -tile $WALL -gamma 0.5"
 
 # mouse gets moved to the middle of the window
 MOUSE="false"
