@@ -61,19 +61,9 @@ main() {
             snap --topleft "$wid"
             windows -a "$wid" 1
             ;;
-        "paste")
-            position res "$wid"
-            snap --middle "$wid"
-            ;;
         "libreoffice")
             position rht "$wid"
             windows -a "$wid" 8
-            ;;
-        "mpsyt")
-            position res "$wid"
-            position ext "$wid"
-            snap --right "$wid"
-            windows -a "$wid" 9
             ;;
         *)
     case "$(class $wid)" in
@@ -120,8 +110,6 @@ main() {
     ;;
     esac
 }
-
-test $# -eq 0 && usage 1
 
 for arg in $ARGS; do
     case "$arg" in
