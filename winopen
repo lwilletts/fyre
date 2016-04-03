@@ -46,12 +46,7 @@ main() {
             position res "$wid"
             snap --topleft "$wid"
             ;;
-        "mosh")
-            position res "$wid"
-            snap --topleft "$wid"
-            windows -a "$wid" 3
-            ;;
-        "ssh")
+        "ssh"|"mosh")
             position res "$wid"
             snap --topleft "$wid"
             windows -a "$wid" 3

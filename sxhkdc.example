@@ -84,9 +84,8 @@ mod1 + @button1
 button2
     focus
 
-# doesn't work in new sxhkd version
 mod1 + !button3
-    wrs -a %i %i $(pfw)
+    focus; wrs -a %i %i $(pfw)
 
 # move window underneath cursor
 mod1 + @button1
