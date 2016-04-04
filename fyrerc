@@ -3,46 +3,6 @@
 # wildefyr - 2016 (c) MIT
 # configuration file for fyre
 
-    # settings
-###############################################################################
-
-# grid based snapping
-ROWS=4
-COLS=4
-
-# border width of windows in pixels
-BW=${BW:-1}
-
-# set border colours for windows
-ACTIVE=${ACTIVE:-"D7D7D7"}
-WARNING=${WARNING:-"B23450"} # not currently used anywhere
-INACTIVE=${INACTIVE:-"03070B"}
-
-# best to keep these as multiples of two
-IGAP=${IGAP:-$((20))}
-VGAP=${VGAP:-$((20))}
-XGAP=${XGAP:-$((20))}
-BGAP=${BGAP:-$((20))}
-TGAP=${TGAP:-$((40))}
-
-# set to workspaces or groups -- not finised yet
-WORKFLOW="groups"
-
-# set path to your background - omit if you don't want fyre to manage your wall
-WALL="$HOME/files/pictures/backs/vinyl.jpg"
-
-# set integer factor to blur background by if wall program uses it
-BLUR=5
-
-# call your background program with args if WALL used
-BACK="hsetroot -tile $WALL -gamma 0.5"
-
-# mouse gets moved to the middle of the window
-MOUSE="false"
-
-# moving over windows automatically focuses them
-SLOPPY="true"
-
     # environment files
 ###############################################################################
 
@@ -257,3 +217,6 @@ eSH=$((SH - TGAP - BGAP))
 
 minW=$((eSW/COLS - $((COLS - 1))*IGAP/COLS))
 minH=$((eSH/ROWS - $((ROWS - 1))*VGAP/ROWS))
+
+# finally source user settings
+. $FYREDIR/config
