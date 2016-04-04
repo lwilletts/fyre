@@ -9,6 +9,9 @@
 ACTIVE="%{F#D7D7D7}"
 INACTIVE="%{F#737373}"
 
+groupsEmpty=$(find $GROUPSDIR -maxdepth 0 -empty)
+test ! -z "$groupsEmpty" && exit 0
+
 for group in $GROUPSDIR/group.?; do
     title=""
     numGroups=$(find $GROUPSDIR/group.? 2> /dev/null | wc -l)
