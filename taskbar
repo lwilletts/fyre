@@ -10,9 +10,7 @@ ACTIVE="%{F#D7D7D7}"
 INACTIVE="%{F#737373}"
 
 groupsEmpty=$(find $GROUPSDIR -maxdepth 0 -empty)
-test ! -z "$groupsEmpty" && exit 0
-
-pgrep eventually 2>&1 > /dev/null && {
+test -z "$groupsEmpty" && {
     for group in $GROUPSDIR/group.?; do
         title=""
         numGroups=$(find $GROUPSDIR/group.? 2> /dev/null | wc -l)
@@ -73,10 +71,10 @@ pgrep eventually 2>&1 > /dev/null && {
 
         test ! -z "$title" && {
             stringOut="${stringOut}${colour}\
-    %{A1:windows -T $groupNum:}\
-    %{A3:windows -m $groupNum:}\
-      ${title}  \
-    %{A}%{A}"
+%{A1:windows -T $groupNum:}\
+%{A3:windows -m $groupNum:}\
+  ${title}  \
+%{A}%{A}"
         } || {
             continue
         }
@@ -86,8 +84,6 @@ pgrep eventually 2>&1 > /dev/null && {
             stringOut="${stringOut}${INACTIVE}|"
         }
     done
-} || {
-    exit 0
 }
 
 printf '%s\n' "${stringOut}"
