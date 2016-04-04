@@ -36,6 +36,12 @@ You have two choices here:
 I recommend the former as it'll allow you make modifications to the scripts
 with the changes being applied immediately.
 
+#### Configuration
+
+fyre will look for a configuration file located at `$FYREDIR/config`, see
+config.example for an idea of can be set. You can link this file to the default
+location using `make config`. Many of these variables are required.
+
 Usage
 -----
 
@@ -60,13 +66,13 @@ Contributors
 ------------
 
 Contributors for specific scripts are listed in the files where they have
-inputted ideas or code. Many thanks to the original wmutils authors:
-dcat & z3bra.
+inputted ideas or code. Many thanks to the original wmutils authors: dcat &
+z3bra
 
 Shameless Plug
 --------------
 
 If you want to contact me about anything, my website can be found
 [here](https://wildefyr.net) and I can also be found on the Freenode IRC under
-the nick 'Wildefyr' where I am often found in #crux and #6c37. If you're
-feeling particularly kind of heart, star this repository and/or follow me.
+the nick 'Wildefyr' where I am often found in #crux and #6c37. If you're feeling
+particularly kind of heart, star this repository and/or follow me.

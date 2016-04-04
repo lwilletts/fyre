@@ -22,14 +22,17 @@ XGAP=20
 BGAP=20
 TGAP=40
 
+# moving over windows automatically focuses them
+SLOPPY="true"
+
+# mouse automatically gets moved to the middle of the window
+MOUSE="false"
+
 # set to workspaces or groups -- not finised yet so it defaults to groups
 WORKFLOW="groups"
 
-# mouse gets moved to the middle of the window
-MOUSE="false"
-
-# moving over windows automatically focuses them
-SLOPPY="true"
+# default terminal to launch
+TERMINAL="urxvtc"
 
 # set path to your background - omit if you don't want fyre to manage your wall
 WALL="$HOME/files/pictures/backs/vinyl.jpg"

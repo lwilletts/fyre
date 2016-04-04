@@ -21,7 +21,11 @@ WIDLOCK=${WIDLOCK:-$FYREDIR/.widlock}
     # source user settings
 ###############################################################################
 
-. $FYREDIR/config
+test -f $FYREDIR/config && {
+    . $FYREDIR/config
+} || {
+    exit 1
+}
 
     # functions
 ###############################################################################
