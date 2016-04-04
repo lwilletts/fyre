@@ -2,13 +2,10 @@
 #
 # wildefyr - 2016 (c) MIT
 # launch a terminal with current path
+# currently depends on having the window title set to current directory
 
 . fyrerc
 
-TERM="urxvtc"
-
 # find better method to retrieve path of current term
 CURPATH=$(wname $PFW | sed "s_~_${HOME}_")
-test -d "$CURPATH" && {
-    $TERM -cd "$CURPATH" &
-}
+test -d "$CURPATH" && $TERMINAL -cd "$CURPATH" &
