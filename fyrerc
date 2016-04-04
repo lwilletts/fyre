@@ -18,6 +18,11 @@ FSFILE=${FSFILE:-$FYREDIR/fullinfo}
 SCREENS=${SCREENS:-$FYREDIR/screens}
 WIDLOCK=${WIDLOCK:-$FYREDIR/.widlock}
 
+    # source user settings
+###############################################################################
+
+. $FYREDIR/config
+
     # functions
 ###############################################################################
 
@@ -217,6 +222,3 @@ eSH=$((SH - TGAP - BGAP))
 
 minW=$((eSW/COLS - $((COLS - 1))*IGAP/COLS))
 minH=$((eSH/ROWS - $((ROWS - 1))*VGAP/ROWS))
-
-# finally source user settings
-. $FYREDIR/config
