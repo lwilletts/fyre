@@ -12,78 +12,82 @@ INACTIVE="%{F#737373}"
 groupsEmpty=$(find $GROUPSDIR -maxdepth 0 -empty)
 test ! -z "$groupsEmpty" && exit 0
 
-for group in $GROUPSDIR/group.?; do
-    title=""
-    numGroups=$(find $GROUPSDIR/group.? 2> /dev/null | wc -l)
-    groupNum=$(printf "$group" | rev | cut -d'.' -f 1 | rev)
+pgrep eventually 2>&1 > /dev/null && {
+    for group in $GROUPSDIR/group.?; do
+        title=""
+        numGroups=$(find $GROUPSDIR/group.? 2> /dev/null | wc -l)
+        groupNum=$(printf "$group" | rev | cut -d'.' -f 1 | rev)
 
-    colour="$INACTIVE"
-
-    test -f "$GROUPSDIR/active" && {
-        while read -r groupId; do
-            test "$groupId" -eq "$groupNum" && {
-                colour="$ACTIVE"
-                break
-            }
-        done < "$GROUPSDIR/active"
-    } || {
         colour="$INACTIVE"
-    }
 
-    wids=$(tr '\n' ' ' < "$group")
-
-    for wid in $wids; do
-        window="$(class ${wid})"
-        case "$window" in
-            "URxvt")
-                window="$(name ${wid})"
-                case "$window" in
-                    "urxvt")
-                        window="$(wname ${wid})"
-                        ;;
-                    "tmux")
-                        window="$(wname ${wid})"
-                        ;;
-                    "ssh")
-                        window="ssh"
-                        ;;
-                    "mosh")
-                        window="mosh"
-                        ;;
-                esac
-                ;;
-            "mpv")
-                window="$(wname ${wid}) - $(resolution ${wid} | cut -d\  -f 2)p"
-                ;;
-            "wine")
-                window="$(wname ${wid})"
-                ;;
-            "google-chrome")
-                window="chrome"
-                ;;
-        esac
-
-        test -z "$title" && {
-            title="$(printf "$window" | tr '\n' ' ')"
+        test -f "$GROUPSDIR/active" && {
+            while read -r groupId; do
+                test "$groupId" -eq "$groupNum" && {
+                    colour="$ACTIVE"
+                    break
+                }
+            done < "$GROUPSDIR/active"
         } || {
-            title="${title} \ $(printf "$window" | tr '\n' ' ')"
+            colour="$INACTIVE"
+        }
+
+        wids=$(tr '\n' ' ' < "$group")
+
+        for wid in $wids; do
+            window="$(class ${wid})"
+            case "$window" in
+                "URxvt")
+                    window="$(name ${wid})"
+                    case "$window" in
+                        "urxvt")
+                            window="$(wname ${wid})"
+                            ;;
+                        "tmux")
+                            window="$(wname ${wid})"
+                            ;;
+                        "ssh")
+                            window="ssh"
+                            ;;
+                        "mosh")
+                            window="mosh"
+                            ;;
+                    esac
+                    ;;
+                "mpv")
+                    window="$(wname ${wid}) - $(resolution ${wid} | cut -d\  -f 2)p"
+                    ;;
+                "wine")
+                    window="$(wname ${wid})"
+                    ;;
+                "google-chrome")
+                    window="chrome"
+                    ;;
+            esac
+
+            test -z "$title" && {
+                title="$(printf "$window" | tr '\n' ' ')"
+            } || {
+                title="${title} \ $(printf "$window" | tr '\n' ' ')"
+            }
+        done
+
+        test ! -z "$title" && {
+            stringOut="${stringOut}${colour}\
+    %{A1:windows -T $groupNum:}\
+    %{A3:windows -m $groupNum:}\
+      ${title}  \
+    %{A}%{A}"
+        } || {
+            continue
+        }
+
+        counter=$((counter + 1))
+        test $counter -ne $numGroups && {
+            stringOut="${stringOut}${INACTIVE}|"
         }
     done
-
-    test ! -z "$title" && {
-        stringOut="${stringOut}${colour}\
-%{A1:windows -T $groupNum:}\
-%{A3:windows -m $groupNum:}\
-  ${title}  \
-%{A}%{A}"
-    } || {
-        continue
-    }
-
-    counter=$((counter + 1))
-    test $counter -ne $numGroups && {
-        stringOut="${stringOut}${INACTIVE}|"
-    }
-done
+} || {
+    exit 0
+}
 
 printf '%s\n' "${stringOut}"

@@ -18,7 +18,6 @@ EOF
 }
 
 killFyre() {
-    pgrep taskbar 2>&1 > /dev/null && pkill taskbar
     pkill eventually
 }
 
