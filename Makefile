@@ -23,14 +23,21 @@ SCRIPT = back \
 		 winkill \
 		 winopen
 
-.PHONY: all link install uninstall
+CONFIG  = config.example
+FYREDIR = $(shell echo $$HOME)/.config/fyre
 
-all: link
+.PHONY: all link config install uninstall
+
+all: link config
 
 link: $(SCRIPT)
 	@for script in $(SCRIPT); do \
 		ln -svfn $(shell pwd)/$$script $(PREFIX)/bin ; \
 	done
+
+config: $(CONFIG)
+	@test -d $(FYREDIR) || mkdir -p $(FYREDIR)
+	ln -svfn $(shell pwd)/$(CONFIG) $(FYREDIR)/config
 
 install: $(SCRIPT)
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
