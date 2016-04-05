@@ -17,8 +17,10 @@ EOF
 }
 
 getMouseDevice() {
-    device="$(xinput | grep -i "mouse\|trackpad" | awk '{printf "%s\n",$9}' | \
-        cut -d= -f 2)"
+    type xinput 2>&1 > /dev/null && {
+        device="$(xinput | grep -i "mouse\|trackpad" | \
+                  awk '{printf "%s\n",$9}' | cut -d= -f 2)"
+    }
 
     test ! -z "$device" && {
         printf '%s\n' "$device"
@@ -29,8 +31,9 @@ getMouseDevice() {
 
 getMouseStatus() {
     device=$(getMouseDevice)
-    status=$(xinput list-props $device | awk '/Device Enabled/ {printf "%s\n", $NF}')
+    test "$device" = "N/A" && return 1
 
+    status=$(xinput list-props $device | awk '/Device Enabled/ {printf "%s\n", $NF}')
     printf '%s\n' "$status"
 }
 
@@ -54,15 +57,14 @@ disableMouse() {
 toggleMouse() {
     device="$(getMouseDevice)"
 
-    test "$device" = "N/A" && {
-        moveMouseDisabled
+    test "$device" != "N/A" && {
+        status=$(getMouseStatus)
+        test $status -eq 1 && status=0 || status=1
+        test $status -eq 1 && moveMouseEnabled "$PFW" || moveMouseDisabled
+        xinput --set-prop --type=int $device "Device Enabled" $status
+    } || {
         return 1
     }
-
-    status=$(getMouseStatus)
-    test $status -eq 1 && status=0 || status=1
-    test $status -eq 1 && moveMouseEnabled "$PFW" || moveMouseDisabled
-    xinput --set-prop --type=int $device "Device Enabled" $status
 }
 
 main() {
