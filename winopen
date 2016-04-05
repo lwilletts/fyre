@@ -43,21 +43,21 @@ main() {
 
     case "$name" in
         "urxvt")
-            position res "$wid"
+            position -R "$wid"
             snap --topleft "$wid"
             ;;
         "ssh"|"mosh")
-            position res "$wid"
+            position -R "$wid"
             snap --topleft "$wid"
             windows -a "$wid" 3
             ;;
         "tmux")
-            position res "$wid"
+            position -R "$wid"
             snap --topleft "$wid"
             windows -a "$wid" 1
             ;;
         "libreoffice")
-            position rht "$wid"
+            position -R "$wid"
             windows -a "$wid" 8
             ;;
         *)
@@ -90,8 +90,8 @@ main() {
             ;;
         # seriously fuck this program
         "telegram")
-            position res "$wid"
-            position ext "$wid"
+            position -R "$wid"
+            position -E "$wid"
             windows -a "$wid" 4
             ;;
         "MuPDF")
