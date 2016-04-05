@@ -61,7 +61,6 @@ wew | while IFS=: read ev wid; do
             hover -c "$wid"
             # clean fullscreen
             fullscreen -c "$wid"
-            }
             ;;
         18)
             wattr "$(pfw)" || focus --prev
