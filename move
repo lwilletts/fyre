@@ -7,7 +7,7 @@ ARGS="$@"
 
 usage() {
     cat >&2 << EOF
-Usage: $(basename $0) [direction] <wid>
+Usage: $(basename $0) [direction] <wid> <screen>
     -u | --up:    Move current or given window up.
     -l | --left:  Move current or given window left.
     -d | --down:  Move current or given window down.
@@ -20,9 +20,9 @@ EOF
 
 moveUp() {
     test $H -lt $minH && {
-        Y=$((Y - H - VGAP))
+        Y=$((Y + SY - H - VGAP))
     } || {
-        Y=$((Y - minH - VGAP))
+        Y=$((Y + SY - minH - VGAP))
     }
 
     test $Y -lt $TGAP && {
@@ -33,9 +33,9 @@ moveUp() {
 
 moveLeft() {
     test $W -lt $minW && {
-        X=$((X - W - IGAP))
+        X=$((X + SX - W - IGAP))
     } || {
-        X=$((X - minW - IGAP))
+        X=$((X + SX - minW - IGAP))
     }
 
     test $X -le $XGAP && {
@@ -46,9 +46,9 @@ moveLeft() {
 
 moveDown() {
     test $H -lt $minH && {
-        Y=$((Y + H + VGAP))
+        Y=$((Y + SY + H + VGAP))
     } || {
-        Y=$((Y + minH + VGAP))
+        Y=$((Y + SY + minH + VGAP))
     }
 
     test $((Y + H)) -gt $eSH && {
@@ -59,9 +59,9 @@ moveDown() {
 
 moveRight() {
     test $W -lt $minW && {
-        X=$((X + W + IGAP))
+        X=$((X + SX + W + IGAP))
     } || {
-        X=$((X + minW + IGAP))
+        X=$((X + SX + minW + IGAP))
     }
 
     test $((X + W)) -gt $eSW && {
@@ -80,7 +80,15 @@ moveMouse() {
 main() {
     . fyrerc
 
-    wattr "$2" && wid="$2" || wid="$PFW"
+    test ! -z "$3" && {
+        retrieveScreenValues $3
+        wattr "$2" && wid="$2" || wid="$PFW"
+    } || {
+        wattr "$2" && wid="$2" || {
+            wid="$PFW"
+            intCheck $2 && retrieveScreenValues $2
+        }
+    }
 
     case "$1" in
         "-u"|"--up")    moveUp    ;;

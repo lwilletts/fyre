@@ -7,7 +7,7 @@ ARGS="$@"
 
 usage() {
     cat >&2 << EOF
-Usage: $(basename $0) <direction> [wid]
+Usage: $(basename $0) <direction> <wid> <screen>
     -gr | --growright:  Grow current or given window right
     -gd | --growdown:   Grow current or given window down.
     -sl | --shrinkleft: Shrink current or given window left.
@@ -76,7 +76,16 @@ moveMouse() {
 main() {
     . fyrerc
 
-    wattr "$2" && wid="$2" || wid="$PFW"
+    test ! -z "$3" && {
+        retrieveScreenValues "$3"
+    } || {
+        test ! -z "$2" || {
+            retrieveScreenValues "$2"
+            wid="$PFW"
+        }
+    }
+
+    wattr "$2" && wid="$2"
 
     case "$1" in
         "-gd"|"--growdown")   growDown   ;;

@@ -80,7 +80,7 @@ cleanWid() {
 
 unmapGroup() {
     unmapGroupNum=$1
-    intCheck $unmapGroupNum
+    intCheck $unmapGroupNum || return 1
 
     test -f "$GROUPSDIR/group.${unmapGroupNum}" && {
         # make the group visible
@@ -118,7 +118,7 @@ toggleWidGroup() {
     addGroupNum=$(printf '%s' "$1" | cut -d\  -f 2)
 
     widCheck "$addWid"
-    intCheck $addGroupNum
+    intCheck $addGroupNum || return 1
 
     # this is a dummy wid X11 will return when no window is focused
     test "$addWid" = "0x00000001" && {
@@ -162,7 +162,7 @@ toggleWidGroup() {
 
 hideGroup() {
     hideGroupNum=$1
-    intCheck $hideGroupNum
+    intCheck $hideGroupNum || return 1
 
     test -f "$GROUPSDIR/group.$hideGroupNum" && {
         # return if group is already inactive
@@ -195,7 +195,7 @@ hideGroup() {
 
 showGroup() {
     showGroupNum=$1
-    intCheck $showGroupNum
+    intCheck $showGroupNum || return 1
 
     test -f "$GROUPSDIR/group.$showGroupNum" && {
         # return if group is already active
@@ -233,7 +233,7 @@ showGroup() {
 # show given group and hide all others - could be used for workspaces
 mapGroup() {
     mapGroupNum=$1
-    intCheck $mapGroupNum
+    intCheck $mapGroupNum || return 1
 
     test -f "$GROUPSDIR/active" && {
         # hide all other groups listed in the active file
@@ -265,7 +265,7 @@ mapGroup() {
 # simple group toggle
 toggleGroup() {
     toggleGroupNum=$1
-    intCheck $toggleGroupNum
+    intCheck $toggleGroupNum || return 1
 
     # find out if the group is active
     test -f "$GROUPSDIR/active" && {
@@ -287,7 +287,7 @@ toggleGroup() {
 
 smartToggleGroup() {
     toggleGroupNum=$1
-    intCheck $toggleGroupNum
+    intCheck $toggleGroupNum || return 1
 
     # find out if the group is active
     test -f "$GROUPSDIR/active" && {
@@ -324,7 +324,7 @@ smartToggleGroup() {
 
 cycleGroup() {
     cycleGroupNum=$1
-    intCheck $cycleGroupNum
+    intCheck $cycleGroupNum || return 1
 
     # find out if the group is active
     test -f "$GROUPSDIR/active" && {

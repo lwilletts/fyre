@@ -7,7 +7,7 @@ ARGS="$@"
 
 usage() {
     cat >&2 << EOF
-Usage: $(basename $0) [option] <wid>
+Usage: $(basename $0) [option] <wid> <screen>
     res:  Restore current or given window to minW and minH values.
     ext:  Extend current or given window to the maximum screen height.
     lft:  Make current or given window half of the screen positioned on the left.
@@ -26,19 +26,19 @@ restore() {
 }
 
 extend() {
-    Y=$TGAP
+    Y=$((TGAP + SY))
     H=$eSH
 }
 
 left() {
-    X=$XGAP
-    Y=$TGAP
+    X=$((XGAP + SX))
+    Y=$((TGAP + SY))
     W=$((eSW/2 - IGAP/2))
     H=$eSH
 }
 
 right() {
-    Y=$TGAP
+    Y=$((TGAP + SY))
     W=$((eSW/2 - IGAP/2))
     H=$eSH
     X=$((W + XGAP + IGAP))
@@ -47,8 +47,10 @@ right() {
 full() {
     SW=$eSW
     SH=$eSH
-    X=$XGAP; Y=$TGAP
-    W=$SW; H=$SH
+    X=$((XGAP + SX))
+    Y=$((TGAP + SY))
+    W=$SW
+    H=$SH
 }
 
 video() {
@@ -66,7 +68,15 @@ moveMouse() {
 main() {
     . fyrerc
 
-    wattr "$2" && wid="$2" || wid="$PFW"
+    test ! -z "$3" && {
+        retrieveScreenValues $3
+        wattr "$2" && wid="$2" || wid="$PFW"
+    } || {
+        wattr "$2" && wid="$2" || {
+            wid="$PFW"
+            intCheck $2 && retrieveScreenValues $2
+        }
+    }
 
     case "$1" in
         "res")  restore ;;

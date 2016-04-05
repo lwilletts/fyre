@@ -7,7 +7,7 @@ ARGS="$@"
 
 usage() {
     cat >&2 << EOF
-Usage: $(basename $0) [option] <wid>
+Usage: $(basename $0) [option] <wid> <screen>
     -u  | --up:          Snap current or given window to the top of the screen.
     -l  | --left:        Snap current or given window to the left of the screen.
     -d  | --down:        Snap current or given window to the bottom of the screen.
@@ -23,12 +23,12 @@ EOF
     test $# -eq 0 || exit $1
 }
 
-snapTop() {
-    Y=$TGAP
+snapLeft() {
+    X=$((XGAP + SX))
 }
 
-snapLeft() {
-    X=$XGAP
+snapTop() {
+    Y=$((TGAP + SY))
 }
 
 snapBottom() {
@@ -40,17 +40,17 @@ snapRight() {
 }
 
 snapTopLeft() {
-    X=$XGAP
-    Y=$TGAP
+    X=$((XGAP + SX))
+    Y=$((TGAP + SY))
 }
 
 snapTopRight() {
     X=$((SW - XGAP - W))
-    Y=$TGAP
+    Y=$((TGAP + SY))
 }
 
 snapBottomLeft() {
-    X=$XGAP
+    X=$((XGAP + SX))
     Y=$((SH - BGAP - H))
 }
 
@@ -74,7 +74,15 @@ moveMouse() {
 main() {
     . fyrerc
 
-    wattr "$2" && wid="$2" || wid="$PFW"
+    test ! -z "$3" && {
+        retrieveScreenValues $3
+        wattr "$2" && wid="$2" || wid="$PFW"
+    } || {
+        wattr "$2" && wid="$2" || {
+            wid="$PFW"
+            intCheck $2 && retrieveScreenValues $2
+        }
+    }
 
     case "$1" in
         "-u"|"--up")           snapTop         ;;

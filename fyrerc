@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # wildefyr - 2016 (c) MIT
-# configuration file for fyre
+# default functions and variables for fyre scripts
 
     # environment files
 ###############################################################################
@@ -34,7 +34,7 @@ intCheck() {
     test $1 -ne 0 2> /dev/null
     test $? -ne 2 || {
          printf '%s\n' "'$1' is not an integer." >&2
-         exit 1
+         return 1
     }
 }
 
@@ -116,10 +116,32 @@ generateScreenInfo() {
 
         unset -v screen screenX screenY screenW screenH geometry
     } || {
+        # who doesn't use xrandr at this point?!
         printf '%s\n' "xrandr was not found on your \$PATH." >&2
         printf '%s\n' "multi-monitor detection will not work." >&2
         return 1
     }
+}
+
+findCurrentScreen() {
+    for monitor in $(wc -l < "$SCREENS"); do
+        monitorInfo="$(sed "/$monitor/!d" "$SCREENS")"
+
+        # get monitor co-ordinates
+        monitorX=$(printf '%s\n' "$monitorInfo" | cut -d\  -f 2)
+        monitorY=$(printf '%s\n' "$monitorInfo" | cut -d\  -f 3)
+        monitorW=$(printf '%s\n' "$monitorInfo" | cut -d\  -f 4)
+        monitorH=$(printf '%s\n' "$monitorInfo" | cut -d\  -f 5)
+
+        # test if current window X and Y value is focused on a window
+        test $X -lt $monitorX && continue
+        test $Y -lt $monitorY && continue
+        test $X -gt $monitorW && continue
+        test $Y -gt $monitorH && continue
+
+        SCREEN=$monitor
+        break
+    done
 }
 
 # get correct SW and SH of current screen
@@ -134,30 +156,33 @@ retrieveScreenValues() {
         }
     }
 
+    # if no window is focused, presume we want to operate on the first screen
     test -z $X && test -z $Y && {
         SW=$(sed "1!d" "$SCREENS" | cut -d\  -f 4)
         SH=$(sed "1!d" "$SCREENS" | cut -d\  -f 5)
         return 1
     }
 
-    for screen in $(wc -l < "$SCREENS"); do
-        screenInfo="$(sed "/$screen/!d" "$SCREENS")"
+    test $1 -ne 0 2> /dev/null && test $1 -le $(wc -l < $SCREENS) && {
+        SCREEN=$1
+    } || {
+        findCurrentScreen
+    }
 
-        screenX=$(printf '%s\n' "$screenInfo" | cut -d\  -f 2)
-        screenY=$(printf '%s\n' "$screenInfo" | cut -d\  -f 3)
-        screenW=$(printf '%s\n' "$screenInfo" | cut -d\  -f 4)
-        screenH=$(printf '%s\n' "$screenInfo" | cut -d\  -f 5)
+    # get current screen X Y W H
+    SCREENSTRING=$(sed "/$SCREEN/!d" "$SCREENS")
+    SX=$(printf '%s\n' "$SCREENSTRING" | cut -d\  -f 2)
+    SY=$(printf '%s\n' "$SCREENSTRING" | cut -d\  -f 3)
+    SW=$(printf '%s\n' "$SCREENSTRING" | cut -d\  -f 4)
+    SH=$(printf '%s\n' "$SCREENSTRING" | cut -d\  -f 5)
 
-        test $X -lt $screenX && continue
-        test $Y -lt $screenY && continue
-        test $X -gt $screenW && continue
-        test $Y -gt $screenH && continue
-    done
+    # calculate variables for the new monitor
+    eSW=$((SW - 2*XGAP))
+    eSH=$((SH - TGAP - BGAP))
+    minW=$((eSW/COLS - $((COLS - 1))*IGAP/COLS))
+    minH=$((eSH/ROWS - $((ROWS - 1))*VGAP/ROWS))
 
-    SW=$(sed "/$screen/!d" "$SCREENS" | cut -d\  -f 4)
-    SH=$(sed "/$screen/!d" "$SCREENS" | cut -d\  -f 5)
-
-    unset -v screen screenX screenY screenW screenH
+    unset -v screenX screenY screenW screenH
 }
 
 # test if a point is over the top of a window
@@ -166,8 +191,8 @@ underneath() {
         X=$(wmp | cut -d\  -f 1)
         Y=$(wmp | cut -d\  -f 2)
     } || {
-        intCheck $1 && X=$1
-        intCheck $2 && Y=$2
+        intCheck $1 && X=$1 || return 1
+        intCheck $2 && Y=$2 || return 1
     }
 
     # start from the highest stacked window
@@ -220,9 +245,3 @@ H=$(wattr h "$CUR" 2> /dev/null)
 
 # multiple monitor support
 retrieveScreenValues
-
-eSW=$((SW - 2*XGAP))
-eSH=$((SH - TGAP - BGAP))
-
-minW=$((eSW/COLS - $((COLS - 1))*IGAP/COLS))
-minH=$((eSH/ROWS - $((ROWS - 1))*VGAP/ROWS))

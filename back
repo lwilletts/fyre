@@ -25,7 +25,7 @@ main() {
         BLUR=0
     } || {
         test $# -eq 0 || {
-            intCheck $1
+            intCheck $1 || return 1
             BLUR=$1
         }
     }

@@ -71,7 +71,7 @@ saveWindows() {
 }
 
 saveLayout() {
-    intCheck $1
+    intCheck $1 || return 1
     LAY=$1
 
     test -z "$(lsw)" && {
@@ -99,7 +99,7 @@ saveGroupLayout() {
         listGroups
         usage 1
     } || {
-        intCheck "$GROUP"
+        intCheck "$GROUP" || return 1
         groupCheck
     }
 
@@ -108,7 +108,7 @@ saveGroupLayout() {
         listLayouts
         usage 1
     } || {
-        intCheck "$LAY"
+        intCheck "$LAY" || return 1
     }
 
     # very unlikely to happen but just to be safe
@@ -129,7 +129,7 @@ saveGroupLayout() {
 }
 
 openLayout() {
-    intCheck $1
+    intCheck $1 || return 1
     LAY=$1
     layoutCheck
 
@@ -183,7 +183,7 @@ listLayouts() {
 }
 
 deleteLayout() {
-    intCheck $1
+    intCheck $1 || return 1
     LAY=$1
     layoutCheck
 
