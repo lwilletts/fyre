@@ -16,13 +16,19 @@ EOF
 main() {
     . fyrerc
 
-    # checks
+    # check for dups
     test -z "$BACK" && return 0
     test -z "$WALL" && return 0
     test -e "$WALL" || return 1
 
-    test $# -eq 0 || intCheck $1
-    test $(lsw | wc -l) -eq 0 && BLUR=0
+    test $(lsw | wc -l) -eq 0 && {
+        BLUR=0
+    } || {
+        test $# -eq 0 || {
+            intCheck $1
+            BLUR=$1
+        }
+    }
 
     # finally: set our wall
     printf '%s\n' "$BACK" | grep -q "hsetroot" && {
