@@ -27,13 +27,15 @@ EOF
 
 . fyrerc
 
-# set background if WALL set
-back
-
 # reset files on launch
 windows -r
 test -f $HOVER && rm -f $HOVER
 test -f $FSFILE && rm -f $FSFILE
+test -f $SCREENS && rm -f $SCREENS
 
+# set background if WALL set
+back
+# regenerate screens file
+generateScreenInfo
 # let the event watcher loop keep the X11 connection open
 eventually
