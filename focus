@@ -7,10 +7,11 @@ ARGS="$@"
 
 usage() {
     cat >&2 << EOF
-Usage: $(basename $0) [-w wid] [-nphq] <--enable|--disable>
+Usage: $(basename $0) [-w wid] [-npchq] <--enable|--disable>
     -w | --wid:     Focus the given window.
     -n | --next:    Focus the next window on the stack.
     -p | --prev:    Focus the previous window on the stack.
+    -c | --cursor:  Focus the window underneath the cursor.
     -e | --enable:  Optional: Enable movement of the mouse.
     -d | --disable: Optional: Disable movement of the mouse.
     -q | --quiet:   Suppress all textual output.
@@ -34,6 +35,11 @@ focusWid() {
     focusMethod
 }
 
+focusUnderneath() {
+    wid=$(underneath)
+    test ! -z "$wid" && focusMethod
+}
+
 focusNext() {
     wid="$(lsw | grep -v "$PFW" | sed '1 p;d')"
     test ! -z "$wid" && focusMethod
@@ -53,13 +59,11 @@ focusMethod() {
 
     # account for fullscreen file
     test -f "$FSFILE" && {
-        test "$(cut -d\  -f 5 "$FSFILE")" = "$wid" && {
+        grep -qw "$wid" "$FSFILE" && {
             setborder none "$wid"
         } || {
-            test "$(cut -d\  -f 5 "$FSFILE")" = "$PFW" && {
-                setborder none "$PFW"
-                setborder active "$wid"
-            }
+            setborder none "$PFW"
+            setborder active "$wid"
         }
     } || {
         setborder inactive "$PFW"
@@ -79,14 +83,14 @@ main() {
 
     # automatically focus the window underneath the cursor
     test $# -eq 0 && {
-        wid=$(underneath)
-        test ! -z "$wid" && focusMethod
+        focusUnderneath
     } || {
         case "$1" in
-            "-w"|"--wid")  focusWid "$2" ;;
-            "-n"|"--next") focusNext     ;;
-            "-p"|"--prev") focusPrev     ;;
-            *)             usage 1       ;;
+            "-w"|"--wid")    focusWid "$2"   ;;
+            "-n"|"--next")   focusNext       ;;
+            "-p"|"--prev")   focusPrev       ;;
+            "-c"|"--cursor") focusUnderneath ;;
+            *)               usage 1         ;;
         esac
 
         test "$MOUSE" = "true" && moveMouse
