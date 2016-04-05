@@ -7,14 +7,14 @@ ARGS="$@"
 
 usage() {
     cat >&2 << EOF
-Usage: $(basename $0) [option] <wid> <screen>
-    res:  Restore current or given window to minW and minH values.
-    ext:  Extend current or given window to the maximum screen height.
-    lft:  Make current or given window half of the screen positioned on the left.
-    rht:  Make current or given window half of the screen positioned on the right.
-    full: Make current or given window fullscreen minus border gaps.
-    vid:  Make current or given mpv window full resolution.
-    help: Show this help.
+Usage: $(basename $0) [-lrvfeRh] <wid> <screen>
+    -l | --left:    Make current or given window half of the screen positioned on the left.
+    -r | --right:   Make current or given window half of the screen positioned on the right.
+    -v | --video:   Make current or given mpv window full resolution.
+    -f | --fuller:  Make current or given window fullscreen minus border gaps.
+    -e | --extend:  Extend current or given window to the maximum screen height.
+    -R | --restore: Restore current or given window to minW and minH values.
+    -h | --help:    Show this help.
 EOF
 
     test $# -eq 0 || exit $1
@@ -79,12 +79,12 @@ main() {
     }
 
     case "$1" in
-        "res")  restore ;;
-        "ext")  extend  ;;
-        "lft")  left    ;;
-        "rht")  right   ;;
-        "vid")  video   ;;
-        "full") full    ;;
+        "-l"|"--left")    left    ;;
+        "-r"|"--right")   right   ;;
+        "-v"|"--video")   video   ;;
+        "-f"|"--fuller")  full    ;;
+        "-e"|"--extend")  extend  ;;
+        "-R"|"--restore") restore ;;
     esac
 
     wtp $X $Y $W $H "$wid"

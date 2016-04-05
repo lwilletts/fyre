@@ -39,7 +39,7 @@ mod1 + o
 
 # handy shortcuts to place window in a useful position
 mod1 + {q,w,e,r,a,s}
-    position {lft,ext,rht,full,res,vid}
+    position {--left,--extend,--right,--fuller,--restore,--video}
 # fullscreen the current window
 mod1 + f
     fullscreen
