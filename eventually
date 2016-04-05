@@ -60,8 +60,7 @@ wew | while IFS=: read ev wid; do
             # clean hover
             hover -c "$wid"
             # clean fullscreen
-            test -f "$FSFILE" && test "$(cut -d\  -f 5 < "$FSFILE")" = "$wid" && {
-                rm -f "$FSFILE"
+            fullscreen -c "$wid"
             }
             ;;
         18)

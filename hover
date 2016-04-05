@@ -7,7 +7,7 @@ ARGS="$@"
 
 usage() {
     cat >&2 << EOF
-Usage: $(basename $0) [wid]
+Usage: $(basename $0) <wid>
 EOF
 
     test $# -eq 0 || exit $1
@@ -32,7 +32,7 @@ cleanHover() {
     . fyrerc
 
     test -f "$HOVER" && {
-        grep -q "$cleanWid" "$HOVER" && {
+        grep -qw "$cleanWid" "$HOVER" && {
             while read -r line; do
                 searchWid=$(printf '%s\n' "$line" | cut -d\  -f 1)
                 test "$searchWid" = $cleanWid && {
@@ -54,14 +54,12 @@ cleanHover() {
 main() {
     . fyrerc
 
-    hoverWid="$1"
+    wattr "$1" && hoverWid="$1" || hoverWid="$PFW"
     cleanHover "$hoverWid"
 
     printf '%s\n' "$hoverWid" >> "$HOVER"
     printf '%s\n' "${hoverWid} now hovers."
 }
-
-test $# -eq 0 && usage 1
 
 for arg in $ARGS; do
     test "$CLEANFLAG" = "true" && cleanHover "$arg" && exit 0

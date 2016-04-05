@@ -1,48 +1,85 @@
 #!/bin/sh
 #
 # wildefyr & z3bra - 2016 (c) MIT
-# fullscreen without borders, remembers previous window geometry
+# make window fullscreen on optional screen
 
 ARGS="$@"
 
 usage() {
     cat >&2 << EOF
-Usage: $(basename $0) <wid>
+Usage: $(basename $0) <wid> <screen>
 EOF
 
     test $# -eq 0 || exit $1
 }
 
+widCheck() {
+    case "$1" in
+        0x*)
+            return 0
+            ;;
+        *)
+            printf '%s\n' "Please enter a valid window id." >&2
+            exit 1
+            ;;
+    esac
+}
+
+cleanFullscreen() {
+    cleanWid=$1
+    widCheck "$cleanWid"
+
+    . fyrerc
+
+    test -f "$FSFILE" && {
+        grep -qw "$cleanWid" "$FSFILE" && {
+            test ! -z "$fullWid" && {
+                setborder active "$fullWid"
+                wtp $(grep -w "$fullWid" "$FSFILE")
+                printf '%s\n' "${fullWid} is no longer fullscreen."
+            }
+
+            buffer="$(grep -wv "$cleanWid" "$FSFILE")"
+            test -z "$buffer" 2> /dev/null && {
+                rm -f "$FSFILE"
+            } || {
+                printf '%s\n' "$buffer" > "$FSFILE"
+            }
+
+            return 0
+        }
+    }
+}
+
 main() {
     . fyrerc
 
-    wattr "$1" && wid="$1" || wid=$PFW
-
-    test -f "$FSFILE" && {
-        test "$PFW" = "$wid" && {
-            setborder active "$wid"
-            wtp $(cat "$FSFILE")
-            rm "$FSFILE"
+    test ! -z "$2" && {
+        retrieveScreenValues $2
+        wattr "$1" && fullWid="$1" || fullWid="$PFW"
+    } || {
+        wattr "$1" && fullWid="$1" || {
+            fullWid="$PFW"
+            intCheck $1 && retrieveScreenValues $1
         }
-        test "$PFW" != "$wid" && {
-            setborder active "$wid"
-            setborder inactive "$PFW"
-            wtp $(cat "$FSFILE")
-            rm "$FSFILE"
-            $(basename $0) "$wid"
-        }
-        exit
     }
 
-    setborder none "$wid"
-    wattr xywhi "$wid" > "$FSFILE"
-    wtp 0 0 $SW $SH "$wid"
+    test -f "$FSFILE" && {
+        cleanFullscreen "$fullWid" && return 0
+    }
+
+    setborder none "$fullWid"
+    wattr xywhi "$fullWid" >> "$FSFILE"
+    wtp $SX $SY $SW $SH "$fullWid"
 }
 
 for arg in $ARGS; do
+    test "$CLEANFLAG" = "true" && cleanFullscreen "$arg" && exit 0
+
     case "$arg" in
-        -q|--quiet)       QUIETFLAG=true ;;
-        h|help|-h|--help) usage 0        ;;
+        "-c"|"--clean")           CLEANFLAG=true ;;
+        "-q"|"--quiet")           QUIETFLAG=true ;;
+        "-h"|"--help"|"h"|"help") usage 0        ;;
     esac
 done
 

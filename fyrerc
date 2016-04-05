@@ -32,10 +32,7 @@ test -f $FYREDIR/config && {
 
 intCheck() {
     test $1 -ne 0 2> /dev/null
-    test $? -ne 2 || {
-         printf '%s\n' "'$1' is not an integer." >&2
-         return 1
-    }
+    test $? -ne 2 || return 1
 }
 
 name() {
