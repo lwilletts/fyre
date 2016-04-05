@@ -40,7 +40,7 @@ showAll() {
 main() {
     . fyrerc
 
-    showAll | grep -i "$1" | cut -d\  -f 1 | sort | uniq
+    showAll | grep -i "$@" | cut -d\  -f 1 | sort | uniq
 }
 
 test $# -eq 0 && usage 1
