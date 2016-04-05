@@ -13,7 +13,6 @@ test ! -d "$GROUPSDIR" && mkdir -p "$GROUPSDIR"
 test ! -d "$LAYOUTDIR" && mkdir -p "$LAYOUTDIR"
 
 HOVER=${HOVER:-$FYREDIR/hover}
-IGNORE=${IGNORE:-$FYREDIR/ignored}
 FSFILE=${FSFILE:-$FYREDIR/fullinfo}
 SCREENS=${SCREENS:-$FYREDIR/screens}
 WIDLOCK=${WIDLOCK:-$FYREDIR/.widlock}
@@ -24,7 +23,8 @@ WIDLOCK=${WIDLOCK:-$FYREDIR/.widlock}
 test -f $FYREDIR/config && {
     . $FYREDIR/config
 } || {
-    exit 1
+    printf '%s\n' "No file found in default $FYREDIR location. See config.example"
+    pkill xinit
 }
 
     # functions

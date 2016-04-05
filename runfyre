@@ -25,16 +25,15 @@ EOF
     exit 1
 }
 
-. fyrerc || {
-    printf '%s\n' "$FYREDIR/config was not found. Please see the example config file."
-    exit 1
-}
+. fyrerc
 
 # set background if WALL set
 back
 
-# reset group data on launch
+# reset files on launch
 windows -r
+test -f $HOVER && rm -f $HOVER
+test -f $FSFILE && rm -f $FSFILE
 
 # let the event watcher loop keep the X11 connection open
 eventually

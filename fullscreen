@@ -46,8 +46,10 @@ cleanFullscreen() {
                 printf '%s\n' "$buffer" > "$FSFILE"
             }
 
-            return 0
+            exit 0
         }
+    } || {
+        exit 0
     }
 }
 
@@ -64,22 +66,22 @@ main() {
         }
     }
 
-    test -f "$FSFILE" && {
-        cleanFullscreen "$fullWid" && return 0
-    }
+    test -f "$FSFILE" && cleanFullscreen "$fullWid"
 
     setborder none "$fullWid"
     wattr xywhi "$fullWid" >> "$FSFILE"
     wtp $SX $SY $SW $SH "$fullWid"
+
+    printf '%s\n' "${fullWid} is now fullscreen."
 }
 
 for arg in $ARGS; do
     test "$CLEANFLAG" = "true" && cleanFullscreen "$arg" && exit 0
 
     case "$arg" in
-        "-c"|"--clean")           CLEANFLAG=true ;;
-        "-q"|"--quiet")           QUIETFLAG=true ;;
-        "-h"|"--help"|"h"|"help") usage 0        ;;
+        -c|--clean)       CLEANFLAG=true ;;
+        -q|--quiet)       QUIETFLAG=true ;;
+        -h|--help|h|help) usage 0        ;;
     esac
 done
 
