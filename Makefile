@@ -28,7 +28,7 @@ FYREDIR = $(shell echo $$HOME)/.config/fyre
 
 .PHONY: all link config install uninstall
 
-all: link config
+all: link
 
 link: $(SCRIPT)
 	@for script in $(SCRIPT); do \

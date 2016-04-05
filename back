@@ -16,11 +16,12 @@ EOF
 main() {
     . fyrerc
 
-    # if we don't have a wall, don't do anything
+    # checks
+    test -z "$BACK" && return 0
     test -z "$WALL" && return 0
     test -e "$WALL" || return 1
 
-    test $# -eq 0 && BLUR=0 || intCheck $1
+    test $# -eq 0 || intCheck $1
     test $(lsw | wc -l) -eq 0 && BLUR=0
 
     # finally: set our wall
