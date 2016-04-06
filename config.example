@@ -23,7 +23,7 @@ BGAP=20
 TGAP=40
 
 # mouse automatically gets moved to the middle of the window
-MOUSE="true"
+MOUSE="false"
 
 # moving over windows automatically focuses them
 SLOPPY="true"
