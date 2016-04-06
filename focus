@@ -54,6 +54,13 @@ focusPrev() {
 focusMethod() {
     test "$wid" = "$PFW" && exit 1
 
+    # create lock file if one doesn't exist else exit
+    test ! -f $WIDLOCK && {
+        :> $WIDLOCK
+    } || {
+        return 2
+    }
+
     # be as responsive as possible to user input
     wtf "$wid"
     chwso -r "$wid"
@@ -79,6 +86,8 @@ focusMethod() {
             chwb -s $BW -c "$ACTIVE" "$wid"
             ;;
     esac
+
+    rm -f $WIDLOCK
 }
 
 moveMouse() {
@@ -89,18 +98,16 @@ moveMouse() {
 }
 
 main() {
-    . fyrerc
-
     # automatically focus the window underneath the cursor
     test $# -eq 0 && {
         focusUnderneath
     } || {
         case "$1" in
-            "-w"|"--wid")    focusWid "$2"   ;;
-            "-n"|"--next")   focusNext       ;;
-            "-p"|"--prev")   focusPrev       ;;
-            "-c"|"--cursor") focusUnderneath ;;
-            *)               usage 1         ;;
+            -w|--wid)    focusWid "$2"   ;;
+            -n|--next)   focusNext       ;;
+            -p|--prev)   focusPrev       ;;
+            -c|--cursor) focusUnderneath ;;
+            *)           usage 1         ;;
         esac
 
         test "$MOUSE" = "true" && moveMouse
@@ -109,12 +116,14 @@ main() {
     hoverPush
 }
 
+. fyrerc
+
 for arg in $ARGS; do
     case "$arg" in
-        "-e"|"--enable")          MOUSE=true     ;;
-        "-d"|"--disable")         MOUSE=false    ;;
-        "-q"|"--quiet")           QUIETFLAG=true ;;
-        "-h"|"--help"|"h"|"help") usage 0        ;;
+        -e|--enable)      MOUSE=true     ;;
+        -d|--disable)     MOUSE=false    ;;
+        -q|--quiet)       QUIETFLAG=true ;;
+        -h|--help|h|help) usage 0        ;;
     esac
 done
 

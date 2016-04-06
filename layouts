@@ -134,7 +134,7 @@ openLayout() {
     layoutCheck
 
     # create lock file for winopen
-    :> "$WIDLOCK"
+    :> $WIDLOCK
 
     while read -r window; do
         windowsOpen="$(lsw)"
@@ -165,7 +165,7 @@ openLayout() {
     # delay deletion just slightly to ensure window isn't moved by winopen
     sleep 0.5
     # clean lock as we have finished opening windows
-    rm -f "$WIDLOCK"
+    rm -f $WIDLOCK
 }
 
 listGroups() {
