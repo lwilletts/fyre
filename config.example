@@ -8,22 +8,22 @@ ACTIVE="D7D7D7"
 WARNING="B23450" # not currently used anywhere
 INACTIVE="03070B"
 
-# border width of windows in pixels
-BW=1
-
 # grid based snapping
 ROWS=4
 COLS=4
 
+# border width of windows in pixels
+BW=1
+
 # best to keep these as multiples of two
+TGAP=40
 IGAP=20
 VGAP=20
-XGAP=20
-BGAP=20
-TGAP=40
+XGAP=$IGAP
+BGAP=$VGAP
 
 # mouse automatically gets moved to the middle of the window
-MOUSE="true"
+MOUSE="false"
 
 # moving over windows automatically focuses them
 SLOPPY="true"
