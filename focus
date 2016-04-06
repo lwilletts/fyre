@@ -65,23 +65,27 @@ focusMethod() {
     wtf "$wid"
     chwso -r "$wid"
 
-    # account for fullscreen file
     grep -qw "$wid" "$FSFILE" 2> /dev/null
 
     case $? in
+        # if focusing a window in FSFILE
         0)
+            chwb -s $BW -c "$INACTIVE" "$PFW"
             chwb -s 0 "$wid"
             ;;
         1)
             grep -qw "$PFW" "$FSFILE" && {
-                chwb -s 0 "$wid"
+                # if focusing a window when current window is in FSFILE
+                chwb -s 0 "$PFW"
                 chwb -s $BW -c "$ACTIVE" "$wid"
             } || {
+                # FSFILE exists but no wid listed in it is being used
                 chwb -s $BW -c "$INACTIVE" "$PFW"
                 chwb -s $BW -c "$ACTIVE" "$wid"
             }
             ;;
-        2)
+        *)
+            # normal focusing
             chwb -s $BW -c "$INACTIVE" "$PFW"
             chwb -s $BW -c "$ACTIVE" "$wid"
             ;;
