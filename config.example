@@ -22,11 +22,11 @@ XGAP=20
 BGAP=20
 TGAP=40
 
+# mouse automatically gets moved to the middle of the window
+MOUSE="true"
+
 # moving over windows automatically focuses them
 SLOPPY="true"
-
-# mouse automatically gets moved to the middle of the window
-MOUSE="false"
 
 # set to workspaces or groups -- not finised yet so it defaults to groups
 WORKFLOW="groups"

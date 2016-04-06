@@ -23,8 +23,7 @@ EOF
 
 hoverPush() {
     test -f "$HOVER" && {
-        while read -r line; do
-            wid=$(printf '%s\n' "$line" | cut -d\  -f 1)
+        while read -r wid; do
             chwso -r "$wid"
         done < "$HOVER"
     }
@@ -75,7 +74,7 @@ moveMouse() {
     . mouse
 
     mouseStatus=$(getMouseStatus)
-    test $mouseStatus -eq 1 && moveMouseEnabled "$wid"
+    test ! -z $mouseStatus && test $mouseStatus -eq 1 && moveMouseEnabled "$wid"
 }
 
 main() {

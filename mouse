@@ -37,6 +37,21 @@ getMouseStatus() {
     printf '%s\n' "$status"
 }
 
+moveMouseEnabled() {
+    wattr "$1" && {
+        wid="$1"
+    } || {
+        printf '%s\n' "Please enter a valid window id." >&2
+        return 1
+    }
+
+    # move mouse to the middle of the given window id
+    wmp -a $(($(wattr x "$wid") + ($(wattr w "$wid") / 2))) \
+           $(($(wattr y "$wid") + ($(wattr h "$wid") / 2)))
+
+    unset -v wid
+}
+
 # TODO: find way of fully hiding the mouse completely
 moveMouseDisabled() {
     wmp $SW $SH
@@ -55,7 +70,7 @@ disableMouse() {
 }
 
 toggleMouse() {
-    device="$(getMouseDevice)"
+    device=$(getMouseDevice)
 
     test "$device" != "N/A" && {
         status=$(getMouseStatus)

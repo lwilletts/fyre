@@ -16,43 +16,44 @@ mod1 + Tab
     focus --prev
 mod4 + Tab
     focus --next
-
 # focus the closest window in a direction
 mod1 + {h,j,k,l}
     closest {--left,--down,--up,--right}
-# snap current window to an edge
-mod4 + {h,j,k,l}
-    snap {--left,--down,--up,--right}
-# snap the window to the corners and middle of the screen
-mod1 + {g,y,u,b,n}
-    snap {--middle,--topleft,--topright,--bottomleft,--bottomright}
-# move window in a direction
-mod1 + shift + {h,j,k,l}
-    move {--left,--down,--up,--right}
+
 # resize window in a direction
 mod4 + {w,a,s,d}
     resize {--shrinkup,--shrinkleft,--growdown,--growright}
-
-# ingore window in scripts and set it to hover other all over windows
-mod1 + o
-    hover $(pfw)
-
+# move window in a direction
+mod1 + shift + {h,j,k,l}
+    move {--left,--down,--up,--right}
+# snap current window to an edge
+mod4 + {h,j,k,l}
+    snap {--left,--down,--up,--right}
+# snap the window to the corners and middle of screen 2
+mod1 + {g,y,u,b,n}
+    snap {--middle,--topleft,--topright,--bottomleft,--bottomright} $(pfw) 2
 # handy shortcuts to place window in a useful position
 mod1 + {q,w,e,r,a,s}
     position {--left,--extend,--right,--fuller,--restore,--video}
-# fullscreen the current window
+
+# fullscreen the current window on current screen
 mod1 + f
     fullscreen
+# fullscreen the current window on screen two
+mod1 + shift + f
+    fullscreen $(pfw) 2
 
-# smart group toggle - see windows for details
-mod1 + {1,2,3,4,5,6,7,8,9,0}
-    windows -T {1,2,3,4,5,6,7,8,9,0}
-# map group and unmap all other groups
-mod4 + {1,2,3,4,5,6,7,8,9,0}
-    windows -m {1,2,3,4,5,6,7,8,9,0}
-# add current window to group
+# add current window to group, useful for both workspaces and groups
 mod1 + shift + {1,2,3,4,5,6,7,8,9,0}
     windows -a $(pfw) {1,2,3,4,5,6,7,8,9,0}
+
+# recommend settings if workflow is set to 'workspaces'
+mod1 + {1,2,3,4,5,6,7,8,9,0}
+    windows -m {1,2,3,4,5,6,7,8,9,0}
+
+# recommend settings if workflow is set to 'groups'
+mod1 + {1,2,3,4,5,6,7,8,9,0}
+    windows -T {1,2,3,4,5,6,7,8,9,0}
 # clean current window from group
 mod1 + c
     windows -c $(pfw)
@@ -67,32 +68,30 @@ mod2 + {1,2,3,4,5,6,7,8,9,0}
 mod2 + shift + {1,2,3,4,5,6,7,8,9,0}
     layouts -s {1,2,3,4,5,6,7,8,9,0}
 
+# allow window to hover other all over windows
+mod1 + p
+    hover $(pfw)
+
 # here's johnny!
 mod1 + shift + q
     winkill $(pfw)
 
-# handy script to close fyre correctly
+# handy script to control fyre
+# see sourcefyre.zsh to source fyre functions into your shell
 mod4 + e
     power -l
 mod4 + shift + {q,e,r}
     power -{p,e,r}
 
-# move the mouse
-mod1 + @button1
-    focus; xmmv
-# focus the window underneath the cursor
+# focus the window underneath the cursor with middle mouse
 button2
     focus
-
-mod1 + !button3
-    focus; wrs -a %i %i $(pfw)
-
 # move window underneath cursor
 mod1 + @button1
     focus; xmmv
-# focus on click with middle mouse button
-button2
-    focus
+# resize the window underneath the cursor
+mod1 + !button3
+    focus; wrs -a %i %i $(pfw)
 
 # toggle mouse functionality
 mod1 + t

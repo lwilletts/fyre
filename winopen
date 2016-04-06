@@ -56,6 +56,10 @@ main() {
             snap --topleft "$wid"
             windows -a "$wid" 1
             ;;
+        "paste")
+            position -R "$wid"
+            snap --middle "$wid"
+            ;;
         "libreoffice")
             position -R "$wid"
             windows -a "$wid" 8

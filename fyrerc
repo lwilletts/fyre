@@ -214,21 +214,6 @@ underneath() {
     done
 }
 
-moveMouseEnabled() {
-    wattr "$1" && {
-        wid="$1"
-    } || {
-        printf '%s\n' "Please enter a valid window id." >&2
-        return 1
-    }
-
-    # move mouse to the middle of the given window id
-    wmp -a $(($(wattr x "$wid") + ($(wattr w "$wid") / 2))) \
-           $(($(wattr y "$wid") + ($(wattr h "$wid") / 2)))
-
-    unset -v wid
-}
-
     # window management
 ###############################################################################
 

@@ -75,7 +75,7 @@ cleanWid() {
         }
     done
 
-    printf '%s\n' "$(class $cleanWid) ($cleanWid) cleaned!"
+    printf '%s\n' "$cleanWid cleaned!"
 }
 
 unmapGroup() {
@@ -157,7 +157,7 @@ toggleWidGroup() {
 
     # add wid to the group file
     printf '%s\n' "$addWid" >> "$GROUPSDIR/group.${addGroupNum}"
-    printf '%s\n' "$(class $addWid) ($addWid) added to ${addGroupNum}!"
+    printf '%s\n' "$addWid added to ${addGroupNum}!"
 }
 
 hideGroup() {

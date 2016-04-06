@@ -74,7 +74,7 @@ moveMouse() {
     . mouse
 
     mouseStatus=$(getMouseStatus)
-    test $mouseStatus -eq 1 && moveMouseEnabled "$wid"
+    test ! -z $mouseStatus && test $mouseStatus -eq 1 && moveMouseEnabled "$wid"
 }
 
 main() {
