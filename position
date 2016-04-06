@@ -13,11 +13,22 @@ Usage: $(basename $0) [-lrvfeRh] <wid> <screen>
     -v | --video:   Make current or given mpv window full resolution.
     -f | --fuller:  Make current or given window fullscreen minus border gaps.
     -e | --extend:  Extend current or given window to the maximum screen height.
+    -s | --screen:  Position current or given window on to given screen.
     -R | --restore: Restore current or given window to minW and minH values.
     -h | --help:    Show this help.
 EOF
 
     test $# -eq 0 || exit $1
+}
+
+screen() {
+    test $CURSX -gt $SX || test $CURSY -gt $SY && {
+        X=$((CURSX - SX))
+        Y=$((CURSY - SY))
+    } || {
+        X=$((CURSX + SX))
+        Y=$((CURSY + SY))
+    }
 }
 
 restore() {
@@ -68,6 +79,12 @@ moveMouse() {
 main() {
     . fyrerc
 
+    # save current screen variables in case user retrieves a specific screen
+    CURSX=$SX
+    CURSY=$SY
+    CURSW=$SW
+    CURSH=$SH
+
     test ! -z "$3" && {
         retrieveScreenValues $3
         wattr "$2" && wid="$2" || wid="$PFW"
@@ -84,6 +101,7 @@ main() {
         "-v"|"--video")   video   ;;
         "-f"|"--fuller")  full    ;;
         "-e"|"--extend")  extend  ;;
+        "-s"|"--screen")  screen  ;;
         "-R"|"--restore") restore ;;
     esac
 
