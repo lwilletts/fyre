@@ -30,8 +30,10 @@ hoverPush() {
 }
 
 focusWid() {
-    wattr "$1" && wid="$1"
-    focusMethod
+    wattr "$1" && {
+        wid="$1"
+        focusMethod
+    }
 }
 
 focusUnderneath() {
@@ -57,10 +59,13 @@ focusMethod() {
     chwso -r "$wid"
 
     # account for fullscreen file
-    test -f "$FSFILE" && {
-        grep -qw "$wid" "$FSFILE" && {
+    grep -qw "$wid" "$FSFILE" 2> /dev/null
+
+    case $? in
+        0)
             chwb -s 0 "$wid"
-        } || {
+            ;;
+        1)
             grep -qw "$PFW" "$FSFILE" && {
                 chwb -s 0 "$wid"
                 chwb -s $BW -c "$ACTIVE" "$wid"
@@ -68,11 +73,12 @@ focusMethod() {
                 chwb -s $BW -c "$INACTIVE" "$PFW"
                 chwb -s $BW -c "$ACTIVE" "$wid"
             }
-        }
-    } || {
-        chwb -s $BW -c "$INACTIVE" "$PFW"
-        chwb -s $BW -c "$ACTIVE" "$wid"
-    }
+            ;;
+        2)
+            chwb -s $BW -c "$INACTIVE" "$PFW"
+            chwb -s $BW -c "$ACTIVE" "$wid"
+            ;;
+    esac
 }
 
 moveMouse() {
