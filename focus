@@ -59,14 +59,19 @@ focusMethod() {
     # account for fullscreen file
     test -f "$FSFILE" && {
         grep -qw "$wid" "$FSFILE" && {
-            setborder none "$wid"
+            chwb -s 0 "$wid"
         } || {
-            setborder none "$PFW"
-            setborder active "$wid"
+            grep -qw "$PFW" "$FSFILE" && {
+                chwb -s 0 "$wid"
+                chwb -s $BW -c "$ACTIVE" "$wid"
+            } || {
+                chwb -s $BW -c "$INACTIVE" "$PFW"
+                chwb -s $BW -c "$ACTIVE" "$wid"
+            }
         }
     } || {
-        setborder inactive "$PFW"
-        setborder active "$wid"
+        chwb -s $BW -c "$INACTIVE" "$PFW"
+        chwb -s $BW -c "$ACTIVE" "$wid"
     }
 }
 

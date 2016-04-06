@@ -186,7 +186,7 @@ hideGroup() {
         # hide all windows in group and set the border to inactive just to be safe
         while read -r addWid; do
             mapw -u $addWid
-            setborder inactive $addWid
+            chwb -s $BW -c $INACTIVE $addWid
         done < "$GROUPSDIR/group.${hideGroupNum}"
 
         printf '%s\n' "group ${hideGroupNum} hidden!"

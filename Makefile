@@ -14,7 +14,6 @@ SCRIPT = back \
 		 position \
 		 power \
 		 runfyre \
-		 setborder \
 		 resize \
 		 snap \
 		 taskbar \

@@ -34,7 +34,7 @@ cleanFullscreen() {
     test -f "$FSFILE" && {
         grep -qw "$cleanWid" "$FSFILE" && {
             test ! -z "$fullWid" && {
-                setborder active "$fullWid"
+                chwb -s $BW -c "$ACTIVE" "$fullWid"
                 wtp $(grep -w "$fullWid" "$FSFILE")
                 printf '%s\n' "${fullWid} is no longer fullscreen."
             }
@@ -68,7 +68,7 @@ main() {
 
     test -f "$FSFILE" && cleanFullscreen "$fullWid"
 
-    setborder none "$fullWid"
+    chwb -s 0 "$fullWid"
     wattr xywhi "$fullWid" >> "$FSFILE"
     wtp $SX $SY $SW $SH "$fullWid"
 
