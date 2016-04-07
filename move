@@ -7,7 +7,7 @@ ARGS="$@"
 
 usage() {
     cat >&2 << EOF
-Usage: $(basename $0) [direction] <wid> <screen>
+Usage: $(basename $0) [direction] <wid>
     -u | --up:    Move current or given window up.
     -l | --left:  Move current or given window left.
     -d | --down:  Move current or given window down.
@@ -80,15 +80,7 @@ moveMouse() {
 main() {
     . fyrerc
 
-    test ! -z "$3" && {
-        retrieveScreenValues $3
-        wattr "$2" && wid="$2" || wid="$PFW"
-    } || {
-        wattr "$2" && wid="$2" || {
-            wid="$PFW"
-            intCheck $2 && retrieveScreenValues $2
-        }
-    }
+    wattr "$2" && wid="$2" || wid="$PFW"
 
     case "$1" in
         "-u"|"--up")    moveUp    ;;
