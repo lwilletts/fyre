@@ -1,5 +1,5 @@
-# You don't have to use sxhkd for your hotkey daemon - xbindkeys is an alternative
-# I set modifiers using xmodmap - https://wildefyr.net/blog/2015/05/Modifying-Modifiers.html
+# you don't have to use sxhkd for your hotkey daemon - xbindkeys is an alternative
+# set modifiers - https://wildefyr.net/blog/2015/05/Modifying-Modifiers.html
 
 # reload sxhkd
 mod1 + shift + r
@@ -11,30 +11,35 @@ mod1 + shift + r
 mod1 + d
     dmenu
 
-# similar to windows alt-tab functionality
+# kinda similar to windows alt-tab functionality
 mod1 + Tab
     focus --prev
-mod4 + Tab
+mod1 + shift + Tab
     focus --next
 # focus the closest window in a direction
 mod1 + {h,j,k,l}
     closest {--left,--down,--up,--right}
 
-# resize window in a direction
-mod4 + {w,a,s,d}
-    resize {--shrinkup,--shrinkleft,--growdown,--growright}
 # move window in a direction
 mod1 + shift + {h,j,k,l}
     move {--left,--down,--up,--right}
+# snap resize window in a direction
+mod4 + {w,a,s,d}
+    resize {--shrinkup,--shrinkleft,--growdown,--growright}
+
 # snap current window to an edge
 mod4 + {h,j,k,l}
     snap {--left,--down,--up,--right}
 # snap the window to the corners and middle of screen 2
 mod1 + {g,y,u,b,n}
-    snap {--middle,--topleft,--topright,--bottomleft,--bottomright} $(pfw) 2
+    snap {--middle,--topleft,--topright,--bottomleft,--bottomright}
+
 # handy shortcuts to place window in a useful position
 mod1 + {q,w,e,r,a,s}
     position {--left,--extend,--right,--fuller,--restore,--video}
+# position the current window relatively on new screen
+mod1 + {z,x,c}
+    position {--screen 1,--screen 2,--screen 3}
 
 # fullscreen the current window on current screen
 mod1 + f
@@ -70,7 +75,7 @@ mod2 + shift + {1,2,3,4,5,6,7,8,9,0}
 
 # allow window to hover other all over windows
 mod1 + p
-    hover $(pfw)
+    hover
 
 # here's johnny!
 mod1 + shift + q
