@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# wildefyr & z3bra - 2016 (c) wtfpl
+# wildefyr & z3bra - 2016 (c) MIT
 # focus wrapper with fullscreen check
 
 ARGS="$@"

@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# wildefyr & kekler - 2016 (c) wtfpl
+# wildefyr & kekler - 2016 (c) MIT
 # snap windows without resize
 
 ARGS="$@"
