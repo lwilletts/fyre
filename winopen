@@ -64,6 +64,10 @@ main() {
             position -R "$wid"
             windows -a "$wid" 8
             ;;
+        "explorer.exe")
+            fullscreen "$wid"
+            windows -a "$wid" 9
+            ;;
         *)
     case "$(class $wid)" in
         "google-chrome")
@@ -74,16 +78,12 @@ main() {
         "mpv")
             windows -a "$wid" 5
 
-            test $(resolution "$wid" | cut -d\  -f 1) -ge $SW && {
-                fullscreen "$wid"
-                return 0
-            }
+            snap --middle "$wid"
+
+            test $(resolution "$wid" | cut -d\  -f 1) -ge $SW || \
             test $(resolution "$wid" | cut -d\  -f 2) -ge $SH && {
                 fullscreen "$wid"
-                return 0
             }
-
-            snap --middle "$wid"
             ;;
         "Steam")
             windows -a "$wid" 7
