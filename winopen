@@ -46,6 +46,10 @@ main() {
             position -R "$wid"
             snap --topleft "$wid"
             ;;
+        "st")
+            position -R "$wid"
+            snap --topleft "$wid"
+            ;;
         "ssh"|"mosh")
             position -R "$wid"
             snap --topleft "$wid"
