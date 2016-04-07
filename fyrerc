@@ -3,6 +3,12 @@
 # wildefyr - 2016 (c) MIT
 # default functions and variables for fyre scripts
 
+    # check there is a display running
+test -z "$DISPLAY" && {
+    printf '%s\n' "The terminal you are on is not connected to an X11 session."
+    exit 1
+}
+
     # environment files
 ###############################################################################
 
