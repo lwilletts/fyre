@@ -39,8 +39,9 @@ with the changes being applied immediately.
 #### Configuration
 
 fyre will look for a configuration file located at `$FYREDIR/config`, see
-config.example for an idea of can be set. You can link this file to the default
-location using `make config`. Many of these variables are required.
+config.example for an idea of can be set. You can copy the default
+config.example to the correct location using `make config`. Many of these
+variables are required.
 
 Usage
 -----

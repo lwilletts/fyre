@@ -17,10 +17,10 @@ BW=1
 
 # best to keep these as multiples of two
 TGAP=40
-IGAP=20
-VGAP=20
-XGAP=$IGAP
-BGAP=$VGAP
+IGAP=0
+VGAP=0
+XGAP=20
+BGAP=20
 
 # mouse automatically gets moved to the middle of the window
 MOUSE="true"

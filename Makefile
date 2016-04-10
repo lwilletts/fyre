@@ -36,7 +36,7 @@ link: $(SCRIPT)
 
 config: $(CONFIG)
 	@test -d $(FYREDIR) || mkdir -p $(FYREDIR)
-	ln -svfn $(shell pwd)/$(CONFIG) $(FYREDIR)/config
+	cp $(CONFIG) $(FYREDIR)/config
 
 install: $(SCRIPT)
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
