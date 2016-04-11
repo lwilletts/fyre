@@ -64,6 +64,9 @@ main() {
             position -R "$wid"
             windows -a "$wid" 8
             ;;
+        "Legions.exe")
+            windows -a "$wid" 6
+            ;;
         "explorer.exe")
             fullscreen "$wid"
             windows -a "$wid" 9
@@ -78,15 +81,13 @@ main() {
         "mpv")
             windows -a "$wid" 5
 
-            snap --middle "$wid"
-
             test $(resolution "$wid" | cut -d\  -f 1) -ge $SW || \
             test $(resolution "$wid" | cut -d\  -f 2) -ge $SH && {
                 fullscreen "$wid"
+                return 0
             }
-            ;;
-        "Steam")
-            windows -a "$wid" 7
+
+            snap --middle "$wid"
             ;;
         "TeamSpeak 3")
             snap --middle "$wid"
