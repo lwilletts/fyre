@@ -15,20 +15,20 @@ Usage: $(basename $0) <direction> <wid> <screen>
     -h  | --help:       Show this help.
 EOF
 
-    test -z $1 || exit $1
+    test $# -eq 0 || exit $1
 }
 
 growDown() {
     test $H -lt $((minH - BW)) && {
         H=$minH
     } || {
-        H=$((H + minH + VGAP))
+        H=$((H + minH + VGAP + (VGAP / 4) * BW))
         test $((Y + H - minH - BGAP)) -gt $eSH && {
-            Y=$((Y - minH - VGAP))
+            Y=$((Y - minH - VGAP - (VGAP / 4) * BW))
         }
         test $H -gt $eSH && {
             Y=$TGAP
-            H=$eSH
+            H=$((eSH - (VGAP / 4) * BW))
         }
     }
 }
@@ -37,13 +37,13 @@ growRight() {
     test $W -lt $minW && {
         W=$minW
     } || {
-        W=$((W + minW + IGAP))
+        W=$((W + minW + IGAP + (IGAP / 4) * BW))
         test $((X + W - minW - XGAP)) -gt $eSW && {
-            X=$((X - minW - IGAP))
+            X=$((X - minW - IGAP - (IGAP / 4) * BW))
         }
         test $W -gt $eSW && {
             X=$XGAP
-            W=$eSW
+            H=$((eSW - (IGAP / 4) * BW))
         }
     }
 }
@@ -53,7 +53,7 @@ shrinkUp() {
         test $H -lt 20 && exit 0
         H=$((H/2 - VGAP/2))
     } || {
-        H=$((H - minH - VGAP))
+        H=$((H - minH - VGAP - (VGAP / 4) * BW))
     }
 }
 
@@ -62,7 +62,7 @@ shrinkLeft() {
         test $W -lt 20 && exit 0
         W=$((W/2 - VGAP/2))
     } || {
-        W=$((W - minW - IGAP))
+        W=$((W - minW - IGAP - (IGAP / 4) * BW))
     }
 }
 

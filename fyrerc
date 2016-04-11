@@ -182,8 +182,9 @@ retrieveScreenValues() {
     # calculate variables for the new monitor
     eSW=$((SW - 2*XGAP))
     eSH=$((SH - TGAP - BGAP))
-    minW=$((eSW/COLS - $((COLS - 1))*IGAP/COLS))
-    minH=$((eSH/ROWS - $((ROWS - 1))*VGAP/ROWS))
+
+    minW=$((eSW/COLS - IGAP))
+    minH=$((eSH/ROWS - VGAP))
 
     unset -v screenX screenY screenW screenH
 }
