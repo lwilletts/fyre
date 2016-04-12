@@ -96,7 +96,7 @@ mod1 + @button1
     focus; xmmv
 # resize the window underneath the cursor
 mod1 + !button3
-    focus; wrs -a %i %i $(pfw)
+    wrs -a %i %i $(pfw)
 
 # toggle mouse functionality
 mod1 + t
