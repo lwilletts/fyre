@@ -56,12 +56,10 @@ right() {
 }
 
 full() {
-    SW=$eSW
-    SH=$eSH
     X=$((XGAP + SX))
     Y=$((TGAP + SY))
-    W=$SW
-    H=$SH
+    W=$((eSW - (IGAP / 4) * BW))
+    H=$((eSH - (VGAP / 4) * BW))
 }
 
 video() {
