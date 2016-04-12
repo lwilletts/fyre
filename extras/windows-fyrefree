@@ -2,6 +2,7 @@
 #
 # wildefyr - 2016 (c) MIT
 # standalone groups script
+# focus.sh is presumed to be contrib's version
 
 ARGS="$@"
 
@@ -232,7 +233,7 @@ showGroup() {
 
         # focus the top window in the group
         focusWid="$(head -n 1 < "$GROUPSDIR/group.${showGroupNum}")"
-        focus --wid "$focusWid"
+        focus.sh "$focusWid"
 
         printf '%s\n' "group ${showGroupNum} visible!"
     }
@@ -316,7 +317,7 @@ smartToggleGroup() {
                 return 0
             } || {
                 # focus first window in group if we are NOT on a window in group
-                focus --wid "$wid"
+                focus.sh "$wid"
                 return 0
             }
         } || {
@@ -352,7 +353,7 @@ cycleGroup() {
     # focus next window in group or if at the bottom of stack go to first window
     wid="$(sed "0,/^${PFW}$/d" < "$GROUPSDIR/group.${cycleGroupNum}")"
     test -z "$wid" && wid="$(head -n 1 < "$GROUPSDIR/group.${cycleGroupNum}")"
-    focus --wid "$wid"
+    focus.sh "$wid"
 }
 
 resetGroups() {
