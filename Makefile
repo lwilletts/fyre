@@ -16,7 +16,6 @@ SCRIPT = back \
 		 runfyre \
 		 resize \
 		 snap \
-		 taskbar \
 		 wid \
 		 windows \
 		 winkill \
