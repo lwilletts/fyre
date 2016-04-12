@@ -21,7 +21,7 @@ SCRIPT = back \
 		 winkill \
 		 winopen
 
-CONFIG  = config.example
+CONFIG  = extra/config.example
 FYREDIR = $(shell echo $$HOME)/.config/fyre
 
 .PHONY: all link config install uninstall
