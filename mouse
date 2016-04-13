@@ -78,6 +78,7 @@ toggleMouse() {
         test $status -eq 1 && moveMouseEnabled "$PFW" || moveMouseDisabled
         xinput --set-prop --type=int $device "Device Enabled" $status
     } || {
+        moveMouseDisabled
         return 1
     }
 }
