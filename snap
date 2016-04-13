@@ -32,11 +32,11 @@ snapTop() {
 }
 
 snapBottom() {
-    Y=$((SH - BGAP - H - (VGAP / 4) * BW))
+    Y=$((SH - BGAP - H - (VGAP / ROWS) * BW))
 }
 
 snapRight() {
-    X=$((SW - XGAP - W - (IGAP / 4) * BW))
+    X=$((SW - XGAP - W - (IGAP / COLS) * BW))
 }
 
 snapTopLeft() {
@@ -45,21 +45,23 @@ snapTopLeft() {
 }
 
 snapTopRight() {
-    X=$((SW - XGAP - W - (IGAP / 4) * BW))
+    X=$((SW - XGAP - W - (IGAP / COLS) * BW))
     Y=$((TGAP + SY))
 }
 
 snapBottomLeft() {
     X=$((XGAP + SX))
-    Y=$((SH - BGAP - H - (VGAP / 4) * BW))
+    Y=$((SH - BGAP - H - (VGAP / ROWS) * BW))
 }
 
 snapBottomRight() {
-    X=$((SW - XGAP - W - (IGAP / 4) * BW))
-    Y=$((SH - BGAP - H - (VGAP / 4) * BW))
+    X=$((SW - XGAP - W - (IGAP / COLS) * BW))
+    Y=$((SH - BGAP - H - (VGAP / ROWS) * BW))
 }
 
 snapMiddle() {
+    eSW=$((eSW - (IGAP / COLS) * BW))
+    eSH=$((eSH - (VGAP / ROWS) * BW))
     X=$((eSW/2 - W/2 + XGAP))
     Y=$((eSH/2 - H/2 + TGAP))
 }

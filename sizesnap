@@ -19,16 +19,18 @@ EOF
 }
 
 growDown() {
-    test $H -lt $((minH - BW)) && {
+    test $H -lt $minH && {
         H=$minH
     } || {
-        H=$((H + minH + VGAP + (VGAP / 4) * BW))
-        test $((Y + H - minH - BGAP)) -gt $eSH && {
-            Y=$((Y - minH - VGAP - (VGAP / 4) * BW))
+        H=$((H + minH + VGAP + (VGAP / ROWS) * BW))
+        eSH=$((eSH - (VGAP / ROWS) * BW))
+
+        test $((Y + H - BGAP)) -gt $eSH && {
+            Y=$((Y - minH - VGAP - (VGAP / ROWS) * BW))
         }
-        test $H -gt $eSH && {
+        test $H -ge $eSH && {
             Y=$TGAP
-            H=$((eSH - (VGAP / 4) * BW))
+            H=$eSH
         }
     }
 }
@@ -37,13 +39,15 @@ growRight() {
     test $W -lt $minW && {
         W=$minW
     } || {
-        W=$((W + minW + IGAP + (IGAP / 4) * BW))
-        test $((X + W - minW - XGAP)) -gt $eSW && {
-            X=$((X - minW - IGAP - (IGAP / 4) * BW))
+        W=$((W + minW + IGAP + (IGAP / COLS) * BW))
+        eSW=$((eSW - (IGAP / COLS) * BW))
+
+        test $((X + W - XGAP)) -gt $eSW && {
+            X=$((X - minW - IGAP - (IGAP / COLS) * BW))
         }
-        test $W -gt $eSW && {
+        test $W -ge $eSW && {
             X=$XGAP
-            H=$((eSW - (IGAP / 4) * BW))
+            W=$eSW
         }
     }
 }
@@ -53,7 +57,7 @@ shrinkUp() {
         test $H -lt 20 && exit 0
         H=$((H/2 - VGAP/2))
     } || {
-        H=$((H - minH - VGAP - (VGAP / 4) * BW))
+        H=$((H - minH - VGAP - (VGAP / ROWS) * BW))
     }
 }
 
@@ -62,7 +66,7 @@ shrinkLeft() {
         test $W -lt 20 && exit 0
         W=$((W/2 - VGAP/2))
     } || {
-        W=$((W - minW - IGAP - (IGAP / 4) * BW))
+        W=$((W - minW - IGAP - (IGAP / COLS) * BW))
     }
 }
 

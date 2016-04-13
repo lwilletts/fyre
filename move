@@ -22,7 +22,7 @@ moveUp() {
     test $H -lt $minH && {
         Y=$((Y + SY - H - VGAP))
     } || {
-        Y=$((Y + SY - minH - VGAP - (VGAP / 4) * BW))
+        Y=$((Y + SY - minH - VGAP - (VGAP / ROWS) * BW))
     }
 
     test $Y -lt $TGAP && {
@@ -35,7 +35,7 @@ moveLeft() {
     test $W -lt $minW && {
         X=$((X + SX - W - IGAP))
     } || {
-        X=$((X + SX - minW - IGAP - (IGAP / 4) * BW))
+        X=$((X + SX - minW - IGAP - (IGAP / COLS) * BW))
     }
 
     test $X -le $XGAP && {
@@ -48,7 +48,7 @@ moveDown() {
     test $H -lt $minH && {
         Y=$((Y + SY + H + VGAP))
     } || {
-        Y=$((Y + SY + minH + VGAP + (VGAP / 4) * BW))
+        Y=$((Y + SY + minH + VGAP + (VGAP / ROWS) * BW))
     }
 
     test $((Y + H)) -gt $eSH && {
@@ -61,7 +61,7 @@ moveRight() {
     test $W -lt $minW && {
         X=$((X + SX + W + IGAP))
     } || {
-        X=$((X + SX + minW + IGAP + (IGAP / 4) * BW))
+        X=$((X + SX + minW + IGAP + (IGAP / COLS) * BW))
     }
 
     test $((X + W)) -gt $eSW && {

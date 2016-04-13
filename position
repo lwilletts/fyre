@@ -38,28 +38,28 @@ restore() {
 
 extend() {
     Y=$((TGAP + SY))
-    H=$((eSH - (VGAP / 4) * BW))
+    H=$((eSH - (VGAP / ROWS) * BW))
 }
 
 left() {
     X=$((XGAP + SX))
     Y=$((TGAP + SY))
-    W=$((eSW/2 - IGAP/2 - (IGAP / 4) * BW))
-    H=$eSH
+    W=$((eSW/2 - IGAP/2 - (IGAP / COLS) * BW))
+    H=$((eSH - (VGAP / ROWS) * BW))
 }
 
 right() {
     Y=$((TGAP + SY))
-    W=$((eSW/2 - IGAP/2 - (IGAP / 4) * BW))
-    H=$eSH
-    X=$((W + XGAP + IGAP + (IGAP / 4) * BW))
+    W=$((eSW/2 - IGAP/2 - (IGAP / COLS) * BW))
+    H=$((eSH - (VGAP / ROWS) * BW))
+    X=$((W + XGAP + IGAP + (IGAP / COLS) * BW))
 }
 
 full() {
     X=$((XGAP + SX))
     Y=$((TGAP + SY))
-    W=$((eSW - (IGAP / 4) * BW))
-    H=$((eSH - (VGAP / 4) * BW))
+    W=$((eSW - (IGAP / COLS) * BW))
+    H=$((eSH - (VGAP / ROWS) * BW))
 }
 
 video() {

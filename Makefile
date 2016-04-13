@@ -14,7 +14,7 @@ SCRIPT = back \
 		 position \
 		 power \
 		 runfyre \
-		 resize \
+		 sizesnap \
 		 snap \
 		 wid \
 		 windows \
