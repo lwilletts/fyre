@@ -25,7 +25,7 @@ mod1 + shift + {h,j,k,l}
     move {--left,--down,--up,--right}
 # snap resize window in a direction
 mod4 + {w,a,s,d}
-    resize {--shrinkup,--shrinkleft,--growdown,--growright}
+    sizesnap  {--shrinkup,--shrinkleft,--growdown,--growright}
 
 # snap current window to an edge
 mod4 + {h,j,k,l}
