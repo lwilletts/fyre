@@ -54,13 +54,6 @@ focusPrev() {
 focusMethod() {
     test "$wid" = "$PFW" && exit 1
 
-    # create lock file if one doesn't exist else exit
-    test ! -f $WIDLOCK && {
-        :> $WIDLOCK
-    } || {
-        return 2
-    }
-
     # be as responsive as possible to user input
     wtf "$wid"
     chwso -r "$wid"
@@ -90,8 +83,6 @@ focusMethod() {
             chwb -s $BW -c "$ACTIVE" "$wid"
             ;;
     esac
-
-    rm -f $WIDLOCK
 }
 
 moveMouse() {
