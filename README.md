@@ -55,6 +55,15 @@ following at the end of your xinitrc:
 exec runfyre
 ```
 
+#### Extras
+
+Minor things in here that you may be interested in:
+
+- Examples of sxhkd and fyre configs
+- Source fyre variables and general functions into zsh safely
+- Lemonbar-specific output to show and control current groups.
+- The standalone version of `windows` that supports contrib's `focus.sh`
+
 Example Desktops:
 ---------------
 
