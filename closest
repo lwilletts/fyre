@@ -41,14 +41,42 @@ main() {
     . fyrerc
 
     case "$1" in
-        "-u"|"--up")    wid="$(nextUp)"    ;;
-        "-l"|"--left")  wid="$(nextLeft)"  ;;
-        "-d"|"--down")  wid="$(nextDown)"  ;;
-        "-r"|"--right") wid="$(nextRight)" ;;
-        *)              usage 1            ;;
+        -u|--up)    wid="$(nextUp)"    ;;
+        -l|--left)  wid="$(nextLeft)"  ;;
+        -d|--down)  wid="$(nextDown)"  ;;
+        -r|--right) wid="$(nextRight)" ;;
+        *)          usage 1            ;;
     esac
 
-    test ! -z "$wid" && focus --wid "$wid"
+    test ! -z "$wid" && {
+        focus --wid "$wid"
+        return
+    }
+
+    # WARNING: this really doesn't work yet due to synergy being a bitch
+
+    # if there is a computer in a direction, switch to it using synergy
+    type xdotool 2>&1 > /dev/null || return
+    type synergys 2>&1 > /dev/null || return
+    pgrep synergy 2>&1 > /dev/null && {
+        computer=$(sed "1,/section: links/d; /end/Q; /$(hostname)/d; /.*:/Q" "$SYNCONF")
+
+        # sadly there's no provided cli tool to switch screens so we have fake the input
+        direction=$(printf '%s\n' "$1" | sed 's/-//g')
+        case $direction in
+            u) direction=$(printf '%s\n' "up") ;;
+            l) direction=$(printf '%s\n' "left") ;;
+            d) direction=$(printf '%s\n' "down") ;;
+            r) direction=$(printf '%s\n' "right") ;;
+        esac
+
+        combo=$(sed '1,/section: options/d; /end/Q' "$SYNCONF" | \
+        grep "keystroke.*$direction" | cut -d'(' -f 2 | cut -d')' -f 1)
+
+        test ! -z "$combo" && {
+            xdotool key --clearmodifiers $combo
+        }
+    }
 }
 
 test $# -eq 0 && usage 1
