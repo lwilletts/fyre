@@ -10,9 +10,10 @@ usage() {
 Usage: $(basename $0) [-lrvfeRh] <wid> <screen>
     -l | --left:    Make current or given window half of the screen positioned on the left.
     -r | --right:   Make current or given window half of the screen positioned on the right.
-    -v | --video:   Make current or given mpv window full resolution.
     -f | --fuller:  Make current or given window fullscreen minus border gaps.
+    -q | --quartar: Make current or given window quartar of the screen.
     -e | --extend:  Extend current or given window to the maximum screen height.
+    -b | --bottom:  Extend current or given window to the bottom edge of the screen.
     -s | --screen:  Position current or given window on to given screen.
     -R | --restore: Restore current or given window to minW and minH values.
     -h | --help:    Show this help.
@@ -41,6 +42,15 @@ extend() {
     H=$((eSH - (VGAP / ROWS) * BW))
 }
 
+bottom() {
+    H=$((eSH - (VGAP / ROWS) * BW - Y + TGAP))
+}
+
+quartar() {
+    W=$((eSW/2 - IGAP/2 - (IGAP / COLS) * BW))
+    H=$((eSH/2 - VGAP/2 - (VGAP / ROWS) * BW))
+}
+
 left() {
     X=$((XGAP + SX))
     Y=$((TGAP + SY))
@@ -60,11 +70,6 @@ full() {
     Y=$((TGAP + SY))
     W=$((eSW - (IGAP / COLS) * BW))
     H=$((eSH - (VGAP / ROWS) * BW))
-}
-
-video() {
-    W=$(resolution $PFW | cut -d\  -f 1)
-    H=$(resolution $PFW | cut -d\  -f 2)
 }
 
 moveMouse() {
@@ -94,13 +99,14 @@ main() {
     }
 
     case "$1" in
-        "-l"|"--left")    left    ;;
-        "-r"|"--right")   right   ;;
-        "-v"|"--video")   video   ;;
-        "-f"|"--fuller")  full    ;;
-        "-e"|"--extend")  extend  ;;
-        "-s"|"--screen")  screen  ;;
-        "-R"|"--restore") restore ;;
+        -l|--left)    left    ;;
+        -r|--right)   right   ;;
+        -f|--fuller)  full    ;;
+        -e|--extend)  extend  ;;
+        -b|--bottom)  bottom  ;;
+        -s|--screen)  screen  ;;
+        -q|--quartar) quartar ;;
+        -R|--restore) restore ;;
     esac
 
     wtp $X $Y $W $H "$wid"
