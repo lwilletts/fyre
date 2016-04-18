@@ -3,7 +3,7 @@
 # wildefyr - 2016 (c) MIT
 # default functions and variables for fyre scripts
 
-    # check there is a display running
+# check there is a display running
 test -z "$DISPLAY" && {
     printf '%s\n' "The terminal you are on is not connected to an X11 session."
     exit 1
@@ -23,13 +23,15 @@ FSFILE=${FSFILE:-$FYREDIR/fullinfo}
 SCREENS=${SCREENS:-$FYREDIR/screens}
 WIDLOCK=${WIDLOCK:-$FYREDIR/.widlock}
 
+SYNCONF=${SYNCONF:-$HOME/.synergy.conf}
+
     # source user settings
 ###############################################################################
 
 test -f $FYREDIR/config && {
     . $FYREDIR/config
 } || {
-    printf '%s\n' "No file found in default $FYREDIR location. See config.example"
+    printf '%s\n' "No config file found at ${FYREDIR}/config. Killing X11."
     pkill xinit
 }
 
@@ -83,43 +85,23 @@ process() {
     done
 }
 
-resolution() {
-    wattr "$1" && {
-        wid=$1
-    } || {
-        printf '%s\n' "Please enter a valid mpv window id." >&2
-        return 1
-    }
-
-    test "$(class $wid)" = "mpv" && {
-        resolution=$(xprop -id "$wid" WM_NORMAL_HINTS | \
-            sed '5s/[^0-9]*//p;d' | tr / \ )
-        printf '%s\n' "$resolution"
-        unset -v wid resolution
-    } || {
-        printf '%s\n' "Please enter a valid mpv window id." >&2
-        unset -v wid
-        return 1
-    }
-}
-
 generateScreenInfo() {
     test -f "$SCREENS" && rm -f "$SCREENS"
 
     type xrandr 2>&1 > /dev/null && {
         xrandr | grep -w 'connected' | while read -r connected; do
             screen=$(printf '%s\n' "$connected" | cut -d\  -f 1)
-            geometry=$(printf '%s\n' "$connected" | cut -d\  -f 3)
-            screenX="$(printf '%s\n' "$geometry" | cut -d'+' -f 2)"
-            screenY="$(printf '%s\n' "$geometry" | cut -d'+' -f 3)"
-            screenW="$(printf '%s\n' "$geometry" | cut -d'x' -f 1)"
-            screenH="$(printf '%s\n' "$geometry" | cut -d'x' -f 2 | cut -d'+' -f 1)"
+            geometry="$(printf '%s\n' "$connected" | cut -d\  -f 3)"
+            screenX=$(printf '%s\n' "$geometry" | cut -d'+' -f 2)
+            screenY=$(printf '%s\n' "$geometry" | cut -d'+' -f 3)
+            screenW=$(printf '%s\n' "$geometry" | cut -d'x' -f 1)
+            screenH=$(printf '%s\n' "$geometry" | cut -d'x' -f 2 | cut -d'+' -f 1)
             printf '%s\n' "$screen $screenX $screenY $screenW $screenH" >> "$SCREENS"
         done
 
         unset -v screen screenX screenY screenW screenH geometry
     } || {
-        # who doesn't use xrandr at this point?!
+        # who doesn't use xrandr at this point?! honestly
         printf '%s\n' "xrandr was not found on your \$PATH." >&2
         printf '%s\n' "multi-monitor detection will not work." >&2
         return 1
@@ -130,7 +112,7 @@ findCurrentScreen() {
     for monitor in $(wc -l < "$SCREENS"); do
         monitorInfo="$(sed "/$monitor/!d" "$SCREENS")"
 
-        # get monitor co-ordinates
+        # get monitor coordinates
         monitorX=$(printf '%s\n' "$monitorInfo" | cut -d\  -f 2)
         monitorY=$(printf '%s\n' "$monitorInfo" | cut -d\  -f 3)
         monitorW=$(printf '%s\n' "$monitorInfo" | cut -d\  -f 4)
@@ -143,8 +125,12 @@ findCurrentScreen() {
         test $Y -gt $monitorH && continue
 
         SCREEN=$monitor
-        break
+        return
     done
+
+    # uh oh current window X or Y is off screen
+    SCREEN=1
+    #TODO: write function to get screen value closest to X and Y coordinates
 }
 
 # get correct SW and SH of current screen
@@ -159,25 +145,24 @@ retrieveScreenValues() {
         }
     }
 
-    # if no window is focused, presume we want to operate on the first screen
-    test -z $X && test -z $Y && {
-        SW=$(sed "1!d" "$SCREENS" | cut -d\  -f 4)
-        SH=$(sed "1!d" "$SCREENS" | cut -d\  -f 5)
-        return 1
-    }
-
     test $1 -ne 0 2> /dev/null && test $1 -le $(wc -l < $SCREENS) && {
         SCREEN=$1
     } || {
         findCurrentScreen
     }
 
-    # get current screen X Y W H
-    SCREENSTRING=$(sed "/$SCREEN/!d" "$SCREENS")
-    SX=$(printf '%s\n' "$SCREENSTRING" | cut -d\  -f 2)
-    SY=$(printf '%s\n' "$SCREENSTRING" | cut -d\  -f 3)
-    SW=$(printf '%s\n' "$SCREENSTRING" | cut -d\  -f 4)
-    SH=$(printf '%s\n' "$SCREENSTRING" | cut -d\  -f 5)
+    # if no window is focused, presume we want to operate on the first screen
+    test -z $X && test -z $Y && {
+        SW=$(sed "1!d" "$SCREENS" | cut -d\  -f 4)
+        SH=$(sed "1!d" "$SCREENS" | cut -d\  -f 5)
+    } || {
+        # get current screen X Y W H
+        SCREENSTRING=$(sed "/$SCREEN/!d" "$SCREENS")
+        SX=$(printf '%s\n' "$SCREENSTRING" | cut -d\  -f 2)
+        SY=$(printf '%s\n' "$SCREENSTRING" | cut -d\  -f 3)
+        SW=$(printf '%s\n' "$SCREENSTRING" | cut -d\  -f 4)
+        SH=$(printf '%s\n' "$SCREENSTRING" | cut -d\  -f 5)
+    }
 
     # calculate variables for the new monitor
     eSW=$((SW - 2*XGAP))
@@ -217,7 +202,7 @@ underneath() {
 
         printf '%s\n' "$wid"
         unset -v wid
-        return 0
+        return
     done
 }
 
