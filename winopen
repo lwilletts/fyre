@@ -3,123 +3,84 @@
 # wildefyr - 2016 (c) MIT
 # test window classes when being opened
 
-ARGS="$@"
+. fyrerc
 
-usage() {
-    cat >&2 << EOF
-Usage: $(basename $0) [wid]
-EOF
+# test if a layout is being opened
+test -f "$WIDLOCK" && exit
+# test if window is currently alive
+wattr "$1" && wid="$1" || exit 1
 
-    test $# -eq 0 || exit $1
-}
+name="$(name $wid)"
 
-main() {
-    . fyrerc
+# exit on dummy windows
+case "$name" in
+    "")
+        exit 1
+        ;;
+    "WM_CLASS")
+        exit 1
+        ;;
+    "WM_CLASS:  not found.")
+        exit 1
+        ;;
+esac
 
-    case "$1" in
-        0x*) wid="$1" ;;
-        *)   usage 1  ;;
-    esac
+focus --wid "$wid"
 
-    # if file exists then we know a layout is getting opened
-    test -f "$WIDLOCK" && exit 0
+case "$name" in
+    urxvt*)
+        position -R "$wid"
+        snap --topleft "$wid"
+        windows -a "$wid" 1
+        ;;
+    st)
+        position -R "$wid"
+        snap --topleft "$wid"
+        windows -a "$wid" 1
+        ;;
+    ssh|mosh)
+        position -R "$wid"
+        snap --topleft "$wid"
+        windows -a "$wid" 3
+        ;;
+    libreoffice)
+        windows -a "$wid" 8
+        ;;
+    Legions.exe)
+        windows -a "$wid" 7
+        ;;
+    explorer.exe)
+        fullscreen "$wid"
+        windows -a "$wid" 9
+        ;;
+    *)
+case "$(class $wid)" in
+    google-chrome)
+        wtp $(($(wattr x "$wid") - BW)) $(($(wattr y "$wid") - BW)) \
+            $(wattr wh "$wid") "$wid"
+        windows -a "$wid" 2
+        ;;
+    mpv)
+        windows -a "$wid" 5
 
-    name="$(name "$wid")"
-
-    # grab dummy windows
-    case "$name" in
-        "")
-            return 1
-            ;;
-        "WM_CLASS")
-            return 1
-            ;;
-        "WM_CLASS:  not found.")
-            return 1
-            ;;
-    esac
-
-    focus --wid "$wid"
-
-    case "$name" in
-        "urxvt")
-            position -R "$wid"
-            snap --topleft "$wid"
-            ;;
-        "st")
-            position -R "$wid"
-            snap --topleft "$wid"
-            ;;
-        "ssh"|"mosh")
-            position -R "$wid"
-            snap --topleft "$wid"
-            windows -a "$wid" 3
-            ;;
-        "tmux")
-            position -R "$wid"
-            snap --topleft "$wid"
-            windows -a "$wid" 1
-            ;;
-        "libreoffice")
-            position -R "$wid"
-            windows -a "$wid" 8
-            ;;
-        "Legions.exe")
-            windows -a "$wid" 6
-            ;;
-        "explorer.exe")
+        test $(wattr w "$wid") -ge $SW || test $(wattr h "$wid") -ge $SH && {
             fullscreen "$wid"
-            windows -a "$wid" 9
-            ;;
-        *)
-    case "$(class $wid)" in
-        "google-chrome")
-            wtp $(($(wattr x "$wid") - BW)) $(($(wattr y "$wid") - BW)) \
-                $(wattr wh "$wid") "$wid"
-            windows -a "$wid" 2
-            ;;
-        "mpv")
-            windows -a "$wid" 5
+            exit
+        }
 
-            test $(resolution "$wid" | cut -d\  -f 1) -ge $SW || \
-            test $(resolution "$wid" | cut -d\  -f 2) -ge $SH && {
-                fullscreen "$wid"
-                return 0
-            }
-
-            snap --middle "$wid"
-            ;;
-        "TeamSpeak 3")
-            snap --middle "$wid"
-            windows -a "$wid" 4
-            ;;
-        # seriously fuck this program
-        "telegram")
-            position -R "$wid"
-            position -E "$wid"
-            windows -a "$wid" 4
-            ;;
-        "MuPDF")
-            snap --middle "$wid"
-            windows -a "$wid" 6
-            ;;
-        *)
-            snap --middle "$wid"
-            ;;
-    esac
-    ;;
-    esac
-}
-
-for arg in $ARGS; do
-    case "$arg" in
-        -q|--quiet)       QUIETFLAG=true ;;
-        h|help|-h|--help) usage 0        ;;
-    esac
-done
-
-test "$QUIETFLAG" = "true" && {
-    main $ARGS 2>&1 > /dev/null
-} || {
-    main $ARGS
-}
+        snap --middle "$wid"
+        ;;
+    "TeamSpeak 3")
+        snap --middle "$wid"
+        windows -a "$wid" 4
+        ;;
+    MuPDF)
+        snap --middle "$wid"
+        windows -a "$wid" 6
+        ;;
+    *)
+        snap --middle "$wid"
+        ;;
+esac
+;;
+esac
