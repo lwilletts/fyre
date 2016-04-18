@@ -31,56 +31,56 @@ case "$name" in
     urxvt*)
         position -R "$wid"
         snap --topleft "$wid"
-        windows -a "$wid" 1
+        windows -q -a "$wid" 1
         ;;
     st)
         position -R "$wid"
         snap --topleft "$wid"
-        windows -a "$wid" 1
+        windows -q -a "$wid" 1
         ;;
     ssh|mosh)
         position -R "$wid"
         snap --topleft "$wid"
-        windows -a "$wid" 3
+        windows -q -a "$wid" 3
         ;;
     libreoffice)
-        windows -a "$wid" 8
+        windows -q -a "$wid" 8
         ;;
     Legions.exe)
-        windows -a "$wid" 7
+        windows -q -a "$wid" 7
         ;;
     explorer.exe)
         fullscreen "$wid"
-        windows -a "$wid" 9
+        windows -q -a "$wid" 9
         ;;
     *)
-case "$(class $wid)" in
-    google-chrome)
-        wtp $(($(wattr x "$wid") - BW)) $(($(wattr y "$wid") - BW)) \
-            $(wattr wh "$wid") "$wid"
-        windows -a "$wid" 2
-        ;;
-    mpv)
-        windows -a "$wid" 5
+        case "$(class $wid)" in
+            google-chrome)
+                wtp $(($(wattr x "$wid") - BW)) $(($(wattr y "$wid") - BW)) \
+                    $(wattr wh "$wid") "$wid"
+                windows -q -a "$wid" 2
+                ;;
+            mpv)
+                windows -q -a "$wid" 5
 
-        test $(wattr w "$wid") -ge $SW || test $(wattr h "$wid") -ge $SH && {
-            fullscreen "$wid"
-            exit
-        }
+                test $(wattr w "$wid") -ge $SW || test $(wattr h "$wid") -ge $SH && {
+                    fullscreen "$wid"
+                    exit
+                }
 
-        snap --middle "$wid"
+                snap --middle "$wid"
+                ;;
+            "TeamSpeak 3")
+                snap --middle "$wid"
+                windows -q -a "$wid" 4
+                ;;
+            MuPDF)
+                snap --middle "$wid"
+                windows -q -a "$wid" 6
+                ;;
+            *)
+                snap --middle "$wid"
+                ;;
+        esac
         ;;
-    "TeamSpeak 3")
-        snap --middle "$wid"
-        windows -a "$wid" 4
-        ;;
-    MuPDF)
-        snap --middle "$wid"
-        windows -a "$wid" 6
-        ;;
-    *)
-        snap --middle "$wid"
-        ;;
-esac
-;;
 esac
