@@ -27,7 +27,7 @@ moveUp() {
 
     test $Y -lt $TGAP && {
         snap --up
-        exit 0
+        exit
     }
 }
 
@@ -40,7 +40,7 @@ moveLeft() {
 
     test $X -le $XGAP && {
         snap --left
-        exit 0
+        exit
     }
 }
 
@@ -53,7 +53,7 @@ moveDown() {
 
     test $((Y + H)) -gt $eSH && {
         snap --down
-        exit 0
+        exit
     }
 }
 
@@ -66,7 +66,7 @@ moveRight() {
 
     test $((X + W)) -gt $eSW && {
         snap --right
-        exit 0
+        exit
     }
 }
 
@@ -81,12 +81,15 @@ main() {
     . fyrerc
 
     wattr "$2" && wid="$2" || wid="$PFW"
+    # exit if wid is currently fullscreen
+    grep -qw "$wid" "$FSFILE" 2> /dev/null && return 1
 
     case "$1" in
-        "-u"|"--up")    moveUp    ;;
-        "-l"|"--left")  moveLeft  ;;
-        "-d"|"--down")  moveDown  ;;
-        "-r"|"--right") moveRight ;;
+        -u|--up)    moveUp    ;;
+        -l|--left)  moveLeft  ;;
+        -d|--down)  moveDown  ;;
+        -r|--right) moveRight ;;
+        *)          usage 1   ;;
     esac
 
     wtp $X $Y $W $H "$wid"

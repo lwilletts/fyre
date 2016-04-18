@@ -80,23 +80,16 @@ moveMouse() {
 main() {
     . fyrerc
 
-    test ! -z "$3" && {
-        retrieveScreenValues "$3"
-    } || {
-        test ! -z "$2" || {
-            retrieveScreenValues "$2"
-            wid="$PFW"
-        }
-    }
-
-    wattr "$2" && wid="$2"
+    wattr "$2" && wid="$2" || wid="$PFW"
+    # exit if wid is currently fullscreen
+    grep -qw "$wid" "$FSFILE" 2> /dev/null && return 1
 
     case "$1" in
-        "-gd"|"--growdown")   growDown   ;;
-        "-su"|"--shrinkup")   shrinkUp   ;;
-        "-gr"|"--growright")  growRight  ;;
-        "-sl"|"--shrinkleft") shrinkLeft ;;
-        *)                    usage 1    ;;
+        -gd|--growdown)   growDown   ;;
+        -su|--shrinkup)   shrinkUp   ;;
+        -gr|--growright)  growRight  ;;
+        -sl|--shrinkleft) shrinkLeft ;;
+        *)                usage 1    ;;
     esac
 
     wtp $X $Y $W $H "$wid"

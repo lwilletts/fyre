@@ -83,7 +83,7 @@ moveMouse() {
 main() {
     . fyrerc
 
-    # save current screen variables in case user retrieves a specific screen
+    # save current screen variables
     CURSX=$SX
     CURSY=$SY
     CURSW=$SW
@@ -98,6 +98,9 @@ main() {
             intCheck $2 && retrieveScreenValues $2
         }
     }
+
+    # exit if wid is currently fullscreen
+    grep -qw "$wid" "$FSFILE" 2> /dev/null && return 1
 
     case "$1" in
         -l|--left)    left    ;;

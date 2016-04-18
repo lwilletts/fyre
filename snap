@@ -76,27 +76,21 @@ moveMouse() {
 main() {
     . fyrerc
 
-    test ! -z "$3" && {
-        retrieveScreenValues $3
-        wattr "$2" && wid="$2" || wid="$PFW"
-    } || {
-        wattr "$2" && wid="$2" || {
-            wid="$PFW"
-            intCheck $2 && retrieveScreenValues $2
-        }
-    }
+    wattr "$2" && wid="$2" || wid="$PFW"
+    # exit if wid is currently fullscreen
+    grep -qw "$wid" "$FSFILE" 2> /dev/null && return 1
 
     case "$1" in
-        "-u"|"--up")           snapTop         ;;
-        "-l"|"--left")         snapLeft        ;;
-        "-d"|"--down")         snapBottom      ;;
-        "-r"|"--right")        snapRight       ;;
-        "-tl"|"--topleft")     snapTopLeft     ;;
-        "-tr"|"--topright")    snapTopRight    ;;
-        "-bl"|"--bottomleft")  snapBottomLeft  ;;
-        "-br"|"--bottomright") snapBottomRight ;;
-        "-md"|"--middle")      snapMiddle      ;;
-        *)                     usage 1         ;;
+        -u|--up)           snapTop         ;;
+        -l|--left)         snapLeft        ;;
+        -d|--down)         snapBottom      ;;
+        -r|--right)        snapRight       ;;
+        -tl|--topleft)     snapTopLeft     ;;
+        -tr|--topright)    snapTopRight    ;;
+        -bl|--bottomleft)  snapBottomLeft  ;;
+        -br|--bottomright) snapBottomRight ;;
+        -md|--middle)      snapMiddle      ;;
+        *)                 usage 1         ;;
     esac
 
     wtp $X $Y $W $H "$wid"
