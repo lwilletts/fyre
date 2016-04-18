@@ -40,29 +40,30 @@ wew | while IFS=: read ev wid; do
             }
             ;;
         16)
-            test "$WOKRFLOW" != "workspaces" && {
+            test "$WORKFLOW" = "workspaces" && {
+                # add tiling
+                continue
+            } || {
                 wattr o "$wid" || winopen "$wid"
             }
 
             back
             ;;
         17)
+            # clean hover
+            hover -q -c "$wid"
             # clean groups
             windows -q -c "$wid"
-            # clean hover
-            hover -c "$wid"
             # clean fullscreen
-            fullscreen -c "$wid"
+            fullscreen -q -c "$wid"
             ;;
         18)
-            # this is where we retile
-
             wattr "$(pfw)" || focus --prev
 
             back
             ;;
         19)
-            test "$WOKRFLOW" = "workspaces" && {
+            test "$WORKFLOW" = "workspaces" && {
                 test -f "$GROUPSDIR/active" && {
                     windows -q -a "$wid" "$(head -n 1 "$GROUPSDIR/active")"
                 } || {
