@@ -35,7 +35,7 @@ mod1 + {g,y,u,b,n}
     snap {--middle,--topleft,--topright,--bottomleft,--bottomright}
 
 # handy shortcuts to place window in a useful position
-mod1 + {q,w,e,r,a,s,t}
+mod1 + {q,w,e,r,a,s,b}
     position {--left,--quartar,--right,--fuller,--restore,--extend,--bottom}
 # position the current window relatively on new screen
 mod1 + {z,x,c}
