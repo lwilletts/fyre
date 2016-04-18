@@ -38,6 +38,7 @@ restore() {
 }
 
 extend() {
+    W=$minW
     Y=$((TGAP + SY))
     H=$((eSH - (VGAP / ROWS) * BW))
 }
