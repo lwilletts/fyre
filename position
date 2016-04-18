@@ -11,10 +11,10 @@ Usage: $(basename $0) [-lrvfeRh] <wid> <screen>
     -l | --left:    Make current or given window half of the screen positioned on the left.
     -r | --right:   Make current or given window half of the screen positioned on the right.
     -f | --fuller:  Make current or given window fullscreen minus border gaps.
-    -q | --quartar: Make current or given window quartar of the screen.
     -e | --extend:  Extend current or given window to the maximum screen height.
     -b | --bottom:  Extend current or given window to the bottom edge of the screen.
     -s | --screen:  Position current or given window on to given screen.
+    -Q | --quartar: Make current or given window quartar of the screen.
     -R | --restore: Restore current or given window to minW and minH values.
     -h | --help:    Show this help.
 EOF
@@ -106,7 +106,7 @@ main() {
         -e|--extend)  extend  ;;
         -b|--bottom)  bottom  ;;
         -s|--screen)  screen  ;;
-        -q|--quartar) quartar ;;
+        -Q|--quartar) quartar ;;
         -R|--restore) restore ;;
     esac
 
