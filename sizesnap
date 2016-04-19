@@ -25,7 +25,7 @@ growDown() {
         H=$((H + minH + VGAP + (VGAP / ROWS) * BW))
         eSH=$((eSH - (VGAP / ROWS) * BW))
 
-        test $((Y + H - BGAP)) -gt $eSH && {
+        test $((Y + H - minH)) -gt $eSH && {
             Y=$((Y - minH - VGAP - (VGAP / ROWS) * BW))
         }
         test $H -ge $eSH && {
