@@ -109,26 +109,28 @@ generateScreenInfo() {
 }
 
 findCurrentScreen() {
-    for monitor in $(wc -l < "$SCREENS"); do
-        monitorInfo="$(sed "/$monitor/!d" "$SCREENS")"
+    test $X && test $Y && {
+        for monitor in $(wc -l < "$SCREENS"); do
+            monitorInfo="$(sed "/$monitor/!d" "$SCREENS")"
 
-        # get monitor coordinates
-        monitorX=$(printf '%s\n' "$monitorInfo" | cut -d\  -f 2)
-        monitorY=$(printf '%s\n' "$monitorInfo" | cut -d\  -f 3)
-        monitorW=$(printf '%s\n' "$monitorInfo" | cut -d\  -f 4)
-        monitorH=$(printf '%s\n' "$monitorInfo" | cut -d\  -f 5)
+            # get monitor coordinates
+            monitorX=$(printf '%s\n' "$monitorInfo" | cut -d\  -f 2)
+            monitorY=$(printf '%s\n' "$monitorInfo" | cut -d\  -f 3)
+            monitorW=$(printf '%s\n' "$monitorInfo" | cut -d\  -f 4)
+            monitorH=$(printf '%s\n' "$monitorInfo" | cut -d\  -f 5)
 
-        # test if current window X and Y value is focused on a window
-        test $X -lt $monitorX && continue
-        test $Y -lt $monitorY && continue
-        test $X -gt $monitorW && continue
-        test $Y -gt $monitorH && continue
+            # test if current window X and Y value is focused on a window
+            test $X -lt $monitorX && continue
+            test $Y -lt $monitorY && continue
+            test $X -gt $monitorW && continue
+            test $Y -gt $monitorH && continue
 
-        SCREEN=$monitor
-        return
-    done
+            SCREEN=$monitor
+            return
+        done
+    }
 
-    # uh oh current window X or Y is off screen
+    # uh oh current window X or Y is off screen or X or Y are empty
     SCREEN=1
     #TODO: write function to get screen value closest to X and Y coordinates
 }
