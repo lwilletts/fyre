@@ -3,56 +3,23 @@
 # wildefyr - 2016 (c) MIT
 # killwa doesn't handle edge cases very well
 
-ARGS="$@"
+. fyrerc
 
-usage() {
-    cat >&2 << EOF
-Usage: $(basename $0) [wid]
-EOF
+# test if window is currently alive
+wattr "$1" && wid="$1" || exit 1
 
-    test $# -eq 0 || exit $1
-}
-
-main() {
-    . fyrerc
-
-    case "$1" in
-        0x*) wid="$1" ;;
-        *)   usage 1  ;;
-    esac
-
-    case "$(class $wid)" in
-        "telegram")
-            printf '%s\n' "you're terminated fucker."
+case "$(class $wid)" in
+    telegram|Wine)
+        killw "$wid"
+        ;;
+    google-chrome)
+        pkill chrome
+        ;;
+    *)
+        type killwa 2>&1 > /dev/null && {
+            killwa "$wid"
+        } || {
             killw "$wid"
-            ;;
-        "Wine")
-            killw "$wid"
-            ;;
-        "google-chrome")
-            pkill chrome
-            ;;
-        *)
-            type killwa 2>&1 > /dev/null && {
-                killwa "$wid"
-            } || {
-                killw "$wid"
-            }
-            ;;
-    esac
-}
-
-test $# -eq 0 && usage 1
-
-for arg in $ARGS; do
-    case "$arg" in
-        -q|--quiet)       QUIETFLAG=true ;;
-        h|help|-h|--help) usage 0        ;;
-    esac
-done
-
-test "$QUIETFLAG" = "true" && {
-    main $ARGS 2>&1 > /dev/null
-} || {
-    main $ARGS
-}
+        }
+        ;;
+esac
