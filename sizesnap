@@ -42,7 +42,7 @@ growRight() {
         W=$((W + minW + IGAP + (IGAP / COLS) * BW))
         eSW=$((eSW - (IGAP / COLS) * BW))
 
-        test $((X + W - XGAP)) -gt $eSW && {
+        test $((X + W - minW)) -gt $eSW && {
             X=$((X - minW - IGAP - (IGAP / COLS) * BW))
         }
         test $W -ge $eSW && {
