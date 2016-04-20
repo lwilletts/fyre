@@ -55,7 +55,7 @@ case "$name" in
         ;;
     *)
         case "$(class $wid)" in
-            google-chrome)
+            google-chrome*)
                 wtp $(($(wattr x "$wid") - BW)) $(($(wattr y "$wid") - BW)) \
                     $(wattr wh "$wid") "$wid"
                 windows -q -a "$wid" 2
