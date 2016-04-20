@@ -16,7 +16,11 @@ fyre relies on the installation of:
 - [wmutils/core](https://github.com/wmutils/core)
 - [wmutils/opt](https://github.com/wmutils/opt)
 - xorg-xprop - Environment information.
-- xorg-xinput - Enabling/Disabling input devices.
+
+#### Optional
+
+- xorg-xinput - Enabling/Disabling input devices. (see [mouse](https://github.com/wildefyr/fyre/blob/master/mouse))
+- [killwa](https://github.com/wmutils/contrib/tree/master/killwa) - To kill window atoms.
 
 Personal recommendations for tools in your environment:
 
