@@ -32,9 +32,6 @@ SLOPPY="true"
 # set to workspaces or groups -- not finished yet so it defaults to groups
 WORKFLOW="groups"
 
-# default terminal to launch
-TERMINAL="urxvtc"
-
 # set path to your background - omit if you don't want fyre to manage your wall
 WALL="$HOME/files/pictures/backs/vinyl.jpg"
 
