@@ -31,26 +31,22 @@ cleanFullscreen() {
 
     . fyrerc
 
-    test -f "$FSFILE" && {
-        grep -qw "$cleanWid" "$FSFILE" && {
-            test ! -z "$fullWid" && {
-                chwb -s $BW -c "$ACTIVE" "$fullWid"
-                wtp $(grep -w "$fullWid" "$FSFILE")
-                printf '%s\n' "${fullWid} is no longer fullscreen."
-            }
-
-            buffer="$(grep -wv "$cleanWid" "$FSFILE")"
-            test -z "$buffer" 2> /dev/null && {
-                rm -f "$FSFILE"
-            } || {
-                printf '%s\n' "$buffer" > "$FSFILE"
-            }
-
-            return
+    grep -qw "$cleanWid" "$FSFILE" && {
+        test ! -z "$fullWid" && {
+            chwb -s $BW -c "$ACTIVE" "$fullWid"
+            wtp $(grep -w "$fullWid" "$FSFILE")
+            printf '%s\n' "${fullWid} is no longer fullscreen."
         }
-    } || {
-        return
+
+        buffer="$(grep -wv "$cleanWid" "$FSFILE")"
+        test -z "$buffer" 2> /dev/null && {
+            rm -f "$FSFILE"
+        } || {
+            printf '%s\n' "$buffer" > "$FSFILE"
+        }
     }
+
+    exit
 }
 
 main() {
