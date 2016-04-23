@@ -52,15 +52,21 @@ cleanFullscreen() {
 main() {
     . fyrerc
 
-    test ! -z "$2" && {
-        retrieveScreenValues $2
-        wattr "$1" && fullWid="$1" || fullWid="$PFW"
-    } || {
-        wattr "$1" && fullWid="$1" || {
-            fullWid="$PFW"
-            intCheck $1 && retrieveScreenValues $1
-        }
-    }
+    case $# in
+        0)
+            wattr "$PFW" && fullWid=$PFW || return 1
+            ;;
+        1)
+            wattr "$1" && fullWid="$1" || {
+                fullWid="$PFW"
+                intCheck $1 && retrieveScreenValues $1
+            }
+            ;;
+        2)
+            wattr "$1" && fullWid="$1" || fullWid="$PFW"
+            retrieveScreenValues $2
+            ;;
+    esac
 
     grep -qw "$fullWid" "$FSFILE" && {
         cleanFullscreen "$fullWid"

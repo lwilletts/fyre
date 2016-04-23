@@ -23,13 +23,13 @@ EOF
 }
 
 screen() {
-    test $CURSX -gt $SX || test $CURSY -gt $SY && {
-        X=$((CURSX - SX))
-        Y=$((CURSY - SY))
-    } || {
-        X=$((CURSX + SX))
-        Y=$((CURSY + SY))
-    }
+    X=$(wattr x "$wid" 2> /dev/null)
+    Y=$(wattr y "$wid" 2> /dev/null)
+    W=$(wattr w "$wid" 2> /dev/null)
+    H=$(wattr h "$wid" 2> /dev/null)
+
+    X=$((SX + X))
+    Y=$((SY + Y))
 }
 
 restore() {
@@ -84,20 +84,28 @@ main() {
     . fyrerc
 
     # save current screen variables
-    CURSX=$SX
-    CURSY=$SY
     CURSW=$SW
     CURSH=$SH
 
-    test ! -z "$3" && {
-        retrieveScreenValues $3
-        wattr "$2" && wid="$2" || wid="$PFW"
-    } || {
-        wattr "$2" && wid="$2" || {
-            wid="$PFW"
-            intCheck $2 && retrieveScreenValues $2
-        }
-    }
+    echo $SX $SY $SW $SH
+
+    case $# in
+        1)
+            wattr "$PFW" && wid=$PFW || return 1
+            ;;
+        2)
+            wattr "$2" && wid="$2" || {
+                wid="$PFW"
+                intCheck $2 && retrieveScreenValues $2
+            }
+            ;;
+        3)
+            wattr "$2" && wid="$2" || wid="$PFW"
+            retrieveScreenValues $3
+            ;;
+    esac
+
+    echo $SX $SY $SW $SH
 
     # exit if wid is currently fullscreen
     grep -qw "$wid" "$FSFILE" 2> /dev/null && return 1
@@ -111,8 +119,10 @@ main() {
         -s|--screen)  screen  ;;
         -Q|--quartar) quartar ;;
         -R|--restore) restore ;;
+        *)            usage 1 ;;
     esac
 
+    echo $X $Y $W $H
     wtp $X $Y $W $H "$wid"
     test "$MOUSE" = "true" && moveMouse
 }
