@@ -6,7 +6,7 @@
 type wew 2>&1 > /dev/null || {
     cat >&2 << EOF
 wew was not found on your path. This means you likely don't have the wmutils
-tools installed. You can install wmutils from these directories on github:
+tools installed. You can install wmtuils from these repositories from github:
 
 core - https://github.com/wmutils/core
 opt - https://github.com/wmutils/opt

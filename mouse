@@ -54,7 +54,9 @@ moveMouseEnabled() {
 
 # TODO: find way of fully hiding the mouse completely
 moveMouseDisabled() {
-    wmp $SW $SH
+    findCurrentScreen $(wmp)
+    retrieveScreenValues $SCREEN
+    wmp $((SX + SW)) $((SY + SH))
 }
 
 enableMouse() {

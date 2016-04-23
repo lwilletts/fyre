@@ -86,12 +86,25 @@ process() {
 }
 
 generateScreenInfo() {
-    test -f "$SCREENS" && rm -f "$SCREENS"
-
     type xrandr 2>&1 > /dev/null && {
+        # turn all monitors on to easily retrieve their values
         xrandr | grep -w 'connected' | while read -r connected; do
             screen=$(printf '%s\n' "$connected" | cut -d\  -f 1)
-            geometry="$(printf '%s\n' "$connected" | cut -d\  -f 3)"
+            xrandr --output $screen --auto
+        done
+
+        # regenerate screen data on new X11 load
+        test -f "$SCREENS" && rm -f $SCREENS
+
+        # get all connected monitors
+        connected=$(xrandr | grep -w 'connected')
+        # set the xrandr 'primary' screen as 'screen 1' in $SCREENS
+        ordered=$(printf '%s\n' "$connected" | grep -w "primary" && \
+                  printf '%s\n' "$connected" | grep -vw "primary")
+
+        printf '%s\n' "$ordered" | sed 's/primary //' | while read -r monitor; do
+            screen=$(printf '%s\n' "$monitor" | cut -d\  -f 1)
+            geometry=$(printf '%s\n' "$monitor" | cut -d\  -f 3)
             screenX=$(printf '%s\n' "$geometry" | cut -d'+' -f 2)
             screenY=$(printf '%s\n' "$geometry" | cut -d'+' -f 3)
             screenW=$(printf '%s\n' "$geometry" | cut -d'x' -f 1)
@@ -99,35 +112,44 @@ generateScreenInfo() {
             printf '%s\n' "$screen $screenX $screenY $screenW $screenH" >> "$SCREENS"
         done
 
-        unset -v screen screenX screenY screenW screenH geometry
+        unset -v connected ordered
     } || {
         # who doesn't use xrandr at this point?! honestly
         printf '%s\n' "xrandr was not found on your \$PATH." >&2
         printf '%s\n' "multi-monitor detection will not work." >&2
-        return 1
+        exit 1
     }
 }
 
 findCurrentScreen() {
-    test $X && test $Y && {
-        for monitor in $(wc -l < "$SCREENS"); do
-            monitorInfo="$(sed "/$monitor/!d" "$SCREENS")"
+    # to work with pointer
+    test $# -gt 0 && {
+        intCheck $1 && X=$1 || return 1
+        intCheck $2 && Y=$2 || return 1
+    }
 
-            # get monitor coordinates
-            monitorX=$(printf '%s\n' "$monitorInfo" | cut -d\  -f 2)
-            monitorY=$(printf '%s\n' "$monitorInfo" | cut -d\  -f 3)
-            monitorW=$(printf '%s\n' "$monitorInfo" | cut -d\  -f 4)
-            monitorH=$(printf '%s\n' "$monitorInfo" | cut -d\  -f 5)
+    test ! -z $X && test ! -z $Y && {
+        counter=0
+        while read -r monitor; do
+            counter=$((counter + 1))
 
-            # test if current window X and Y value is focused on a window
+            # test if current window is to the left or above the screen in the loop
+            monitorX=$(printf '%s\n' "$monitor" | cut -d\  -f 2)
             test $X -lt $monitorX && continue
+            monitorY=$(printf '%s\n' "$monitor" | cut -d\  -f 3)
             test $Y -lt $monitorY && continue
-            test $X -gt $monitorW && continue
-            test $Y -gt $monitorH && continue
 
-            SCREEN=$monitor
+            # test if current window is to the right or below the screen in the loop
+            monitorW=$(printf '%s\n' "$monitor" | cut -d\  -f 4)
+            test $X -gt $((monitorX + monitorW)) && continue
+            monitorH=$(printf '%s\n' "$monitor" | cut -d\  -f 5)
+            test $Y -gt $((monitorY + monitorH)) && continue
+
+            unset -v monitorX monitorY monitorW monitorH
+
+            SCREEN=$counter
             return
-        done
+        done < "$SCREENS"
     }
 
     # uh oh current window X or Y is off screen or X or Y are empty
@@ -135,36 +157,23 @@ findCurrentScreen() {
     #TODO: write function to get screen value closest to X and Y coordinates
 }
 
-# get correct SW and SH of current screen
+# get correct SW and SH of given screen or current screen
 retrieveScreenValues() {
-    test ! -f "$SCREENS" && {
-        generateScreenInfo || {
-            ROOT="$(lsw -r)"
-            SW=$(wattr w "$ROOT")
-            SH=$(wattr h "$ROOT")
-            unset -v ROOT
-            return 1
-        }
-    }
+    # regenerate screen info if it's missing
+    test ! -f "$SCREENS" && generateScreenInfo
 
-    test $1 -ne 0 2> /dev/null && test $1 -le $(wc -l < $SCREENS) && {
+    intCheck $1 && test $1 -le $(wc -l < $SCREENS) && {
         SCREEN=$1
     } || {
         findCurrentScreen
     }
 
-    # if no window is focused, presume we want to operate on the first screen
-    test -z $X && test -z $Y && {
-        SW=$(sed "1!d" "$SCREENS" | cut -d\  -f 4)
-        SH=$(sed "1!d" "$SCREENS" | cut -d\  -f 5)
-    } || {
-        # get current screen X Y W H
-        SCREENSTRING=$(sed "/$SCREEN/!d" "$SCREENS")
-        SX=$(printf '%s\n' "$SCREENSTRING" | cut -d\  -f 2)
-        SY=$(printf '%s\n' "$SCREENSTRING" | cut -d\  -f 3)
-        SW=$(printf '%s\n' "$SCREENSTRING" | cut -d\  -f 4)
-        SH=$(printf '%s\n' "$SCREENSTRING" | cut -d\  -f 5)
-    }
+    # get passed screen X Y W H
+    monitor="$(head -n $SCREEN $SCREENS | tail -1)"
+    SX=$(printf '%s\n' "$monitor" | cut -d\  -f 2)
+    SY=$(printf '%s\n' "$monitor" | cut -d\  -f 3)
+    SW=$(printf '%s\n' "$monitor" | cut -d\  -f 4)
+    SH=$(printf '%s\n' "$monitor" | cut -d\  -f 5)
 
     # calculate variables for the new monitor
     eSW=$((SW - 2*XGAP))
@@ -173,7 +182,7 @@ retrieveScreenValues() {
     minW=$((eSW/COLS - IGAP))
     minH=$((eSH/ROWS - VGAP))
 
-    unset -v screenX screenY screenW screenH
+    unset -v monitor
 }
 
 # test if a point is over the top of a window
@@ -188,18 +197,16 @@ underneath() {
 
     # start from the highest stacked window
     for wid in $(lsw | tac); do
-        windowX=$(wattr x "$wid")
-        windowY=$(wattr y "$wid")
-
         # we won't get a match if the left and top edges greater than X or Y
+        windowX=$(wattr x "$wid")
         test $windowX -gt $X && continue
+        windowY=$(wattr y "$wid")
         test $windowY -gt $Y && continue
 
-        windowW=$(wattr w "$wid")
-        windowH=$(wattr h "$wid")
-
         # we won't get a match if the right and bottom edges are less than X or Y
+        windowW=$(wattr w "$wid")
         test $((windowX + windowW)) -lt $X && continue
+        windowH=$(wattr h "$wid")
         test $((windowY + windowH)) -lt $Y && continue
 
         printf '%s\n' "$wid"
