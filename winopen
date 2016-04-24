@@ -43,6 +43,9 @@ case "$name" in
         snap --topleft $wid
         windows -q -a $wid 3
         ;;
+    mumble)
+        windows -q -a $wid 4
+        ;;
     libreoffice)
         windows -q -a $wid 8
         ;;
@@ -72,9 +75,6 @@ case "$name" in
                 ;;
             "TeamSpeak 3")
                 snap --middle $wid
-                windows -q -a $wid 4
-                ;;
-            Mumble)
                 windows -q -a $wid 4
                 ;;
             MuPDF)
