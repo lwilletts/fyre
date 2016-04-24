@@ -74,6 +74,9 @@ case "$name" in
                 snap --middle $wid
                 windows -q -a $wid 4
                 ;;
+            Mumble)
+                windows -q -a $wid 4
+                ;;
             MuPDF)
                 snap --middle $wid
                 windows -q -a $wid 6
