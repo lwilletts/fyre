@@ -8,10 +8,10 @@ ARGS="$@"
 usage() {
     cat >&2 << EOF
 Usage: $(basename $0) [-lerp]
-    -e | --exit:   Exit fyre.
-    -l | --lock:   Lock the session.
-    -p | --power:  Poweroff the machine.
-    -r | --reboot: Reboot the machine.
+    -e | --exit:     Exit fyre.
+    -l | --lock:     Lock the session.
+    -r | --reboot:   Reboot the machine.
+    -p | --poweroff: Poweroff the machine.
 EOF
 
     test $# -eq 0 || exit $1
@@ -40,7 +40,7 @@ lockFyre() {
     }
 }
 
-powerFyre() {
+poweroffFyre() {
     killFyre
     type hostnamectl 2>&1 > /dev/null && {
         systemctl poweroff
@@ -60,11 +60,11 @@ restartFyre() {
 
 main() {
     case "$1" in
-        "-l"|"--lock")     lockFyre    ;;
-        "-e"|"--exit")     killFyre    ;;
-        "-p"|"--poweroff") powerFyre   ;;
-        "-r"|"--restart")  restartFyre ;;
-        *)                 usage 1     ;;
+        "-l"|"--lock")     lockFyre     ;;
+        "-e"|"--exit")     killFyre     ;;
+        "-r"|"--restart")  restartFyre  ;;
+        "-p"|"--poweroff") poweroffFyre ;;
+        *)                 usage 1      ;;
     esac
 }
 
