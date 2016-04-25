@@ -44,12 +44,15 @@ fyre will look for a configuration file located at `$CONFIGDIR/config`, see
 config.example for an idea of can be set. You can copy the default
 config.example to the correct location using `make config`.
 
-fyre also places files in /tmp, the reason being that if /tmp is mounted as a
-tmpfs (a kind of RAM disk), access to these files should theoretically be faster.
+fyre also places files that are used only when the X11 session is active in
+/tmp, the reason being that if /tmp is mounted as a tmpfs (a kind of RAM disk),
+access to these files should theoretically be faster.
 
 ## Usage
 
-Check out the [example sxhkd](https://raw.githubusercontent.com/wildefyr/fyre/master/sxhkdc.example) to see what you can do with fyre.
+Check out the [example
+sxhkd](https://raw.githubusercontent.com/wildefyr/fyre/master/sxhkdc.example) to
+see what you can do with fyre.
 
 Start up your hotkey daemon of your choice in your xinitrc and append the
 following at the end of your xinitrc:
