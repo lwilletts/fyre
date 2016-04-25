@@ -1,13 +1,11 @@
-fyre
-====
+# fyre
 
 fyre is set of scripts using standalone tools to form a complete X11
 environment. As you run a specific script when you want to achieve a certain
 window task, this means there is virtually no memory footprint for the
 environment.
 
-Installation
-------------
+## Installation
 
 #### Dependencies
 
@@ -19,8 +17,8 @@ fyre relies on the installation of:
 
 #### Optional
 
+- [killwa](https://github.com/wmutils/contrib/tree/master/killwa) - Drop-in replacement for `killw`.
 - xorg-xinput - Enabling/Disabling input devices. (see [mouse](https://github.com/wildefyr/fyre/blob/master/mouse))
-- [killwa](https://github.com/wmutils/contrib/tree/master/killwa) - To kill window atoms.
 
 Personal recommendations for tools in your environment:
 
@@ -42,13 +40,14 @@ with the changes being applied immediately.
 
 #### Configuration
 
-fyre will look for a configuration file located at `$FYREDIR/config`, see
+fyre will look for a configuration file located at `$CONFIGDIR/config`, see
 config.example for an idea of can be set. You can copy the default
-config.example to the correct location using `make config`. Many of these
-variables are required.
+config.example to the correct location using `make config`.
 
-Usage
------
+fyre also places files in /tmp, the reason being that if /tmp is mounted as a
+tmpfs (a kind of RAM disk), access to these files should theoretically be faster.
+
+## Usage
 
 Check out the [example sxhkd](https://raw.githubusercontent.com/wildefyr/fyre/master/sxhkdc.example) to see what you can do with fyre.
 
@@ -63,28 +62,25 @@ exec runfyre
 
 Minor things in here that you may be interested in:
 
-- Examples of sxhkd and fyre configs
-- Source fyre variables and general functions into zsh safely
-- Lemonbar-specific output to show and control current groups.
+- Examples of sxhkd and fyre configuration files.
+- Source fyre variables and general functions into zsh safely.
+- Example lemonbar-specific output to show and control current groups.
 - The standalone version of `windows` that supports contrib's `focus.sh`
 
-Example Desktops:
----------------
+## Example Desktops:
 
 ![The belly of the beast](https://wildefyr.net/media/screenshots/The%20belly%20of%20the%20beast.png)
 ![The Final Frontier](https://wildefyr.net/media/screenshots/thefinalfrontier.png)
 ![Blade Runner Blues](https://wildefyr.net/media/screenshots/bladerunnerblues.png)
 ![Endless](https://wildefyr.net/media/screenshots/clean.png)
 
-Contributors
-------------
+## Contributors
 
 Contributors for specific scripts are listed in the files where they have
 inputted ideas or code. Many thanks to the original wmutils authors: dcat &
 z3bra
 
-Shameless Plug
---------------
+## Shameless Plug
 
 If you want to contact me about anything, my website can be found
 [here](https://wildefyr.net) and I can also be found on the Freenode IRC under

@@ -1,5 +1,5 @@
-PREFIX = /usr/local
-MANDIR = /usr/share/man
+PREFIX ?= /usr/local
+MANDIR ?= $(PREFIX)/share/man
 SCRIPT = back \
 		 closest \
 		 eventually \
@@ -20,8 +20,8 @@ SCRIPT = back \
 		 winkill \
 		 winopen
 
+CONFIGDIR = $(shell echo $$HOME)/.config/fyre
 CONFIG  = extra/config.example
-FYREDIR = $(shell echo $$HOME)/.config/fyre
 
 .PHONY: all link config install uninstall
 
@@ -33,8 +33,8 @@ link: $(SCRIPT)
 	done
 
 config: $(CONFIG)
-	@test -d $(FYREDIR) || mkdir -p $(FYREDIR)
-	cp $(CONFIG) $(FYREDIR)/config
+	@test -d $(CONFIGDIR) || mkdir -p $(CONFIGDIR)
+	cp $(CONFIG) $(CONFIGDIR)/config
 
 install: $(SCRIPT)
 	mkdir -p $(DESTDIR)$(PREFIX)/bin

@@ -3,6 +3,9 @@
 # configuration variables for fyre
 # place in $HOME/.config/fyre/config by default
 
+    # REQUIRED
+################################################################################
+
 # set border colours for windows
 ACTIVE="D7D7D7"
 WARNING="B23450" # not currently used anywhere but might be in the future
@@ -32,6 +35,9 @@ SLOPPY="true"
 # set to workspaces or groups -- not finished yet so it defaults to groups
 WORKFLOW="groups"
 
+    # OPTIONAL
+################################################################################
+
 # set path to your background - omit if you don't want fyre to manage your wall
 WALL="$HOME/files/pictures/backs/vinyl.jpg"
 
@@ -40,3 +46,6 @@ BLUR=5
 
 # call your background program with arguments if WALL is used
 BACK="hsetroot -tile $WALL -gamma 0.5"
+
+# set location of synergy configuration file
+SYNCONF=${SYNCONF:-$HOME/.synergy.conf}

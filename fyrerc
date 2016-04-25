@@ -12,26 +12,26 @@ test -z "$DISPLAY" && {
     # environment files
 ###############################################################################
 
-FYREDIR=${FYREDIR:-~/.config/fyre}
-GROUPSDIR=${GROUPSDIR:-$FYREDIR/groups}
-LAYOUTDIR=${LAYOUTDIR:-$FYREDIR/layouts}
-test ! -d "$GROUPSDIR" && mkdir -p "$GROUPSDIR"
+CONFIGDIR=${CONFIGDIR:-~/.config/fyre}
+LAYOUTDIR=${LAYOUTDIR:-$CONFIGDIR/layouts}
 test ! -d "$LAYOUTDIR" && mkdir -p "$LAYOUTDIR"
+
+FYREDIR=${FYREDIR:-/tmp/fyre}
+GROUPSDIR=${GROUPSDIR:-$FYREDIR/groups}
+test ! -d "$GROUPSDIR" && mkdir -p "$GROUPSDIR"
 
 HOVER=${HOVER:-$FYREDIR/hover}
 FSFILE=${FSFILE:-$FYREDIR/fullinfo}
 SCREENS=${SCREENS:-$FYREDIR/screens}
 WIDLOCK=${WIDLOCK:-$FYREDIR/.widlock}
 
-SYNCONF=${SYNCONF:-$HOME/.synergy.conf}
-
     # source user settings
 ###############################################################################
 
-test -f $FYREDIR/config && {
-    . $FYREDIR/config
+test -f $CONFIGDIR/config && {
+    . $CONFIGDIR/config
 } || {
-    printf '%s\n' "No config file found at ${FYREDIR}/config. Killing X11."
+    printf '%s\n' "No config file found at ${CONFIGDIR}/config. Killing X11."
     pkill xinit
 }
 
