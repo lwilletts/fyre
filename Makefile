@@ -10,7 +10,6 @@ SCRIPT = back \
 		 layouts \
 		 mouse \
 		 move \
-		 pather \
 		 position \
 		 power \
 		 runfyre \
