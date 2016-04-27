@@ -1,5 +1,7 @@
 PREFIX ?= /usr/local
+BINDIR ?= $(PREFIX)/bin
 MANDIR ?= $(PREFIX)/share/man
+
 SCRIPT = back \
 		 closest \
 		 eventually \
@@ -29,7 +31,7 @@ all: link
 
 link: $(SCRIPT)
 	@for script in $(SCRIPT); do \
-		ln -svfn $(shell pwd)/$$script $(PREFIX)/bin ; \
+		ln -svfn $(shell pwd)/$$script $(BINDIR) ; \
 	done
 
 config: $(CONFIG)
@@ -38,9 +40,9 @@ config: $(CONFIG)
 
 install: $(SCRIPT)
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
-	cp -f $(SCRIPT) $(DESTDIR)$(PREFIX)/bin
+	cp -f $(SCRIPT) $(DESTDIR)$(BINDIR)
 
 uninstall:
 	@for script in $(SCRIPT); do \
-		rm $(DESTDIR)$(PREFIX)/bin/$$script; \
+		rm $(DESTDIR)$(BINDIR)/$$script; \
 	done
