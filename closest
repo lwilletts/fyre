@@ -18,23 +18,31 @@ EOF
 }
 
 windowsUp() {
-    windows=$(printf '%s\n' "$(lsw; pfw)" | sort -u | xargs wattr yxi | \
-              sort -k1n -k2nr | sed "/$PFW/,\$d")
+    wid=$( (lsw; pfw) | sort -u | xargs wattr yi | sort -nr | \
+            sed "0,/$PFW/d" | sed "1s/^[0-9]* //p;d")
+    # windows=$( (lsw; pfw) | sort -u | xargs wattr yxi | \
+    #             sort -k1nr -k2nr | sed "/$PFW/,\$d")
 }
 
 windowsDown() {
-    windows=$(printf '%s\n' "$(lsw; pfw)" | sort -u | xargs wattr yxi | \
-              sort -k1nr -k2nr | sed "/$PFW/,\$d")
+    wid=$( (lsw; pfw) | sort -u | xargs wattr yi | sort -n | \
+            sed "0,/$PFW/d" | sed "1s/^[0-9]* //p;d")
+    # windows=$( (lsw; pfw) | sort -u | xargs wattr yxi | \
+    #             sort -k1nr -k2nr | sed "/$PFW/,\$d")
 }
 
 windowsLeft() {
-    windows=$(printf '%s\n' "$(lsw; pfw)" | sort -u | xargs wattr xyi | \
-              sort -k1n -k2nr | sed "/$PFW/,\$d")
+    wid=$( (lsw; pfw) | sort -u | xargs wattr xi | sort -nr | \
+            sed "0,/$PFW/d" | sed "1s/^[0-9]* //p;d")
+    # windows=$( (lsw; pfw) | sort -u | xargs wattr xyi | \
+    #             sort -k1nr -k2nr | sed "/$PFW/,\$d")
 }
 
 windowsRight() {
-    windows=$(printf '%s\n' "$(lsw; pfw)" | sort -u | xargs wattr xyi | \
-              sort -k1nr -k2nr | sed "/$PFW/,\$d")
+    wid=$( (lsw; pfw) | sort -u | xargs wattr xi | sort -n | \
+            sed "0,/$PFW/d" | sed "1s/^[0-9]* //p;d")
+    # windows=$( (lsw; pfw) | sort -u | xargs wattr xyi | \
+    #             sort -k1nr -k2nr | sed "/$PFW/,\$d")
 }
 
 windowClosest() {
@@ -80,8 +88,8 @@ main() {
         *)          usage 1      ;;
     esac
 
-    numberOfWindows=$(printf '%s\n' "$windows" | wc -l)
-    wid=$(printf '%s\n' "$windows" | windowClosest $1)
+    # numberOfWindows=$(printf '%s\n' "$windows" | wc -l)
+    # wid=$(printf '%s\n' "$windows" | windowClosest $1)
 
     test ! -z "$wid" && {
         focus --wid "$wid"
