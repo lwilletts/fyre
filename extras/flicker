@@ -1,0 +1,44 @@
+#!/bin/sh
+#
+# wildefyr - 2016 (c) MIT
+# make the current window 'flicker' - inspired by rainbow.sh
+
+. fyrerc
+
+type transset-df 2>&1 > /dev/null || {
+    printf '%s\n' "transset-df was not found on your \$PATH."
+    exit 1
+}
+
+FREQ=${FREQ:-0.075}
+VALUES="1.00 0.99 0.98 0.97 0.96 0.95 0.94 0.93 0.92 0.91 0.90 0.91 0.92 0.93 \
+0.94 0.95 0.96 0.97 0.98 0.99"
+TRANS=$(printf '%s\n' "$VALUES" | cut -d\  -f 1)
+
+while true; do
+    for c in $VALUES; do
+        wid=$(pfw)
+        class=$(class $CUR)
+
+        test "$CUR" != "$wid" && {
+            test "$class" = "URxvt" && {
+                transset-df -i $CUR $TRANS > /dev/null
+            }
+
+            test "$class" = "URxvt" && {
+                transset-df -i $wid $TRANS > /dev/null
+            }
+
+            CUR=$wid
+            break
+        }
+
+        test "$class" = "URxvt" && {
+            transset-df -i $wid $c > /dev/null
+        }
+
+        sleep $FREQ
+        CUR=$wid
+    done
+done
+
