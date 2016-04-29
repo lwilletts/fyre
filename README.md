@@ -72,10 +72,10 @@ Minor things in here that you may be interested in:
 
 ## Example Desktops:
 
-![The belly of the beast](https://wildefyr.net/media/screenshots/The%20belly%20of%20the%20beast.png)
-![The Final Frontier](https://wildefyr.net/media/screenshots/thefinalfrontier.png)
-![Blade Runner Blues](https://wildefyr.net/media/screenshots/bladerunnerblues.png)
-![Endless](https://wildefyr.net/media/screenshots/clean.png)
+![The belly of the beast](http://fyrious.ninja/media/screenshots/The%20belly%20of%20the%20beast.png)
+![The Final Frontier](http://fyrious.ninja/media/screenshots/thefinalfrontier.png)
+![Blade Runner Blues](http://fyrious.ninja/media/screenshots/bladerunnerblues.png)
+![Endless](http://fyrious.ninja/media/screenshots/clean.png)
 
 ## Contributors
 
