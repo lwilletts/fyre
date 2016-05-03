@@ -86,6 +86,6 @@ z3bra
 ## Shameless Plug
 
 If you want to contact me about anything, my website can be found
-[here](https://wildefyr.net) and I can also be found on the Freenode IRC under
+[here](https://fyrious.ninja) and I can also be found on the Freenode IRC under
 the nick 'Wildefyr' where I am often found in #crux and #6c37. If you're feeling
 particularly kind of heart, star this repository and/or follow me.
