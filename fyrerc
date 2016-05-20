@@ -167,15 +167,10 @@ retrieveScreenValues() {
     # regenerate screen info if it's missing
     test ! -f "$SCREENS" && generateScreenInfo
 
-    test ! -z $(cat "$SCREENS") && {
-        intCheck $1 && test $1 -le $(wc -l < $SCREENS) && {
-            SCREEN=$1
-        } || {
-            findCurrentScreen
-        }
+    intCheck $1 && test $1 -le $(wc -l < $SCREENS) && {
+        SCREEN=$1
     } || {
-        # fallback to root window
-        printf '%s\n' "root $(wattr xywh $(lsw -r))" > "$SCREENS"
+        findCurrentScreen
     }
 
     # get passed screen X Y W H
