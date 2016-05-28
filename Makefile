@@ -23,7 +23,7 @@ SCRIPT = back \
 		 winopen
 
 CONFIGDIR = $(shell echo $$HOME)/.config/fyre
-CONFIG  = extra/config.example
+CONFIG  = extras/config.example
 
 .PHONY: all link config install uninstall
 
