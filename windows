@@ -363,7 +363,7 @@ resetGroups() {
 listGroups() {
     for group in $(find $GROUPSDIR/*.? 2> /dev/null); do
         printf '%s\n' "$(printf '%s' ${group} | rev | cut -d'/' -f 1 | rev):"
-        printf '%s\n' "$(cat ${group})"
+        cat "${group}"
     done
 }
 
