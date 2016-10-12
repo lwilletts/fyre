@@ -223,7 +223,7 @@ underneath() {
     # window management
 ###############################################################################
 
-PFW="$(pfw)"
+PFW="$(pfw || printf '%s\n' "0x00000000")"
 CUR=${2:-"$PFW"}
 
 X=$(wattr x "$CUR" 2> /dev/null)
