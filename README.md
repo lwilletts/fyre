@@ -74,7 +74,7 @@ Minor things in here that you may be interested in:
 
 ![The Belly of the Beast](/extras/desktops/thebellyofthebeast.png)
 ![The Final Frontier](/extras/desktops/thefinalfrontier.png)
-![Blade Runner Blues](/extras/desktops/blarerunnerblues.png)
+![Blade Runner Blues](/extras/desktops/bladerunnerblues.png)
 
 ## Contributors
 
