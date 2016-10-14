@@ -32,7 +32,7 @@ Personal recommendations for tools in your environment:
 
 You have two choices here:
 
-- Symbolically link the scripts PREFIX/bin: `make link`
+- Symbolically link the scripts to PREFIX/bin: `make link`
 - Copy the scripts to PREFIX/bin: `make install`
 
 I recommend the former as it'll allow you make modifications to the scripts
@@ -72,10 +72,9 @@ Minor things in here that you may be interested in:
 
 ## Example Desktops:
 
-![The belly of the beast](http://fyrious.ninja/media/screenshots/The%20belly%20of%20the%20beast.png)
-![The Final Frontier](http://fyrious.ninja/media/screenshots/thefinalfrontier.png)
-![Blade Runner Blues](http://fyrious.ninja/media/screenshots/bladerunnerblues.png)
-![Endless](http://fyrious.ninja/media/screenshots/clean.png)
+![The Belly of the Beast](/extras/desktops/thebellyofthebeast.png)
+![The Final Frontier](/extras/desktops/thefinalfrontier.png)
+![Blade Runner Blues](/extras/desktops/blarerunnerblues.png)
 
 ## Contributors
 
