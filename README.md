@@ -5,9 +5,11 @@ environment. As you run a specific script when you want to achieve a certain
 window task, this means there is virtually no memory footprint for the
 environment.
 
-> 15:50     %fyr | wmutils is love
-> 15:50     %fyr | wmutils is lyfe
-> 15:50    @rocx | wmutils is fyre
+```
+15:50     %fyr | wmutils is love
+15:50     %fyr | wmutils is lyfe
+15:50    @rocx | wmutils is fyre
+```
 
 ## Installation
 
