@@ -62,7 +62,7 @@ main() {
     case "$1" in
         "-l"|"--lock")     lockFyre     ;;
         "-e"|"--exit")     killFyre     ;;
-        "-r"|"--restart")  restartFyre  ;;
+        "-r"|"--reboot")   restartFyre  ;;
         "-p"|"--poweroff") poweroffFyre ;;
         *)                 usage 1      ;;
     esac
