@@ -57,7 +57,7 @@ access to these files should theoretically be faster.
 ## Usage
 
 Check out the [example
-sxhkd](https://raw.githubusercontent.com/wildefyr/fyre/master/sxhkdc.example) to
+sxhkd](https://raw.githubusercontent.com/wildefyr/fyre/master/extras/sxhkdc.example) to
 see what you can do with fyre.
 
 Start up your hotkey daemon of your choice in your xinitrc and append the
