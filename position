@@ -14,7 +14,7 @@ Usage: $(basename $0) [-lrvfeRh] <wid> <screen>
     -e | --extend:  Extend current or given window to the maximum screen height.
     -b | --bottom:  Extend current or given window to the bottom edge of the screen.
     -s | --screen:  Position current or given window on to given screen.
-    -Q | --quartar: Make current or given window quartar of the screen.
+    -Q | --quarter: Make current or given window quartar of the screen.
     -R | --restore: Restore current or given window to minW and minH values.
     -h | --help:    Show this help.
 EOF
@@ -47,7 +47,7 @@ bottom() {
     H=$((eSH - (VGAP / ROWS) * BW - Y + TGAP))
 }
 
-quartar() {
+quarter() {
     W=$((eSW/2 - IGAP/2 - (IGAP / COLS) * BW))
     H=$((eSH/2 - VGAP/2 - (VGAP / ROWS) * BW))
 }
@@ -117,7 +117,7 @@ main() {
         -e|--extend)  extend  ;;
         -b|--bottom)  bottom  ;;
         -s|--screen)  screen  ;;
-        -Q|--quartar) quartar ;;
+        -Q|--quarter) quartar ;;
         -R|--restore) restore ;;
         *)            usage 1 ;;
     esac
