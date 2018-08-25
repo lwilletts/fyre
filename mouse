@@ -17,9 +17,9 @@ EOF
 }
 
 getMouseDevice() {
-    type xinput 2>&1 > /dev/null && {
+    hash xinput 2> /dev/null && {
         device="$(xinput | grep -i "mouse\|trackpad" | \
-                  awk '{printf "%s\n",$9}' | cut -d= -f 2)"
+                  awk '{printf "%s\n",$9}' | head -n 1 | cut -d= -f 2)"
     }
 
     test ! -z "$device" && {
