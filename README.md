@@ -1,4 +1,16 @@
-# fyre
+# fyre is now no longer being worked on
+
+I have moved to a cwm based setup using striped down versions of these scripts
+that can be found [here](https://github.com/lwilletts/fwm). The main reason for
+switching is that cwm provides far better mouse support with context menus when
+clicking on the root window; better sloppy focus support than just using wew;
+selection of windows by typing a string using `menu-window` and of course: no
+unnecessary fluff added.
+
+This repo will stay up as it still provides valuable code samples for those
+wishing to build their own wmutils environment.
+
+## fyre
 
 fyre is set of scripts using standalone tools to form a complete X11
 environment. As you run a specific script when you want to achieve a certain
@@ -87,10 +99,3 @@ Minor things in here that you may be interested in:
 Contributors for specific scripts are listed in the files where they have
 inputted ideas or code. Many thanks to the original wmutils authors: dcat &
 z3bra
-
-## Shameless Plug
-
-If you want to contact me about anything, my website can be found
-[here](https://fyrious.ninja) and I can also be found on the Freenode IRC under
-the nick 'Wildefyr' where I am often found in #crux and #6c37. If you're feeling
-particularly kind of heart, star this repository and/or follow me.
